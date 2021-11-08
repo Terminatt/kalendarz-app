@@ -23,11 +23,11 @@ class CustomValidation():
     """
     validator helpers for common fields
     """
-    def validate_email(email):
+    def validate_email(self, email_field):
         """
         Validate email against email regex
         """
-        if (re.fullmatch(EMAIL_REGEX, email) == None):
+        if (re.fullmatch(EMAIL_REGEX, email_field) == None):
             raise serializers.ValidationError(
                 "To nie jest poprawny adres email")
 

@@ -18,7 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
         return super(UserSerializer, self).update(instance, validated_data)
 
     def validate_email(self, email):
-        CustomValidation.validate_email(email)
+        CustomValidation.validate_email(email_field=email)
 
         if User.objects.filter(email__iexact=email).exists():
             raise serializers.ValidationError("Taki email już istnieje")
