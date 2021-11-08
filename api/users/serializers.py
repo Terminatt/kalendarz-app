@@ -1,28 +1,34 @@
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
-from constants import EMAIL_REGEX
+from utils.custom_validators import CustomValidation
 from users.models import User
 from django.contrib.auth.hashers import make_password
-import re
 
 
 class UserSerializer(serializers.ModelSerializer):
+    email = serializers.CharField()
+
     def create(self, validated_data):
-      validated_data['password'] = make_password(validated_data['password'])
-      return super(UserSerializer, self).create(validated_data)
+        validated_data['password'] = make_password(validated_data['password'])
+        return super(UserSerializer, self).create(validated_data)
 
     def update(self, instance, validated_data):
         if 'password' in validated_data:
-          validated_data['password'] = make_password(validated_data['password'])
+            validated_data['password'] = make_password(
+                validated_data['password'])
         return super(UserSerializer, self).update(instance, validated_data)
 
-    def validate(self, data):
-      if (re.fullmatch(EMAIL_REGEX, data['email'])):
-        raise serializers.ValidationError("To nie jest poprawny adres email")
-      return data
+    def validate_email(self, email):
+        CustomValidation.validate_email(email)
 
+        if User.objects.filter(email__iexact=email).exists():
+            raise serializers.ValidationError("Taki email już istnieje")
+
+        return email
+
+    def validate_password(self, pswd):
+        CustomValidation().validate_password(password=pswd)
+        return pswd
 
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email', 'title', 'password']
-        validators = [UniqueValidator(queryset=User.objects.all())]

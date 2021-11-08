@@ -9,7 +9,7 @@ class User(AbstractUser):
 
     first_name = models.CharField(max_length=24)
     last_name = models.CharField(max_length=24)
-    email = models.EmailField(unique=True)
+    email = models.TextField(unique=True)
     password = models.TextField()
     title = models.CharField(max_length=24)
     created = models.DateTimeField(auto_now_add=True)
