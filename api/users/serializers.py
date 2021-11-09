@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import make_password
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.CharField()
+    group = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     def create(self, validated_data):
         validated_data['password'] = make_password(validated_data['password'])
@@ -31,4 +32,5 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'title', 'password']
+        fields = ['id', 'first_name', 'last_name',
+                  'email', 'title', 'password']
