@@ -2,8 +2,6 @@ from rest_framework import serializers
 from utils.custom_validators import CustomValidation
 from users.models import User
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth import authenticate
-from django.utils.translation import gettext_lazy as _
 
 
 class UserSerializer(serializers.ModelSerializer):
