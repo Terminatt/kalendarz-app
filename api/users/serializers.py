@@ -2,6 +2,8 @@ from rest_framework import serializers
 from utils.custom_validators import CustomValidation
 from users.models import User
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth import authenticate
+from django.utils.translation import gettext_lazy as _
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -33,4 +35,5 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'first_name', 'last_name',
-                  'email', 'title', 'password']
+                  'email', 'title', 'password', 'username', 'groups']
+        extra_kwargs = {'password': {'write_only': True}}
