@@ -22,7 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
         CustomValidation.validate_email(email_field=email)
 
         if User.objects.filter(email__iexact=email).exists():
-            raise serializers.ValidationError("Taki email już istnieje")
+            raise serializers.ValidationError("This email was arleady taken")
 
         return email
 
