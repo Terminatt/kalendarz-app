@@ -2,33 +2,26 @@ from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.viewsets import ViewSet, ModelViewSet
 from rest_framework.permissions import AllowAny
+from api.utils.custom_view import CustomModelViewSet
 from users.serializers import UserSerializer
-from users.permission import IsAdminOrRegularUser, IsAdminUser, IsLoggedInUserOrAdmin
+from users.permission import IsAdminUser, IsLoggedInUserOrAdmin
 from users.models import User
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.viewsets import ViewSet
 
-class UserViewSet(ModelViewSet):
+class UserViewSet(CustomModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     authentication_classes = [TokenAuthentication]
 
-    def get_permissions(self):
-        permission_classes = []
-        if self.action == 'create':
-            permission_classes = [IsAdminUser]
-        elif self.action == 'list':
-            permission_classes = [IsAdminOrRegularUser]
-        elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update':
-            permission_classes = [IsLoggedInUserOrAdmin]
-        elif self.action == 'destroy':
-            permission_classes = [IsLoggedInUserOrAdmin]
-        return [permission() for permission in permission_classes]
-
+    pc_list = [IsAdminUser]
+    pc_retrieve = [IsLoggedInUserOrAdmin]
+    pc_update = [IsLoggedInUserOrAdmin]
+    pc_delete = [IsLoggedInUserOrAdmin]
 
 
 class LoginView(ViewSet):
