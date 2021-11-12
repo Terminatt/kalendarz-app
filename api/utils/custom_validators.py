@@ -29,7 +29,7 @@ class CustomValidation():
         """
         if (re.fullmatch(EMAIL_REGEX, email_field) == None):
             raise serializers.ValidationError(
-                "To nie jest poprawny adres email")
+                "This is not a valid email address")
 
     def validate_password(self, password):
         """
@@ -41,11 +41,11 @@ class CustomValidation():
         """
         custom_validators = [
             ValidatorWithMessage(CommonPasswordValidator(),
-                                 "To hasło jest zbyt proste"),
+                                 "This password is too common and too simple"),
             ValidatorWithMessage(MinimumLengthValidator(
-                min_length=PASSWORD_MIN_LENGHT), "Hasło powinno składać się z 9 znaków"),
+                min_length=PASSWORD_MIN_LENGHT), f"The password must have at least {PASSWORD_MIN_LENGHT} characters"),
             ValidatorWithMessage(NumericPasswordValidator(),
-                                 "Hasło nie może składać się z samych cyfr")
+                                 "The password cannot consist of only digits")
         ]
         self.__validate_with_message(
             validators=custom_validators, field=password)
