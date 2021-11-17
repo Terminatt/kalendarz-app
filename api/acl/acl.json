@@ -1,0 +1,32 @@
+{
+    "users": {
+        "permissions": {
+            "create": [],
+            "list": ["AdminUser"],
+            "retrieve": ["LoggedInUserOrAdmin"],
+            "update": ["LoggedInUserOrAdmin"],
+            "partial_update": ["LoggedInUserOrAdmin"],
+            "delete": ["LoggedInUserOrAdmin"]
+        }
+    },
+    "room_types": {
+        "permissions": {
+            "create": ["AdminUser"],
+            "list": [],
+            "retrieve": [],
+            "update": ["AdminUser"],
+            "partial_update": ["AdminUser"],
+            "delete": ["AdminUser"]
+        }
+    },
+    "rooms": {
+        "permissions": {
+            "create": ["AdminUser"],
+            "list": [],
+            "retrieve": [],
+            "update": ["AdminUser"],
+            "partial_update": ["AdminUser"],
+            "delete": ["AdminUser"]
+        }
+    }
+}

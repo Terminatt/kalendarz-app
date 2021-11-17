@@ -9,18 +9,10 @@ class RoomTypeViewSet(CustomModelViewSet):
     queryset = RoomType.objects.all()
     serializer_class = RoomTypeSerializer
     authentication_classes = [TokenAuthentication]
-
-    pc_list = [IsAdminUser]
-    pc_retrieve = [IsAdminUser]
-    pc_create = [IsAdminUser]
-    pc_update = [IsAdminUser]
-    pc_delete = [IsAdminUser]
+    acl_name = "room_types"
 
 class RoomViewSet(CustomModelViewSet):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
     authentication_classes = [TokenAuthentication]
-
-    pc_create = [IsAdminUser]
-    pc_update = [IsAdminUser]
-    pc_delete = [IsAdminUser]
+    acl_name = "rooms"

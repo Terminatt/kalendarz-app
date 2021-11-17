@@ -17,11 +17,7 @@ class UserViewSet(CustomModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     authentication_classes = [TokenAuthentication]
-
-    pc_list = [IsAdminUser]
-    pc_retrieve = [IsLoggedInUserOrAdmin]
-    pc_update = [IsLoggedInUserOrAdmin]
-    pc_delete = [IsLoggedInUserOrAdmin]
+    acl_name = "users"
 
 
 class LoginView(ViewSet):

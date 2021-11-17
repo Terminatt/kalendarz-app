@@ -16,6 +16,9 @@ def _has_group_permission(user, required_groups):
 
 
 class IsLoggedInUserOrAdmin(permissions.BasePermission):
+    """
+        Action on the object that belongs to a user or any object for administrator
+    """
     required_groups = ['administrator']
 
     def has_object_permission(self, request, view, obj):
@@ -25,7 +28,9 @@ class IsLoggedInUserOrAdmin(permissions.BasePermission):
         return obj == request.user or has_group_permission
 
 class IsAdminUser(permissions.BasePermission):
-    # group_name for super admin
+    """
+        Action available only to the administrators
+    """
     required_groups = ['administrator']
 
     def has_permission(self, request, view):
@@ -33,12 +38,5 @@ class IsAdminUser(permissions.BasePermission):
         return request.user and has_group_permission
 
     def has_object_permission(self, request, view, obj):
-        has_group_permission = _has_group_permission(request.user, self.required_groups)
-        return request.user and has_group_permission
-
-class IsAdminOrRegularUser(permissions.BasePermission):
-    required_groups = ['adminstrator', 'regular_user']
-
-    def has_permission(self, request, view):
         has_group_permission = _has_group_permission(request.user, self.required_groups)
         return request.user and has_group_permission
