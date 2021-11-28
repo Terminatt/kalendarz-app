@@ -6,10 +6,10 @@ from django.contrib.auth.hashers import make_password
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.CharField()
-    groups = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     def create(self, validated_data):
         validated_data['password'] = make_password(validated_data['password'])
+        validated_data['groups'] = 2
         return super(UserSerializer, self).create(validated_data)
 
     def update(self, instance, validated_data):
@@ -19,7 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
         return super(UserSerializer, self).update(instance, validated_data)
 
     def validate_email(self, email):
-        CustomValidation.validate_email(email_field=email)
+        CustomValidation().validate_email(email_field=email)
 
         if User.objects.filter(email__iexact=email).exists():
             raise serializers.ValidationError("This email was arleady taken")
