@@ -6,7 +6,7 @@
             "retrieve": ["LoggedInUserOrAdmin"],
             "update": ["LoggedInUserOrAdmin"],
             "partial_update": ["LoggedInUserOrAdmin"],
-            "delete": ["LoggedInUserOrAdmin"]
+            "destroy": ["LoggedInUserOrAdmin"]
         }
     },
     "room_types": {
@@ -16,7 +16,7 @@
             "retrieve": [],
             "update": ["AdminUser"],
             "partial_update": ["AdminUser"],
-            "delete": ["AdminUser"]
+            "destroy": ["AdminUser"]
         }
     },
     "rooms": {
@@ -26,7 +26,7 @@
             "retrieve": [],
             "update": ["AdminUser"],
             "partial_update": ["AdminUser"],
-            "delete": ["AdminUser"]
+            "destroy": ["AdminUser"]
         }
     }
 }
