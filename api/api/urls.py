@@ -8,6 +8,6 @@ urlpatterns = [
 
 urlpatterns += [
     path('admin/', admin.site.urls),
-    path('user/', include('users.urls')),
-    path('rooms/', include('rooms.urls'))
+    path('', include('users.urls')),
+    path('', include('rooms.urls'))
 ]

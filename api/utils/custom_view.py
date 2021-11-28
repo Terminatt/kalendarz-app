@@ -26,5 +26,4 @@ class CustomModelViewSet(ModelViewSet):
             acl_list = acl_matrix[self.acl_name]["permissions"][self.action]
 
         permission_classes = self.get_permission_from_acl(acls=acl_list)
-        print(permission_classes)
         return [permission() for permission in permission_classes]

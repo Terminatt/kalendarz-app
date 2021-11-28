@@ -1,7 +1,10 @@
+from django.utils.regex_helper import Group
 from rest_framework import serializers
 from utils.custom_validators import CustomValidation
 from users.models import User
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import Group
+from groups import GROUPS;
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -9,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data['password'] = make_password(validated_data['password'])
-        validated_data['groups'] = 2
+        validated_data['groups'] = Group.objects.get(name=GROUPS[1])
         return super(UserSerializer, self).create(validated_data)
 
     def update(self, instance, validated_data):

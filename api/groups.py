@@ -1,8 +1,8 @@
 import os
-os.environ.setdefault('DJANGO_SETTINGS_MODULE',
-                      'api.settings')
-
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'api.settings')
 import django
+
+# seed database with groups
 django.setup()
 
 from django.contrib.auth.models import Group
