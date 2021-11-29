@@ -1,12 +1,9 @@
 from django.db import models
 
-
-# Create your models here.
-
 class RoomType(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=20)
-    color: models.TextField()
+    color = models.TextField()
     class Meta:
         ordering = ['created']
 
