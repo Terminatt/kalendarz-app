@@ -1,10 +1,12 @@
+import { Button } from 'antd';
 import React from 'react';
-import './App.css';
 
-function App() {
+import './App.less';
+
+const App = () => {
   return (
     <div className="App">
-      <div>test</div>
+      <Button> Hello</Button>
     </div>
   );
 }
