@@ -8,6 +8,7 @@
          "@axios/*" : ["./axios/*"],
          "@generics/*" : ["./generics/*"],
          "@reusable/*" : ["./reusable/*"],
+         "styles": ["./styles/*"]
       } 
   }
 }
