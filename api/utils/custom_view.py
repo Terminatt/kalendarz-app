@@ -20,10 +20,12 @@ class CustomModelViewSet(ModelViewSet):
     def get_permissions(self):
         if self.acl_name == None:
             return []
+
+        if self.action == None:
+            return []
         
         acl_list = []
-        if self.action != None:
-            acl_list = acl_matrix[self.acl_name]["permissions"][self.action]
+        acl_list = acl_matrix[self.acl_name]["permissions"][self.action]
 
         permission_classes = self.get_permission_from_acl(acls=acl_list)
         return [permission() for permission in permission_classes]
