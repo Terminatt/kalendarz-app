@@ -3,25 +3,26 @@
         "browser": true,
         "es2021": true
     },
+    "settings": {
+        "import/resolver": {
+          "typescript": {}
+        }
+    },
+    "parser": "@typescript-eslint/parser",
     "extends": [
+        "airbnb",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
-        "airbnb"
+        "plugin:import/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
     ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 12,
-        "sourceType": "module"
-    },
     "plugins": [
         "react",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "import"
     ],
     "rules": {
-        "linebreak-style": ["error", "windows"],
+        "linebreak-style": "off",
         "no-use-before-define": "off",
         "@typescript-eslint/no-use-before-define": ["error"],
         "func-names": "off",
@@ -31,11 +32,9 @@
         "@typescript-eslint/no-shadow": ["error"],
         "react/function-component-definition": "off",
         "import/prefer-default-export": "off",
-        "no-param-reassign": ["error", {"props": true, "ignorePropertyModificationsFor": ["state"] }]
-    },
-    "settings": {
-        "import/resolver": {
-            "typescript": {}
-        }
+        "no-param-reassign": ["error", {"props": true, "ignorePropertyModificationsFor": ["state"] }],
+        "indent": ["error", 4],
+        "react/jsx-indent": ["error", 4],
+        "no-unused-vars": "warn"
     }
 }
