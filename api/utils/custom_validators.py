@@ -31,6 +31,19 @@ class CustomValidation():
             raise serializers.ValidationError(
                 "This is not a valid email address")
 
+    def __validate_with_message(self, validators, field):
+        """
+        Helper for validating attributes that should have the custom message rather than default one
+        """
+        errors = []
+        for v in validators:
+            try:
+                v.validator.validate(field)
+            except ValidationError as error:
+                errors.append(ValidationError(v.error_message))
+        if errors:
+            raise ValidationError(errors)
+
     def validate_password(self, password):
         """
         Validate password with default validators provided by django
@@ -49,16 +62,3 @@ class CustomValidation():
         ]
         self.__validate_with_message(
             validators=custom_validators, field=password)
-
-    def __validate_with_message(self, validators, field):
-        """
-        Helper for validating attributes that should have the custom message rather than default one
-        """
-        errors = []
-        for v in validators:
-            try:
-                v.validator.validate(field)
-            except ValidationError as error:
-                errors.append(ValidationError(v.error_message))
-        if errors:
-            raise ValidationError(errors)
