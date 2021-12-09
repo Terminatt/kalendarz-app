@@ -9,9 +9,6 @@ schema_view = get_schema_view(
    openapi.Info(
       title="KalendarzApp API",
       default_version='v1',
-      description="Test description",
-      terms_of_service="https://www.google.com/policies/terms/",
-      license=openapi.License(name="BSD License"),
    ),
    public=True,
    permission_classes=[permissions.AllowAny],
