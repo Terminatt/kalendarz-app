@@ -1,4 +1,6 @@
 import os
+from constants import GROUPS
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'api.settings')
 import django
 
@@ -7,7 +9,6 @@ django.setup()
 
 from django.contrib.auth.models import Group
 
-GROUPS = ['administrator', 'regular_user']
 MODELS = ['user']
 
 for group in GROUPS:

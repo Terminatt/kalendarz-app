@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser, Group
 
 class User(AbstractUser):
     email = models.EmailField(max_length=50, unique=True)
-    groups = models.ForeignKey(Group, on_delete=models.CASCADE, default=2)
+    groups = models.ForeignKey(Group, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=24)
     last_name = models.CharField(max_length=24)
     #change to charfield
