@@ -12,7 +12,6 @@ defaultRouter.registry.extend(rooms_router.registry)
 urlpatterns = defaultRouter.urls
 
 urlpatterns += [
-    path('', include('users.urls')),
     path(r'admin/', admin.site.urls),
 ]
 

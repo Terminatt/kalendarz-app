@@ -24,9 +24,9 @@ class LoginView(ViewSet):
         return ObtainAuthToken().as_view()(request=request._request)
     
 
-class LogoutView(APIView):
+class LogoutView(ViewSet):
     authentication_classes = [TokenAuthentication]
-    
-    def get(self, request, format=None):
+
+    def list(self, request, format=None):
         request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
