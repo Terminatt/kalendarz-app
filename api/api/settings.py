@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'rooms.apps.RoomsConfig',
     'rest_framework.authtoken',
-    'drf_yasg'
 ]
 
 MIDDLEWARE = [
