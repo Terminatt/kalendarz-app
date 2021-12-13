@@ -6,17 +6,17 @@ import './Sidebar.less';
 const Sidebar: React.FC = () => {
     const [isLogged, setIsLogged] = useState<boolean>(false);
     return (
-        <div>
-            <header>
+        <div className="sidebar">
+            <header className="sidebar-header">
                 <h1>
                     Kalendarz
                     <sup>App</sup>
                 </h1>
             </header>
             {isLogged ? (
-                <span>Nawigacja dostępna po zalogowaniu</span>
-            ) : (
                 <nav>Test</nav>
+            ) : (
+                <span>Nawigacja jest dostępna po zalogowaniu</span>
             )}
             <Divider />
             <div>

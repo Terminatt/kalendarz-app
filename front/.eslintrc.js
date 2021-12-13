@@ -25,6 +25,7 @@ module.exports = {
         "import"
     ],
     "rules": {
+        "import/no-unresolved": "off",
         "linebreak-style": "off",
         "no-use-before-define": "off",
         "@typescript-eslint/no-use-before-define": ["error"],

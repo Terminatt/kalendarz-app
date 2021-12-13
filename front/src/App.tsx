@@ -4,7 +4,7 @@ import React from 'react';
 import './App.less';
 
 const App: React.FC = () => (
-    <div className="App">
+    <div className="app">
         <Sidebar />
     </div>
 );
