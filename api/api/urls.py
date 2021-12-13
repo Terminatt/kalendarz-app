@@ -1,12 +1,18 @@
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from users.urls import router as users_router
+from rooms.urls import router as rooms_router
 
-urlpatterns = [
-    path('', include('users.urls')),
-]
+defaultRouter = DefaultRouter()
+
+defaultRouter.registry.extend(users_router.registry)
+defaultRouter.registry.extend(rooms_router.registry)
+
+urlpatterns = defaultRouter.urls
 
 urlpatterns += [
-    path('admin/', admin.site.urls),
     path('', include('users.urls')),
-    path('', include('rooms.urls')),
+    path(r'admin/', admin.site.urls),
 ]
+
