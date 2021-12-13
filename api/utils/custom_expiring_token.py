@@ -7,6 +7,11 @@ import pytz
 
 
 class CustomExpiringToken(TokenAuthentication):
+      """
+        Override!
+
+        Expiration token mechanism added
+      """
       def authenticate_credentials(self, key):
         model = self.get_model()
         try:

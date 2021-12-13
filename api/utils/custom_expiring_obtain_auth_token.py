@@ -4,6 +4,11 @@ from rest_framework.response import Response
 
 class CustomExpiringObtainAuthToken(ObtainAuthToken):
       def post(self, request, *args, **kwargs):
+        """
+        Override!
+
+        Create token everytime this endpoint is added
+        """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
