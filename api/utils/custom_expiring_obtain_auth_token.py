@@ -7,7 +7,7 @@ class CustomExpiringObtainAuthToken(ObtainAuthToken):
         """
         Override!
 
-        Create token everytime this endpoint is added
+        Create token everytime this endpoint is called
         """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
