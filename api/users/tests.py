@@ -178,3 +178,5 @@ class UserTests(APITestCase):
         self.assertEqual(response.data, None)
 
         self.client.credentials()
+        
+    # TODO Add Test cases for Login and Logout Views
