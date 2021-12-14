@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 from rest_framework.routers import DefaultRouter
 from users.urls import router as users_router
 from rooms.urls import router as rooms_router
@@ -14,4 +14,3 @@ urlpatterns = defaultRouter.urls
 urlpatterns += [
     path(r'admin/', admin.site.urls),
 ]
-

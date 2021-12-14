@@ -12,6 +12,9 @@ class CustomExpiringObtainAuthToken(ObtainAuthToken):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
-        user.auth_token.delete()
+
+        if hasattr(user, 'auth_token'):
+          user.auth_token.delete()
+
         token = Token.objects.create(user=user)
         return Response({'token': token.key})
