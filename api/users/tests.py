@@ -6,6 +6,7 @@ from rest_framework import status
 from users.models import User
 from constants import GROUPS
 from rest_framework.authtoken.models import Token
+import json
 
 class UserTests(APITestCase):
     token = None
@@ -179,4 +180,35 @@ class UserTests(APITestCase):
 
         self.client.credentials()
         
-    # TODO Add Test cases for Login and Logout Views
+    def test_login_and_logout(self):
+        """
+        Ensure user can log in and logout
+        """
+        username = 'TestUserLogin'
+        password = 'test978453442'
+
+        urlLogin = reverse('login-list')
+        urlLogout = reverse('logout-list')
+
+        user = User.objects.create(
+          email='testUserLogin@test.com', 
+          first_name='Matheus',
+          last_name='Smith',
+          password=password,
+          title='professor',
+          username=username,
+          groups=Group.objects.get(name=GROUPS[0])
+        )
+
+        user.set_password(password)
+        user.save()
+
+        responseLogin = self.client.post(urlLogin, {'username': username, 'password': password}, format='json')
+        self.assertEqual(responseLogin.status_code, status.HTTP_200_OK)
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + responseLogin.content.token)
+
+        responseLogout = self.client.get(urlLogout, format='json')
+        self.assertEqual(responseLogout.status_code, status.HTTP_200_OK)
+
+        self.client.credentials()
