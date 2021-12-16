@@ -1,34 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Divider } from 'antd';
 
 import './Sidebar.less';
+import { GenericReactContent } from '@generics/generics';
 
 export interface SidebarProps {
-    bottom?: React.ReactElement | React.ReactElement[]
+    top: GenericReactContent;
+    bottom?: GenericReactContent;
+    headerText?: string | GenericReactContent
 }
 
 const Sidebar: React.FC<SidebarProps> = (props) => {
-    const { bottom } = props;
-    const [isLogged, setIsLogged] = useState<boolean>(false);
-
-    const renderNavigation = () => (isLogged ? (
-        <nav>Test</nav>
-    ) : (
-        <div>Nawigacja jest dostępna po zalogowaniu</div>
-    ));
+    const { top, bottom, headerText } = props;
 
     return (
         <div className="sidebar">
             <header className="sidebar-header">
                 <h1>
-                    Kalendarz
-                    <sup>App</sup>
+                    {headerText}
                 </h1>
             </header>
-            <div className="sidebar-nav">
-                {renderNavigation()}
+            <div className="sidebar-top">
+                {top}
             </div>
-            <Divider />
+            {!!bottom && <Divider />}
             <div className="sidebar-bottom">
                 {bottom}
             </div>
