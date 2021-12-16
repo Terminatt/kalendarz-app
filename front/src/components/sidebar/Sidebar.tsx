@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
-import {
-    DatePicker,
-    Divider,
-    Form,
-    Select,
-} from 'antd';
-import { useForm } from 'antd/lib/form/Form';
-import { formLayout } from '@constants/constants';
+import { Divider } from 'antd';
 
 import './Sidebar.less';
-import CustomButton from '@components/CustomButton/CustomButton';
 
-const Sidebar: React.FC = () => {
+export interface SidebarProps {
+    bottom?: React.ReactElement | React.ReactElement[]
+}
+
+const Sidebar: React.FC<SidebarProps> = (props) => {
+    const { bottom } = props;
     const [isLogged, setIsLogged] = useState<boolean>(false);
-    const [form] = useForm();
 
     const renderNavigation = () => (isLogged ? (
         <nav>Test</nav>
@@ -33,21 +29,8 @@ const Sidebar: React.FC = () => {
                 {renderNavigation()}
             </div>
             <Divider />
-            <div className="sidebar-search">
-                <h2>Rezerwacja sal</h2>
-                <Form form={form} {...formLayout}>
-                    <Form.Item label="Podaj datę">
-                        <DatePicker placeholder="Data" />
-                    </Form.Item>
-                    <Form.Item label="Podaj salę">
-                        <Select placeholder="Sala" />
-                    </Form.Item>
-                    <Form.Item>
-                        <div className="sidebar-search-btn">
-                            <CustomButton htmlType="submit" variant="primary">Wyszukaj rezerwacje</CustomButton>
-                        </div>
-                    </Form.Item>
-                </Form>
+            <div className="sidebar-bottom">
+                {bottom}
             </div>
         </div>
     );
