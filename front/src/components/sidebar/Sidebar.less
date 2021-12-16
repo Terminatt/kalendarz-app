@@ -3,13 +3,45 @@
 .sidebar {
     background: @primary-bg;
     width: @sidebar-width;
-    padding: @padding-medium;
     border-radius: @border-radius-regular;
     height: 100%;
-    box-shadow: 1px 3px 24px 1px rgb(33, 33, 44);
-}
+    box-shadow: @box-shadow-mild;
 
-.sidebar-header > h1 > sup {
-    color: @primary-color;
-    text-decoration: underline;
+    &-header {
+        padding: @padding-medium @padding-medium 0 @padding-medium;
+    }
+
+    &-header > h1 > sup {
+        color: @primary-color;
+        text-decoration: underline;
+    }
+
+    &-nav {
+        padding: 0 @padding-medium;
+    }
+
+    &-search {
+        padding: 0 @padding-medium;
+    }
+
+    &-search > h2 {
+        margin: 0;
+    }
+
+    &-search > .ant-form > .ant-form-item {
+        margin-bottom: @margin-small;
+    }
+
+    &-search > .ant-form > .ant-form-item > .ant-form-item-label {
+        padding-bottom: 0;
+    }
+
+    .ant-picker {
+        width: 100%;
+    }
+
+    &-search-btn {
+        text-align: center;
+        margin-top: @margin-tiny;
+    }
 }

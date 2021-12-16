@@ -1,0 +1,33 @@
+@import '~styles/variables.less';
+
+.custom-btn {
+  background-color: transparent !important;
+  padding: @padding-tiny @padding-medium !important;
+  height: 38px !important;
+  border-radius: @border-radius-regular !important;
+  
+  &-primary {
+    border: 2px solid @primary-color !important;
+  }
+
+  &-primary:hover {
+    border-color: darken(@primary-color, 15%) !important;
+  }
+
+  &-clear {
+    border: 2px solid @warning-color !important;
+  }
+
+  &-clear:hover {
+    border-color: darken(@warning-color, 15%) !important;
+  }
+
+  &:hover {
+    color: @text-color !important;
+  }
+  &:focus {
+    color: @text-color !important;
+    border-color: @focus-color !important;
+    box-shadow: @box-shadow-small;
+  }
+}

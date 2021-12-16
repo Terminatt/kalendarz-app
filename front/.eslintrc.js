@@ -39,6 +39,7 @@ module.exports = {
         "no-param-reassign": ["error", {"props": true, "ignorePropertyModificationsFor": ["state"] }],
         "indent": ["error", 4],
         "react/jsx-indent": ["error", 4],
-        "no-unused-vars": "warn"
+        "no-unused-vars": "warn",
+        "react/jsx-props-no-spreading": ['error', {"exceptions": ["Form", "Button"]}]
     }
 }
