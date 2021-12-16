@@ -6,13 +6,13 @@ import './CustomButton.less';
 export type CustomButtonVariant = 'primary' | 'clear';
 
 export interface CustomButtonProps extends ButtonProps {
-  variant: CustomButtonVariant;
+  variant?: CustomButtonVariant;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = (props) => {
     const { variant, children, ...rest } = props;
 
-    return <Button className={`custom-btn custom-btn-${variant}`} {...rest}>{children}</Button>;
+    return <Button className={`custom-btn custom-btn-${variant || 'primary'}`} {...rest}>{children}</Button>;
 };
 
 export default CustomButton;

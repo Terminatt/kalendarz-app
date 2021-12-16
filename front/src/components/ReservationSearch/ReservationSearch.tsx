@@ -21,7 +21,7 @@ const ReservationSearch: React.FC = () => {
                 </Form.Item>
                 <Form.Item>
                     <div className="reservation-search-btn">
-                        <CustomButton htmlType="submit" variant="primary">Wyszukaj rezerwacje</CustomButton>
+                        <CustomButton htmlType="submit">Wyszukaj rezerwacje</CustomButton>
                     </div>
                 </Form.Item>
             </Form>

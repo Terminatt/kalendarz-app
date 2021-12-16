@@ -19,3 +19,15 @@ body {
   color: @primary-color;
   text-decoration: underline;
 }
+
+.app {
+  display: flex;
+  &-content {
+    width: calc(100% - @sidebar-width);
+  }
+  &-user-space {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

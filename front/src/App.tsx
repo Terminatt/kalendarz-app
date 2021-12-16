@@ -1,7 +1,10 @@
+import React from 'react';
+
 import Navigation from '@components/Navigation/Navigation';
 import ReservationSearch from '@components/ReservationSearch/ReservationSearch';
 import Sidebar from '@components/Sidebar/Sidebar';
-import React from 'react';
+import UserSpace from '@components/UserSpace/UserSpace';
+import { Row } from 'antd';
 
 import './App.less';
 
@@ -20,6 +23,12 @@ const App: React.FC = () => {
                 bottom={<ReservationSearch />}
                 headerText={renderHeader()}
             />
+            <div className="app-content">
+                <div className="app-user-space">
+                    <UserSpace />
+                </div>
+                <main />
+            </div>
         </div>
     );
 };
