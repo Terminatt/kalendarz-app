@@ -7,6 +7,8 @@ import CustomButton from '@components/CustomButton/CustomButton';
 
 import './ReservationSearch.less';
 
+const { Option } = Select;
+
 const ReservationSearch: React.FC = () => {
     const [form] = useForm();
 
@@ -24,7 +26,11 @@ const ReservationSearch: React.FC = () => {
                     <DatePicker disabledDate={disabledDates} placeholder="Data" />
                 </Form.Item>
                 <Form.Item label="Podaj salę">
-                    <Select placeholder="Sala" />
+                    <Select placeholder="Sala">
+                        <Option value="jack">Jack</Option>
+                        <Option value="lucy">Lucy</Option>
+                        <Option value="yiminghe">yiminghe</Option>
+                    </Select>
                 </Form.Item>
                 <Form.Item>
                     <div className="reservation-search-btn">

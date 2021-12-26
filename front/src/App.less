@@ -31,32 +31,3 @@ body {
     justify-content: flex-end;
   }
 }
-
-
-// ANTD OVERRIDES
-.ant-picker-panel-container {
-  background-color: #3D3D48 !important;
-
-  // for some reason alpha set to everything below 100% makes the picker icons more prominent
-  .ant-picker-header button {
-    color: fade(@text-color, 99%);
-  }
-  .ant-picker-header button:hover {
-    color: fade(@primary-color, 99%);
-  }
-  .ant-picker-cell:hover .ant-picker-cell-inner {
-    color: darken(@text-color, 50%) !important;
-  }
-  .ant-picker-cell .ant-picker-cell-inner {
-    color: darken(@text-color, 50%);
-  }
-  .ant-picker-cell-disabled::before {
-    background-color: fade(@black, 25%) !important;
-  }
-  .ant-picker-cell.ant-picker-cell-disabled .ant-picker-cell-inner {
-    color: darken(@text-color, 50%) !important;
-  }
-  .ant-picker-cell.ant-picker-cell-in-view .ant-picker-cell-inner {
-    color: @text-color;
-  }
-}
