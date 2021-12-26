@@ -9,12 +9,19 @@ import './ReservationSearch.less';
 
 const ReservationSearch: React.FC = () => {
     const [form] = useForm();
+
+    const disabledDates = (current: moment.Moment): boolean => {
+        const today = new Date();
+        today.setDate(today.getDate() - 1);
+        return current.valueOf() < today.valueOf();
+    };
+
     return (
         <div className="reservation-search">
             <h2>Rezerwacja sal</h2>
             <Form form={form} {...formLayout}>
                 <Form.Item label="Podaj datę">
-                    <DatePicker placeholder="Data" />
+                    <DatePicker disabledDate={disabledDates} placeholder="Data" />
                 </Form.Item>
                 <Form.Item label="Podaj salę">
                     <Select placeholder="Sala" />
