@@ -9,6 +9,7 @@
          "@generics/*" : ["./generics/*"],
          "@reusable/*" : ["./reusable/*"],
          "@constants/*": ["./constants/*"],
+         "@hooks/*": ["./hooks/*"],
          "styles": ["./styles/*"]
       } 
   }

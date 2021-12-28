@@ -7,7 +7,7 @@ const initialState: ModalState = {
     modalType: ModalType.NONE,
 };
 
-export const userReducer = createReducer(initialState, (builder) => {
+export const modalReducer = createReducer(initialState, (builder) => {
     builder
         .addCase(openModal, (state, action) => {
             state.isVisible = true;

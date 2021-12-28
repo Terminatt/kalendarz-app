@@ -43,3 +43,32 @@
     background-color: darken(@primary-color, 5%);
   }
 }
+
+.ant-modal-content {
+  .ant-modal-header {
+    padding: @padding-tiny 0px;
+    margin: 0 @margin-small;
+    h2 {
+      margin-top: 0.5em;
+    }
+  }
+  .ant-modal-close {
+    border: 2px solid @primary-color;
+    border-radius: @border-radius-regular;
+    padding: @padding-minimal @padding-tiny;
+    margin-top: @margin-medium;
+    margin-right: @margin-small;
+    transition: @animation-duration-base border;
+    
+    .ant-modal-close-x {
+      color: @text-color;
+      width: max-content;
+      height: 20px;
+      line-height: normal;
+      font-size: @font-size-regular;
+    }
+  }
+  .ant-modal-close:hover {
+    border-color: darken(@primary-color, 15%);
+  }
+}
