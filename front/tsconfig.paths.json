@@ -10,6 +10,7 @@
          "@reusable/*" : ["./reusable/*"],
          "@constants/*": ["./constants/*"],
          "@hooks/*": ["./hooks/*"],
+         "@utils/*": ["./utils/*"],
          "styles": ["./styles/*"]
       } 
   }

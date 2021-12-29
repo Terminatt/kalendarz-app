@@ -7,7 +7,6 @@ class User(AbstractUser):
     groups = models.ForeignKey(Group, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=24)
     last_name = models.CharField(max_length=24)
-    #change to charfield
     password = models.TextField()
     title = models.CharField(max_length=24)
     created = models.DateTimeField(auto_now_add=True)

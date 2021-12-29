@@ -42,6 +42,7 @@ module.exports = {
         "react/jsx-indent-props": ['error', 4],
         "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": "warn",
-        "react/jsx-props-no-spreading": ['error', {"exceptions": ["Form", "Button"]}]
+        "react/jsx-props-no-spreading": ['error', {"exceptions": ["Form", "Button"]}],
+        "camelcase": ["off"]
     }
 }

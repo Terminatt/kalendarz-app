@@ -7,6 +7,7 @@ import UserSpace from '@components/UserSpace/UserSpace';
 
 import './App.less';
 import 'styles/overrides.less';
+import 'styles/global.less';
 
 const App: React.FC = () => {
     const renderHeader = () => (

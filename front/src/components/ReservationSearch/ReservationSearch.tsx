@@ -1,13 +1,13 @@
 import React from 'react';
 import { DatePicker, Form, Select } from 'antd';
 import { formLayout } from '@constants/constants';
-import { useForm } from 'antd/lib/form/Form';
 
 import CustomButton from '@components/CustomButton/CustomButton';
 
 import './ReservationSearch.less';
 
 const { Option } = Select;
+const { useForm } = Form;
 
 const ReservationSearch: React.FC = () => {
     const [form] = useForm();

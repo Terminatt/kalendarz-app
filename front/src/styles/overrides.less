@@ -1,6 +1,7 @@
 @import '~styles/variables.less';
 
 // ANTD OVERRIDES
+
 .ant-picker-panel-container {
   background-color: @secondary-bg !important;
 
@@ -65,7 +66,7 @@
     border: 2px solid @primary-color;
     border-radius: @border-radius-regular;
     padding: @padding-minimal @padding-tiny;
-    margin-top: @margin-medium;
+    margin-top: 15px;
     margin-right: @margin-small;
     transition: @animation-duration-base border;
     
@@ -79,5 +80,14 @@
   }
   .ant-modal-close:hover {
     border-color: darken(@primary-color, 15%);
+  }
+}
+
+.ant-form {
+  .ant-form-item {
+    margin-bottom: @margin-small;
+    .ant-form-item-label {
+      padding-bottom: 0;
+    }
   }
 }
