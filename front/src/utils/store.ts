@@ -1,5 +1,5 @@
 import { RejectResponse } from '@generics/generics';
-import { createAsyncThunk, Dispatch } from '@reduxjs/toolkit';
+import { AsyncThunk, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosResponse, AxiosError } from 'axios';
 
 function isAxiosError(err: AxiosError | Error | unknown): err is AxiosError {
@@ -10,6 +10,9 @@ export interface CustomAsyncThunkResponse<Data = void> {
   data: Data,
   successMessage?: string
 }
+export interface CustomThunkConfig {
+    rejectValue: RejectResponse
+  }
 
 abstract class StoreUtils {
     static createCustomAsyncThunk<Payload, Response>(
@@ -19,8 +22,8 @@ abstract class StoreUtils {
           successMessage: string,
           errorMessage: string
       },
-    ) {
-        return createAsyncThunk<CustomAsyncThunkResponse<Response>, Payload, { rejectValue: RejectResponse }>(
+    ): AsyncThunk<CustomAsyncThunkResponse<Response>, Payload, CustomThunkConfig> {
+        return createAsyncThunk<CustomAsyncThunkResponse<Response>, Payload, CustomThunkConfig>(
             prefix,
             async (payload, { rejectWithValue }) => {
                 const { request, successMessage, errorMessage } = options;
