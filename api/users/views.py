@@ -15,6 +15,13 @@ class UserViewSet(CustomModelViewSet):
     authentication_classes = [CustomExpiringToken]
     acl_name = "users"
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(None, status=status.HTTP_201_CREATED, headers=headers)
+
 
 class LoginView(ViewSet):
     serializer_class = AuthTokenSerializer
