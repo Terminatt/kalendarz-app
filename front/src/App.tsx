@@ -8,8 +8,12 @@ import UserSpace from '@components/UserSpace/UserSpace';
 import './App.less';
 import 'styles/overrides.less';
 import 'styles/global.less';
+import { notification } from 'antd';
 
 const App: React.FC = () => {
+    useEffect(() => {
+        notification.error({ message: 'Wystąpił błąd podczas tworzenia konta.', duration: null });
+    });
     const renderHeader = () => (
         <span className="header-text">
             Kalendarz
