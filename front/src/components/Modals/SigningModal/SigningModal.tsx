@@ -23,6 +23,7 @@ const SigningModal: React.FC = () => {
     return (
         <Modal
             centered
+            destroyOnClose
             title={renderTitle()}
             visible={visible}
             onCancel={onCancel}
