@@ -5,7 +5,7 @@ import FormUtils from '@utils/form';
 
 const { useForm } = Form;
 
-interface FormValues {
+export interface RegisterFormValues {
   first_name: string;
   last_name: string;
   username: string;
@@ -16,7 +16,7 @@ interface FormValues {
 }
 
 const RegisterForm: React.FC = () => {
-    const [form] = useForm<FormValues>();
+    const [form] = useForm<RegisterFormValues>();
     return (
         <CustomForm formProps={{ form }} primaryBtnText="Zarejestruj się">
             <Form.Item

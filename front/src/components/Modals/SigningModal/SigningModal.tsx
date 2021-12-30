@@ -1,15 +1,16 @@
 import { RootState } from '@store/index';
 import Modal from 'antd/lib/modal/Modal';
-import useModal from '@hooks/useModal';
+import useModalVisibility from '@hooks/useModal';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ModalType } from '@store/modals/types';
 import { closeModal } from '@store/modals/actions';
 import RegisterForm from './RegisterForm/RegisterForm';
+import LoginForm from './LoginForm/LoginForm';
 
 const SigningModal: React.FC = () => {
     const modal = useSelector((state: RootState) => state.modal);
-    const [visible] = useModal([ModalType.LOGIN_MODAL, ModalType.REGISTER_MODAL]);
+    const [visible] = useModalVisibility([ModalType.LOGIN_MODAL, ModalType.REGISTER_MODAL]);
     const isLogin = modal.modalType === ModalType.LOGIN_MODAL;
     const dispatch = useDispatch();
 
@@ -26,7 +27,7 @@ const SigningModal: React.FC = () => {
             onCancel={onCancel}
             footer={null}
         >
-            {isLogin ? null : (
+            {isLogin ? <LoginForm /> : (
                 <RegisterForm />
             )}
         </Modal>
