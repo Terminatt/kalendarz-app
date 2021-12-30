@@ -1,10 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { modalReducer } from './modals/reducer';
-import { userReducer } from './user/reducer';
+import { modalSlice } from './modals/slice';
+import { userSlice } from './user/reducer';
 
 const rootReducer = combineReducers({
-    user: userReducer,
-    modal: modalReducer,
+    user: userSlice.reducer,
+    modal: modalSlice.reducer,
 });
 
 export const store = configureStore({

@@ -1,6 +1,6 @@
 import CustomButton from '@components/CustomButton/CustomButton';
 import SigningModal from '@components/Modals/SigningModal/SigningModal';
-import { openModal } from '@store/modals/actions';
+import { openModal } from '@store/modals/slice';
 import { ModalType } from '@store/modals/types';
 import ButtonGroup from 'antd/lib/button/button-group';
 import React, { useState } from 'react';

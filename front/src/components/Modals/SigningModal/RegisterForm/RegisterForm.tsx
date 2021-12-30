@@ -2,6 +2,9 @@ import React from 'react';
 import { Form, Input } from 'antd';
 import CustomForm from '@components/CustomForm/CustomForm';
 import FormUtils from '@utils/form';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@store/index';
+import { registerAccount } from '@store/user/asyncActions';
 
 const { useForm } = Form;
 
@@ -11,14 +14,23 @@ export interface RegisterFormValues {
   username: string;
   email: string;
   password: string;
-  repeat_password: string;
+  repeat_password?: string;
   title: string;
 }
 
 const RegisterForm: React.FC = () => {
     const [form] = useForm<RegisterFormValues>();
+    const { isLoading } = useSelector((state: RootState) => state.user);
+    const dispatch = useDispatch();
+
+    const onFinish = (values: RegisterFormValues) => {
+        const payload = { ...values };
+        delete payload.repeat_password;
+        dispatch(registerAccount(payload));
+    };
+
     return (
-        <CustomForm formProps={{ form }} primaryBtnText="Zarejestruj się">
+        <CustomForm formProps={{ form, onFinish }} isLoading={isLoading} primaryBtnText="Zarejestruj się">
             <Form.Item
                 className="half-input"
                 label="Imię"

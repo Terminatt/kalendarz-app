@@ -10,11 +10,12 @@ export interface CustomFormProps {
   children: GenericReactContent;
   className?: string;
   primaryBtnText: string;
+  isLoading?: boolean;
 }
 
 const CustomForm: React.FC<CustomFormProps> = (props) => {
     const {
-        formProps, className, children, primaryBtnText,
+        formProps, className, children, primaryBtnText, isLoading,
     } = props;
     const { form, ...restFormProps } = formProps;
 
@@ -26,7 +27,7 @@ const CustomForm: React.FC<CustomFormProps> = (props) => {
         <Form className={`custom-form ${className || ''}`} form={form} {...restFormProps} {...formLayout}>
             {children}
             <div className="custom-form-btns">
-                <CustomButton className="custom-form-btn" htmlType="submit">{primaryBtnText}</CustomButton>
+                <CustomButton loading={isLoading} className="custom-form-btn" htmlType="submit">{primaryBtnText}</CustomButton>
                 <CustomButton className="custom-form-btn" variant="clear" onClick={clearForm}>Wyczyść</CustomButton>
             </div>
         </Form>

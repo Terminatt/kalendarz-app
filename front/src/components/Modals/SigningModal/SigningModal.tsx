@@ -4,7 +4,7 @@ import useModalVisibility from '@hooks/useModal';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ModalType } from '@store/modals/types';
-import { closeModal } from '@store/modals/actions';
+import { closeModal } from '@store/modals/slice';
 import RegisterForm from './RegisterForm/RegisterForm';
 import LoginForm from './LoginForm/LoginForm';
 
@@ -22,6 +22,7 @@ const SigningModal: React.FC = () => {
 
     return (
         <Modal
+            centered
             title={renderTitle()}
             visible={visible}
             onCancel={onCancel}
