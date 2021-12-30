@@ -3,10 +3,11 @@ import React from 'react';
 import { Form, FormProps } from 'antd';
 import CustomButton from '@components/CustomButton/CustomButton';
 import './CustomForm.less';
+import { GenericReactContent } from '@generics/generics';
 
 export interface CustomFormProps {
   formProps: Omit<FormProps, 'className'>;
-  children: React.ReactElement | React.ReactElement[];
+  children: GenericReactContent;
   className?: string;
   primaryBtnText: string;
 }
