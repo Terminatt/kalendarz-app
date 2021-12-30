@@ -1,18 +1,9 @@
 import axios from '@axios/axios';
 import { RegisterFormValues } from '@components/Modals/SigningModal/RegisterForm/RegisterForm';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { notification } from 'antd';
+import StoreUtils from '@utils/store';
 
-export const registerAccount = createAsyncThunk(
-    'user/registerAccount',
-    async (payload: Omit<RegisterFormValues, 'repeat_password'>) => {
-        try {
-            await axios.post('users/', payload);
-            notification.success({ message: 'Twoje konto zostało utworzone. Możesz się zalogować.' });
-        } catch (e) {
-            notification.error({ message: 'Wystąpił błąd podczas tworzenia konta.' });
-            return e;
-        }
-        return null;
-    },
-);
+export const registerAccount = StoreUtils.createCustomAsyncThunk('user/registerAccount', {
+    request: (payload: Omit<RegisterFormValues, 'repeat_password'>) => axios.post('users/', payload),
+    successMessage: 'Twoje konto zostało utworzone. Możesz się zalogować.',
+    errorMessage: 'Wystąpił błąd podczas tworzenia konta.',
+});

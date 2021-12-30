@@ -59,7 +59,11 @@ const RegisterForm: React.FC = () => {
             <Form.Item
                 label="Email"
                 name="email"
-                rules={[FormUtils.getRequiredRule(), FormUtils.getMaxCharRule(50, 'Adres email może mieć maksymalnie 50 znaków'), FormUtils.getEmailRule('To nie jest poprawny adres email')]}
+                rules={[
+                    FormUtils.getRequiredRule(),
+                    FormUtils.getMaxCharRule(50, 'Adres email może mieć maksymalnie 50 znaków'),
+                    FormUtils.getEmailRule('To nie jest poprawny adres email'),
+                ]}
             >
                 <Input placeholder="Podaj email" />
             </Form.Item>

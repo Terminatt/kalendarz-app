@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { modalSlice } from './modals/slice';
-import { userSlice } from './user/reducer';
+import { userSlice } from './user/slice';
 
 const rootReducer = combineReducers({
     user: userSlice.reducer,
