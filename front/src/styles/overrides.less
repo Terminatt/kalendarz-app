@@ -111,6 +111,29 @@
   }
 }
 
+.ant-notification {
+
+  .ant-notification-notice-close {
+    border: 2px solid @primary-color;
+    border-radius: @border-radius-regular;
+    padding: 0px @padding-tiny;
+
+    &:hover {
+      border-color: darken(@primary-color, 15%);
+    }
+
+    &:focus {
+      color: @text-color !important;
+      border-color: @focus-color !important;
+      box-shadow: @box-shadow-small;
+    }
+  }
+
+  .ant-notification-notice-close-x {
+    color: @text-color;
+  }
+}
+
 .ant-form {
 
   .ant-form-item {
