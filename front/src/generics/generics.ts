@@ -1,9 +1,9 @@
+import { AxiosError } from 'axios';
 import React from 'react';
 
 export type GenericReactContent = React.ReactElement | React.ReactElement[];
-export interface RejectedPayload {
+
+export interface RejectResponse {
+  error?: AxiosError;
   errorMessage: string;
-}
-export interface SuccessPayload {
-  successMessage: string;
 }

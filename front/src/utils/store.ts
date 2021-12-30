@@ -1,33 +1,50 @@
-import { AsyncThunk, createAsyncThunk } from '@reduxjs/toolkit';
-import { AxiosResponse } from 'axios';
+import { RejectResponse } from '@generics/generics';
+import { createAsyncThunk, Dispatch } from '@reduxjs/toolkit';
+import { AxiosResponse, AxiosError } from 'axios';
+
+function isAxiosError(err: AxiosError | Error | unknown): err is AxiosError {
+    return !!(err as AxiosError).response;
+}
+
+export interface CustomAsyncThunkResponse<Data = void> {
+  data: Data,
+  successMessage?: string
+}
+
+export interface CustomThunkConfig {
+  state?: unknown;
+  dispatch?: Dispatch;
+  extra?: unknown;
+  serializedErrorType?: unknown;
+  pendingMeta?: unknown;
+  fulfilledMeta?: unknown;
+  rejectedMeta?: unknown;
+  rejectValue: RejectResponse
+}
 
 abstract class StoreUtils {
     static createCustomAsyncThunk<Payload, Response>(
         prefix: string,
         options: {
-        request: (payload: Payload) => Promise<AxiosResponse<Response>>,
-        middleware?: <ChangedResponse>(data: Response) => ChangedResponse;
-        successMessage: string,
-        errorMessage: string},
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    ): AsyncThunk<unknown, Payload, {}> {
-        return createAsyncThunk(
+          request: (payload: Payload) => Promise<AxiosResponse<Response>>,
+          successMessage: string,
+          errorMessage: string
+      },
+    ) {
+        return createAsyncThunk<CustomAsyncThunkResponse<Response>, Payload, CustomThunkConfig>(
             prefix,
-            async (payload: Payload, { rejectWithValue }) => {
-                const {
-                    request, middleware, successMessage, errorMessage,
-                } = options;
+            async (payload, { rejectWithValue }) => {
+                const { request, successMessage, errorMessage } = options;
 
                 try {
                     const response = await request(payload);
-                    let { data } = response;
-
-                    if (middleware) {
-                        data = middleware(data);
-                    }
+                    const { data } = response;
 
                     return { data, successMessage };
-                } catch (e) {
+                } catch (error) {
+                    if (isAxiosError(error)) {
+                        return rejectWithValue({ error, errorMessage });
+                    }
                     return rejectWithValue({ errorMessage });
                 }
             },
