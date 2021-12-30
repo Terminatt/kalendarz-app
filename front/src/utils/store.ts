@@ -14,7 +14,7 @@ export interface CustomThunkConfig<ErrorData> {
     rejectValue: RejectResponse<ErrorData>
 }
 
-export interface CustomAsyncThunkPayload<ErrorData, Payload, Data> {
+export interface CustomAsyncThunkPayload<Payload, Data> {
     requestPayload?: Payload;
     onSuccess?: (data: Data) => void;
     onError?: () => void;
@@ -29,8 +29,8 @@ abstract class StoreUtils {
           successMessage: string,
           errorMessage: string
       },
-    ): AsyncThunk<CustomAsyncThunkResponse<Data>, CustomAsyncThunkPayload<ErrorData, Payload, Data>, CustomThunkConfig<ErrorData>> {
-        return createAsyncThunk<CustomAsyncThunkResponse<Data>, CustomAsyncThunkPayload<ErrorData, Payload, Data>, CustomThunkConfig<ErrorData>>(
+    ): AsyncThunk<CustomAsyncThunkResponse<Data>, CustomAsyncThunkPayload< Payload, Data>, CustomThunkConfig<ErrorData>> {
+        return createAsyncThunk<CustomAsyncThunkResponse<Data>, CustomAsyncThunkPayload<Payload, Data>, CustomThunkConfig<ErrorData>>(
             prefix,
             async (payload, { rejectWithValue }) => {
                 const { request, successMessage, errorMessage } = options;
