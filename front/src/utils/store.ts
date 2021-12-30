@@ -11,17 +11,6 @@ export interface CustomAsyncThunkResponse<Data = void> {
   successMessage?: string
 }
 
-export interface CustomThunkConfig {
-  state?: unknown;
-  dispatch?: Dispatch;
-  extra?: unknown;
-  serializedErrorType?: unknown;
-  pendingMeta?: unknown;
-  fulfilledMeta?: unknown;
-  rejectedMeta?: unknown;
-  rejectValue: RejectResponse
-}
-
 abstract class StoreUtils {
     static createCustomAsyncThunk<Payload, Response>(
         prefix: string,
@@ -31,7 +20,7 @@ abstract class StoreUtils {
           errorMessage: string
       },
     ) {
-        return createAsyncThunk<CustomAsyncThunkResponse<Response>, Payload, CustomThunkConfig>(
+        return createAsyncThunk<CustomAsyncThunkResponse<Response>, Payload, { rejectValue: RejectResponse }>(
             prefix,
             async (payload, { rejectWithValue }) => {
                 const { request, successMessage, errorMessage } = options;
