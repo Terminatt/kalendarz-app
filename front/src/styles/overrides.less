@@ -9,36 +9,47 @@
   .ant-picker-header button {
     color: fade(@text-color, 99%);
   }
+
   .ant-picker-header button:hover {
     color: fade(@primary-color, 99%);
   }
+
   .ant-picker-cell:hover .ant-picker-cell-inner {
     color: @text-color !important;
   }
+
   .ant-picker-cell .ant-picker-cell-inner {
     color: darken(@text-color, 50%);
   }
+
   .ant-picker-cell-disabled::before {
     background-color: fade(@black, 25%) !important;
   }
+
   .ant-picker-cell.ant-picker-cell-disabled .ant-picker-cell-inner {
     color: darken(@text-color, 50%) !important;
   }
+
   .ant-picker-cell.ant-picker-cell-in-view .ant-picker-cell-inner {
     color: @text-color;
   }
+
 }
 
 .ant-picker {
+
   .ant-picker-suffix {
     color: @input-placeholder-color !important;
   }
+
 }
 
 .ant-select {
+
   .ant-select-selection-item {
     color: @black;
   }
+
   .ant-select-arrow {
     color: @input-placeholder-color !important;
   }
@@ -46,48 +57,68 @@
 
 .ant-select-dropdown {
   background-color: @secondary-bg;
+
   .ant-empty-description {
     color: @text-color;
   }
+
   .ant-select-item-option-selected {
     background-color: darken(@primary-color, 5%);
   }
 }
 
-.ant-modal-content {
-  .ant-modal-header {
-    padding: @padding-tiny 0px;
-    margin: 0 @margin-small;
-    h2 {
-      margin-top: 0.5em;
-    }
+.ant-modal {
+  & > div:first-child, & > div:last-child {
+    display: none;
   }
-  .ant-modal-close {
-    border: 2px solid @primary-color;
-    border-radius: @border-radius-regular;
-    padding: @padding-minimal @padding-tiny;
-    margin-top: 15px;
-    margin-right: @margin-small;
-    transition: @animation-duration-base border;
+
+  .ant-modal-content {
+    .ant-modal-header {
+      padding: @padding-tiny 0px;
+      margin: 0 @margin-small;
+      h2 {
+        margin-top: 0.5em;
+      }
+    }
+
+    .ant-modal-close {
+      border: 2px solid @primary-color;
+      border-radius: @border-radius-regular;
+      padding: @padding-minimal @padding-tiny;
+      margin-top: 15px;
+      margin-right: @margin-small;
+      transition: @animation-duration-base border;
+      
+      .ant-modal-close-x {
+        color: @text-color;
+        width: max-content;
+        height: 20px;
+        line-height: normal;
+        font-size: @font-size-regular;
+      }
+
+      &:focus {
+        color: @text-color !important;
+        border-color: @focus-color !important;
+        box-shadow: @box-shadow-small;
+      }
+    }
+
+    .ant-modal-close:hover {
+      border-color: darken(@primary-color, 15%);
+    }
     
-    .ant-modal-close-x {
-      color: @text-color;
-      width: max-content;
-      height: 20px;
-      line-height: normal;
-      font-size: @font-size-regular;
-    }
-  }
-  .ant-modal-close:hover {
-    border-color: darken(@primary-color, 15%);
   }
 }
 
 .ant-form {
+
   .ant-form-item {
     margin-bottom: @margin-small;
+
     .ant-form-item-label {
       padding-bottom: 0;
     }
+
   }
 }

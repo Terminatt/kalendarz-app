@@ -25,10 +25,11 @@ const App: React.FC = () => {
                 headerText={renderHeader()}
             />
             <div className="app-content">
-                <div className="app-user-space">
-                    <UserSpace />
-                </div>
-                <main />
+                <main>
+                    <div className="app-user-space">
+                        <UserSpace />
+                    </div>
+                </main>
             </div>
         </div>
     );

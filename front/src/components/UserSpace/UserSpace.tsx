@@ -2,6 +2,7 @@ import CustomButton from '@components/CustomButton/CustomButton';
 import SigningModal from '@components/Modals/SigningModal/SigningModal';
 import { openModal } from '@store/modals/actions';
 import { ModalType } from '@store/modals/types';
+import ButtonGroup from 'antd/lib/button/button-group';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -18,7 +19,7 @@ const UserSpace: React.FC = () => {
     return isLogged ? (
         <span>Test</span>
     ) : (
-        <div className="signing" role="button">
+        <ButtonGroup className="signing">
             <CustomButton
                 className="signing-login"
                 variant="clear"
@@ -36,8 +37,9 @@ const UserSpace: React.FC = () => {
                     Nie pamiętasz hasła?
                 </div>
             </div>
+
             <SigningModal />
-        </div>
+        </ButtonGroup>
     );
 };
 
