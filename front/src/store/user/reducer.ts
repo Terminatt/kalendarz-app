@@ -1,5 +1,4 @@
 import { createSlice, isPending, isRejected } from '@reduxjs/toolkit';
-import { notification } from 'antd';
 import { registerAccount } from './asyncActions';
 import { UserState } from './types';
 

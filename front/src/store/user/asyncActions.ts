@@ -8,10 +8,11 @@ export const registerAccount = createAsyncThunk(
     async (payload: Omit<RegisterFormValues, 'repeat_password'>) => {
         try {
             await axios.post('users/', payload);
-            notification.success({ message: 'Twoje konto zostało utworzone. Możesz się zalogować' });
+            notification.success({ message: 'Twoje konto zostało utworzone. Możesz się zalogować.' });
         } catch (e) {
+            notification.error({ message: 'Wystąpił błąd podczas tworzenia konta.' });
             return e;
         }
-        return test;
+        return null;
     },
 );
