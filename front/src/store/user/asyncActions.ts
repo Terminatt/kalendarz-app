@@ -1,9 +1,11 @@
 import axios from '@axios/axios';
 import { RegisterFormValues } from '@components/Modals/SigningModal/RegisterForm/RegisterForm';
 import StoreUtils from '@utils/store';
+import { UserRegisterErrorResponse } from './types';
 
-export const registerAccount = StoreUtils.createCustomAsyncThunk('user/registerAccount', {
-    request: (payload: Omit<RegisterFormValues, 'repeat_password'>) => axios.post('users/', payload),
+type RegisterAccountPayload = Omit<RegisterFormValues, 'repeat_password'>;
+export const registerAccount = StoreUtils.createCustomAsyncThunk<UserRegisterErrorResponse, RegisterAccountPayload>('user/registerAccount', {
+    request: (payload) => axios.post('users/', payload),
     successMessage: 'Twoje konto zostało utworzone. Możesz się zalogować.',
     errorMessage: 'Wystąpił błąd podczas tworzenia konta.',
 });

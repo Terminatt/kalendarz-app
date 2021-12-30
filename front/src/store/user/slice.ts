@@ -5,7 +5,7 @@ import {
 import { CustomAsyncThunkResponse } from '@utils/store';
 import { notification } from 'antd';
 import { registerAccount } from './asyncActions';
-import { UserRegisterErrorResponse, UserState } from './types';
+import { UserState } from './types';
 
 const initialState: UserState = {
     isLoading: false,
@@ -27,8 +27,7 @@ export const userSlice = createSlice({
                 if (!errorRes || !errorRes.response || errorRes.code !== '400') {
                     return;
                 }
-
-                state.errorResponse = errorRes.response.data as UserRegisterErrorResponse;
+                state.errorResponse = errorRes.response.data;
             })
             .addMatcher(fulfiledActionsMatcher, (state, success: PayloadAction<CustomAsyncThunkResponse>) => {
                 state.isLoading = false;

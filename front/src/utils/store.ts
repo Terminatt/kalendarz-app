@@ -10,20 +10,20 @@ export interface CustomAsyncThunkResponse<Data = void> {
   data: Data,
   successMessage?: string
 }
-export interface CustomThunkConfig {
-    rejectValue: RejectResponse
+export interface CustomThunkConfig<ErrorData> {
+    rejectValue: RejectResponse<ErrorData>
   }
 
 abstract class StoreUtils {
-    static createCustomAsyncThunk<Payload, Response>(
+    static createCustomAsyncThunk<ErrorData, Payload, Response = void>(
         prefix: string,
         options: {
           request: (payload: Payload) => Promise<AxiosResponse<Response>>,
           successMessage: string,
           errorMessage: string
       },
-    ): AsyncThunk<CustomAsyncThunkResponse<Response>, Payload, CustomThunkConfig> {
-        return createAsyncThunk<CustomAsyncThunkResponse<Response>, Payload, CustomThunkConfig>(
+    ): AsyncThunk<CustomAsyncThunkResponse<Response>, Payload, CustomThunkConfig<ErrorData>> {
+        return createAsyncThunk<CustomAsyncThunkResponse<Response>, Payload, CustomThunkConfig<ErrorData>>(
             prefix,
             async (payload, { rejectWithValue }) => {
                 const { request, successMessage, errorMessage } = options;

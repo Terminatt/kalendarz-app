@@ -3,7 +3,7 @@ import React from 'react';
 
 export type GenericReactContent = React.ReactElement | React.ReactElement[];
 
-export interface RejectResponse {
-  error?: AxiosError;
+export interface RejectResponse<ErrorData = void> {
+  error?: AxiosError<ErrorData>;
   errorMessage: string;
 }
