@@ -35,9 +35,7 @@ const RegisterForm: React.FC = () => {
                 className="half-input"
                 label="Imię"
                 name="first_name"
-                rules={
-                    [FormUtils.getRequiredRule(), FormUtils.getMaxCharRule(24, 'Imię może mieć maksymalnie 24 znaki')]
-                }
+                rules={[FormUtils.getRequiredRule(), FormUtils.getMaxCharRule(24, 'Imię może mieć maksymalnie 24 znaki')]}
             >
                 <Input placeholder="Podaj imię" />
             </Form.Item>
