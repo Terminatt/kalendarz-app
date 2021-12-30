@@ -44,6 +44,6 @@ module.exports = {
         "@typescript-eslint/no-unused-vars": "warn",
         "react/jsx-props-no-spreading": ['error', {"exceptions": ["Form", "Button"]}],
         "camelcase": ["off"],
-        "max-len": ["error", 150]
+        "max-len": ["error", 180]
     }
 }
