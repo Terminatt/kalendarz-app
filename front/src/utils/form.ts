@@ -32,7 +32,7 @@ abstract class FormUtils {
         return () => ({
             validator: (_, value: string) => {
                 const reg = /^\d+$/;
-                if (value && !reg.test(value)) {
+                if (value === '' || (value && !reg.test(value))) {
                     return Promise.resolve();
                 }
                 return Promise.reject(new Error('Hasło nie może składać się z samych cyfr'));
