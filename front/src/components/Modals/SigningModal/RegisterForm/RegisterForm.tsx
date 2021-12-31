@@ -26,7 +26,7 @@ const RegisterForm: React.FC = () => {
     const onFinish = (values: RegisterFormValues) => {
         const payload = { ...values };
         delete payload.repeat_password;
-        dispatch(registerAccount(payload));
+        dispatch(registerAccount({ requestPayload: payload }));
     };
 
     return (
