@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Input } from 'antd';
 import CustomForm from '@components/CustomForm/CustomForm';
 import FormUtils from '@utils/form';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/index';
 import { registerAccount } from '@store/user/asyncActions';
+import { UserRegisterErrorResponse } from '@store/user/types';
 
 const { useForm } = Form;
 
@@ -27,19 +28,30 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
     const [form] = useForm<RegisterFormValues>();
     const { isLoading } = useSelector((state: RootState) => state.user);
     const dispatch = useDispatch();
+    const [errorResponse, setErrorResponse] = useState<null | UserRegisterErrorResponse>(null);
 
     const onFinish = (values: RegisterFormValues) => {
         const payload = { ...values };
         delete payload.repeat_password;
-        dispatch(registerAccount({ requestPayload: payload }));
 
-        if (onFinishCallback) {
-            onFinishCallback();
-        }
+        dispatch(registerAccount({
+            requestPayload: payload,
+            onSuccess: () => {
+                if (onFinishCallback) {
+                    onFinishCallback();
+                }
+            },
+            onError: (errorData) => {
+                if (!errorData.response) {
+                    return;
+                }
+                setErrorResponse(errorData.response.data);
+            },
+        }));
     };
 
     return (
-        <CustomForm formProps={{ form, onFinish }} isLoading={isLoading} primaryBtnText="Zarejestruj się">
+        <CustomForm formProps={{ form, onFinish }} errorResponse={errorResponse} isLoading={isLoading} primaryBtnText="Zarejestruj się">
             <Form.Item
                 className="half-input"
                 label="Imię"

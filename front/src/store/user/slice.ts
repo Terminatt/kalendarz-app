@@ -9,7 +9,6 @@ import { UserState } from './types';
 
 const initialState: UserState = {
     isLoading: false,
-    errorResponse: null,
 };
 
 const pendingActionsMatcher = isPending(registerAccount);
@@ -22,13 +21,6 @@ export const userSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(registerAccount.rejected, (state, error) => {
-                const errorRes = error.payload?.error;
-                if (!errorRes || !errorRes.response || errorRes.code !== '400') {
-                    return;
-                }
-                state.errorResponse = errorRes.response.data;
-            })
             .addMatcher(fulfiledActionsMatcher, (state, success: PayloadAction<CustomAsyncThunkResponse>) => {
                 state.isLoading = false;
                 notification.success({ message: success.payload.successMessage });

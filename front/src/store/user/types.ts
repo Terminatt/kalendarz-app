@@ -1,10 +1,12 @@
+import { ValidationErrorItem } from '@generics/generics';
+
 export interface UserState {
   isLoading: boolean;
-  errorResponse?: UserRegisterErrorResponse | null;
 }
 
 export interface UserRegisterErrorResponse {
-  email?: string[];
-  username?: string[];
-  password?: string[];
+  [key: string]: ValidationErrorItem;
+  email: ValidationErrorItem;
+  username: ValidationErrorItem;
+  password: ValidationErrorItem;
 }

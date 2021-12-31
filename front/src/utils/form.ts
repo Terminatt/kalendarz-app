@@ -1,3 +1,4 @@
+import { ResponseError } from '@generics/generics';
 import { Rule } from 'antd/lib/form';
 
 abstract class FormUtils {
@@ -50,6 +51,20 @@ abstract class FormUtils {
                 return Promise.reject(new Error('Hasło musi zawierać chociaż jeden ze specjalnych symboli !, @, #, $, %, ^, &, *'));
             },
         });
+    }
+
+    static parseErrorResponse(errorResponse: ResponseError, errorMessages: {[key: string]: string}): Array<{name: string, errors: string[]}> {
+        const entries = Object.entries(errorResponse);
+        const errors: Array<{name: string, errors: string[]}> = [];
+
+        // TODO SERVE ARRAY CASE
+        entries.forEach((el) => {
+            if (el[1] && !Array.isArray(el[1])) {
+                errors.push({ name: el[0], errors: [errorMessages[el[1].type]] });
+            }
+        });
+
+        return errors;
     }
 }
 

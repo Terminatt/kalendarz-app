@@ -1,6 +1,7 @@
 import re
 from typing import Generic, TypeVar
 from django.core.exceptions import ValidationError
+from utils.response_error import ErrorType, ResponseError
 from constants import EMAIL_REGEX, PASSWORD_MIN_LENGHT
 from django.contrib.auth.password_validation import CommonPasswordValidator, MinimumLengthValidator, NumericPasswordValidator
 from rest_framework import serializers
@@ -34,8 +35,7 @@ class CustomValidation():
             email_field: string containing email
         """
         if (re.fullmatch(EMAIL_REGEX, email_field) == None):
-            raise serializers.ValidationError(
-                "This is not a valid email address")
+            raise serializers.ValidationError(ResponseError.get_error_dict(errorType=ErrorType.EMAIL_INCORRECT, msg='Provided email is incorrect'))
 
     def __validate_with_message(self, validators, field):
         """
@@ -67,11 +67,11 @@ class CustomValidation():
         """
         custom_validators = [
             ValidatorWithMessage(CommonPasswordValidator(),
-                                 "This password is too common and too simple"),
-            ValidatorWithMessage(MinimumLengthValidator(
-                min_length=PASSWORD_MIN_LENGHT), f"The password must have at least {PASSWORD_MIN_LENGHT} characters"),
+                                ResponseError.get_error_dict(errorType=ErrorType.PASSWORD_TOO_SIMPLE, msg='This password is too common and too simple')),
+            ValidatorWithMessage(MinimumLengthValidator(min_length=PASSWORD_MIN_LENGHT), 
+                                ResponseError.get_error_dict(errorType=ErrorType.PASSWORD_TOO_SHORT, msg=f'The password must have at least {PASSWORD_MIN_LENGHT} characters')),
             ValidatorWithMessage(NumericPasswordValidator(),
-                                 "The password cannot consist of only digits")
+                                 ResponseError.get_error_dict(errorType=ErrorType.PASSWORD_NUMERIC, msg='The password cannot consist of only digits'))
         ]
         self.__validate_with_message(
             validators=custom_validators, field=password)
