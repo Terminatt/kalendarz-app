@@ -3,6 +3,7 @@ import { ModalState, ModalType } from './types';
 
 export const openModal = createAction<ModalType>('OPEN_MODAL');
 export const closeModal = createAction<void>('CLOSE_MODAL');
+export const changeModalType = createAction<ModalType>('CHANGE_MODAL_TYPE');
 
 const initialState: ModalState = {
     isVisible: false,
@@ -21,6 +22,8 @@ export const modalSlice = createSlice({
             }).addCase(closeModal, (state) => {
                 state.isVisible = false;
                 state.modalType = ModalType.NONE;
+            }).addCase(changeModalType, (state, action) => {
+                state.modalType = action.payload;
             });
     },
 });

@@ -18,7 +18,12 @@ export interface RegisterFormValues {
   title: string;
 }
 
-const RegisterForm: React.FC = () => {
+export interface RegisterFormProps {
+    onFinishCallback?: () => void;
+}
+
+const RegisterForm: React.FC<RegisterFormProps> = (props) => {
+    const { onFinishCallback } = props;
     const [form] = useForm<RegisterFormValues>();
     const { isLoading } = useSelector((state: RootState) => state.user);
     const dispatch = useDispatch();
@@ -27,6 +32,10 @@ const RegisterForm: React.FC = () => {
         const payload = { ...values };
         delete payload.repeat_password;
         dispatch(registerAccount({ requestPayload: payload }));
+
+        if (onFinishCallback) {
+            onFinishCallback();
+        }
     };
 
     return (

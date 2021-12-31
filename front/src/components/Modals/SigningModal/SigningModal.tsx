@@ -4,7 +4,7 @@ import useModalVisibility from '@hooks/useModal';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ModalType } from '@store/modals/types';
-import { closeModal } from '@store/modals/slice';
+import { changeModalType, closeModal } from '@store/modals/slice';
 import RegisterForm from './RegisterForm/RegisterForm';
 import LoginForm from './LoginForm/LoginForm';
 
@@ -20,6 +20,10 @@ const SigningModal: React.FC = () => {
 
     const renderTitle = () => (<h2>{isLogin ? 'Logowanie' : 'Rejestracja'}</h2>);
 
+    const onFormSubmit = (modalType: ModalType) => {
+        dispatch(changeModalType(modalType));
+    };
+
     return (
         <Modal
             centered
@@ -30,7 +34,7 @@ const SigningModal: React.FC = () => {
             footer={null}
         >
             {isLogin ? <LoginForm /> : (
-                <RegisterForm />
+                <RegisterForm onFinishCallback={() => onFormSubmit(ModalType.LOGIN_MODAL)} />
             )}
         </Modal>
     );
