@@ -29,15 +29,9 @@ const SigningModal: React.FC = () => {
 
     const animateModalSwitch = useCallback((node: React.ReactNode) => (
         <SwitchTransition>
-            {isLogin ? (
-                <CSSTransition key="login" classNames="opacity" timeout={{ enter: 500, exit: 300 }}>
-                    {node}
-                </CSSTransition>
-            ) : (
-                <CSSTransition key="register" classNames="opacity" timeout={{ enter: 500, exit: 300 }}>
-                    {node}
-                </CSSTransition>
-            )}
+            <CSSTransition key={isLogin ? 'login' : 'register'} classNames="opacity" timeout={{ enter: 500, exit: 300 }}>
+                {node}
+            </CSSTransition>
         </SwitchTransition>
     ), [isLogin]);
 
