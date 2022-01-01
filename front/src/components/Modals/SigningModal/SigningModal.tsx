@@ -27,26 +27,35 @@ const SigningModal: React.FC = () => {
         dispatch(changeModalType(modalType));
     };
 
+    const animateModalSwitch = (node: React.ReactNode) => (
+        <SwitchTransition>
+            {isLogin ? (
+                <CSSTransition key="login" classNames="opacity" timeout={{ enter: 500, exit: 300 }}>
+                    {node}
+                </CSSTransition>
+            ) : (
+                <CSSTransition key="register" classNames="opacity" timeout={{ enter: 500, exit: 300 }}>
+                    {node}
+                </CSSTransition>
+            )}
+        </SwitchTransition>
+    );
+
     return (
         <Modal
             centered
             destroyOnClose
+            modalRender={animateModalSwitch}
             title={renderTitle()}
             visible={visible}
             onCancel={onCancel}
             footer={null}
         >
-            <SwitchTransition>
-                {isLogin ? (
-                    <CSSTransition key="login" classNames="opacity" timeout={{ enter: 500, exit: 300 }}>
-                        <LoginForm />
-                    </CSSTransition>
-                ) : (
-                    <CSSTransition key="register" classNames="opacity" timeout={{ enter: 500, exit: 300 }}>
-                        <RegisterForm onFinishCallback={() => onFormSubmit(ModalType.LOGIN_MODAL)} />
-                    </CSSTransition>
-                )}
-            </SwitchTransition>
+            {isLogin ? (
+                <LoginForm />
+            ) : (
+                <RegisterForm onFinishCallback={() => onFormSubmit(ModalType.LOGIN_MODAL)} />
+            )}
         </Modal>
     );
 };
