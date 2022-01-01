@@ -1,9 +1,10 @@
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
+from users.serializers import UserSerializer
 
 class CustomExpiringObtainAuthToken(ObtainAuthToken):
-      def post(self, request, *args, **kwargs):
+      def post(self, request):
         """
         Override!
 
@@ -17,4 +18,6 @@ class CustomExpiringObtainAuthToken(ObtainAuthToken):
           user.auth_token.delete()
 
         token = Token.objects.create(user=user)
-        return Response({'token': token.key})
+        user_serializer = UserSerializer(instance=user)
+        
+        return Response({'token': token.key, 'user': user_serializer.data})

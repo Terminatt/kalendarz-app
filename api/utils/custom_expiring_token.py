@@ -2,7 +2,9 @@
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import exceptions
 from datetime import datetime, timedelta
+from utils.response_error import ErrorType, ResponseError
 import pytz
+
 
 
 class CustomExpiringToken(TokenAuthentication):
@@ -16,15 +18,12 @@ class CustomExpiringToken(TokenAuthentication):
         try:
             token = model.objects.select_related('user').get(key=key)
         except model.DoesNotExist:
-            raise exceptions.AuthenticationFailed('Invalid token.')
-
-        if not token.user.is_active:
-            raise exceptions.AuthenticationFailed('The user is not active yet.')
+            raise exceptions.AuthenticationFailed(ResponseError.get_error_dict(errorType=ErrorType.USER_NOT_EXIST, msg='User does not exist'))
 
         now = datetime.utcnow()
         now = now.replace(tzinfo=pytz.utc)
 
         if token.created < now - timedelta(hours=24):
-            raise exceptions.AuthenticationFailed('Token has expired')
+            raise exceptions.AuthenticationFailed(ResponseError.get_error_dict(errorType=ErrorType.TOKEN_EXPIRED, msg='Token has expired'))
 
         return (token.user, token)

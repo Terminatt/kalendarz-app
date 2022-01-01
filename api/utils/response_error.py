@@ -5,6 +5,9 @@ class ErrorType():
   PASSWORD_TOO_SHORT = 'PASSWORD_TOO_SHORT'
   PASSWORD_NUMERIC = 'PASSWORD_NUMERIC'
   EMAIL_INCORRECT = 'EMAIL_INCORRECT'
+  USER_NOT_EXIST = 'USER_NOT_EXIST'
+  TOKEN_EXPIRED = 'TOKEN_EXPIRED'
+  
 
 class ResponseError:
   def get_error_dict(errorType, msg):
