@@ -10,12 +10,12 @@ import { UserRegisterErrorResponse } from '@store/user/types';
 const { useForm } = Form;
 
 export interface RegisterFormValues {
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   username: string;
   email: string;
   password: string;
-  repeat_password?: string;
+  repeatPassword?: string;
   title: string;
 }
 
@@ -32,7 +32,7 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
 
     const onFinish = (values: RegisterFormValues) => {
         const payload = { ...values };
-        delete payload.repeat_password;
+        delete payload.repeatPassword;
 
         dispatch(registerAccount({
             requestPayload: payload,
@@ -55,7 +55,7 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
             <Form.Item
                 className="half-input"
                 label="Imię"
-                name="first_name"
+                name="firstName"
                 rules={[FormUtils.getRequiredRule(), FormUtils.getMaxCharRule(24, 'Imię może mieć maksymalnie 24 znaki')]}
             >
                 <Input placeholder="Podaj imię" />
@@ -63,7 +63,7 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
             <Form.Item
                 className="half-input"
                 label="Nazwisko"
-                name="last_name"
+                name="lastName"
                 rules={[FormUtils.getRequiredRule(), FormUtils.getMaxCharRule(24, 'Nazwisko może mieć maksymalnie 24 znaki')]}
             >
                 <Input placeholder="Podaj nazwisko" />
@@ -102,7 +102,7 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
             <Form.Item
                 dependencies={['password']}
                 label="Powtórz hasło"
-                name="repeat_password"
+                name="repeatPassword"
                 rules={[FormUtils.getRequiredRule(), FormUtils.getRepeatPasswordRule('password')]}
             >
                 <Input type="password" placeholder="Powtórz hasło" />

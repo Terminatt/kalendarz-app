@@ -3,7 +3,7 @@ import { RegisterFormValues } from '@components/Modals/SigningModal/RegisterForm
 import StoreUtils from '@utils/store';
 import { UserRegisterErrorResponse } from './types';
 
-type RegisterAccountPayload = Omit<RegisterFormValues, 'repeat_password'>;
+type RegisterAccountPayload = Omit<RegisterFormValues, 'repeatPassword'>;
 export const registerAccount = StoreUtils.createCustomAsyncThunk<UserRegisterErrorResponse, RegisterAccountPayload>('user/registerAccount', {
     request: (payload) => axios.post('users/', payload),
     successMessage: 'Twoje konto zostało utworzone. Możesz się zalogować.',
