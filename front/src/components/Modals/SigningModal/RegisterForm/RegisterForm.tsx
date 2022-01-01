@@ -100,6 +100,7 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
                 <Input type="password" placeholder="Podaj hasło" />
             </Form.Item>
             <Form.Item
+                dependencies={['password']}
                 label="Powtórz hasło"
                 name="repeat_password"
                 rules={[FormUtils.getRequiredRule(), FormUtils.getRepeatPasswordRule('password')]}
