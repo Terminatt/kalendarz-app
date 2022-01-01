@@ -3,7 +3,7 @@ import SigningModal from '@components/Modals/SigningModal/SigningModal';
 import { openModal } from '@store/modals/slice';
 import { ModalType } from '@store/modals/types';
 import ButtonGroup from 'antd/lib/button/button-group';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import './UserSpace.less';
@@ -12,9 +12,9 @@ const UserSpace: React.FC = () => {
     const [isLogged, setIsLogged] = useState<boolean>(false);
     const dispatch = useDispatch();
 
-    const openSigningModal = (modalType: ModalType) => {
+    const openSigningModal = useCallback((modalType: ModalType) => {
         dispatch(openModal(modalType));
-    };
+    }, []);
 
     return isLogged ? (
         <span>Test</span>

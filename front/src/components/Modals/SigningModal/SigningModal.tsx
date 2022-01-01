@@ -1,7 +1,7 @@
 import { RootState } from '@store/index';
 import Modal from 'antd/lib/modal/Modal';
 import useModalVisibility from '@hooks/useModal';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ModalType } from '@store/modals/types';
 import { changeModalType, closeModal } from '@store/modals/slice';
@@ -17,17 +17,17 @@ const SigningModal: React.FC = () => {
     const isLogin = modal.modalType === ModalType.LOGIN_MODAL;
     const dispatch = useDispatch();
 
-    const onCancel = () => {
+    const onCancel = useCallback(() => {
         dispatch(closeModal());
-    };
+    }, []);
 
-    const renderTitle = () => (<h2>{isLogin ? 'Logowanie' : 'Rejestracja'}</h2>);
+    const renderTitle = useCallback(() => (<h2>{isLogin ? 'Logowanie' : 'Rejestracja'}</h2>), [isLogin]);
 
-    const onFormSubmit = (modalType: ModalType) => {
+    const onFormSubmit = useCallback((modalType: ModalType) => {
         dispatch(changeModalType(modalType));
-    };
+    }, []);
 
-    const animateModalSwitch = (node: React.ReactNode) => (
+    const animateModalSwitch = useCallback((node: React.ReactNode) => (
         <SwitchTransition>
             {isLogin ? (
                 <CSSTransition key="login" classNames="opacity" timeout={{ enter: 500, exit: 300 }}>
@@ -39,7 +39,7 @@ const SigningModal: React.FC = () => {
                 </CSSTransition>
             )}
         </SwitchTransition>
-    );
+    ), [isLogin]);
 
     return (
         <Modal

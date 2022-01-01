@@ -15,8 +15,8 @@ const LoginForm: React.FC = () => {
     return (
         <CustomForm formProps={{ form }} primaryBtnText="Zaloguj się">
             <Form.Item
-                label="Email"
-                name="email"
+                label="Nazwa użytkownika"
+                name="username"
             >
                 <Input placeholder="Podaj email" />
             </Form.Item>

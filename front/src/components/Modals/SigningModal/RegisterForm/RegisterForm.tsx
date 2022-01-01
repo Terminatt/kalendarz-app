@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Form, Input } from 'antd';
 import CustomForm from '@components/CustomForm/CustomForm';
 import FormUtils from '@utils/form';
@@ -30,7 +30,7 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
     const dispatch = useDispatch();
     const [errorResponse, setErrorResponse] = useState<null | UserRegisterErrorResponse>(null);
 
-    const onFinish = (values: RegisterFormValues) => {
+    const onFinish = useCallback((values: RegisterFormValues) => {
         const payload = { ...values };
         delete payload.repeatPassword;
 
@@ -48,7 +48,7 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
                 setErrorResponse(errorData.response.data);
             },
         }));
-    };
+    }, [onFinishCallback]);
 
     return (
         <CustomForm formProps={{ form, onFinish }} errorResponse={errorResponse} isLoading={isLoading} primaryBtnText="Zarejestruj się">

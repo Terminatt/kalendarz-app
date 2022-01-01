@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { DatePicker, Form, Select } from 'antd';
 import { formLayout } from '@constants/constants';
 
@@ -12,11 +12,11 @@ const { useForm } = Form;
 const ReservationSearch: React.FC = () => {
     const [form] = useForm();
 
-    const disabledDates = (current: moment.Moment): boolean => {
+    const disabledDates = useCallback((current: moment.Moment): boolean => {
         const today = new Date();
         today.setDate(today.getDate() - 1);
         return current.valueOf() < today.valueOf();
-    };
+    }, []);
 
     return (
         <div className="reservation-search">
