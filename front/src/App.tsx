@@ -5,9 +5,10 @@ import ReservationSearch from '@components/ReservationSearch/ReservationSearch';
 import Sidebar from '@components/Sidebar/Sidebar';
 import UserSpace from '@components/UserSpace/UserSpace';
 
-import './App.less';
-import 'styles/overrides.less';
 import 'styles/global.less';
+import 'styles/overrides.less';
+import 'styles/animations.less';
+import './App.less';
 
 const App: React.FC = () => {
     const renderHeader = () => (

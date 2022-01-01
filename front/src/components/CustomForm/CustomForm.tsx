@@ -38,7 +38,14 @@ const CustomForm: React.FC<CustomFormProps> = (props) => {
         <Form className={`custom-form ${className || ''}`} form={form} {...restFormProps} {...formLayout}>
             {children}
             <div className="custom-form-btns">
-                <CustomButton loading={isLoading} className="custom-form-btn" htmlType="submit">{primaryBtnText}</CustomButton>
+                <CustomButton
+                    loading={isLoading}
+                    className="custom-form-btn"
+                    htmlType="submit"
+                >
+                    {primaryBtnText}
+
+                </CustomButton>
                 <CustomButton className="custom-form-btn" variant="clear" onClick={clearForm}>Wyczyść</CustomButton>
             </div>
         </Form>
