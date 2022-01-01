@@ -9,6 +9,5 @@ class ErrorType():
   TOKEN_EXPIRED = 'TOKEN_EXPIRED'
   
 
-class ResponseError:
-  def get_error_dict(errorType, msg):
-    return {'type': errorType, 'message': msg}
+def get_error_dict(errorType, msg):
+  return {'type': errorType, 'message': msg}

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from utils.response_error import ErrorType, ResponseError
+from utils.response_error import ErrorType, get_error_dict
 from utils.custom_validators import CustomValidation
 from users.models import User
 from django.contrib.auth.hashers import make_password
@@ -26,7 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
         CustomValidation().validate_email(email_field=email)
 
         if User.objects.filter(email__iexact=email).exists():
-            raise serializers.ValidationError(ResponseError.get_error_dict(errorType=ErrorType.EMAIL_TAKEN, msg='User with this email arleady exists'))
+            raise serializers.ValidationError(get_error_dict(errorType=ErrorType.EMAIL_TAKEN, msg='User with this email arleady exists'))
 
         return email
 
@@ -44,7 +44,7 @@ class UserSerializer(serializers.ModelSerializer):
             'groups': {'required': False},
             'username': {
                 'validators': [
-                    UniqueValidator(queryset=User.objects.all(), message=ResponseError.get_error_dict(errorType=ErrorType.USERNAME_TAKEN, msg='User with this username arleady exists'))
+                    UniqueValidator(queryset=User.objects.all(), message=get_error_dict(errorType=ErrorType.USERNAME_TAKEN, msg='User with this username arleady exists'))
                 ]
             },
         }
