@@ -26,9 +26,16 @@ class UserViewSet(CustomModelViewSet):
 class LoginView(ViewSet):
     serializer_class = AuthTokenSerializer
     authentication_classes = []
-    
+
     def create(self, request):
         return CustomExpiringObtainAuthToken().as_view()(request=request._request)
+
+class AuthenticateView(ViewSet):
+    authentication_classes = [CustomExpiringToken]
+    
+    def create(self, request):
+        serializer = UserSerializer(instance=request.user)
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
     
 
 class LogoutView(ViewSet):
