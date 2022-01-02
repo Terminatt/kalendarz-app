@@ -6,6 +6,8 @@ from utils.response_error import ErrorType, get_error_dict
 from users.serializers import UserSerializer
 
 class CustomExpiringObtainAuthToken(ObtainAuthToken):
+      authentication_classes = []
+      
       def post(self, request):
         """
         Override!
