@@ -9,7 +9,7 @@ const Navigation: React.FC = () => {
     const isLogged = !!user;
 
     return isLogged ? (
-        <nav>Test</nav>
+        <nav>Pomyślnie zalogowany użytkownik</nav>
     ) : (
         <div>Nawigacja jest dostępna po zalogowaniu</div>
     );

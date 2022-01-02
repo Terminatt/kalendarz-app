@@ -1,6 +1,7 @@
 import { BaseState, ValidationErrorItem } from '@generics/generics';
 
 export interface UserState extends BaseState {
+  loadingScreen: boolean;
   data: User | null;
 }
 
@@ -19,10 +20,6 @@ export interface UserRegisterErrorResponse {
   email: ValidationErrorItem;
   username: ValidationErrorItem;
   password: ValidationErrorItem;
-}
-
-export interface LoginResponse {
-  user: User;
 }
 
 export enum Group {

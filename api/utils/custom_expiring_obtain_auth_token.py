@@ -2,8 +2,11 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
+from api.settings import DEBUG
 from utils.response_error import ErrorType, get_error_dict
 from users.serializers import UserSerializer
+from datetime import datetime, timedelta
+import pytz
 
 class CustomExpiringObtainAuthToken(ObtainAuthToken):
       authentication_classes = []
@@ -27,11 +30,17 @@ class CustomExpiringObtainAuthToken(ObtainAuthToken):
 
         token = Token.objects.create(user=user)
         user_serializer = UserSerializer(instance=user)
-        res = Response({'user': user_serializer.data})
+        res = Response(user_serializer.data)
+
+        now = datetime.utcnow()
+        now = now.replace(tzinfo=pytz.utc)
+
         res.set_cookie(
             'auth_token',
             token.key,
             httponly=True,
-            samesite='strict',
+            samesite=None if DEBUG else 'lax',
+            secure=True,
+            expires= now + timedelta(hours=24)
         )
         return res

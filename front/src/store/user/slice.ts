@@ -5,11 +5,12 @@ import {
 } from '@reduxjs/toolkit';
 import { CustomAsyncThunkResponse } from '@utils/store';
 import { notification } from 'antd';
-import { login, registerAccount } from './asyncActions';
+import { authenticate, login, registerAccount } from './asyncActions';
 import { UserState } from './types';
 
 const initialState: UserState = {
     isLoading: false,
+    loadingScreen: false,
     data: null,
 };
 
@@ -24,7 +25,7 @@ export const userSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(login.fulfilled, (state, res) => {
-                state.data = res.payload.data.user;
+                state.data = res.payload.data;
             })
             .addCase(login.rejected, (state, error) => {
                 state.isLoading = false;
@@ -39,8 +40,22 @@ export const userSlice = createSlice({
 
                 notification.error({ message });
             })
+            .addCase(authenticate.pending, (state) => {
+                state.loadingScreen = true;
+            })
+            .addCase(authenticate.fulfilled, (state, res) => {
+                state.loadingScreen = false;
+                state.data = res.payload.data;
+            })
+            .addCase(authenticate.rejected, (state) => {
+                state.loadingScreen = false;
+            })
             .addMatcher(fulfiledActionsMatcher, (state, success: PayloadAction<CustomAsyncThunkResponse>) => {
                 state.isLoading = false;
+                if (!success.payload.successMessage) {
+                    return;
+                }
+
                 notification.success({ message: success.payload.successMessage });
             })
             .addMatcher(pendingActionsMatcher, (state) => {

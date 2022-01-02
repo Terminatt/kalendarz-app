@@ -26,28 +26,27 @@ abstract class StoreUtils {
         prefix: string,
         options: {
           request: (payload?: Payload) => Promise<AxiosResponse<Data>>,
-          successMessage: string,
+          successMessage?: string,
           errorMessage?: string
       },
-    ): AsyncThunk<CustomAsyncThunkResponse<Data>, CustomAsyncThunkPayload<ErrorData, Payload, Data>, CustomThunkConfig<ErrorData>> {
-        return createAsyncThunk<CustomAsyncThunkResponse<Data>, CustomAsyncThunkPayload<ErrorData, Payload, Data>, CustomThunkConfig<ErrorData>>(
+    ): AsyncThunk<CustomAsyncThunkResponse<Data>, CustomAsyncThunkPayload<ErrorData, Payload, Data> | void, CustomThunkConfig<ErrorData>> {
+        return createAsyncThunk<CustomAsyncThunkResponse<Data>, CustomAsyncThunkPayload<ErrorData, Payload, Data> | void, CustomThunkConfig<ErrorData>>(
             prefix,
             async (payload, { rejectWithValue }) => {
                 const { request, successMessage, errorMessage } = options;
-                const { onSuccess, onError, requestPayload } = payload;
                 try {
-                    const response = await request(requestPayload);
+                    const response = await request(payload?.requestPayload);
                     const { data } = response;
 
-                    if (onSuccess) {
-                        onSuccess(data);
+                    if (payload?.onSuccess) {
+                        payload.onSuccess(data);
                     }
 
                     return { data, successMessage };
                 } catch (error) {
                     if (isAxiosError<ErrorData>(error)) {
-                        if (onError) {
-                            onError(error);
+                        if (payload?.onError) {
+                            payload.onError(error);
                         }
 
                         return rejectWithValue({ error: error.response?.data, errorMessage });

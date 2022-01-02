@@ -1,4 +1,4 @@
-from rest_framework import status
+from rest_framework import exceptions, status
 from rest_framework.response import Response
 from utils.custom_expiring_obtain_auth_token import CustomExpiringObtainAuthToken
 from utils.custom_view import CustomModelViewSet

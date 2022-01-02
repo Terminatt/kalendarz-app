@@ -3,7 +3,6 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework import exceptions
 from datetime import datetime, timedelta
 from utils.response_error import ErrorType, get_error_dict
-
 import pytz
 
 
@@ -15,12 +14,8 @@ class CustomExpiringToken(TokenAuthentication):
         Extend with cookie authentication
       """
       def authenticate(self, request):
-        if 'auth_token' in request.COOKIES and 'HTTP_AUTHORIZATION' not in request.META:
             token = request.COOKIES.get('auth_token')
             return self.authenticate_credentials(token)
-
-
-        return super().authenticate(request)
 
       """
         Override!
