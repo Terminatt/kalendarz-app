@@ -19,5 +19,11 @@ class CustomExpiringObtainAuthToken(ObtainAuthToken):
 
         token = Token.objects.create(user=user)
         user_serializer = UserSerializer(instance=user)
-        
-        return Response({'token': token.key, 'user': user_serializer.data})
+        res = Response({'user': user_serializer.data})
+        res.set_cookie(
+            'auth_token',
+            token.key,
+            httponly=True,
+            samesite='strict',
+        )
+        return res

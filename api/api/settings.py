@@ -30,6 +30,9 @@ ALLOWED_HOSTS = []
 
 # Application definition
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+       'utils.custom_expiring_token.CustomExpiringToken',
+   ),
 
     'DEFAULT_RENDERER_CLASSES': (
         'djangorestframework_camel_case.render.CamelCaseJSONRenderer',
