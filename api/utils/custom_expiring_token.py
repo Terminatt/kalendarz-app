@@ -32,7 +32,7 @@ class CustomExpiringToken(TokenAuthentication):
         try:
             token = model.objects.select_related('user').get(key=key)
         except model.DoesNotExist:
-            raise exceptions.AuthenticationFailed(get_error_dict(errorType=ErrorType.USER_NOT_FOUND, msg='Authentication Token is not associated with any user'))
+            raise exceptions.AuthenticationFailed(get_error_dict(errorType=ErrorType.USER_NOT_FOUND, msg='Authentication token is not associated with any user'))
 
         now = datetime.utcnow()
         now = now.replace(tzinfo=pytz.utc)
