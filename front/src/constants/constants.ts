@@ -3,8 +3,9 @@ export const formLayout = {
     wrapperCol: { span: 24 },
 };
 
-export const errorMessages = {
+export const errorMessages: {[key: string]: string} = {
     USERNAME_TAKEN: 'Użytkownik o podanej nazwie już istnieje',
     EMAIL_TAKEN: 'Użytkownik o podanym emailu już istnieje',
     PASSWORD_TOO_SIMPLE: 'Hasło jest zbyt proste',
+    INVALID_CREDENTIALS: 'Błędne hasło lub nazwa użytkownika',
 };

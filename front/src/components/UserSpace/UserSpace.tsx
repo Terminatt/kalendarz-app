@@ -1,15 +1,17 @@
 import CustomButton from '@components/CustomButton/CustomButton';
 import SigningModal from '@components/Modals/SigningModal/SigningModal';
+import { RootState } from '@store/index';
 import { openModal } from '@store/modals/slice';
 import { ModalType } from '@store/modals/types';
 import ButtonGroup from 'antd/lib/button/button-group';
-import React, { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import './UserSpace.less';
 
 const UserSpace: React.FC = () => {
-    const [isLogged, setIsLogged] = useState<boolean>(false);
+    const user = useSelector((state: RootState) => state.user.data);
+    const isLogged = !!user;
     const dispatch = useDispatch();
 
     const openSigningModal = useCallback((modalType: ModalType) => {
@@ -17,7 +19,9 @@ const UserSpace: React.FC = () => {
     }, []);
 
     return isLogged ? (
-        <span>Test</span>
+        <span>
+            {`${user.title} ${user.firstName} ${user.lastName}`}
+        </span>
     ) : (
         <ButtonGroup className="signing">
             <CustomButton

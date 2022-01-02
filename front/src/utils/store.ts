@@ -27,7 +27,7 @@ abstract class StoreUtils {
         options: {
           request: (payload?: Payload) => Promise<AxiosResponse<Data>>,
           successMessage: string,
-          errorMessage: string
+          errorMessage?: string
       },
     ): AsyncThunk<CustomAsyncThunkResponse<Data>, CustomAsyncThunkPayload<ErrorData, Payload, Data>, CustomThunkConfig<ErrorData>> {
         return createAsyncThunk<CustomAsyncThunkResponse<Data>, CustomAsyncThunkPayload<ErrorData, Payload, Data>, CustomThunkConfig<ErrorData>>(

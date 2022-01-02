@@ -1,6 +1,8 @@
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
+from utils.response_error import ErrorType, get_error_dict
 from users.serializers import UserSerializer
 
 class CustomExpiringObtainAuthToken(ObtainAuthToken):
@@ -11,7 +13,11 @@ class CustomExpiringObtainAuthToken(ObtainAuthToken):
         Create token everytime this endpoint is called
         """
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        is_valid = serializer.is_valid()
+
+        if not is_valid:
+          raise ValidationError(get_error_dict(ErrorType.INVALID_CREDENTIALS, 'Unable to log in with provided credentials.'))
+        
         user = serializer.validated_data['user']
 
         if hasattr(user, 'auth_token'):

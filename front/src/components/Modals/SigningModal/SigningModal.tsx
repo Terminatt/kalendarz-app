@@ -17,7 +17,7 @@ const SigningModal: React.FC = () => {
     const isLogin = modal.modalType === ModalType.LOGIN_MODAL;
     const dispatch = useDispatch();
 
-    const onCancel = useCallback(() => {
+    const close = useCallback(() => {
         dispatch(closeModal());
     }, []);
 
@@ -42,11 +42,11 @@ const SigningModal: React.FC = () => {
             modalRender={animateModalSwitch}
             title={renderTitle()}
             visible={visible}
-            onCancel={onCancel}
+            onCancel={close}
             footer={null}
         >
             {isLogin ? (
-                <LoginForm />
+                <LoginForm onFinishCallback={close} />
             ) : (
                 <RegisterForm onFinishCallback={() => onFormSubmit(ModalType.LOGIN_MODAL)} />
             )}

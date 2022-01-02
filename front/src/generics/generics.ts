@@ -2,9 +2,18 @@ import React from 'react';
 
 export type GenericReactContent = React.ReactElement | React.ReactElement[];
 
+export interface BaseState {
+  isLoading: boolean;
+}
+
+export interface BaseDataState<Data> extends BaseState {
+  data: Data[],
+  selected: Data | null;
+}
+
 export interface RejectResponse<ErrorData = void> {
   error?: ErrorData;
-  errorMessage: string;
+  errorMessage?: string;
 }
 
 export interface ValidationError {
