@@ -2,6 +2,7 @@
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import exceptions
 from datetime import datetime, timedelta
+from api.constants import TOKEN_EXPIRATION
 from utils.response_error import ErrorType, get_error_dict
 import pytz
 
@@ -32,7 +33,7 @@ class CustomExpiringToken(TokenAuthentication):
         now = datetime.utcnow()
         now = now.replace(tzinfo=pytz.utc)
 
-        if token.created < now - timedelta(hours=24):
+        if token.created < now - timedelta(hours=TOKEN_EXPIRATION):
             raise exceptions.AuthenticationFailed(get_error_dict(errorType=ErrorType.TOKEN_EXPIRED, msg='Token has expired'))
 
         return (token.user, token)
