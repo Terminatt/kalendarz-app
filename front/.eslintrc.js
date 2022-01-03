@@ -42,9 +42,8 @@ module.exports = {
         "react/jsx-indent-props": ['error', 4],
         "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": "warn",
-        "react/jsx-props-no-spreading": ['error', {"exceptions": ["Form", "Button"]}],
+        "react/jsx-props-no-spreading": ['error', {"exceptions": ["Form", "Button", "DatePicker"]}],
         "max-len": ["error", 180],
-        "import/no-extraneous-dependencies": "off",
-        "react/jsx-props-no-spreading": "off"
+        "import/no-extraneous-dependencies": "off"
     }
 }
