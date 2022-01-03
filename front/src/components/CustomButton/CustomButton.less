@@ -1,4 +1,5 @@
 @import '~styles/variables.less';
+@import '~styles/mixins.less';
 
 .ant-btn.custom-btn {
   background-color: transparent;
@@ -38,10 +39,9 @@
     background-color: transparent;
     color: @text-color;
   }
-  &:focus {
+
+  &:focus, &:active {
     background-color: transparent;
-    color: @text-color;
-    border-color: @focus-color;
-    box-shadow: @box-shadow-small;
+    .focused-btn();
   }
 }

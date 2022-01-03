@@ -1,6 +1,8 @@
 import { RootState } from '@store/index';
+import { Menu } from 'antd';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { MailOutlined } from '@ant-design/icons';
 
 import './Navigation.less';
 
@@ -9,7 +11,18 @@ const Navigation: React.FC = () => {
     const isLogged = !!user;
 
     return isLogged ? (
-        <nav>Pomyślnie zalogowany użytkownik</nav>
+        <nav>
+            <Menu
+                mode="inline"
+            >
+                <Menu.SubMenu key="sub1" icon={<MailOutlined />} title="Navigation One">
+                    <Menu.Item key="5">Option 5</Menu.Item>
+                    <Menu.Item key="6">Option 6</Menu.Item>
+                    <Menu.Item key="7">Option 7</Menu.Item>
+                    <Menu.Item key="8">Option 8</Menu.Item>
+                </Menu.SubMenu>
+            </Menu>
+        </nav>
     ) : (
         <div>Nawigacja jest dostępna po zalogowaniu</div>
     );

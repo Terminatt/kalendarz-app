@@ -3,7 +3,6 @@ import SigningModal from '@components/Modals/SigningModal/SigningModal';
 import { RootState } from '@store/index';
 import { openModal } from '@store/modals/slice';
 import { ModalType } from '@store/modals/types';
-import ButtonGroup from 'antd/lib/button/button-group';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -23,7 +22,7 @@ const UserSpace: React.FC = () => {
             {`${user.title} ${user.firstName} ${user.lastName}`}
         </span>
     ) : (
-        <ButtonGroup className="signing">
+        <div className="signing">
             <CustomButton
                 className="signing-login"
                 variant="clear"
@@ -43,7 +42,7 @@ const UserSpace: React.FC = () => {
             </div>
 
             <SigningModal />
-        </ButtonGroup>
+        </div>
     );
 };
 

@@ -1,3 +1,5 @@
+@import '~styles/variables.less';
+
 .center {
   display: flex;
   justify-content: center;
@@ -12,4 +14,10 @@
 .center-vertically {
   display: flex;
   align-items: center;
+}
+
+.focused-btn {
+  color: @text-color;
+  border-color: @focus-color;
+  box-shadow: @box-shadow-small;
 }
