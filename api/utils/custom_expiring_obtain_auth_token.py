@@ -2,7 +2,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
-from api.constants import TOKEN_EXPIRATION
+from api.constants import COOKIE_SAME_SITE, TOKEN_EXPIRATION
 from api.settings import DEBUG
 from utils.response_error import ErrorType, get_error_dict
 from users.serializers import UserSerializer
@@ -40,7 +40,7 @@ class CustomExpiringObtainAuthToken(ObtainAuthToken):
             'auth_token',
             token.key,
             httponly=True,
-            samesite=None if DEBUG else 'lax',
+            samesite=COOKIE_SAME_SITE,
             secure=True,
             expires= now + timedelta(hours=TOKEN_EXPIRATION)
         )
