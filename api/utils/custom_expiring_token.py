@@ -2,7 +2,7 @@
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import exceptions
 from datetime import datetime, timedelta
-from api.constants import TOKEN_EXPIRATION
+from constants import TOKEN_EXPIRATION
 from utils.response_error import ErrorType, get_error_dict
 import pytz
 
