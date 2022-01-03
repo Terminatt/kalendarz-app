@@ -1,42 +1,47 @@
 @import '~styles/variables.less';
 
-.custom-btn {
-  background-color: transparent !important;
-  padding: @padding-tiny @padding-medium !important;
-  height: max-content !important;
-  border-radius: @border-radius-regular !important;
-  font-weight: bold !important;
+.ant-btn.custom-btn {
+  background-color: transparent;
+  padding: @padding-tiny @padding-medium;
+  height: max-content;
+  border-radius: @border-radius-regular;
+  font-weight: bold;
   
   &-primary {
-    border: 2px solid @primary-color !important;
+    border: 2px solid @primary-color;
   }
 
   &-default {
-    border: 2px solid @border-color-base !important;
+    border: 2px solid @border-color-base;
   }
 
   &-default:hover {
-    border-color: darken(@border-color-base, 15%) !important;
+    background-color: transparent;
+    border-color: darken(@border-color-base, 15%);
   }
 
   &-primary:hover {
-    border-color: darken(@primary-color, 15%) !important;
+    background-color: transparent;
+    border-color: darken(@primary-color, 15%);
   }
 
   &-clear {
-    border: 2px solid @warning-color !important;
+    border: 2px solid @warning-color;
   }
 
   &-clear:hover {
-    border-color: darken(desaturate(@warning-color, 25%), 15%) !important;
+    background-color: transparent;
+    border-color: darken(desaturate(@warning-color, 25%), 15%);
   }
 
   &:hover {
-    color: @text-color !important;
+    background-color: transparent;
+    color: @text-color;
   }
   &:focus {
-    color: @text-color !important;
-    border-color: @focus-color !important;
+    background-color: transparent;
+    color: @text-color;
+    border-color: @focus-color;
     box-shadow: @box-shadow-small;
   }
 }
