@@ -11,8 +11,25 @@
         padding: @padding-medium @padding-medium 0 @padding-medium;
 
         &-content {
-            margin-bottom: 0;
+            margin-bottom: @margin-tiny;
+
+            &-link {
+                padding: @padding-tiny;
+                color: @text-color;
+            }
+    
+            &-link:focus {
+                outline: 2px solid @border-color;
+                width: max-content;
+                height: max-content;
+            }
+
+            &-link:hover {
+                color: @text-color;
+                text-decoration: underline;
+            }
         }
+
     }
 
     &-top {

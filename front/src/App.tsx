@@ -38,7 +38,7 @@ const App: React.FC = () => {
                         <UserSpace />
                     </div>
                     <Routes>
-                        <Route path="/" element={<div>user zone</div>} />
+                        <Route path="/" element={<div>Hello</div>} />
                         <Route path="/user-zone" element={<div>user zone</div>} />
                         <Route path="/admin-zone" element={<div>admin zone</div>} />
                     </Routes>
