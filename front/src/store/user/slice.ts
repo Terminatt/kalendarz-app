@@ -5,7 +5,9 @@ import {
 } from '@reduxjs/toolkit';
 import { CustomAsyncThunkResponse } from '@utils/store';
 import { notification } from 'antd';
-import { authenticate, login, registerAccount } from './asyncActions';
+import {
+    authenticate, login, logout, registerAccount,
+} from './asyncActions';
 import { UserState } from './types';
 
 const initialState: UserState = {
@@ -14,9 +16,9 @@ const initialState: UserState = {
     data: null,
 };
 
-const pendingActionsMatcher = isPending(registerAccount, login);
-const fulfiledActionsMatcher = isFulfilled(registerAccount, login);
-const rejectedActionsMatcher = isRejected(registerAccount);
+const pendingActionsMatcher = isPending(registerAccount, login, logout);
+const fulfiledActionsMatcher = isFulfilled(registerAccount, login, logout);
+const rejectedActionsMatcher = isRejected(registerAccount, logout);
 
 export const userSlice = createSlice({
     name: 'user',
@@ -24,6 +26,9 @@ export const userSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+            .addCase(logout.fulfilled, (state) => {
+                state.data = null;
+            })
             .addCase(login.fulfilled, (state, res) => {
                 state.data = res.payload.data;
             })

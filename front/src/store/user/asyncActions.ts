@@ -17,6 +17,12 @@ export const login = StoreUtils.createCustomAsyncThunk<ValidationError, LoginFor
     successMessage: 'Pomyślnie zalogowano użytkownika',
 });
 
+export const logout = StoreUtils.createCustomAsyncThunk<ValidationError, LoginFormValues, User>('user/logout', {
+    request: () => axios.get('logout/'),
+    successMessage: 'Pomyślnie wylogowano użytkownika użytkownika',
+    errorMessage: 'Wystąpił błąd podczas wylogowywania',
+});
+
 export const authenticate = StoreUtils.createCustomAsyncThunk<ValidationError, void, User>('user/authenticate', {
     request: () => axios.post('authenticate/'),
 });

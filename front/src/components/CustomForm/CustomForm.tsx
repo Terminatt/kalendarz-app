@@ -39,6 +39,7 @@ const CustomForm: React.FC<CustomFormProps> = (props) => {
             {children}
             <div className="custom-form-btns">
                 <CustomButton
+                    disabled={isLoading}
                     loading={isLoading}
                     className="custom-form-btn"
                     htmlType="submit"

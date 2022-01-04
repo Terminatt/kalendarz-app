@@ -1,8 +1,9 @@
 import CustomForm from '@components/CustomForm/CustomForm';
+import { RootState } from '@store/index';
 import { login } from '@store/user/asyncActions';
 import { Form, Input } from 'antd';
 import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const { useForm } = Form;
 
@@ -19,6 +20,7 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
     const { onFinishCallback } = props;
     const [form] = useForm();
     const dispatch = useDispatch();
+    const isLoading = useSelector((state: RootState) => state.user.isLoading);
 
     const onFinish = useCallback((values: LoginFormValues) => {
         dispatch(login({
@@ -32,7 +34,7 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
     }, []);
 
     return (
-        <CustomForm formProps={{ form, onFinish }} primaryBtnText="Zaloguj się">
+        <CustomForm formProps={{ form, onFinish }} isLoading={isLoading} primaryBtnText="Zaloguj się">
             <Form.Item
                 label="Nazwa użytkownika"
                 name="username"

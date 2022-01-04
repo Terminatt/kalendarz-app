@@ -4,28 +4,40 @@ import useLogged from '@hooks/useLogged';
 import { RootState } from '@store/index';
 import { openModal } from '@store/modals/slice';
 import { ModalType } from '@store/modals/types';
+import { logout } from '@store/user/asyncActions';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import './UserSpace.less';
 
 const UserSpace: React.FC = () => {
-    const user = useSelector((state: RootState) => state.user.data);
+    const user = useSelector((state: RootState) => state.user);
+    const { data, isLoading } = user;
     const isLogged = useLogged();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const openSigningModal = useCallback((modalType: ModalType) => {
         dispatch(openModal(modalType));
     }, []);
 
+    const onLogout = useCallback(() => {
+        dispatch(logout({
+            onSuccess: () => navigate('/'),
+            onError: () => navigate('/'),
+        }));
+    }, []);
+
     return isLogged ? (
-        <span>
-            {user?.title}
+        <div className="user-space">
+            {data?.title}
             &nbsp;
-            {user?.firstName}
+            {data?.firstName}
             &nbsp;
-            {user?.lastName}
-        </span>
+            {data?.lastName}
+            <CustomButton className="user-space-logout" loading={isLoading} disabled={isLoading} onClick={onLogout}>Wyloguj się</CustomButton>
+        </div>
     ) : (
         <div className="signing">
             <CustomButton
