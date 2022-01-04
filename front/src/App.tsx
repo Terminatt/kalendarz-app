@@ -5,6 +5,7 @@ import ReservationSearch from '@components/ReservationSearch/ReservationSearch';
 import Sidebar from '@components/Sidebar/Sidebar';
 import UserSpace from '@components/UserSpace/UserSpace';
 import { useDispatch } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
 
 import 'styles/global.less';
 import 'styles/overrides.less';
@@ -36,6 +37,11 @@ const App: React.FC = () => {
                     <div className="app-user-space">
                         <UserSpace />
                     </div>
+                    <Routes>
+                        <Route path="/" element={<div>user zone</div>} />
+                        <Route path="/user-zone" element={<div>user zone</div>} />
+                        <Route path="/admin-zone" element={<div>admin zone</div>} />
+                    </Routes>
                 </main>
             </div>
         </div>

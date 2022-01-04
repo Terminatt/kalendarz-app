@@ -23,6 +23,7 @@ export interface UserRegisterErrorResponse {
 }
 
 export enum Group {
+  NONE,
   ADMIN,
   REGULAR_USER,
 }

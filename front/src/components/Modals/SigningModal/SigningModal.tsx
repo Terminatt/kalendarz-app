@@ -13,7 +13,7 @@ import './SigningModal.less';
 
 const SigningModal: React.FC = () => {
     const modal = useSelector((state: RootState) => state.modal);
-    const [visible] = useModalVisibility([ModalType.LOGIN_MODAL, ModalType.REGISTER_MODAL]);
+    const visible = useModalVisibility([ModalType.LOGIN_MODAL, ModalType.REGISTER_MODAL]);
     const isLogin = modal.modalType === ModalType.LOGIN_MODAL;
     const dispatch = useDispatch();
 

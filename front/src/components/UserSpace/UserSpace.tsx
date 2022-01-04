@@ -1,5 +1,6 @@
 import CustomButton from '@components/CustomButton/CustomButton';
 import SigningModal from '@components/Modals/SigningModal/SigningModal';
+import useLogged from '@hooks/useLogged';
 import { RootState } from '@store/index';
 import { openModal } from '@store/modals/slice';
 import { ModalType } from '@store/modals/types';
@@ -10,7 +11,7 @@ import './UserSpace.less';
 
 const UserSpace: React.FC = () => {
     const user = useSelector((state: RootState) => state.user.data);
-    const isLogged = !!user;
+    const isLogged = useLogged();
     const dispatch = useDispatch();
 
     const openSigningModal = useCallback((modalType: ModalType) => {
@@ -19,7 +20,11 @@ const UserSpace: React.FC = () => {
 
     return isLogged ? (
         <span>
-            {`${user.title} ${user.firstName} ${user.lastName}`}
+            {user?.title}
+            &nbsp;
+            {user?.firstName}
+            &nbsp;
+            {user?.lastName}
         </span>
     ) : (
         <div className="signing">
