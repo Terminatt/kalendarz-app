@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { MailOutlined } from '@ant-design/icons';
 
 import './Navigation.less';
+import CustomMenu from '@components/CustomMenu/CustomMenu';
 
 const Navigation: React.FC = () => {
     const user = useSelector((state: RootState) => state.user.data);
@@ -12,7 +13,7 @@ const Navigation: React.FC = () => {
 
     return isLogged ? (
         <nav>
-            <Menu
+            <CustomMenu
                 mode="inline"
             >
                 <Menu.SubMenu key="sub1" icon={<MailOutlined />} title="Navigation One">
@@ -21,7 +22,7 @@ const Navigation: React.FC = () => {
                     <Menu.Item key="7">Option 7</Menu.Item>
                     <Menu.Item key="8">Option 8</Menu.Item>
                 </Menu.SubMenu>
-            </Menu>
+            </CustomMenu>
         </nav>
     ) : (
         <div>Nawigacja jest dostępna po zalogowaniu</div>

@@ -1,0 +1,18 @@
+@import '~styles/variables.less';
+
+.ant-menu.custom-menu {
+  border: none;
+
+  .ant-menu-submenu-title:focus {
+    background-color: lighten(@secondary-bg, 20%);
+  }
+  
+  .ant-menu-item.ant-menu-item-selected {
+    background-color: lighten(@secondary-bg, 20%);
+    color: @text-color;
+  }
+
+  .ant-menu-item:active, .ant-menu-submenu-title:active {
+    background-color: @secondary-bg;
+  }
+}

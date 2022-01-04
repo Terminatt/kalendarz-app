@@ -16,7 +16,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
     return (
         <div className="sidebar">
             <header className="sidebar-header">
-                <h1>
+                <h1 className="sidebar-header-content">
                     {headerText}
                 </h1>
             </header>
