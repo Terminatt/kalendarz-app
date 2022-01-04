@@ -1,14 +1,15 @@
-import { RootState } from '@store/index';
 import { Menu } from 'antd';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { MailOutlined } from '@ant-design/icons';
+import {
+    UserOutlined, LaptopOutlined, CalendarOutlined, FolderOutlined,
+    TeamOutlined, BorderOutlined, ContainerOutlined,
+} from '@ant-design/icons';
 import CustomMenu from '@components/CustomMenu/CustomMenu';
 import { useNavigate, useLocation } from 'react-router-dom';
-
-import './Navigation.less';
 import useAdmin from '@hooks/useAdmin';
 import useLogged from '@hooks/useLogged';
+
+import './Navigation.less';
 
 const Navigation: React.FC = () => {
     const [openKeys, setOpenKeys] = useState<string[]>([]);
@@ -50,15 +51,15 @@ const Navigation: React.FC = () => {
                 onSelect={onSelect}
                 mode="inline"
             >
-                <Menu.SubMenu key="user-zone" icon={<MailOutlined />} title="Strefa Użytkownika">
-                    <Menu.Item key="my-reservations">Moje Rezerwacje</Menu.Item>
-                    <Menu.Item key="my-account">Moje Konto</Menu.Item>
+                <Menu.SubMenu key="user-zone" icon={<UserOutlined />} title="Strefa Użytkownika">
+                    <Menu.Item icon={<CalendarOutlined />} key="my-reservations">Moje Rezerwacje</Menu.Item>
+                    <Menu.Item icon={<FolderOutlined />} key="my-account">Moje Konto</Menu.Item>
                 </Menu.SubMenu>
                 {isAdmin ? (
-                    <Menu.SubMenu key="admin-zone" icon={<MailOutlined />} title="Strefa Administratora">
-                        <Menu.Item key="users">Użytkownicy</Menu.Item>
-                        <Menu.Item key="rooms">Pokoje</Menu.Item>
-                        <Menu.Item key="room-types">Typy pokojów</Menu.Item>
+                    <Menu.SubMenu key="admin-zone" icon={<LaptopOutlined />} title="Strefa Administratora">
+                        <Menu.Item icon={<TeamOutlined />} key="users">Użytkownicy</Menu.Item>
+                        <Menu.Item icon={<BorderOutlined />} key="rooms">Pokoje</Menu.Item>
+                        <Menu.Item icon={<ContainerOutlined />} key="room-types">Typy pokojów</Menu.Item>
                     </Menu.SubMenu>
                 ) : null}
             </CustomMenu>
