@@ -23,11 +23,11 @@ const ReservationSearch: React.FC = () => {
         <div className="reservation-search">
             <Form form={form} {...formLayout} role="search">
                 <h2>Rezerwacja sal</h2>
-                <Form.Item label="Podaj datę">
-                    <CustomDatePicker disabledDate={disabledDates} placeholder="Data" />
+                <Form.Item label="Data">
+                    <CustomDatePicker disabledDate={disabledDates} placeholder="Podaj datę" />
                 </Form.Item>
-                <Form.Item label="Podaj salę">
-                    <Select placeholder="Sala">
+                <Form.Item label="Sala">
+                    <Select placeholder="Podaj salę">
                         <Option value="jack">Jack</Option>
                         <Option value="lucy">Lucy</Option>
                         <Option value="yiminghe">yiminghe</Option>
