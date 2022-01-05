@@ -1,18 +1,21 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import renderer from 'react-test-renderer';
 import CustomButton from './CustomButton';
 
-test('Render custom primary button', () => {
-    render(<CustomButton variant="primary">Click</CustomButton>);
-    expect(screen.getByText('Click')).toBeInTheDocument();
+test('Primary button is rendered correctly', () => {
+    const component = renderer.create(<CustomButton variant="primary">Click</CustomButton>);
+    const tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
 });
 
-test('Render custom default button', () => {
-    render(<CustomButton variant="default">Click</CustomButton>);
-    expect(screen.getByText('Click')).toBeInTheDocument();
+test('Default button is rendered correctly', () => {
+    const component = renderer.create(<CustomButton variant="default">Click</CustomButton>);
+    const tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
 });
 
-test('Render custom clear button', () => {
-    render(<CustomButton variant="clear">Click</CustomButton>);
-    expect(screen.getByText('Click')).toBeInTheDocument();
+test('Clear button is rendered correctly', () => {
+    const component = renderer.create(<CustomButton variant="clear">Click</CustomButton>);
+    const tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
 });
