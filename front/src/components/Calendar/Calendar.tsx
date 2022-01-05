@@ -2,9 +2,9 @@ import { dayNames } from '@constants/constants';
 import GeneralUtils from '@utils/general';
 import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useState } from 'react';
+import CalendarItem, { CalendarItemType } from './CalendarItem/CalendarItem';
 
 import './Calendar.less';
-import CalendarItem, { CalendarItemType } from './CalendarItem/CalendarItem';
 
 export interface CalendarDay {
   dayNumber: string;
@@ -48,7 +48,7 @@ const Calendar: React.FC = () => {
 
         const dayList = createDayList(selectedYear, selectedMonth);
         setDaysInMonth(dayList);
-    }, [selectedYear, selectedMonth]);
+    }, [selectedMonth]);
 
     return (
         <div className="calendar">
