@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Clear button is rendered correctly 1`] = `
+<button
+  className="ant-btn custom-btn custom-btn-clear "
+  onClick={[Function]}
+  type="button"
+>
+  <span>
+    Click
+  </span>
+</button>
+`;
+
+exports[`Default button is rendered correctly 1`] = `
+<button
+  className="ant-btn custom-btn custom-btn-default "
+  onClick={[Function]}
+  type="button"
+>
+  <span>
+    Click
+  </span>
+</button>
+`;
+
+exports[`Primary button is rendered correctly 1`] = `
+<button
+  className="ant-btn custom-btn custom-btn-primary "
+  onClick={[Function]}
+  type="button"
+>
+  <span>
+    Click
+  </span>
+</button>
+`;

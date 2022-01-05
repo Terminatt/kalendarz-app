@@ -22,4 +22,11 @@ module.exports = {
      }
     }
   ],
+  jest: {
+    configure: {
+      moduleNameMapper : {
+        '^antd/es/(.*)$': 'antd/lib/$1',
+      }
+    }
+  }
 };
