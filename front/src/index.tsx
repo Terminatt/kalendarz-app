@@ -2,10 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import dayjs from 'dayjs';
 import reportWebVitals from './reportWebVitals';
-
-import App from './App';
 import { store } from './store';
+import App from './App';
+import 'dayjs/locale/pl';
+
+dayjs.locale('pl');
 
 ReactDOM.render(
     <React.StrictMode>

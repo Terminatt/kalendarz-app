@@ -1,0 +1,16 @@
+@import '~styles/variables.less';
+
+.calendar {
+  width: 800px;
+  background-color: @primary-bg;
+  padding: @padding-small;
+  border-radius: @border-radius-regular;
+  box-shadow: @box-shadow-mild;
+
+  &-dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-auto-rows: 80px;
+    gap: 26px;
+  }
+}

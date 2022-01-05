@@ -9,3 +9,6 @@ export const errorMessages: {[key: string]: string} = {
     PASSWORD_TOO_SIMPLE: 'Hasło jest zbyt proste',
     INVALID_CREDENTIALS: 'Błędne hasło lub nazwa użytkownika',
 };
+
+export const dayNames = ['Nd', 'Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb'];
+export const monthNames = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];

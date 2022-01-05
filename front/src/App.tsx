@@ -11,6 +11,7 @@ import 'styles/global.less';
 import 'styles/overrides.less';
 import 'styles/animations.less';
 import './App.less';
+import Home from '@pages/Home/Home';
 
 const App: React.FC = () => {
     const dispatch = useDispatch();
@@ -38,7 +39,7 @@ const App: React.FC = () => {
                         <UserSpace />
                     </div>
                     <Routes>
-                        <Route path="/" element={<div>Hello</div>} />
+                        <Route path="/" element={<Home />} />
                         <Route path="/user-zone" element={<div>user zone</div>} />
                         <Route path="/admin-zone" element={<div>admin zone</div>} />
                     </Routes>
