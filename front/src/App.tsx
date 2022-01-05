@@ -6,12 +6,12 @@ import Sidebar from '@components/Sidebar/Sidebar';
 import UserSpace from '@components/UserSpace/UserSpace';
 import { useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
+import Home from '@pages/Home/Home';
 
 import 'styles/global.less';
 import 'styles/overrides.less';
 import 'styles/animations.less';
 import './App.less';
-import Home from '@pages/Home/Home';
 
 const App: React.FC = () => {
     const dispatch = useDispatch();
