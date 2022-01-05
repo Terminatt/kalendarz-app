@@ -3,6 +3,7 @@ import { Form, Select } from 'antd';
 import { formLayout } from '@constants/constants';
 import CustomDatePicker from '@components/CustomDatePicker/CustomDatePicker';
 import CustomButton from '@components/CustomButton/CustomButton';
+import { Dayjs } from 'dayjs';
 
 import './ReservationSearch.less';
 
@@ -12,7 +13,7 @@ const { useForm } = Form;
 const ReservationSearch: React.FC = () => {
     const [form] = useForm();
 
-    const disabledDates = useCallback((current: moment.Moment): boolean => {
+    const disabledDates = useCallback((current: Dayjs): boolean => {
         const today = new Date();
         today.setDate(today.getDate() - 1);
         return current.valueOf() < today.valueOf();
