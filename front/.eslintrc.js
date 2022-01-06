@@ -39,11 +39,11 @@ module.exports = {
         "no-param-reassign": ["error", {"props": true, "ignorePropertyModificationsFor": ["state"] }],
         "indent": ["error", 4],
         "react/jsx-indent": ["error", 4],
-        "react/jsx-indent-props": ['error', 4],
+        "react/jsx-indent-props": ["error", 4],
         "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": "warn",
-        "react/jsx-props-no-spreading": ['error', {"exceptions": ["Form", "Button", "GeneratedDatePicker", "Menu"]}],
+        "react/jsx-props-no-spreading": ["error", {"exceptions": ["Form", "Button", "GeneratedDatePicker", "Menu"]}],
         "max-len": ["error", 180],
-        "import/no-extraneous-dependencies": "off"
+        "import/no-extraneous-dependencies": "off",        
     }
 }
