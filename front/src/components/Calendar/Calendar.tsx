@@ -59,6 +59,7 @@ const Calendar: React.FC = () => {
         }
 
         const dayList = createDayList(selectedYear, selectedMonth);
+        // TODO Serve the case when the year changes
         const weekMonthBefore = createLastWeekList(selectedYear, selectedMonth - 1);
 
         setDaysInMonth([...weekMonthBefore, ...dayList]);
