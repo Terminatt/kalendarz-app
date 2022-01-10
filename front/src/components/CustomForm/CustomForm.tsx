@@ -4,7 +4,7 @@ import { Form, FormProps } from 'antd';
 import CustomButton from '@components/CustomButton/CustomButton';
 import './CustomForm.less';
 import { GenericReactContent, ResponseError } from '@generics/generics';
-import FormUtils from '@utils/form';
+import { parseErrorResponse } from '@utils/form';
 
 export interface CustomFormProps {
   formProps: Omit<FormProps, 'className'>;
@@ -29,7 +29,7 @@ const CustomForm: React.FC<CustomFormProps> = (props) => {
         if (!errorResponse) {
             return;
         }
-        const errors = FormUtils.parseErrorResponse(errorResponse, errorMessages);
+        const errors = parseErrorResponse(errorResponse, errorMessages);
 
         form?.setFields(errors);
     }, [errorResponse]);

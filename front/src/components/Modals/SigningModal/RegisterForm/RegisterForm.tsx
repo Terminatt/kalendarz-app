@@ -1,11 +1,13 @@
 import React, { useCallback, useState } from 'react';
 import { Form, Input } from 'antd';
 import CustomForm from '@components/CustomForm/CustomForm';
-import FormUtils from '@utils/form';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/index';
 import { registerAccount } from '@store/user/asyncActions';
 import { UserRegisterErrorResponse } from '@store/user/types';
+import {
+    getEmailRule, getMaxCharRule, getMinCharRule, getNumericPasswordRule, getRepeatPasswordRule, getRequiredRule, getSpecialCharacterPasswordRule,
+} from '@utils/form';
 
 const { useForm } = Form;
 
@@ -56,7 +58,7 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
                 className="half-input"
                 label="Imię"
                 name="firstName"
-                rules={[FormUtils.getRequiredRule(), FormUtils.getMaxCharRule(24, 'Imię może mieć maksymalnie 24 znaki')]}
+                rules={[getRequiredRule(), getMaxCharRule(24, 'Imię może mieć maksymalnie 24 znaki')]}
             >
                 <Input placeholder="Podaj imię" />
             </Form.Item>
@@ -64,14 +66,14 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
                 className="half-input"
                 label="Nazwisko"
                 name="lastName"
-                rules={[FormUtils.getRequiredRule(), FormUtils.getMaxCharRule(24, 'Nazwisko może mieć maksymalnie 24 znaki')]}
+                rules={[getRequiredRule(), getMaxCharRule(24, 'Nazwisko może mieć maksymalnie 24 znaki')]}
             >
                 <Input placeholder="Podaj nazwisko" />
             </Form.Item>
             <Form.Item
                 label="Nazwa użytkownika"
                 name="username"
-                rules={[FormUtils.getRequiredRule(), FormUtils.getMaxCharRule(24, 'Nazwa użytkownika może mieć maksymalnie 24 znaki')]}
+                rules={[getRequiredRule(), getMaxCharRule(24, 'Nazwa użytkownika może mieć maksymalnie 24 znaki')]}
             >
                 <Input placeholder="Podaj nazwę użytkownika" />
             </Form.Item>
@@ -79,9 +81,9 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
                 label="Email"
                 name="email"
                 rules={[
-                    FormUtils.getRequiredRule(),
-                    FormUtils.getMaxCharRule(50, 'Adres email może mieć maksymalnie 50 znaków'),
-                    FormUtils.getEmailRule('To nie jest poprawny adres email'),
+                    getRequiredRule(),
+                    getMaxCharRule(50, 'Adres email może mieć maksymalnie 50 znaków'),
+                    getEmailRule('To nie jest poprawny adres email'),
                 ]}
             >
                 <Input placeholder="Podaj email" />
@@ -90,11 +92,11 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
                 label="Hasło"
                 name="password"
                 rules={[
-                    FormUtils.getRequiredRule(),
-                    FormUtils.getMaxCharRule(24, 'Hasło może mieć maksymalnie 24 znaki'),
-                    FormUtils.getMinCharRule(9, 'Hasło musi mieć conajmniej 9 znaków'),
-                    FormUtils.getNumericPasswordRule(),
-                    FormUtils.getSpecialCharacterPasswordRule(),
+                    getRequiredRule(),
+                    getMaxCharRule(24, 'Hasło może mieć maksymalnie 24 znaki'),
+                    getMinCharRule(9, 'Hasło musi mieć conajmniej 9 znaków'),
+                    getNumericPasswordRule(),
+                    getSpecialCharacterPasswordRule(),
                 ]}
             >
                 <Input type="password" placeholder="Podaj hasło" />
@@ -103,7 +105,7 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
                 dependencies={['password']}
                 label="Powtórz hasło"
                 name="repeatPassword"
-                rules={[FormUtils.getRequiredRule(), FormUtils.getRepeatPasswordRule('password')]}
+                rules={[getRequiredRule(), getRepeatPasswordRule('password')]}
             >
                 <Input type="password" placeholder="Powtórz hasło" />
             </Form.Item>
@@ -111,7 +113,7 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
                 label="Tytuł"
                 name="title"
                 wrapperCol={{ span: 6 }}
-                rules={[FormUtils.getMaxCharRule(24, 'Tytuł może mieć maksymalnie 24 znaki')]}
+                rules={[getMaxCharRule(24, 'Tytuł może mieć maksymalnie 24 znaki')]}
             >
                 <Input placeholder="Podaj tytuł" />
             </Form.Item>

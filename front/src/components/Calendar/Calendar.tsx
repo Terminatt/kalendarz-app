@@ -1,5 +1,5 @@
 import { dayNames } from '@constants/constants';
-import GeneralUtils from '@utils/general';
+import { isNumber } from '@utils/general';
 import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useState } from 'react';
 import CalendarItem, { CalendarItemType } from './CalendarItem/CalendarItem';
@@ -42,7 +42,7 @@ const Calendar: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        if (!GeneralUtils.isNumber(selectedYear) || !GeneralUtils.isNumber(selectedMonth)) {
+        if (!isNumber(selectedYear) || !isNumber(selectedMonth)) {
             return;
         }
 
