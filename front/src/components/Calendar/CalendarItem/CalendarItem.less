@@ -5,8 +5,16 @@
   border: none;
   border-radius: @border-radius-calendar;
   box-shadow: @box-shadow-tiny;
-
+  border-left: 3px solid @border-color;
+  cursor: pointer;
+  
   &-normal {
-    border-left: 3px solid @primary-color;
+    border-color: @primary-color;
+  }
+
+  &-another-month-day {
+    border-color: @calendar-day-disabled;
+    color: @calendar-day-disabled;
+    cursor: not-allowed;
   }
 }

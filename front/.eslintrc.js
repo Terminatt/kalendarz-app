@@ -44,6 +44,7 @@ module.exports = {
         "@typescript-eslint/no-unused-vars": "warn",
         "react/jsx-props-no-spreading": ["error", {"exceptions": ["Form", "Button", "GeneratedDatePicker", "Menu"]}],
         "max-len": ["error", 180],
-        "import/no-extraneous-dependencies": "off",        
+        "import/no-extraneous-dependencies": "off",
+        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]        
     }
 }

@@ -3,7 +3,7 @@ import React from 'react';
 import './CalendarItem.less';
 
 export enum CalendarItemType {
-  DISABLED = 'disabled',
+  ANOTHER_MONTH_DAY = 'another-month-day',
   TODAY = 'today',
   NORMAL = 'normal',
   DAYOFF = 'dayoff',
