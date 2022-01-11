@@ -6,6 +6,7 @@ import CustomButton from '@components/CustomButton/CustomButton';
 import { Dayjs } from 'dayjs';
 
 import './ReservationSearch.less';
+import { isBeforeToday } from '@utils/general';
 
 const { Option } = Select;
 const { useForm } = Form;
@@ -13,11 +14,7 @@ const { useForm } = Form;
 const ReservationSearch: React.FC = () => {
     const [form] = useForm();
 
-    const disabledDates = useCallback((current: Dayjs): boolean => {
-        const today = new Date();
-        today.setDate(today.getDate() - 1);
-        return current.valueOf() < today.valueOf();
-    }, []);
+    const disabledDates = useCallback((current: Dayjs): boolean => isBeforeToday(current), []);
 
     return (
         <div className="reservation-search">

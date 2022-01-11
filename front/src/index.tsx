@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import dayjs from 'dayjs';
+import isToday from 'dayjs/plugin/isToday';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store';
 import App from './App';
 import 'dayjs/locale/pl';
 
 dayjs.locale('pl');
+dayjs.extend(isToday);
 
 ReactDOM.render(
     <React.StrictMode>

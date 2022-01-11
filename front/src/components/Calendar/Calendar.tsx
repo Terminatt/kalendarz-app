@@ -1,5 +1,7 @@
-import { isNumber } from '@utils/general';
-import dayjs from 'dayjs';
+import {
+    isBeforeToday, isNumber, isToday, isWeekend,
+} from '@utils/general';
+import dayjs, { Dayjs } from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { dayNames } from '@constants/constants';
 import CalendarItem, { CalendarItemType } from './CalendarItem/CalendarItem';
@@ -11,22 +13,28 @@ export interface CalendarDay {
     dayName: string;
     type: CalendarItemType;
 }
+export type EvaluateTypeHandler = (date: Dayjs) => CalendarItemType;
 
-export function createDayList(year: number, month: number): CalendarDay[] {
+export function createDayList(year: number, month: number, evaluateType: EvaluateTypeHandler): CalendarDay[] {
     const dayList: CalendarDay[] = [];
     const date = new Date(year, month, 1);
     const numberOfDays = dayjs(date).daysInMonth();
 
     for (let i = 0; i < numberOfDays; i++) {
-        const dayNumber = dayjs(date).add(i, 'day').day();
+        const dateTmp = dayjs(date).add(i, 'day');
+        const dayNumber = dateTmp.day();
         dayList.push(
-            { dayNumber: i < 9 ? `0${i + 1}` : `${i + 1}`, dayName: dayNames[dayNumber], type: CalendarItemType.NORMAL },
+            {
+                dayNumber: i < 9 ? `0${i + 1}` : `${i + 1}`,
+                dayName: dayNames[dayNumber],
+                type: evaluateType(dateTmp),
+            },
         );
     }
     return dayList;
 }
 
-export function createLastWeekList(year: number, month: number): CalendarDay[] {
+export function createLastWeekList(year: number, month: number, evaluateType: EvaluateTypeHandler): CalendarDay[] {
     const dayList: CalendarDay[] = [];
     const date = new Date(year, month, 1);
     const lastDay = dayjs(date).endOf('month');
@@ -36,19 +44,48 @@ export function createLastWeekList(year: number, month: number): CalendarDay[] {
         const dateTmp = dayjs(lastDay).subtract(i, 'day');
         const dayNumber = dateTmp.day();
         dayList.push(
-            { dayNumber: `${dateTmp.format('DD')}`, dayName: dayNames[dayNumber], type: CalendarItemType.ANOTHER_MONTH_DAY },
+            {
+                dayNumber: `${dateTmp.format('DD')}`,
+                dayName: dayNames[dayNumber],
+                type: evaluateType(dateTmp),
+            },
         );
     }
     return dayList;
 }
 
 const Calendar: React.FC = () => {
+    const [today, setToday] = useState<Dayjs | null>(null);
     const [selectedYear, setYear] = useState<number | null>(null);
     const [selectedMonth, setMonth] = useState<number | null>(null);
     const [daysInMonth, setDaysInMonth] = useState<CalendarDay[]>([]);
 
+    const evaluateCurrentMonthDayType = (current: Dayjs): CalendarItemType => {
+        if (isBeforeToday(current)) {
+            return CalendarItemType.BEFORE_TODAY;
+        }
+
+        if (isToday(current)) {
+            return CalendarItemType.TODAY;
+        }
+
+        if (isWeekend(current)) {
+            return CalendarItemType.DAYOFF;
+        }
+
+        return CalendarItemType.NORMAL;
+    };
+
+    const createDaysInMonth = (_selectedYear: number, _selectedMonth: number): CalendarDay[] => {
+        const dayList = createDayList(_selectedYear, _selectedMonth, evaluateCurrentMonthDayType);
+        const weekMonthBefore = createLastWeekList(_selectedYear, _selectedMonth - 1, () => CalendarItemType.ANOTHER_MONTH_DAY);
+
+        return [...weekMonthBefore, ...dayList];
+    };
+
     useEffect(() => {
         const currentDate = dayjs();
+        setToday(today);
         setYear(currentDate.year());
         setMonth(currentDate.month());
     }, []);
@@ -58,10 +95,7 @@ const Calendar: React.FC = () => {
             return;
         }
 
-        const dayList = createDayList(selectedYear, selectedMonth);
-        const weekMonthBefore = createLastWeekList(selectedYear, selectedMonth - 1);
-
-        setDaysInMonth([...weekMonthBefore, ...dayList]);
+        setDaysInMonth(createDaysInMonth(selectedYear, selectedMonth));
     }, [selectedMonth]);
 
     return (
