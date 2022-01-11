@@ -59,7 +59,6 @@ const Calendar: React.FC = () => {
         }
 
         const dayList = createDayList(selectedYear, selectedMonth);
-        // TODO Serve the case when the year changes
         const weekMonthBefore = createLastWeekList(selectedYear, selectedMonth - 1);
 
         setDaysInMonth([...weekMonthBefore, ...dayList]);
@@ -72,7 +71,7 @@ const Calendar: React.FC = () => {
             </div>
             <div className="calendar-dates">
                 {daysInMonth.map((el) => (
-                    <CalendarItem key={el.dayNumber} type={el.type} dayName={el.dayName} dayNumber={el.dayNumber} />
+                    <CalendarItem key={el.dayNumber + el.type} type={el.type} dayName={el.dayName} dayNumber={el.dayNumber} />
                 ))}
             </div>
         </div>
