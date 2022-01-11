@@ -4,6 +4,7 @@ import {
 import dayjs, { Dayjs } from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { dayNames } from '@constants/constants';
+import HugeDivider from '@components/HugeDivider/HugeDivider';
 import CalendarItem, { CalendarItemType } from './CalendarItem/CalendarItem';
 
 import './Calendar.less';
@@ -100,13 +101,16 @@ const Calendar: React.FC = () => {
 
     return (
         <div className="calendar">
-            <div className="calendar-header">
-                <h2>Wybierz dzień</h2>
-            </div>
-            <div className="calendar-dates">
-                {daysInMonth.map((el) => (
-                    <CalendarItem key={el.dayNumber + el.type} type={el.type} dayName={el.dayName} dayNumber={el.dayNumber} />
-                ))}
+            <HugeDivider className="calendar-divider" text={selectedYear || ''} />
+            <div className="calendar-content">
+                <div className="calendar-content-header">
+                    <h2>Wybierz dzień</h2>
+                </div>
+                <div className="calendar-content-dates">
+                    {daysInMonth.map((el) => (
+                        <CalendarItem key={el.dayNumber + el.type} type={el.type} dayName={el.dayName} dayNumber={el.dayNumber} />
+                    ))}
+                </div>
             </div>
         </div>
     );

@@ -1,0 +1,14 @@
+@import '~styles/variables.less';
+
+.ant-divider-horizontal.ant-divider-with-text.huge-divider {
+  border-top-color: @primary-color;
+
+  &::before, &::after {
+    border-width: 3px;
+  }
+
+  & > .ant-divider-inner-text {
+    font-size: @font-size-enormous;
+    padding: 0 @padding-big;
+  }
+}

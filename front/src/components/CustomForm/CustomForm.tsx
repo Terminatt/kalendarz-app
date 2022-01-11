@@ -2,9 +2,10 @@ import { errorMessages, formLayout } from '@constants/constants';
 import React, { useEffect } from 'react';
 import { Form, FormProps } from 'antd';
 import CustomButton from '@components/CustomButton/CustomButton';
-import './CustomForm.less';
 import { GenericReactContent, ResponseError } from '@generics/generics';
 import { parseErrorResponse } from '@utils/form';
+
+import './CustomForm.less';
 
 export interface CustomFormProps {
   formProps: Omit<FormProps, 'className'>;
