@@ -1,9 +1,10 @@
 import {
-    isBeforeToday, isNumber, isToday, isWeekend,
+    isBeforeToday, isExisting, isToday, isWeekend,
 } from '@utils/general';
 import dayjs, { Dayjs } from 'dayjs';
-import React, { useEffect, useState } from 'react';
-import { dayNames } from '@constants/constants';
+import React, { useCallback, useEffect, useState } from 'react';
+import { dayNames, Month, monthNames } from '@constants/constants';
+import Switcher, { IndexExceed, SwitcherOption } from '@components/Switcher/Switcher';
 import HugeDivider from '@components/HugeDivider/HugeDivider';
 import CalendarItem, { CalendarItemType } from './CalendarItem/CalendarItem';
 
@@ -55,11 +56,16 @@ export function createLastWeekList(year: number, month: number, evaluateType: Ev
     return dayList;
 }
 
+export function getMonthsOptions(months: string[]): SwitcherOption<number>[] {
+    return months.map((el, index) => ({ label: el, value: index }));
+}
+
 const Calendar: React.FC = () => {
     const [today, setToday] = useState<Dayjs | null>(null);
     const [selectedYear, setYear] = useState<number | null>(null);
     const [selectedMonth, setMonth] = useState<number | null>(null);
     const [daysInMonth, setDaysInMonth] = useState<CalendarDay[]>([]);
+    const monthOptions = getMonthsOptions(monthNames);
 
     const evaluateCurrentMonthDayType = (current: Dayjs): CalendarItemType => {
         if (isBeforeToday(current)) {
@@ -92,16 +98,35 @@ const Calendar: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        if (!isNumber(selectedYear) || !isNumber(selectedMonth)) {
+        if (!isExisting(selectedYear) || !isExisting(selectedMonth)) {
             return;
         }
 
         setDaysInMonth(createDaysInMonth(selectedYear, selectedMonth));
     }, [selectedMonth]);
 
+    const onSwitcherChange = useCallback((value: number | null, exceeds?: IndexExceed): void => {
+        if (exceeds && selectedYear) {
+            if (exceeds === IndexExceed.LEFT) {
+                setYear(selectedYear - 1);
+                setMonth(Month.DECEMBER);
+                return;
+            }
+
+            setYear(selectedYear + 1);
+            setMonth(Month.JANUARY);
+            return;
+        }
+
+        setMonth(value);
+    }, [selectedYear]);
+
     return (
         <div className="calendar">
             <HugeDivider className="calendar-divider" text={selectedYear || ''} />
+            <div className="calendar-switcher">
+                <Switcher selected={selectedMonth} onChange={onSwitcherChange} options={monthOptions} />
+            </div>
             <div className="calendar-content">
                 <div className="calendar-content-header">
                     <h2>Wybierz dzień</h2>

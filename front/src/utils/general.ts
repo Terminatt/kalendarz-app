@@ -4,6 +4,10 @@ export function isNumber(value: unknown): value is number {
     return typeof value === 'number';
 }
 
+export function isExisting<T>(value?: T | null): value is T {
+    return value !== undefined && value !== null;
+}
+
 export function isBeforeToday(current: Dayjs): boolean {
     const today = new Date();
     today.setDate(today.getDate() - 1);

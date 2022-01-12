@@ -31,7 +31,7 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
                 }
             },
         }));
-    }, []);
+    }, [onFinishCallback]);
 
     return (
         <CustomForm formProps={{ form, onFinish }} isLoading={isLoading} primaryBtnText="Zaloguj się">

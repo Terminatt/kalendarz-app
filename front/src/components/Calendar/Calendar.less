@@ -1,9 +1,13 @@
 @import '~styles/variables.less';
+@import '~styles/mixins.less';
 
 .calendar {
+  &-divider.ant-divider-horizontal.ant-divider-with-text.huge-divider {
+    margin: 0;
+  }
 
-  &-divider.ant-divider-horizontal.ant-divider-with-text.huge-divider{
-    margin-top: 0;
+  &-switcher {
+    .center-horizontally();
     margin-bottom: @margin-medium;
   }
 
