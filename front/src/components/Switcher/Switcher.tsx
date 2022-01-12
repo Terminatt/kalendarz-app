@@ -52,12 +52,12 @@ const Switcher = <T, >(props: SwitcherProps<T>): React.ReactElement => {
 
     const onIndexChange = useCallback((index: number, exceeds?: IndexExceed): void => {
         if (onChange) {
-            onChange(exceeds ? null : options[index].value, exceeds);
+            onChange(options[index] ? options[index].value : null, exceeds);
         }
     }, [onChange]);
 
     const onLeftButtonClick = useCallback(() => {
-        if (selectedIndex === null) {
+        if (!isExisting(selectedIndex)) {
             return;
         }
 
@@ -73,7 +73,7 @@ const Switcher = <T, >(props: SwitcherProps<T>): React.ReactElement => {
     }, [selectedIndex]);
 
     const onRightButtonClick = useCallback(() => {
-        if (selectedIndex === null) {
+        if (!isExisting(selectedIndex)) {
             return;
         }
 

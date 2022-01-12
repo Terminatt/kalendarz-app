@@ -105,16 +105,24 @@ const Calendar: React.FC = () => {
         setDaysInMonth(createDaysInMonth(selectedYear, selectedMonth));
     }, [selectedMonth]);
 
-    const onSwitcherChange = useCallback((value: number | null, exceeds?: IndexExceed): void => {
-        if (exceeds && selectedYear) {
-            if (exceeds === IndexExceed.LEFT) {
-                setYear(selectedYear - 1);
-                setMonth(Month.DECEMBER);
-                return;
-            }
+    const changeYearOnExceeding = useCallback((exceeds: IndexExceed): void => {
+        if (!selectedYear) {
+            return;
+        }
 
-            setYear(selectedYear + 1);
-            setMonth(Month.JANUARY);
+        if (exceeds === IndexExceed.LEFT) {
+            setYear(selectedYear - 1);
+            setMonth(Month.DECEMBER);
+            return;
+        }
+
+        setYear(selectedYear + 1);
+        setMonth(Month.JANUARY);
+    }, [selectedYear]);
+
+    const onSwitcherChange = useCallback((value: number | null, exceeds?: IndexExceed): void => {
+        if (exceeds) {
+            changeYearOnExceeding(exceeds);
             return;
         }
 
