@@ -1,16 +1,19 @@
+import { Button } from 'antd';
+import { ButtonProps } from 'antd/es/button';
 import React from 'react';
 
 import './TransparentButton.less';
 
-export type TransparentButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
-
-const TransparentButton: React.FC<TransparentButtonProps> = (props) => {
+const TransparentButton: React.FC<ButtonProps> = (props) => {
     const {
-        children, className, type, ...rest
+        children, className, ...rest
     } = props;
 
-    // eslint-disable-next-line react/button-has-type
-    return <button {...rest} type={type || 'button'} className={`transparent-btn ${className || ''}`}>{children}</button>;
+    return (
+        <Button {...rest} className={`transparent-btn ${className || ''}`}>
+            {children}
+        </Button>
+    );
 };
 
 export default TransparentButton;

@@ -1,6 +1,6 @@
 @import '~styles/variables.less';
 
-.transparent-btn {
+.ant-btn.transparent-btn {
   padding: 0;
   background-color: transparent;
   color: @primary-color;
@@ -9,12 +9,21 @@
   border: none;
   height: max-content;
   transition: all @animation-duration-base;
+  width: max-content;
+  height: max-content;
 
   &:hover {
+    background-color: transparent;
     color: darken(@primary-color, 15%);
   }
 
   &:active {
+    background-color: transparent;
     transform: translateY(4px);
+  }
+
+  &:focus {
+    background-color: transparent;
+    outline: 1px solid @border-color;
   }
 }
