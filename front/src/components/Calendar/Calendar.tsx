@@ -1,94 +1,25 @@
-import {
-    isBeforeToday, isExisting, isToday, isWeekend,
-} from '@utils/general';
+import { isExisting } from '@utils/general';
 import dayjs, { Dayjs } from 'dayjs';
 import React, { useCallback, useEffect, useState } from 'react';
-import { dayNames, Month, monthNames } from '@constants/constants';
-import Switcher, { IndexExceed, SwitcherOption } from '@components/Switcher/Switcher';
+import { Month, monthNames } from '@constants/constants';
+import Switcher, { IndexExceed } from '@components/Switcher/Switcher';
 import HugeDivider from '@components/HugeDivider/HugeDivider';
 import CalendarItem, { CalendarItemType } from './CalendarItem/CalendarItem';
+import {
+    CalendarDay,
+    createDaysInMonth,
+    evaluateCurrentMonthDayType,
+    getMonthsOptions,
+} from './helpers';
 
 import './Calendar.less';
-
-export interface CalendarDay {
-    dayNumber: string;
-    dayName: string;
-    type: CalendarItemType;
-}
-export type EvaluateTypeHandler = (date: Dayjs) => CalendarItemType;
-
-export function createDayList(year: number, month: number, evaluateType: EvaluateTypeHandler): CalendarDay[] {
-    const dayList: CalendarDay[] = [];
-    const date = new Date(year, month, 1);
-    const numberOfDays = dayjs(date).daysInMonth();
-
-    for (let i = 0; i < numberOfDays; i++) {
-        const dateTmp = dayjs(date).add(i, 'day');
-        const dayNumber = dateTmp.day();
-        dayList.push(
-            {
-                dayNumber: i < 9 ? `0${i + 1}` : `${i + 1}`,
-                dayName: dayNames[dayNumber],
-                type: evaluateType(dateTmp),
-            },
-        );
-    }
-    return dayList;
-}
-
-export function createLastWeekList(year: number, month: number, evaluateType: EvaluateTypeHandler): CalendarDay[] {
-    const dayList: CalendarDay[] = [];
-    const date = new Date(year, month, 1);
-    const lastDay = dayjs(date).endOf('month');
-    const lastDayNumber = lastDay.day();
-
-    for (let i = lastDayNumber - 1; i >= 0; i--) {
-        const dateTmp = dayjs(lastDay).subtract(i, 'day');
-        const dayNumber = dateTmp.day();
-        dayList.push(
-            {
-                dayNumber: `${dateTmp.format('DD')}`,
-                dayName: dayNames[dayNumber],
-                type: evaluateType(dateTmp),
-            },
-        );
-    }
-    return dayList;
-}
-
-export function getMonthsOptions(months: string[]): SwitcherOption<number>[] {
-    return months.map((el, index) => ({ label: el, value: index }));
-}
 
 const Calendar: React.FC = () => {
     const [today, setToday] = useState<Dayjs | null>(null);
     const [selectedYear, setYear] = useState<number | null>(null);
-    const [selectedMonth, setMonth] = useState<number | null>(null);
+    const [selectedMonth, setMonth] = useState<Month | null>(null);
     const [daysInMonth, setDaysInMonth] = useState<CalendarDay[]>([]);
     const monthOptions = getMonthsOptions(monthNames);
-
-    const evaluateCurrentMonthDayType = (current: Dayjs): CalendarItemType => {
-        if (isBeforeToday(current)) {
-            return CalendarItemType.BEFORE_TODAY;
-        }
-
-        if (isToday(current)) {
-            return CalendarItemType.TODAY;
-        }
-
-        if (isWeekend(current)) {
-            return CalendarItemType.DAYOFF;
-        }
-
-        return CalendarItemType.NORMAL;
-    };
-
-    const createDaysInMonth = (_selectedYear: number, _selectedMonth: number): CalendarDay[] => {
-        const dayList = createDayList(_selectedYear, _selectedMonth, evaluateCurrentMonthDayType);
-        const weekMonthBefore = createLastWeekList(_selectedYear, _selectedMonth - 1, () => CalendarItemType.ANOTHER_MONTH_DAY);
-
-        return [...weekMonthBefore, ...dayList];
-    };
 
     useEffect(() => {
         const currentDate = dayjs();
@@ -102,7 +33,7 @@ const Calendar: React.FC = () => {
             return;
         }
 
-        setDaysInMonth(createDaysInMonth(selectedYear, selectedMonth));
+        setDaysInMonth(createDaysInMonth(selectedYear, selectedMonth, evaluateCurrentMonthDayType, () => CalendarItemType.ANOTHER_MONTH_DAY));
     }, [selectedMonth]);
 
     const changeYearOnExceeding = useCallback((exceeds: IndexExceed): void => {
@@ -120,7 +51,7 @@ const Calendar: React.FC = () => {
         setMonth(Month.JANUARY);
     }, [selectedYear]);
 
-    const onSwitcherChange = useCallback((value: number | null, exceeds?: IndexExceed): void => {
+    const onSwitcherChange = useCallback((value: Month | null, exceeds?: IndexExceed): void => {
         if (exceeds) {
             changeYearOnExceeding(exceeds);
             return;
