@@ -68,10 +68,3 @@ export function evaluateCurrentMonthDayType(current: Dayjs): CalendarItemType {
 export function getMonthsOptions(months: string[]): SwitcherOption<Month>[] {
     return months.map((el, index) => ({ label: el, value: index }));
 }
-
-export function createDaysInMonth(year: number, month: Month, evaluateCurrentMonth: EvaluateTypeHandler, evaluateMonthBefore: EvaluateTypeHandler): CalendarDay[] {
-    const dayList = createDayList(year, month, evaluateCurrentMonth);
-    const weekMonthBefore = createLastWeekList(year, month - 1, evaluateMonthBefore);
-
-    return [...weekMonthBefore, ...dayList];
-}

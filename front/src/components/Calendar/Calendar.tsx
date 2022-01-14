@@ -7,7 +7,8 @@ import HugeDivider from '@components/HugeDivider/HugeDivider';
 import CalendarItem, { CalendarItemType } from './CalendarItem/CalendarItem';
 import {
     CalendarDay,
-    createDaysInMonth,
+    createDayList,
+    createLastWeekList,
     evaluateCurrentMonthDayType,
     getMonthsOptions,
 } from './helpers';
@@ -17,9 +18,16 @@ import './Calendar.less';
 const Calendar: React.FC = () => {
     const [today, setToday] = useState<Dayjs | null>(null);
     const [selectedYear, setYear] = useState<number | null>(null);
-    const [selectedMonth, setMonth] = useState<Month | null>(null);
+    const [selectedMonth, setMonth] = useState<number | null>(null);
     const [daysInMonth, setDaysInMonth] = useState<CalendarDay[]>([]);
     const monthOptions = getMonthsOptions(monthNames);
+
+    const createDaysInMonth = useCallback((_selectedYear: number, _selectedMonth: number): CalendarDay[] => {
+        const dayList = createDayList(_selectedYear, _selectedMonth, evaluateCurrentMonthDayType);
+        const weekMonthBefore = createLastWeekList(_selectedYear, _selectedMonth - 1, () => CalendarItemType.ANOTHER_MONTH_DAY);
+
+        return [...weekMonthBefore, ...dayList];
+    }, []);
 
     useEffect(() => {
         const currentDate = dayjs();
@@ -33,7 +41,7 @@ const Calendar: React.FC = () => {
             return;
         }
 
-        setDaysInMonth(createDaysInMonth(selectedYear, selectedMonth, evaluateCurrentMonthDayType, () => CalendarItemType.ANOTHER_MONTH_DAY));
+        setDaysInMonth(createDaysInMonth(selectedYear, selectedMonth));
     }, [selectedMonth]);
 
     const changeYearOnExceeding = useCallback((exceeds: IndexExceed): void => {
@@ -51,7 +59,7 @@ const Calendar: React.FC = () => {
         setMonth(Month.JANUARY);
     }, [selectedYear]);
 
-    const onSwitcherChange = useCallback((value: Month | null, exceeds?: IndexExceed): void => {
+    const onSwitcherChange = useCallback((value: number | null, exceeds?: IndexExceed): void => {
         if (exceeds) {
             changeYearOnExceeding(exceeds);
             return;
