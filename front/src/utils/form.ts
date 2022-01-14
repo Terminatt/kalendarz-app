@@ -1,4 +1,3 @@
-import { ResponseError } from '@generics/generics';
 import { Rule } from 'antd/lib/form';
 
 export function getRequiredRule(): Rule {
