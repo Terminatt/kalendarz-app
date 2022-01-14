@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Form, FormProps } from 'antd';
 import CustomButton from '@components/CustomButton/CustomButton';
 import { GenericReactContent, ResponseError } from '@generics/generics';
-import { parseErrorResponse } from '@utils/form';
+import { parseErrorResponse } from './helpers';
 
 import './CustomForm.less';
 
