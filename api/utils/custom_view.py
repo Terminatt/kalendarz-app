@@ -10,8 +10,10 @@ class CustomModelViewSet(ModelViewSet):
 
     Props:
         acl_name: key used for retrieving acl list from json file
+        avoid_authentication: list of methods that should not use authentication
     """
     acl_name = None
+    avoid_authentication = []
 
     def import_permission_class(self, acl):
         """
@@ -57,3 +59,23 @@ class CustomModelViewSet(ModelViewSet):
 
         permission_classes = self.get_permission_from_acl(acls=acl_list)
         return [permission() for permission in permission_classes]
+
+    def get_authenticators(self):
+        """
+        Override!
+        
+        Disable authentication for provided methods
+        """
+        print(self.action)
+        if self.action in self.avoid_authentication:
+            return []
+        return super().get_authenticators()
+    
+    def initialize_request(self, request, *args, **kwargs):
+        """
+        Override!
+        
+        Set action at the begining of the request
+        """
+        self.action = self.action_map.get(request.method.lower())
+        return super().initialize_request(request, *args, **kwargs)

@@ -7,8 +7,11 @@ class RoomTypeViewSet(CustomModelViewSet):
     queryset = RoomType.objects.all()
     serializer_class = RoomTypeSerializer
     acl_name = "room_types"
+    authentication_classes = [CustomExpiringToken]
+
 
 class RoomViewSet(CustomModelViewSet):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
     acl_name = "rooms"
+    authentication_classes = [CustomExpiringToken]

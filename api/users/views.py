@@ -13,6 +13,9 @@ class UserViewSet(CustomModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     acl_name = "users"
+    authentication_classes = [CustomExpiringToken]
+    avoid_authentication = ['create']
+    
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
