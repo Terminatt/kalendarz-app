@@ -12,7 +12,6 @@ from utils.custom_expiring_token import CustomExpiringToken
 class UserViewSet(CustomModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    authentication_classes = [CustomExpiringToken]
     acl_name = "users"
 
     def create(self, request, *args, **kwargs):

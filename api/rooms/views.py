@@ -6,11 +6,9 @@ from utils.custom_expiring_token import CustomExpiringToken
 class RoomTypeViewSet(CustomModelViewSet):
     queryset = RoomType.objects.all()
     serializer_class = RoomTypeSerializer
-    authentication_classes = [CustomExpiringToken]
     acl_name = "room_types"
 
 class RoomViewSet(CustomModelViewSet):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
-    authentication_classes = [CustomExpiringToken]
     acl_name = "rooms"
