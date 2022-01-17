@@ -18,8 +18,10 @@ export interface CalendarItemProps {
 
 const CalendarItem: React.FC<CalendarItemProps> = (props) => {
     const { type, dayNumber, dayName } = props;
+    const disabled = type === CalendarItemType.ANOTHER_MONTH_DAY;
+
     return (
-        <button className={`calendar-item calendar-item-${type}`} type="button">
+        <button className={`calendar-item calendar-item-${type}`} type="button" disabled={disabled}>
             <div>{dayNumber}</div>
             <div>{dayName}</div>
         </button>
