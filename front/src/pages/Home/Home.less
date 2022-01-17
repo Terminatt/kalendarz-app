@@ -1,6 +1,16 @@
 @import '~styles/mixins.less';
+@import '~styles/breakpoints.less';
+@import '~styles/variables.less';
 
 .home {
   .full-size();
   .center-horizontally();
+}
+
+@media screen and ( min-height: @h-xxl ){
+  .home {
+    &-content {
+      padding-top: @padding-huge;
+    }
+  }
 }
