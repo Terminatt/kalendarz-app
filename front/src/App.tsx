@@ -13,14 +13,15 @@ import 'styles/overrides.less';
 import 'styles/animations.less';
 import './App.less';
 
+const AppHeader = () => (
+    <span className="header-text">
+        Kalendarz
+        <sup>App</sup>
+    </span>
+);
+
 const App: React.FC = () => {
     const dispatch = useDispatch();
-    const renderHeader = () => (
-        <span className="header-text">
-            Kalendarz
-            <sup>App</sup>
-        </span>
-    );
 
     useEffect(() => {
         dispatch(authenticate());
@@ -31,18 +32,22 @@ const App: React.FC = () => {
             <Sidebar
                 top={<Navigation />}
                 bottom={<ReservationSearch />}
-                headerText={renderHeader()}
+                headerText={<AppHeader />}
             />
             <div className="app-content">
                 <main>
-                    <div className="app-user-space">
+                    <div className="app-content-user-space">
                         <UserSpace />
                     </div>
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/user-zone" element={<div>user zone</div>} />
-                        <Route path="/admin-zone" element={<div>admin zone</div>} />
-                    </Routes>
+                    <div className="app-content-routes">
+                        <div className="app-content-routes-container">
+                            <Routes>
+                                <Route path="/" element={<Home />} />
+                                <Route path="/user-zone" element={<div>user zone</div>} />
+                                <Route path="/admin-zone" element={<div>admin zone</div>} />
+                            </Routes>
+                        </div>
+                    </div>
                 </main>
             </div>
         </div>
