@@ -12,6 +12,7 @@ import 'styles/global.less';
 import 'styles/overrides.less';
 import 'styles/animations.less';
 import './App.less';
+import RoomTypes from '@pages/AdminZone/RoomTypes/RoomTypes';
 
 const AppHeader = () => (
     <span className="header-text">
@@ -43,8 +44,10 @@ const App: React.FC = () => {
                         <div className="app-content-routes-container">
                             <Routes>
                                 <Route path="/" element={<Home />} />
-                                <Route path="/user-zone" element={<div>user zone</div>} />
-                                <Route path="/admin-zone" element={<div>admin zone</div>} />
+                                <Route path="admin-zone">
+                                    <Route path="room-types" element={<RoomTypes />} />
+                                </Route>
+                                <Route path="user-zone" element={<div>user zone</div>} />
                             </Routes>
                         </div>
                     </div>
