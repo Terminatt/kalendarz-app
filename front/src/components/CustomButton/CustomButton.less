@@ -35,6 +35,15 @@
     border-color: darken(desaturate(@warning-color, 25%), 15%);
   }
 
+  &-delete {
+    border: 2px solid @red-color;
+  }
+
+  &-delete:hover {
+    background-color: transparent;
+    border-color: darken(@red-color, 15%);
+  }
+
   &:hover {
     background-color: transparent;
     color: @text-color;
@@ -44,4 +53,10 @@
     background-color: transparent;
     .focused-btn();
   }
+}
+
+.ant-btn-sm.custom-btn {
+  padding: @padding-minimal @padding-tiny;
+  font-size: @font-size-very-small;
+  border-radius: @border-radius-small;
 }

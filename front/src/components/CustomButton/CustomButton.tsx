@@ -3,7 +3,7 @@ import React from 'react';
 
 import './CustomButton.less';
 
-export type CustomButtonVariant = 'primary' | 'clear' | 'default';
+export type CustomButtonVariant = 'primary' | 'clear' | 'default' | 'delete';
 
 export interface CustomButtonProps extends ButtonProps {
   variant?: CustomButtonVariant;
