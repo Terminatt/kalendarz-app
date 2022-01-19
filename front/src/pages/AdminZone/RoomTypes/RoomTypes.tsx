@@ -32,7 +32,7 @@ const RoomTypes: React.FC = () => (
                         <Input placeholder="Typ pokoju" />
                     </Form.Item>
                     <Form.Item label="Podaj kolor">
-                        <Input placeholder="kolor" />
+                        <Input placeholder="Kolor" />
                     </Form.Item>
                 </TwoModesForm>
             )}
