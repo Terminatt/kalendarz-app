@@ -4,11 +4,25 @@
   &-header {
     margin-bottom: 0;
   }
-  
+
   &-input {
     margin-bottom: @padding-tiny;
     .ant-btn {
       height: 33px;
     }
+  }
+
+  &-item {
+    padding: @padding-small;
+  }
+
+  &-item:hover {
+    background-color: lighten(@secondary-bg, 5%);
+    cursor: pointer;
+  } 
+
+  &-selected {
+    border-right: 3px solid @primary-color;
+    background-color: lighten(@secondary-bg, 10%);
   }
 }
