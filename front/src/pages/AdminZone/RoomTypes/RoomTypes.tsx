@@ -12,6 +12,9 @@ const RoomTypes: React.FC = () => (
             left={
                 (
                     <ListWithSearch
+                        title="Typy pokojów"
+                        label="Wyszukaj typ pokoju"
+                        placeholder="Typ pokoju"
                         dataSource={data}
                         onEdit={() => console.log('edit')}
                         onDelete={() => console.log('delete')}
