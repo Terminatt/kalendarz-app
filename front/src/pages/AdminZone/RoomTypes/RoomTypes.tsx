@@ -1,5 +1,7 @@
 import ListWithSearch from '@components/ListWithSearch/ListWithSearch';
 import TwoColumnLayout from '@components/TwoColumnLayout/TwoColumnLayout';
+import TwoModesForm, { FormEditMode } from '@components/TwoModesForm/TwoModesForm';
+import { Form, Input } from 'antd';
 import React from 'react';
 
 import './RoomTypes.less';
@@ -24,7 +26,16 @@ const RoomTypes: React.FC = () => (
                     />
                 )
             }
-            right={<div>right</div>}
+            right={(
+                <TwoModesForm mode={FormEditMode.Create} formProps={{}} primaryBtnText="Stwórz nowy typ pokoju">
+                    <Form.Item label="Podaj nazwę typu">
+                        <Input placeholder="Typ pokoju" />
+                    </Form.Item>
+                    <Form.Item label="Podaj kolor">
+                        <Input placeholder="kolor" />
+                    </Form.Item>
+                </TwoModesForm>
+            )}
             className="room-types-layout"
         />
     </div>

@@ -1,0 +1,17 @@
+@import '~styles/variables.less';
+@import '~styles/mixins.less';
+
+.two-modes-form {
+    &-header {
+        display: flex;
+        &-text {
+            margin-right: @margin-small;
+            & > h2 {
+                margin-bottom: 0;
+            }
+        }
+        &-tag {
+            .center();
+        }
+    }
+}
