@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import ListWithSearch, { ListWithSearchProps } from '@components/ListWithSearch/ListWithSearch';
 import TwoColumnLayout from '@components/TwoColumnLayout/TwoColumnLayout';
 import TwoModesForm, { TwoModesFormProps } from '@components/TwoModesForm/TwoModesForm';
@@ -7,8 +7,8 @@ import { GenericReactContent } from '@generics/generics';
 import './EditingPanel.less';
 
 export interface EditingPanel<T> {
-    listWithSearchProps: ListWithSearchProps<T>;
-    twoModesFormProps: TwoModesFormProps;
+    listWithSearchProps: Omit<ListWithSearchProps<T>, 'onSelect'>;
+    twoModesFormProps: Omit<TwoModesFormProps<T>, 'selected'>;
     formItems: GenericReactContent;
     className?: string;
 }
@@ -17,16 +17,21 @@ const EditingPanel = <T, >(props: EditingPanel<T>): React.ReactElement => {
     const {
         listWithSearchProps, twoModesFormProps, formItems, className,
     } = props;
+    const [selected, setSelected] = useState<T | null>();
+
+    const onListItemSelect = useCallback((item: T | null) => {
+        setSelected(item);
+    }, []);
 
     return (
         <TwoColumnLayout
             left={
                 (
-                    <ListWithSearch {...listWithSearchProps} />
+                    <ListWithSearch {...listWithSearchProps} onSelect={onListItemSelect} />
                 )
             }
             right={(
-                <TwoModesForm {...twoModesFormProps}>
+                <TwoModesForm {...twoModesFormProps} selected={selected}>
                     {formItems}
                 </TwoModesForm>
             )}

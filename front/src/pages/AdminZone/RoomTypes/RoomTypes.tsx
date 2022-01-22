@@ -1,44 +1,45 @@
-import ListWithSearch from '@components/ListWithSearch/ListWithSearch';
-import TwoColumnLayout from '@components/TwoColumnLayout/TwoColumnLayout';
-import TwoModesForm, { FormEditMode } from '@components/TwoModesForm/TwoModesForm';
+import EditingPanel from '@components/EditingPanel/EditingPanel';
 import { Form, Input } from 'antd';
+import { useForm } from 'antd/es/form/Form';
 import React from 'react';
 
 import './RoomTypes.less';
 
-const data = [{ name: 'hello' }, { name: 'hello2' }];
+const data = [{ id: 1, name: 'hello', color: '#FFFFFF' }, { id: 2, name: 'xd', color: '#000000' }];
 
-const RoomTypes: React.FC = () => (
-    <div className="room-types">
-        <TwoColumnLayout
-            left={
-                (
-                    <ListWithSearch
-                        title="Typy pokojów"
-                        label="Wyszukaj typ pokoju"
-                        placeholder="Typ pokoju"
-                        dataSource={data}
-                        onEdit={() => console.log('edit')}
-                        onDelete={() => console.log('delete')}
-                        renderContent={(item) => (
-                            <div>{item.name}</div>
-                        )}
-                    />
-                )
-            }
-            right={(
-                <TwoModesForm mode={FormEditMode.Create} formProps={{}} primaryBtnText="Stwórz nowy typ pokoju">
-                    <Form.Item label="Podaj nazwę typu">
-                        <Input placeholder="Typ pokoju" />
-                    </Form.Item>
-                    <Form.Item label="Podaj kolor">
-                        <Input placeholder="Kolor" />
-                    </Form.Item>
-                </TwoModesForm>
-            )}
-            className="room-types-layout"
-        />
-    </div>
-);
+const RoomTypes: React.FC = () => {
+    const [form] = useForm();
+    return (
+        <div className="room-types">
+            <EditingPanel
+                className="room-types-layout"
+                listWithSearchProps={{
+                    title: 'Typy pokojów',
+                    searchLabel: 'Wyszukaj typ pokoju',
+                    dataSource: data,
+                    onEdit: () => console.log('edit'),
+                    onDelete: () => console.log('delete'),
+                    renderContent: (item) => (<div>{item.name}</div>),
+                }}
+                twoModesFormProps={{
+                    formProps: {
+                        form,
+                    },
+                    primaryBtnText: 'Stwórz nowy typ pokoju',
+                }}
+                formItems={(
+                    <>
+                        <Form.Item label="Podaj nazwę typu" name="name">
+                            <Input placeholder="Nazwa typu" />
+                        </Form.Item>
+                        <Form.Item label="Podaj kolor" name="color">
+                            <Input placeholder="Kolor" />
+                        </Form.Item>
+                    </>
+                )}
+            />
+        </div>
+    );
+};
 
 export default RoomTypes;

@@ -19,13 +19,13 @@ export interface ListWithSearchProps<T> {
     onSearchChange?: (event: React.ChangeEvent) => void;
     title?: string;
     placeholder?: string;
-    label?: string;
+    searchLabel?: string;
 }
 
 const ListWithSearch = <T, >(props: ListWithSearchProps<T>): React.ReactElement => {
     const [selected, setSelected] = useState<number | null>(null);
     const {
-        dataSource, renderContent, onEdit, onDelete, title, placeholder, onSearch, onSearchChange, label, onSelect,
+        dataSource, renderContent, onEdit, onDelete, title, placeholder, onSearch, onSearchChange, searchLabel, onSelect,
     } = props;
 
     const onListItemClick = useCallback((index: number) => {
@@ -45,7 +45,7 @@ const ListWithSearch = <T, >(props: ListWithSearchProps<T>): React.ReactElement 
     return (
         <div className="list-with-search">
             {title && <h2 className="list-with-search-header">{title}</h2>}
-            <Form.Item className="list-with-search-input" label={label} {...formLayout}>
+            <Form.Item className="list-with-search-input" label={searchLabel} {...formLayout}>
                 <Search onChange={onSearchChange} onSearch={onSearch} placeholder={placeholder} allowClear />
             </Form.Item>
             <List

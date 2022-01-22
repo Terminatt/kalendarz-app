@@ -1,6 +1,6 @@
+import React, { useEffect, useState } from 'react';
 import CustomForm, { CustomFormProps } from '@components/CustomForm/CustomForm';
 import { Tag } from 'antd';
-import React from 'react';
 
 import './TwoModesForm.less';
 
@@ -9,15 +9,27 @@ export enum FormEditMode {
     Edit = 2,
 }
 
-export interface TwoModesFormProps extends CustomFormProps {
-    mode: FormEditMode;
+export interface TwoModesFormProps<T> extends CustomFormProps {
+    selected?: T | null;
 }
 
-const TwoModesForm: React.FC<TwoModesFormProps> = (props) => {
+const TwoModesForm = <T, >(props: TwoModesFormProps<T>): React.ReactElement => {
+    const [mode, setMode] = useState<FormEditMode>(FormEditMode.Create);
     const {
-        mode, children, ...rest
+        children, selected, ...rest
     } = props;
-    const isCreate = mode === FormEditMode.Create;
+    const { form } = rest.formProps;
+
+    useEffect(() => {
+        if (!selected) {
+            setMode(FormEditMode.Create);
+            form?.resetFields();
+            return;
+        }
+
+        setMode(FormEditMode.Edit);
+        form?.setFieldsValue(selected);
+    }, [selected]);
 
     return (
         <div className="two-modes-form">
@@ -26,7 +38,7 @@ const TwoModesForm: React.FC<TwoModesFormProps> = (props) => {
                     <h2>Panel Edycji</h2>
                 </div>
                 <div className="two-modes-form-header-tag">
-                    {isCreate ? <Tag color="#026E05">Nowy</Tag> : <Tag color="#775C02">Edycja</Tag>}
+                    {mode === FormEditMode.Create ? <Tag color="#026E05">Nowy</Tag> : <Tag color="#775C02">Edycja</Tag>}
                 </div>
             </div>
             <CustomForm {...rest}>

@@ -9,7 +9,7 @@ import './CustomForm.less';
 
 export interface CustomFormProps {
   formProps: Omit<FormProps, 'className'>;
-  children: GenericReactContent;
+  children?: GenericReactContent;
   className?: string;
   primaryBtnText: string;
   isLoading?: boolean;
