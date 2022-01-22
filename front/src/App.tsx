@@ -41,15 +41,13 @@ const App: React.FC = () => {
                         <UserSpace />
                     </div>
                     <div className="app-content-routes">
-                        <div className="app-content-routes-container">
-                            <Routes>
-                                <Route path="/" element={<Home />} />
-                                <Route path="admin-zone">
-                                    <Route path="room-types" element={<RoomTypes />} />
-                                </Route>
-                                <Route path="user-zone" element={<div>user zone</div>} />
-                            </Routes>
-                        </div>
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="admin-zone">
+                                <Route path="room-types" element={<RoomTypes />} />
+                            </Route>
+                            <Route path="user-zone" element={<div>user zone</div>} />
+                        </Routes>
                     </div>
                 </main>
             </div>
