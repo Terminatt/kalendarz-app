@@ -7,12 +7,24 @@
   width: 100%;
   height: max-content;
   padding-bottom: 80px;
+  &-content {
+    width: @default-panel-width;
+  }
 }
 
-@media screen and ( min-height: @h-xxl ){
+@media screen and (min-height: @h-xxl) {
+  .home {
+    height: 100%;
+    &-content {
+      width: @big-panel-width;
+    }
+  }
+}
+
+@media screen and (min-width: @w-xxxl) {
   .home {
     &-content {
-      padding-top: @padding-huge;
+      width: @big-panel-width;
     }
   }
 }

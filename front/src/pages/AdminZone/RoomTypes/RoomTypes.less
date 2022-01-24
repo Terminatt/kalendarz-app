@@ -1,12 +1,21 @@
 @import '~styles/mixins.less';
 @import '~styles/variables.less';
+@import '~styles/breakpoints.less';
 
 .room-types {
   .full-size();
   .center();
 
-  &-layout {
-    width: 900px;
-    height: 700px;
+  &-content {
+    width: @default-panel-width;
+    min-height: 700px;
+  }
+}
+
+@media screen and (min-width: @w-xxxl) {
+  .room-types {
+    &-content {
+      width: @big-panel-width;
+    }
   }
 }

@@ -12,7 +12,7 @@ const RoomTypes: React.FC = () => {
     return (
         <div className="room-types">
             <EditingPanel
-                className="room-types-layout"
+                className="room-types-content"
                 listWithSearchProps={{
                     title: 'Typy pokojów',
                     searchLabel: 'Wyszukaj typ pokoju',
