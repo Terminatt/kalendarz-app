@@ -1,4 +1,4 @@
-import { isExisting } from '@utils/general';
+import { isExisting, joinClassNames } from '@utils/general';
 import dayjs, { Dayjs } from 'dayjs';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Month, monthNames } from '@constants/constants';
@@ -74,7 +74,7 @@ const Calendar: React.FC<CalendarProps> = (props) => {
     }, [selectedYear]);
 
     return (
-        <div className={`calendar ${className || ''}`}>
+        <div className={joinClassNames(['calendar', className])}>
             <HugeDivider className="calendar-divider" text={selectedYear || ''} />
             <div className="calendar-switcher">
                 <Switcher selected={selectedMonth} onChange={onSwitcherChange} options={monthOptions} />

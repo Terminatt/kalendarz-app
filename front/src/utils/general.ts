@@ -22,3 +22,7 @@ export function isWeekend(current: Dayjs): boolean {
     const dayNumber = current.day();
     return dayNumber === 0 || dayNumber === 6;
 }
+
+export function joinClassNames(classNames: Array<string | undefined>): string {
+    return classNames.filter((el) => !!el).join(' ');
+}

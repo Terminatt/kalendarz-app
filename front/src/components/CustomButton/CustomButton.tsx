@@ -1,3 +1,4 @@
+import { joinClassNames } from '@utils/general';
 import { Button, ButtonProps } from 'antd';
 import React from 'react';
 
@@ -14,7 +15,7 @@ const CustomButton: React.FC<CustomButtonProps> = (props) => {
         variant, children, className, ...rest
     } = props;
 
-    return <Button className={`custom-btn custom-btn-${variant || 'primary'} ${className || ''}`} {...rest}>{children}</Button>;
+    return <Button className={joinClassNames(['custom-btn', `custom-btn-${variant || 'primary'}`, className])} {...rest}>{children}</Button>;
 };
 
 export default CustomButton;

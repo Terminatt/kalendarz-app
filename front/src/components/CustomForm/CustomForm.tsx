@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { Form, FormProps } from 'antd';
 import CustomButton from '@components/CustomButton/CustomButton';
 import { GenericReactContent, ResponseError } from '@generics/generics';
+import { joinClassNames } from '@utils/general';
 import { parseErrorResponse } from './helpers';
 
 import './CustomForm.less';
@@ -36,7 +37,7 @@ const CustomForm: React.FC<CustomFormProps> = (props) => {
     }, [errorResponse]);
 
     return (
-        <Form className={`custom-form ${className || ''}`} form={form} {...restFormProps} {...formLayout}>
+        <Form className={joinClassNames(['custom-form', className])} form={form} {...restFormProps} {...formLayout}>
             {children}
             <div className="custom-form-btns">
                 <CustomButton

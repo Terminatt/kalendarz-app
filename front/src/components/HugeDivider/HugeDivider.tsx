@@ -1,3 +1,4 @@
+import { joinClassNames } from '@utils/general';
 import { Divider, DividerProps } from 'antd';
 import React from 'react';
 
@@ -11,7 +12,7 @@ const HugeDivider: React.FC<HugeDividerProps> = (props) => {
     const { text, className, ...rest } = props;
 
     return (
-        <Divider className={`huge-divider ${className || ''}`} {...rest}>
+        <Divider className={joinClassNames(['huge-divider', className])} {...rest}>
             {text}
         </Divider>
     );
