@@ -15,12 +15,17 @@ import {
 
 import './Calendar.less';
 
-const Calendar: React.FC = () => {
+export interface CalendarProps {
+    className?: string;
+}
+
+const Calendar: React.FC<CalendarProps> = (props) => {
     const [today, setToday] = useState<Dayjs | null>(null);
     const [selectedYear, setYear] = useState<number | null>(null);
     const [selectedMonth, setMonth] = useState<number | null>(null);
     const [daysInMonth, setDaysInMonth] = useState<CalendarDay[]>([]);
     const monthOptions = getMonthsOptions(monthNames);
+    const { className } = props;
 
     const createDaysInMonth = useCallback((_selectedYear: number, _selectedMonth: number): CalendarDay[] => {
         const dayList = createDayList(_selectedYear, _selectedMonth, evaluateCurrentMonthDayType);
@@ -69,7 +74,7 @@ const Calendar: React.FC = () => {
     }, [selectedYear]);
 
     return (
-        <div className="calendar">
+        <div className={`calendar ${className || ''}`}>
             <HugeDivider className="calendar-divider" text={selectedYear || ''} />
             <div className="calendar-switcher">
                 <Switcher selected={selectedMonth} onChange={onSwitcherChange} options={monthOptions} />
