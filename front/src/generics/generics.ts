@@ -2,12 +2,20 @@ import React from 'react';
 
 export type GenericReactContent = React.ReactElement | React.ReactElement[];
 
+export interface BaseItem {
+  id: number;
+  created: string;
+}
+
 export interface BaseState {
   isLoading: boolean;
 }
 
-export interface BaseDataState<Data> extends BaseState {
+export interface BaseDataState<Data extends BaseItem> extends BaseState {
   data: Data[],
+}
+
+export interface BaseFullDataState<Data extends BaseItem> extends BaseDataState<Data> {
   selected: Data | null;
 }
 

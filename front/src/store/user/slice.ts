@@ -1,9 +1,8 @@
 import { errorMessages } from '@constants/constants';
-import { RejectResponse } from '@generics/generics';
 import {
-    createSlice, isFulfilled, isPending, isRejected, PayloadAction,
+    isFulfilled, isPending, isRejected,
 } from '@reduxjs/toolkit';
-import { CustomAsyncThunkResponse } from '@utils/store';
+import { createCustomSlice, DefaultMatchers } from '@utils/store';
 import { notification } from 'antd';
 import {
     authenticate, login, logout, registerAccount,
@@ -16,15 +15,20 @@ const initialState: UserState = {
     data: null,
 };
 
-const pendingActionsMatcher = isPending(registerAccount, login, logout);
-const fulfiledActionsMatcher = isFulfilled(registerAccount, login, logout);
-const rejectedActionsMatcher = isRejected(registerAccount, logout);
+const matchers: DefaultMatchers = {
+    pending: isPending(registerAccount, login, logout),
+    fulfilled: isFulfilled(registerAccount, login, logout),
+    rejected: isRejected(registerAccount, logout),
+};
 
-export const userSlice = createSlice({
-    name: 'user',
-    initialState,
-    reducers: {},
-    extraReducers: (builder) => {
+export const userSlice = createCustomSlice(
+    {
+        name: 'user',
+        initialState,
+        reducers: {},
+    },
+    matchers,
+    (builder) => {
         builder
             .addCase(logout.fulfilled, (state) => {
                 state.data = null;
@@ -54,25 +58,6 @@ export const userSlice = createSlice({
             })
             .addCase(authenticate.rejected, (state) => {
                 state.loadingScreen = false;
-            })
-            .addMatcher(fulfiledActionsMatcher, (state, success: PayloadAction<CustomAsyncThunkResponse>) => {
-                state.isLoading = false;
-                if (!success.payload.successMessage) {
-                    return;
-                }
-
-                notification.success({ message: success.payload.successMessage });
-            })
-            .addMatcher(pendingActionsMatcher, (state) => {
-                state.isLoading = true;
-            })
-            .addMatcher(rejectedActionsMatcher, (state, error: PayloadAction<RejectResponse>) => {
-                state.isLoading = false;
-                if (!error.payload.errorMessage) {
-                    return;
-                }
-
-                notification.error({ message: error.payload.errorMessage });
             });
     },
-});
+);
