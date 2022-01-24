@@ -15,9 +15,6 @@
 @media screen and (min-height: @h-xxl) {
   .home {
     height: 100%;
-    &-content {
-      width: @big-panel-width;
-    }
   }
 }
 
@@ -25,6 +22,12 @@
   .home {
     &-content {
       width: @big-panel-width;
+
+      &-calendar {
+        .calendar-content-dates {
+          grid-auto-rows: 100px;
+        }
+      }
     }
   }
 }

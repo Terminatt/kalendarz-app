@@ -6,7 +6,7 @@ import './Home.less';
 const Home: React.FC = () => (
     <div className="home">
         <div className="home-content">
-            <Calendar />
+            <Calendar className="home-content-calendar" />
         </div>
     </div>
 );
