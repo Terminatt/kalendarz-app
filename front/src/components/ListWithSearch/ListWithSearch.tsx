@@ -38,10 +38,6 @@ const ListWithSearch = <T, >(props: ListWithSearchProps<T>): React.ReactElement 
         }
     }, [dataSource, selected, onSelect]);
 
-    const onListItemBlur = useCallback(() => {
-        setSelected(null);
-    }, []);
-
     return (
         <div className="list-with-search">
             {title && <h2 className="list-with-search-header">{title}</h2>}
@@ -53,7 +49,6 @@ const ListWithSearch = <T, >(props: ListWithSearchProps<T>): React.ReactElement 
                 dataSource={dataSource}
                 renderItem={(item, index) => (
                     <List.Item
-                        onBlur={onListItemBlur}
                         className={`list-with-search-item ${index === selected ? 'list-with-search-selected' : ''}`}
                         onClick={() => onListItemClick(index)}
                         actions={[

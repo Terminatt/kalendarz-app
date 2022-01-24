@@ -16,6 +16,7 @@ const RoomTypes: React.FC = () => {
                 listWithSearchProps={{
                     title: 'Typy pokojów',
                     searchLabel: 'Wyszukaj typ pokoju',
+                    placeholder: 'Nazwa typu',
                     dataSource: data,
                     onEdit: () => console.log('edit'),
                     onDelete: () => console.log('delete'),
