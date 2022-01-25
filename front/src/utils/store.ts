@@ -72,14 +72,14 @@ export interface DefaultMatchers {
 export function createCustomSlice<Name extends string, State extends BaseState, CaseReducers extends SliceCaseReducers<State>>(
     options: Omit<CreateSliceOptions<State, CaseReducers, Name>, 'extraReducers'>,
     defaultMatchers: DefaultMatchers,
-    extraReducersBuilder?: (builder: ActionReducerMapBuilder<NoInfer<State>>) => void,
+    buildExtraReducers?: (builder: ActionReducerMapBuilder<NoInfer<State>>) => void,
 ): Slice<State, CaseReducers, Name> {
     const { pending, fulfilled, rejected } = defaultMatchers;
     return createSlice({
         ...options,
         extraReducers: (builder) => {
-            if (extraReducersBuilder) {
-                extraReducersBuilder(builder);
+            if (buildExtraReducers) {
+                buildExtraReducers(builder);
             }
 
             builder.addMatcher(pending, (state) => {
