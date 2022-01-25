@@ -82,9 +82,10 @@ export function createCustomSlice<Name extends string, State extends BaseState, 
                 buildExtraReducers(builder);
             }
 
-            builder.addMatcher(pending, (state) => {
-                state.isLoading = true;
-            })
+            builder
+                .addMatcher(pending, (state) => {
+                    state.isLoading = true;
+                })
                 .addMatcher(fulfilled, (state, success: PayloadAction<CustomAsyncThunkResponse>) => {
                     state.isLoading = false;
                     if (!success.payload.successMessage) {
