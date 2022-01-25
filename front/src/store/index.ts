@@ -1,9 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { modalSlice } from './modals/slice';
+import { roomTypesSlice } from './room-types/slice';
 import { userSlice } from './user/slice';
 
 const rootReducer = combineReducers({
     user: userSlice.reducer,
+    roomTypes: roomTypesSlice.reducer,
     modal: modalSlice.reducer,
 });
 

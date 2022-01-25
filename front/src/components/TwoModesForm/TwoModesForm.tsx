@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import CustomForm, { CustomFormProps } from '@components/CustomForm/CustomForm';
-import { Tag } from 'antd';
+import { FormProps, Tag } from 'antd';
 
 import './TwoModesForm.less';
 
@@ -10,15 +10,17 @@ export enum FormEditMode {
 }
 
 export interface TwoModesFormProps<T> extends CustomFormProps {
+    onFormSubmit?: (values: T, mode: FormEditMode) => void;
+    formProps: Omit<FormProps, 'onFinish'>;
     selected?: T | null;
 }
 
 const TwoModesForm = <T, >(props: TwoModesFormProps<T>): React.ReactElement => {
     const [mode, setMode] = useState<FormEditMode>(FormEditMode.Create);
     const {
-        children, selected, ...rest
+        children, selected, formProps, onFormSubmit, ...rest
     } = props;
-    const { form } = rest.formProps;
+    const { form } = formProps;
 
     useEffect(() => {
         if (!selected) {
@@ -31,6 +33,14 @@ const TwoModesForm = <T, >(props: TwoModesFormProps<T>): React.ReactElement => {
         form?.setFieldsValue(selected);
     }, [selected]);
 
+    const onFinish = useCallback((values: T) => {
+        if (!onFormSubmit) {
+            return;
+        }
+
+        onFormSubmit(values, mode);
+    }, [onFormSubmit, mode]);
+
     return (
         <div className="two-modes-form">
             <div className="two-modes-form-header">
@@ -41,7 +51,7 @@ const TwoModesForm = <T, >(props: TwoModesFormProps<T>): React.ReactElement => {
                     {mode === FormEditMode.Create ? <Tag color="#026E05">Nowy</Tag> : <Tag color="#775C02">Edycja</Tag>}
                 </div>
             </div>
-            <CustomForm {...rest}>
+            <CustomForm formProps={{ form, onFinish, ...formProps }} {...rest}>
                 {children}
             </CustomForm>
         </div>

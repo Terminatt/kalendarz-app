@@ -8,6 +8,7 @@ export const errorMessages: {[key: string]: string} = {
     EMAIL_TAKEN: 'Użytkownik o podanym emailu już istnieje',
     PASSWORD_TOO_SIMPLE: 'Hasło jest zbyt proste',
     INVALID_CREDENTIALS: 'Błędne hasło lub nazwa użytkownika',
+    NOT_UNIQUE_NAME: 'Nazwa już została zajęta',
 };
 
 export const dayNames = ['Nd', 'Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb'];
