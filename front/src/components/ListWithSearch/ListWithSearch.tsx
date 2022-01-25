@@ -6,26 +6,30 @@ import { formLayout } from '@constants/constants';
 
 import './ListWithSearch.less';
 import { isNumber } from '@utils/general';
+import CustomEmpty from '@components/CustomEmpty/CustomEmpty';
 
 const { Search } = Input;
 
 export interface ListWithSearchProps<T> {
     dataSource: T[];
+    title?: string;
+    placeholder?: string;
+    searchLabel?: string;
+    isLoading?: boolean;
     renderContent: (item: T, index: number) => React.ReactNode;
     onEdit?: (item: T) => void;
     onDelete?: (item: T) => void;
     onSearch?: (value: string) => void;
     onSelect?: (item: T | null) => void;
     onSearchChange?: (event: React.ChangeEvent) => void;
-    title?: string;
-    placeholder?: string;
-    searchLabel?: string;
 }
 
 const ListWithSearch = <T, >(props: ListWithSearchProps<T>): React.ReactElement => {
     const [selected, setSelected] = useState<number | null>(null);
     const {
-        dataSource, renderContent, onEdit, onDelete, title, placeholder, onSearch, onSearchChange, searchLabel, onSelect,
+        dataSource, renderContent, onEdit, onDelete,
+        title, placeholder, onSearch, onSearchChange, searchLabel, onSelect,
+        isLoading,
     } = props;
 
     const onListItemClick = useCallback((index: number) => {
@@ -45,14 +49,18 @@ const ListWithSearch = <T, >(props: ListWithSearchProps<T>): React.ReactElement 
                 <Search onChange={onSearchChange} onSearch={onSearch} placeholder={placeholder} allowClear />
             </Form.Item>
             <List
+                locale={{
+                    emptyText: <CustomEmpty />,
+                }}
                 itemLayout="vertical"
                 dataSource={dataSource}
+                loading={isLoading}
                 renderItem={(item, index) => (
                     <List.Item
                         className={`list-with-search-item ${index === selected ? 'list-with-search-selected' : ''}`}
                         onClick={() => onListItemClick(index)}
                         actions={[
-                            onEdit && <CustomButton onClick={() => onEdit(item)} icon={<EditOutlined />} size="small" key="edit">Edytuj</CustomButton>,
+                            <CustomButton onClick={() => onEdit && onEdit(item)} icon={<EditOutlined />} size="small" key="edit">Edytuj</CustomButton>,
                             onDelete && <CustomButton onClick={() => onDelete(item)} icon={<DeleteOutlined />} size="small" variant="delete" key="delete">Usuń</CustomButton>,
                         ].filter((el) => !!el)}
                     >

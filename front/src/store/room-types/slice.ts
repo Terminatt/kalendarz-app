@@ -3,7 +3,7 @@ import {
     isFulfilled, isPending, isRejected,
 } from '@reduxjs/toolkit';
 import { createCustomSlice, DefaultMatchers } from '@utils/store';
-import { createRoomType } from './asyncActions';
+import { createRoomType, getRoomTypes } from './asyncActions';
 import { RoomType } from './types';
 
 const initialState: BaseDataState<RoomType> = {
@@ -21,4 +21,8 @@ export const roomTypesSlice = createCustomSlice({
     name: 'roomTypes',
     initialState,
     reducers: {},
-}, matchers);
+}, matchers, (builder) => {
+    builder.addCase(getRoomTypes.fulfilled, (state, res) => {
+        state.data = res.payload.data;
+    });
+});

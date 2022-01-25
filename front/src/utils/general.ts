@@ -1,4 +1,4 @@
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 export function isNumber(value: unknown): value is number {
     return typeof value === 'number';
@@ -25,4 +25,8 @@ export function isWeekend(current: Dayjs): boolean {
 
 export function joinClassNames(classNames: Array<string | undefined>): string {
     return classNames.filter((el) => !!el).join(' ');
+}
+
+export function parseDate(date: string): string {
+    return dayjs(date).format('DD.MM.YYYY HH:mm:ss');
 }

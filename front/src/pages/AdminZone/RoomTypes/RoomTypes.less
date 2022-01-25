@@ -4,13 +4,39 @@
 
 .room-types {
   .full-size();
-  .center();
+  .center-horizontally();
 
   &-content {
+    margin-top: @margin-huge;
     width: @default-panel-width;
-    min-height: @default-panel-height;
+    height: @default-panel-height;
+
+    &-item {
+      &-date {
+        color: @text-color-secondary;
+      }
+
+      &-color {
+        margin-top: @margin-tiny;
+        color: @black;
+        text-align: center;
+        width: 100px;
+        padding: @padding-minimal @padding-small;
+      }
+    }
   }
 }
+
+@media screen and (min-width: @w-xxl) {
+  .room-types {
+    align-items: center;
+
+    &-content {
+      margin-top: 0;
+    }
+  }
+}
+
 
 @media screen and (min-width: @w-xxxl) {
   .room-types {

@@ -1,31 +1,41 @@
 import EditingPanel from '@components/EditingPanel/EditingPanel';
 import { FormEditMode } from '@components/TwoModesForm/TwoModesForm';
-import { createRoomType } from '@store/room-types/asyncActions';
+import { RootState } from '@store/index';
+import { createRoomType, getRoomTypes } from '@store/room-types/asyncActions';
 import { RoomTypeCreateErrorResponse } from '@store/room-types/types';
 import { getRequiredRule } from '@utils/form';
+import { parseDate } from '@utils/general';
 import { Form, Input } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { AxiosError } from 'axios';
-import React, { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import './RoomTypes.less';
-
-const data = [{ id: 1, name: 'hello', color: '#FFFFFF' }, { id: 2, name: 'xd', color: '#000000' }];
 
 export interface RoomTypeFormValues {
     name: string;
     color: string;
 }
 
+// TODO Calculate text color based on room type background color
 const RoomTypes: React.FC = () => {
     const [form] = useForm<RoomTypeFormValues>();
     const [errorResponse, setErrorResponse] = useState<null | RoomTypeCreateErrorResponse>(null);
+    const roomTypes = useSelector((state: RootState) => state.roomTypes);
+    const { data, isLoading } = roomTypes;
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getRoomTypes());
+    }, []);
 
     const onFormSubmit = useCallback((values: RoomTypeFormValues, mode: FormEditMode) => {
         const requestOptions = {
             requestPayload: values,
+            onSuccess: () => {
+                dispatch(getRoomTypes());
+            },
             onError: (errorData: AxiosError<RoomTypeCreateErrorResponse, any>) => {
                 if (!errorData.response) {
                     return;
@@ -49,11 +59,22 @@ const RoomTypes: React.FC = () => {
                     placeholder: 'Nazwa typu',
                     dataSource: data,
                     onDelete: () => console.log('delete'),
-                    renderContent: (item) => (<div>{item.name}</div>),
+                    renderContent: (item) => (
+                        <div className="room-types-content-item">
+                            <div>{item.name}</div>
+                            <div className="room-types-content-item-date">
+                                {parseDate(item.created)}
+                            </div>
+                            <div className="room-types-content-item-color" style={{ backgroundColor: item.color }}>
+                                {item.color}
+                            </div>
+                        </div>
+                    ),
                 }}
                 twoModesFormProps={{
                     onFormSubmit,
                     errorResponse,
+                    isLoading,
                     formProps: { form },
                     primaryBtnText: 'Stwórz nowy typ pokoju',
                 }}
