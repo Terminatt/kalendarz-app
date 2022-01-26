@@ -3,7 +3,9 @@ import {
     isFulfilled, isPending, isRejected,
 } from '@reduxjs/toolkit';
 import { createCustomSlice, DefaultMatchers } from '@utils/store';
-import { createRoomType, getRoomTypes } from './asyncActions';
+import {
+    createRoomType, deleteRoomType, getRoomTypes, updateRoomType,
+} from './asyncActions';
 import { RoomType } from './types';
 
 const initialState: BaseDataState<RoomType> = {
@@ -12,9 +14,9 @@ const initialState: BaseDataState<RoomType> = {
 };
 
 const matchers: DefaultMatchers = {
-    pending: isPending(createRoomType),
-    fulfilled: isFulfilled(createRoomType),
-    rejected: isRejected(createRoomType),
+    pending: isPending(createRoomType, updateRoomType, deleteRoomType),
+    fulfilled: isFulfilled(createRoomType, updateRoomType, deleteRoomType),
+    rejected: isRejected(createRoomType, updateRoomType, deleteRoomType),
 };
 
 export const roomTypesSlice = createCustomSlice({

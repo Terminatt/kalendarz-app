@@ -1,8 +1,10 @@
 import EditingPanel from '@components/EditingPanel/EditingPanel';
-import { FormEditMode } from '@components/TwoModesForm/TwoModesForm';
+import { Id } from '@generics/generics';
 import { RootState } from '@store/index';
-import { createRoomType, getRoomTypes } from '@store/room-types/asyncActions';
-import { RoomTypeCreateErrorResponse } from '@store/room-types/types';
+import {
+    createRoomType, deleteRoomType, getRoomTypes, updateRoomType,
+} from '@store/room-types/asyncActions';
+import { RoomType, RoomTypeCreateErrorResponse } from '@store/room-types/types';
 import { getRequiredRule } from '@utils/form';
 import { parseDate } from '@utils/general';
 import { Form, Input } from 'antd';
@@ -30,9 +32,8 @@ const RoomTypes: React.FC = () => {
         dispatch(getRoomTypes());
     }, []);
 
-    const onFormSubmit = useCallback((values: RoomTypeFormValues, mode: FormEditMode) => {
+    const onFormSubmit = useCallback((values: RoomTypeFormValues, id?: Id) => {
         const requestOptions = {
-            requestPayload: values,
             onSuccess: () => {
                 dispatch(getRoomTypes());
             },
@@ -43,22 +44,29 @@ const RoomTypes: React.FC = () => {
                 setErrorResponse(errorData.response.data);
             },
         };
-
-        if (mode === FormEditMode.Create) {
-            dispatch(createRoomType(requestOptions));
+        if (!id) {
+            dispatch(createRoomType({ requestPayload: values, ...requestOptions }));
+            return;
         }
+
+        dispatch(updateRoomType({ requestPayload: { id, ...values }, ...requestOptions }));
+    }, []);
+
+    const onDelete = useCallback((item: RoomType) => {
+        dispatch(deleteRoomType({ requestPayload: item.id, onSuccess: () => dispatch(getRoomTypes()) }));
     }, []);
 
     return (
         <div className="room-types">
             <EditingPanel
                 className="room-types-content"
+                onFormSubmit={onFormSubmit}
                 listWithSearchProps={{
                     title: 'Typy pokojów',
                     searchLabel: 'Wyszukaj typ pokoju',
                     placeholder: 'Nazwa typu',
                     dataSource: data,
-                    onDelete: () => console.log('delete'),
+                    onDelete,
                     renderContent: (item) => (
                         <div className="room-types-content-item">
                             <div>{item.name}</div>
@@ -72,7 +80,6 @@ const RoomTypes: React.FC = () => {
                     ),
                 }}
                 twoModesFormProps={{
-                    onFormSubmit,
                     errorResponse,
                     isLoading,
                     formProps: { form },

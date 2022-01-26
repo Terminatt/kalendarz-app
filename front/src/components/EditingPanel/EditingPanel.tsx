@@ -2,26 +2,35 @@ import React, { useCallback, useState } from 'react';
 import ListWithSearch, { ListWithSearchProps } from '@components/ListWithSearch/ListWithSearch';
 import TwoColumnLayout from '@components/TwoColumnLayout/TwoColumnLayout';
 import TwoModesForm, { TwoModesFormProps } from '@components/TwoModesForm/TwoModesForm';
-import { GenericReactContent } from '@generics/generics';
+import { BaseItem, GenericReactContent, Id } from '@generics/generics';
 
 import './EditingPanel.less';
 
 export interface EditingPanel<T> {
+    onFormSubmit?: (values: T, id?: Id) => void;
     listWithSearchProps: Omit<ListWithSearchProps<T>, 'onSelect'>;
-    twoModesFormProps: Omit<TwoModesFormProps<T>, 'selected'>;
+    twoModesFormProps: Omit<TwoModesFormProps<T>, 'selected' | 'onFormSubmit'>;
     formItems: GenericReactContent;
     className?: string;
 }
 
-const EditingPanel = <T, >(props: EditingPanel<T>): React.ReactElement => {
+const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.ReactElement => {
     const {
         listWithSearchProps, twoModesFormProps, formItems, className,
+        onFormSubmit,
     } = props;
     const [selected, setSelected] = useState<T | null>();
 
     const onListItemSelect = useCallback((item: T | null) => {
         setSelected(item);
     }, []);
+
+    const onSubmit = useCallback((values: T) => {
+        if (!onFormSubmit) {
+            return;
+        }
+        onFormSubmit(values, selected?.id);
+    }, [selected]);
 
     return (
         <TwoColumnLayout
@@ -31,7 +40,7 @@ const EditingPanel = <T, >(props: EditingPanel<T>): React.ReactElement => {
                 )
             }
             right={(
-                <TwoModesForm {...twoModesFormProps} selected={selected}>
+                <TwoModesForm {...twoModesFormProps} selected={selected} onFormSubmit={onSubmit}>
                     {formItems}
                 </TwoModesForm>
             )}

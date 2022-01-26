@@ -2,8 +2,10 @@ import React from 'react';
 
 export type GenericReactContent = React.ReactElement | React.ReactElement[];
 
+export type Id = number;
+
 export interface BaseItem {
-  id: number;
+  id: Id;
   created: string;
 }
 

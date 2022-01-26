@@ -61,7 +61,22 @@ const ListWithSearch = <T, >(props: ListWithSearchProps<T>): React.ReactElement 
                         onClick={() => onListItemClick(index)}
                         actions={[
                             <CustomButton onClick={() => onEdit && onEdit(item)} icon={<EditOutlined />} size="small" key="edit">Edytuj</CustomButton>,
-                            onDelete && <CustomButton onClick={() => onDelete(item)} icon={<DeleteOutlined />} size="small" variant="delete" key="delete">Usuń</CustomButton>,
+                            onDelete && (
+                                <CustomButton
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        e.preventDefault();
+                                        onDelete(item);
+                                    }}
+                                    icon={<DeleteOutlined />}
+                                    size="small"
+                                    variant="delete"
+                                    key="delete"
+                                >
+                                    Usuń
+
+                                </CustomButton>
+                            ),
                         ].filter((el) => !!el)}
                     >
                         {renderContent(item, index)}

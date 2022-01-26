@@ -14,8 +14,8 @@ export function isAxiosError<ErrorData>(err: AxiosError<ErrorData> | Error | unk
 }
 
 export interface CustomAsyncThunkResponse<Data = void> {
-  data: Data,
-  successMessage?: string
+  data: Data;
+  successMessage?: string;
 }
 export interface CustomThunkConfig<ErrorData> {
     rejectValue: RejectResponse<ErrorData>
@@ -25,15 +25,14 @@ export interface CustomAsyncThunkPayload<ErrorData, Payload, Data> {
     requestPayload?: Payload;
     onSuccess?: (data: Data) => void;
     onError?: (errorData: AxiosError<ErrorData>) => void;
-
 }
 
 export function createCustomAsyncThunk<ErrorData = void, Payload = void, Data = void>(
     prefix: string,
     options: {
-      request: (payload?: Payload) => Promise<AxiosResponse<Data>>,
-      successMessage?: string,
-      errorMessage?: string
+      request: (payload: Payload extends undefined ? undefined : Payload,) => Promise<AxiosResponse<Data>>;
+      successMessage?: string;
+      errorMessage?: string;
   },
 ): AsyncThunk<CustomAsyncThunkResponse<Data>, CustomAsyncThunkPayload<ErrorData, Payload, Data> | void, CustomThunkConfig<ErrorData>> {
     return createAsyncThunk<CustomAsyncThunkResponse<Data>, CustomAsyncThunkPayload<ErrorData, Payload, Data> | void, CustomThunkConfig<ErrorData>>(
@@ -41,7 +40,7 @@ export function createCustomAsyncThunk<ErrorData = void, Payload = void, Data = 
         async (payload, { rejectWithValue }) => {
             const { request, successMessage, errorMessage } = options;
             try {
-                const response = await request(payload?.requestPayload);
+                const response = await request(payload?.requestPayload as Payload extends undefined ? undefined : Payload);
                 const { data } = response;
 
                 if (payload?.onSuccess) {
@@ -64,9 +63,9 @@ export function createCustomAsyncThunk<ErrorData = void, Payload = void, Data = 
 }
 
 export interface DefaultMatchers {
-    pending: (action: any) => action is PendingActionFromAsyncThunk<any>,
-    fulfilled: (action: any) => action is FulfilledActionFromAsyncThunk<any>,
-    rejected: (action: any) => action is RejectedActionFromAsyncThunk<any>,
+    pending: (action: any) => action is PendingActionFromAsyncThunk<any>;
+    fulfilled: (action: any) => action is FulfilledActionFromAsyncThunk<any>;
+    rejected: (action: any) => action is RejectedActionFromAsyncThunk<any>;
 }
 
 export function createCustomSlice<Name extends string, State extends BaseState, CaseReducers extends SliceCaseReducers<State>>(
