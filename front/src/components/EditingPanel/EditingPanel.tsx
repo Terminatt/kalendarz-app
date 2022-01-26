@@ -7,17 +7,17 @@ import { BaseItem, GenericReactContent, Id } from '@generics/generics';
 import './EditingPanel.less';
 
 export interface EditingPanel<T> {
-    onFormSubmit?: (values: T, id?: Id) => void;
-    listWithSearchProps: Omit<ListWithSearchProps<T>, 'onSelect'>;
+    listWithSearchProps: Omit<ListWithSearchProps<T>, 'onSelect' | 'onDelete'>;
     twoModesFormProps: Omit<TwoModesFormProps<T>, 'selected' | 'onFormSubmit'>;
     formItems: GenericReactContent;
     className?: string;
+    onFormSubmit?: (values: T, id?: Id) => void;
+    onDelete?: (item: T) => void;
 }
 
 const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.ReactElement => {
     const {
-        listWithSearchProps, twoModesFormProps, formItems, className,
-        onFormSubmit,
+        listWithSearchProps, twoModesFormProps, formItems, className, onDelete, onFormSubmit,
     } = props;
     const [selected, setSelected] = useState<T | null>();
 
@@ -32,11 +32,19 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
         onFormSubmit(values, selected?.id);
     }, [selected]);
 
+    const onItemDelete = useCallback((item: T) => {
+        if (!onDelete) {
+            return;
+        }
+        setSelected(null);
+        onDelete(item);
+    }, []);
+
     return (
         <TwoColumnLayout
             left={
                 (
-                    <ListWithSearch {...listWithSearchProps} onSelect={onListItemSelect} />
+                    <ListWithSearch {...listWithSearchProps} onSelect={onListItemSelect} onDelete={onItemDelete} />
                 )
             }
             right={(

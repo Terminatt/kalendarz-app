@@ -1,11 +1,13 @@
 import React, { useCallback, useState } from 'react';
-import { Input, List, Form } from 'antd';
+import {
+    Input, List, Form, Popconfirm,
+} from 'antd';
 import CustomButton from '@components/CustomButton/CustomButton';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { formLayout } from '@constants/constants';
 
 import './ListWithSearch.less';
-import { isNumber } from '@utils/general';
+import { isNumber, stopBubbling } from '@utils/general';
 import CustomEmpty from '@components/CustomEmpty/CustomEmpty';
 
 const { Search } = Input;
@@ -62,20 +64,31 @@ const ListWithSearch = <T, >(props: ListWithSearchProps<T>): React.ReactElement 
                         actions={[
                             <CustomButton onClick={() => onEdit && onEdit(item)} icon={<EditOutlined />} size="small" key="edit">Edytuj</CustomButton>,
                             onDelete && (
-                                <CustomButton
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        e.preventDefault();
+                                <Popconfirm
+                                    okButtonProps={{ className: 'custom-btn custom-btn-delete' }}
+                                    cancelButtonProps={{ className: 'custom-btn custom-btn-primary' }}
+                                    title="Czy na pewno chcesz usunąć ten element?"
+                                    onCancel={stopBubbling}
+                                    onConfirm={(e) => {
+                                        stopBubbling(e);
+                                        setSelected(null);
                                         onDelete(item);
                                     }}
-                                    icon={<DeleteOutlined />}
-                                    size="small"
-                                    variant="delete"
-                                    key="delete"
+                                    okText="Tak"
+                                    cancelText="Nie"
                                 >
-                                    Usuń
+                                    <CustomButton
+                                        onClick={stopBubbling}
+                                        icon={<DeleteOutlined />}
+                                        size="small"
+                                        variant="delete"
+                                        key="delete"
+                                    >
+                                        Usuń
 
-                                </CustomButton>
+                                    </CustomButton>
+
+                                </Popconfirm>
                             ),
                         ].filter((el) => !!el)}
                     >

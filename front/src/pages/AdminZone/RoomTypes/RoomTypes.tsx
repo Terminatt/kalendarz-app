@@ -61,12 +61,13 @@ const RoomTypes: React.FC = () => {
             <EditingPanel
                 className="room-types-content"
                 onFormSubmit={onFormSubmit}
+                onDelete={onDelete}
                 listWithSearchProps={{
                     title: 'Typy pokojów',
                     searchLabel: 'Wyszukaj typ pokoju',
                     placeholder: 'Nazwa typu',
                     dataSource: data,
-                    onDelete,
+                    isLoading,
                     renderContent: (item) => (
                         <div className="room-types-content-item">
                             <div>{item.name}</div>

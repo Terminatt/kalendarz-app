@@ -30,3 +30,12 @@ export function joinClassNames(classNames: Array<string | undefined>): string {
 export function parseDate(date: string): string {
     return dayjs(date).format('DD.MM.YYYY HH:mm:ss');
 }
+
+export function stopBubbling(e?: React.MouseEvent<HTMLElement, MouseEvent> | undefined): void {
+    if (!e) {
+        return;
+    }
+
+    e.stopPropagation();
+    e.preventDefault();
+}
