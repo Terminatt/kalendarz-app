@@ -84,6 +84,7 @@ const RoomTypes: React.FC = () => {
                     isLoading,
                     formProps: { form },
                     primaryBtnText: 'Stwórz nowy typ pokoju',
+                    editPrimaryBtnText: 'Zaktualizuj typ pokoju',
                 }}
                 formItems={(
                     <>
