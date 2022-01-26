@@ -26,9 +26,11 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
         dispatch(login({
             requestPayload: values,
             onSuccess: () => {
-                if (onFinishCallback) {
-                    onFinishCallback();
+                if (!onFinishCallback) {
+                    return;
                 }
+
+                onFinishCallback();
             },
         }));
     }, [onFinishCallback]);

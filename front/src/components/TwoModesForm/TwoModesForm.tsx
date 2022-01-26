@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import CustomForm, { CustomFormProps } from '@components/CustomForm/CustomForm';
 import { FormProps, Tag } from 'antd';
+import CustomButton from '@components/CustomButton/CustomButton';
 
 import './TwoModesForm.less';
 
@@ -10,16 +11,18 @@ export enum FormEditMode {
 }
 
 export interface TwoModesFormProps<T> extends CustomFormProps {
-    onFormSubmit?: (values: T, mode: FormEditMode) => void;
     formProps: Omit<FormProps, 'onFinish'>;
     editPrimaryBtnText: string;
     selected?: T | null;
+    changeModeText?: string;
+    onFormSubmit?: (values: T, mode: FormEditMode) => void;
+    onModeChange?: () => void;
 }
 
 const TwoModesForm = <T, >(props: TwoModesFormProps<T>): React.ReactElement => {
     const [mode, setMode] = useState<FormEditMode>(FormEditMode.Create);
     const {
-        children, selected, formProps, onFormSubmit, primaryBtnText, editPrimaryBtnText, ...rest
+        children, selected, formProps, onFormSubmit, primaryBtnText, editPrimaryBtnText, changeModeText, onModeChange, ...rest
     } = props;
     const { form } = formProps;
     const isCreate = mode === FormEditMode.Create;
@@ -43,6 +46,16 @@ const TwoModesForm = <T, >(props: TwoModesFormProps<T>): React.ReactElement => {
         onFormSubmit(values, mode);
     }, [onFormSubmit, mode]);
 
+    const onModeBtnClick = useCallback(() => {
+        setMode(FormEditMode.Edit);
+
+        if (!onModeChange) {
+            return;
+        }
+
+        onModeChange();
+    }, []);
+
     return (
         <div className="two-modes-form">
             <div className="two-modes-form-header">
@@ -56,6 +69,11 @@ const TwoModesForm = <T, >(props: TwoModesFormProps<T>): React.ReactElement => {
             <CustomForm formProps={{ form, onFinish, ...formProps }} {...rest} primaryBtnText={isCreate ? primaryBtnText : editPrimaryBtnText}>
                 {children}
             </CustomForm>
+            {changeModeText && !isCreate && (
+                <div className="two-modes-form-mode">
+                    <CustomButton onClick={onModeBtnClick} variant="minimal">{changeModeText}</CustomButton>
+                </div>
+            )}
         </div>
     );
 };

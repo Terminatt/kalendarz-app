@@ -39,9 +39,11 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
         dispatch(registerAccount({
             requestPayload: payload,
             onSuccess: () => {
-                if (onFinishCallback) {
-                    onFinishCallback();
+                if (!onFinishCallback) {
+                    return;
                 }
+
+                onFinishCallback();
             },
             onError: (errorData) => {
                 if (!errorData.response) {

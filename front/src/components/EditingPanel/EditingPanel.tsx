@@ -8,7 +8,7 @@ import './EditingPanel.less';
 
 export interface EditingPanel<T> {
     listWithSearchProps: Omit<ListWithSearchProps<T>, 'onSelect' | 'onDelete' | 'selectedItem'>;
-    twoModesFormProps: Omit<TwoModesFormProps<T>, 'selected' | 'onFormSubmit'>;
+    twoModesFormProps: Omit<TwoModesFormProps<T>, 'selected' | 'onFormSubmit' | 'onModeChange'>;
     formItems: GenericReactContent;
     className?: string;
     onFormSubmit?: (values: T, id?: Id) => void;
@@ -33,11 +33,17 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
     }, [selected]);
 
     const onItemDelete = useCallback((item: T) => {
+        setSelected(null);
+
         if (!onDelete) {
             return;
         }
-        setSelected(null);
+
         onDelete(item);
+    }, []);
+
+    const onModeChange = useCallback(() => {
+        setSelected(null);
     }, []);
 
     return (
@@ -48,7 +54,7 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
                 )
             }
             right={(
-                <TwoModesForm {...twoModesFormProps} selected={selected} onFormSubmit={onSubmit}>
+                <TwoModesForm {...twoModesFormProps} selected={selected} onFormSubmit={onSubmit} onModeChange={onModeChange}>
                     {formItems}
                 </TwoModesForm>
             )}

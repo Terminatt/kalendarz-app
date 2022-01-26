@@ -45,11 +45,14 @@ const SigningModal: React.FC = () => {
             onCancel={close}
             footer={null}
         >
-            {isLogin ? (
-                <LoginForm onFinishCallback={close} />
-            ) : (
-                <RegisterForm onFinishCallback={() => onFormSubmit(ModalType.LOGIN_MODAL)} />
-            )}
+            <div className="signing-modal">
+                {isLogin ? (
+                    <LoginForm onFinishCallback={close} />
+                ) : (
+                    <RegisterForm onFinishCallback={() => onFormSubmit(ModalType.LOGIN_MODAL)} />
+                )}
+
+            </div>
         </Modal>
     );
 };
