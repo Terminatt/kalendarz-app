@@ -7,7 +7,7 @@ import { BaseItem, GenericReactContent, Id } from '@generics/generics';
 import './EditingPanel.less';
 
 export interface EditingPanel<T> {
-    listWithSearchProps: Omit<ListWithSearchProps<T>, 'onSelect' | 'onDelete'>;
+    listWithSearchProps: Omit<ListWithSearchProps<T>, 'onSelect' | 'onDelete' | 'selectedItem'>;
     twoModesFormProps: Omit<TwoModesFormProps<T>, 'selected' | 'onFormSubmit'>;
     formItems: GenericReactContent;
     className?: string;
@@ -44,7 +44,7 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
         <TwoColumnLayout
             left={
                 (
-                    <ListWithSearch {...listWithSearchProps} onSelect={onListItemSelect} onDelete={onItemDelete} />
+                    <ListWithSearch {...listWithSearchProps} onSelect={onListItemSelect} onDelete={onItemDelete} selectedItem={selected} />
                 )
             }
             right={(

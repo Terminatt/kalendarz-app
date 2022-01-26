@@ -5,10 +5,11 @@ import {
 import CustomButton from '@components/CustomButton/CustomButton';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { formLayout } from '@constants/constants';
+import { isDefined, stopBubbling } from '@utils/general';
+import CustomEmpty from '@components/CustomEmpty/CustomEmpty';
+import { BaseItem } from '@generics/generics';
 
 import './ListWithSearch.less';
-import { isNumber, stopBubbling } from '@utils/general';
-import CustomEmpty from '@components/CustomEmpty/CustomEmpty';
 
 const { Search } = Input;
 
@@ -18,6 +19,7 @@ export interface ListWithSearchProps<T> {
     placeholder?: string;
     searchLabel?: string;
     isLoading?: boolean;
+    selectedItem?: T | null;
     renderContent: (item: T, index: number) => React.ReactNode;
     onEdit?: (item: T) => void;
     onDelete?: (item: T) => void;
@@ -26,23 +28,26 @@ export interface ListWithSearchProps<T> {
     onSearchChange?: (event: React.ChangeEvent) => void;
 }
 
-const ListWithSearch = <T, >(props: ListWithSearchProps<T>): React.ReactElement => {
-    const [selected, setSelected] = useState<number | null>(null);
+const ListWithSearch = <T extends BaseItem, >(props: ListWithSearchProps<T>): React.ReactElement => {
+    const [selectedInternal, setSelected] = useState<T | null>(null);
     const {
         dataSource, renderContent, onEdit, onDelete,
         title, placeholder, onSearch, onSearchChange, searchLabel, onSelect,
-        isLoading,
+        isLoading, selectedItem,
     } = props;
+    const selectedListItem = isDefined(selectedItem) ? selectedItem : selectedInternal;
 
-    const onListItemClick = useCallback((index: number) => {
-        const selectedIndex = index !== selected ? index : null;
-        setSelected(selectedIndex);
+    const onListItemClick = useCallback((item: T) => {
+        const selected = item.id !== selectedListItem?.id ? item : null;
+
+        if (!selectedItem) {
+            setSelected(selected);
+        }
 
         if (onSelect) {
-            const selectedItem = isNumber(selectedIndex) ? dataSource[selectedIndex] : null;
-            onSelect(selectedItem);
+            onSelect(selected);
         }
-    }, [dataSource, selected, onSelect]);
+    }, [dataSource, selectedItem, onSelect]);
 
     return (
         <div className="list-with-search">
@@ -59,8 +64,8 @@ const ListWithSearch = <T, >(props: ListWithSearchProps<T>): React.ReactElement 
                 loading={isLoading}
                 renderItem={(item, index) => (
                     <List.Item
-                        className={`list-with-search-item ${index === selected ? 'list-with-search-selected' : ''}`}
-                        onClick={() => onListItemClick(index)}
+                        className={`list-with-search-item ${selectedListItem?.id === item.id ? 'list-with-search-selected' : ''}`}
+                        onClick={() => onListItemClick(item)}
                         actions={[
                             <CustomButton onClick={() => onEdit && onEdit(item)} icon={<EditOutlined />} size="small" key="edit">Edytuj</CustomButton>,
                             onDelete && (
@@ -71,7 +76,6 @@ const ListWithSearch = <T, >(props: ListWithSearchProps<T>): React.ReactElement 
                                     onCancel={stopBubbling}
                                     onConfirm={(e) => {
                                         stopBubbling(e);
-                                        setSelected(null);
                                         onDelete(item);
                                     }}
                                     okText="Tak"
