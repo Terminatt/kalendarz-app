@@ -8,6 +8,7 @@ class RoomTypeViewSet(CustomModelViewSet):
     serializer_class = RoomTypeSerializer
     acl_name = "room_types"
     authentication_classes = [CustomExpiringToken]
+    avoid_authentication = ['list']
 
 
 class RoomViewSet(CustomModelViewSet):
@@ -15,3 +16,5 @@ class RoomViewSet(CustomModelViewSet):
     serializer_class = RoomSerializer
     acl_name = "rooms"
     authentication_classes = [CustomExpiringToken]
+    avoid_authentication = ['list']
+
