@@ -19,7 +19,7 @@ export interface ListWithSearchProps<T> {
     placeholder?: string;
     searchLabel?: string;
     isLoading?: boolean;
-    selectedItem?: T | null;
+    selected?: T | null;
     renderContent: (item: T, index: number) => React.ReactNode;
     onEdit?: (item: T) => void;
     onDelete?: (item: T) => void;
@@ -33,21 +33,21 @@ const ListWithSearch = <T extends BaseItem, >(props: ListWithSearchProps<T>): Re
     const {
         dataSource, renderContent, onEdit, onDelete,
         title, placeholder, onSearch, onSearchChange, searchLabel, onSelect,
-        isLoading, selectedItem,
+        isLoading, selected,
     } = props;
-    const selectedListItem = isDefined(selectedItem) ? selectedItem : selectedInternal;
+    const selectedListItem = isDefined(selected) ? selected : selectedInternal;
 
     const onListItemClick = useCallback((item: T) => {
-        const selected = item.id !== selectedListItem?.id ? item : null;
+        const newSelected = item.id !== selectedListItem?.id ? item : null;
 
-        if (!selectedItem) {
-            setSelected(selected);
+        if (!isDefined(selected)) {
+            setSelected(newSelected);
         }
 
         if (onSelect) {
-            onSelect(selected);
+            onSelect(newSelected);
         }
-    }, [dataSource, selectedItem, onSelect]);
+    }, [dataSource, selected, onSelect]);
 
     return (
         <div className="list-with-search">

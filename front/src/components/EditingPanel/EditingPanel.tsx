@@ -50,7 +50,7 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
         <TwoColumnLayout
             left={
                 (
-                    <ListWithSearch {...listWithSearchProps} onSelect={onListItemSelect} onDelete={onItemDelete} selectedItem={selected} />
+                    <ListWithSearch {...listWithSearchProps} onSelect={onListItemSelect} onDelete={onItemDelete} selected={selected} />
                 )
             }
             right={(
