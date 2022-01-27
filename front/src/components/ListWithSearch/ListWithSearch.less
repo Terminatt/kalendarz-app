@@ -1,18 +1,25 @@
 @import '~styles/variables.less';
 
 .list-with-search {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
   &-header {
     margin-bottom: 0;
+  }
+  
+  &-container {
+    overflow-y: auto;
+    padding-right:  @padding-small;
   }
 
   &-input {
     margin-bottom: @margin-medium;
     .ant-btn {
-      height: 34px;
+      height: 33px;
     }
   }
   
-
   &-item {
     padding: @padding-small;
   }
@@ -25,5 +32,12 @@
   &-selected {
     border-right: 3px solid @primary-color;
     background-color: lighten(@secondary-bg, 10%);
+  }
+
+  &-pagination {
+    margin-top: @margin-small;
+    padding-top: @padding-medium;
+    border-top: 1px solid @border-color-base;
+    text-align: right;
   }
 }

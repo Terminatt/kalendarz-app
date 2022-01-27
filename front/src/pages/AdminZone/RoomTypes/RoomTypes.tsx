@@ -26,6 +26,7 @@ const RoomTypes: React.FC = () => {
     const [errorResponse, setErrorResponse] = useState<null | RoomTypeCreateErrorResponse>(null);
     const roomTypes = useSelector((state: RootState) => state.roomTypes);
     const { data, isLoading } = roomTypes;
+    const { count, results } = data;
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -57,6 +58,10 @@ const RoomTypes: React.FC = () => {
         dispatch(deleteRoomType({ requestPayload: item.id, onSuccess: () => dispatch(getRoomTypes()) }));
     }, []);
 
+    const onPageChange = useCallback((page: number) => {
+        dispatch(getRoomTypes({ requestPayload: page }));
+    }, []);
+
     return (
         <div className="room-types">
             <EditingPanel
@@ -67,7 +72,9 @@ const RoomTypes: React.FC = () => {
                     title: 'Typy pokojów',
                     searchLabel: 'Wyszukaj typ pokoju',
                     placeholder: 'Nazwa typu',
-                    dataSource: data,
+                    total: count,
+                    onPageChange,
+                    dataSource: results,
                     isLoading,
                     renderContent: (item) => (
                         <div className="room-types-content-item">

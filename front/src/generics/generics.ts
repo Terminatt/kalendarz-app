@@ -1,8 +1,6 @@
-import React from 'react';
-
 export type GenericReactContent = React.ReactElement | React.ReactElement[];
-
 export type Id = number;
+export type PageNumber = number | undefined;
 
 export interface BaseItem {
   id: Id;
@@ -14,7 +12,7 @@ export interface BaseState {
 }
 
 export interface BaseDataState<Data extends BaseItem> extends BaseState {
-  data: Data[],
+  data: PaginatedResults<Data>,
 }
 
 export interface BaseFullDataState<Data extends BaseItem> extends BaseDataState<Data> {
@@ -35,4 +33,9 @@ export type ValidationErrorItem = string[] | ValidationError | undefined;
 
 export interface ResponseError {
   [key: string]: ValidationErrorItem
+}
+
+export interface PaginatedResults<T> {
+  count: number;
+  results: T[];
 }

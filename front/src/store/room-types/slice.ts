@@ -10,7 +10,10 @@ import { RoomType } from './types';
 
 const initialState: BaseDataState<RoomType> = {
     isLoading: false,
-    data: [],
+    data: {
+        count: 0,
+        results: [],
+    },
 };
 
 const matchers: DefaultMatchers = {

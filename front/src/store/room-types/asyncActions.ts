@@ -1,6 +1,7 @@
 import axios from '@axios/axios';
-import { Id } from '@generics/generics';
+import { Id, PageNumber, PaginatedResults } from '@generics/generics';
 import { RoomTypeFormValues } from '@pages/AdminZone/RoomTypes/RoomTypes';
+import { getList } from '@utils/requests';
 import { createCustomAsyncThunk } from '@utils/store';
 import { RoomType, RoomTypeCreateErrorResponse } from './types';
 
@@ -10,8 +11,8 @@ export const createRoomType = createCustomAsyncThunk<RoomTypeCreateErrorResponse
     errorMessage: 'Wystąpił błąd podczas tworzenia nowego typu pokoju',
 });
 
-export const getRoomTypes = createCustomAsyncThunk<void, void, RoomType[]>('roomTypes/get', {
-    request: () => axios.get('room_types/'),
+export const getRoomTypes = createCustomAsyncThunk<void, PageNumber, PaginatedResults<RoomType>>('roomTypes/get', {
+    request: (page) => getList('room_types/', page),
     errorMessage: 'Wystąpił błąd podczas pobierania typów pokojów',
 });
 

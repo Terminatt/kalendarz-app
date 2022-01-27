@@ -28,3 +28,5 @@ export enum Month {
     NOVEMBER,
     DECEMBER,
 }
+
+export const PAGE_SIZE = 10;
