@@ -44,7 +44,7 @@ const RoomTypes: React.FC = () => {
                 setErrorResponse(errorData.response.data);
             },
         };
-        
+
         if (!id) {
             dispatch(createRoomType({ requestPayload: values, ...requestOptions }));
             return;
