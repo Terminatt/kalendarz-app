@@ -3,9 +3,9 @@ import React, {
     useCallback, useEffect, useState,
 } from 'react';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { isDefined, isExisting } from '@utils/general';
 
 import './Switcher.less';
-import { isExisting } from '@utils/general';
 
 export interface SwitcherOption<T> {
   label: string;
@@ -23,17 +23,9 @@ export enum IndexExceed {
 }
 
 const Switcher = <T, >(props: SwitcherProps<T>): React.ReactElement => {
-    const [selectedIndex, _setSelectedIndex] = useState<number | null>(null);
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const { selected, options, onChange } = props;
-
-    const setSelectedIndex = useCallback((index: number): void => {
-        // if selected item is provided from props, do not set it internally but set it on useEffect
-        if (isExisting(selected)) {
-            return;
-        }
-
-        _setSelectedIndex(index);
-    }, [selected]);
+    const selectedItem = selected || selectedIndex;
 
     useEffect(() => {
         if (options.length === 0) {
@@ -42,14 +34,6 @@ const Switcher = <T, >(props: SwitcherProps<T>): React.ReactElement => {
         setSelectedIndex(0);
     }, []);
 
-    useEffect(() => {
-        if (!isExisting(selected)) {
-            return;
-        }
-
-        _setSelectedIndex(selected);
-    }, [selected]);
-
     const onIndexChange = useCallback((index: number, exceeds?: IndexExceed): void => {
         if (onChange) {
             onChange(options[index] ? options[index].value : null, exceeds);
@@ -57,36 +41,46 @@ const Switcher = <T, >(props: SwitcherProps<T>): React.ReactElement => {
     }, [onChange]);
 
     const onLeftButtonClick = useCallback(() => {
-        if (!isExisting(selectedIndex)) {
+        if (!isExisting(selectedItem)) {
             return;
         }
 
-        const newIndex = selectedIndex - 1;
+        const newIndex = selectedItem - 1;
 
         if (newIndex < 0) {
             onIndexChange(newIndex, IndexExceed.LEFT);
             return;
         }
 
-        setSelectedIndex(newIndex);
         onIndexChange(newIndex);
-    }, [selectedIndex]);
 
-    const onRightButtonClick = useCallback(() => {
-        if (!isExisting(selectedIndex)) {
+        if (isDefined(selected)) {
             return;
         }
 
-        const newIndex = selectedIndex + 1;
+        setSelectedIndex(newIndex);
+    }, [selectedIndex, selected, onIndexChange]);
+
+    const onRightButtonClick = useCallback(() => {
+        if (!isExisting(selectedItem)) {
+            return;
+        }
+
+        const newIndex = selectedItem + 1;
 
         if (newIndex > options.length - 1) {
             onIndexChange(newIndex, IndexExceed.RIGHT);
             return;
         }
 
-        setSelectedIndex(newIndex);
         onIndexChange(newIndex);
-    }, [selectedIndex, onIndexChange]);
+
+        if (isDefined(selected)) {
+            return;
+        }
+
+        setSelectedIndex(newIndex);
+    }, [selectedIndex, selected, onIndexChange]);
 
     return (
         <div className="switcher">
@@ -94,7 +88,7 @@ const Switcher = <T, >(props: SwitcherProps<T>): React.ReactElement => {
                 <LeftOutlined />
             </TransparentButton>
             <span className="switcher-selected">
-                {selectedIndex !== null ? options[selectedIndex].label : ''}
+                {selectedItem !== null ? options[selectedItem].label : ''}
             </span>
             <TransparentButton onClick={onRightButtonClick} className="switcher-btn switcher-btn-right">
                 <RightOutlined />
