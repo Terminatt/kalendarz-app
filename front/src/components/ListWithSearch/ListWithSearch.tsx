@@ -114,11 +114,11 @@ const ListWithSearch = <T extends BaseItem, >(props: ListWithSearchProps<T>): Re
                 />
             </div>
             <div>
-                {total && isMoreThanOnePage(total) && (
+                {total && isMoreThanOnePage(total) ? (
                     <div className="list-with-search-pagination">
                         <Pagination current={currentPage} total={total} onChange={onPaginationChange} pageSize={PAGE_SIZE} />
                     </div>
-                )}
+                ) : null}
             </div>
         </div>
     );
