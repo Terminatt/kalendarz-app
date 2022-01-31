@@ -1,4 +1,5 @@
 import EditingPanel from '@components/EditingPanel/EditingPanel';
+import { debounceTime } from '@constants/constants';
 import { Id } from '@generics/generics';
 import { RootState } from '@store/index';
 import {
@@ -12,6 +13,7 @@ import { useForm } from 'antd/es/form/Form';
 import { AxiosError } from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { debounce } from 'ts-debounce';
 
 import './RoomTypes.less';
 
@@ -59,8 +61,12 @@ const RoomTypes: React.FC = () => {
     }, []);
 
     const onPageChange = useCallback((page: number) => {
-        dispatch(getRoomTypes({ requestPayload: page }));
+        dispatch(getRoomTypes({ requestPayload: { page } }));
     }, []);
+
+    const onSearchChange = useCallback(debounce((e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(getRoomTypes({ requestPayload: { filters: { search: e.target.value } } }));
+    }, debounceTime), []);
 
     return (
         <div className="room-types">
@@ -73,9 +79,10 @@ const RoomTypes: React.FC = () => {
                     searchLabel: 'Wyszukaj typ pokoju',
                     placeholder: 'Nazwa typu',
                     total: count,
-                    onPageChange,
                     dataSource: results,
                     isLoading,
+                    onSearchChange,
+                    onPageChange,
                     renderContent: (item) => (
                         <div className="room-types-content-item">
                             <div>{item.name}</div>

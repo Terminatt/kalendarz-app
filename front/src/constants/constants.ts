@@ -29,4 +29,6 @@ export enum Month {
     DECEMBER,
 }
 
-export const PAGE_SIZE = 10;
+export const pageSize = 10;
+
+export const debounceTime = 350; // miliseconds

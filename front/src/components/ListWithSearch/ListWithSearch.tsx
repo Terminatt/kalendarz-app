@@ -4,7 +4,7 @@ import {
 } from 'antd';
 import CustomButton from '@components/CustomButton/CustomButton';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { formLayout, PAGE_SIZE } from '@constants/constants';
+import { formLayout, pageSize } from '@constants/constants';
 import { isDefined, isMoreThanOnePage, stopBubbling } from '@utils/general';
 import CustomEmpty from '@components/CustomEmpty/CustomEmpty';
 import { BaseItem } from '@generics/generics';
@@ -26,7 +26,7 @@ export interface ListWithSearchProps<T> {
     onDelete?: (item: T) => void;
     onSearch?: (value: string) => void;
     onSelect?: (item: T | null) => void;
-    onSearchChange?: (event: React.ChangeEvent) => void;
+    onSearchChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onPageChange?: (page: number) => void;
 }
 
@@ -116,7 +116,7 @@ const ListWithSearch = <T extends BaseItem, >(props: ListWithSearchProps<T>): Re
             <div>
                 {total && isMoreThanOnePage(total) ? (
                     <div className="list-with-search-pagination">
-                        <Pagination current={currentPage} total={total} onChange={onPaginationChange} pageSize={PAGE_SIZE} />
+                        <Pagination current={currentPage} total={total} onChange={onPaginationChange} pageSize={pageSize} />
                     </div>
                 ) : null}
             </div>

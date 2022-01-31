@@ -45,6 +45,7 @@ module.exports = {
         "react/jsx-props-no-spreading": "off",
         "max-len": ["error", 180],
         "import/no-extraneous-dependencies": "off",
-        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]        
+        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+        "@typescript-eslint/restrict-template-expressions": ['error', {"allowAny": true}]
     }
 }

@@ -30,27 +30,28 @@ export interface CustomAsyncThunkPayload<ErrorData, Payload, Data> {
 export function createCustomAsyncThunk<ErrorData = void, Payload = void, Data = void>(
     prefix: string,
     options: {
-      request: (payload: Payload extends undefined ? undefined : Payload,) => Promise<AxiosResponse<Data>>;
+      request: (payload: Payload extends undefined ? undefined : Payload) => Promise<AxiosResponse<Data>>;
       successMessage?: string;
       errorMessage?: string;
   },
 ): AsyncThunk<CustomAsyncThunkResponse<Data>, CustomAsyncThunkPayload<ErrorData, Payload, Data> | void, CustomThunkConfig<ErrorData>> {
     return createAsyncThunk<CustomAsyncThunkResponse<Data>, CustomAsyncThunkPayload<ErrorData, Payload, Data> | void, CustomThunkConfig<ErrorData>>(
         prefix,
-        async (payload, { rejectWithValue }) => {
+        async (_payload, { rejectWithValue }) => {
             const { request, successMessage, errorMessage } = options;
+            const payload = _payload || {};
             try {
-                const response = await request(payload?.requestPayload as Payload extends undefined ? undefined : Payload);
+                const response = await request(payload.requestPayload as Payload extends undefined ? undefined : Payload);
                 const { data } = response;
 
-                if (payload?.onSuccess) {
+                if (payload.onSuccess) {
                     payload.onSuccess(data);
                 }
 
                 return { data, successMessage };
             } catch (error) {
                 if (isAxiosError<ErrorData>(error)) {
-                    if (payload?.onError) {
+                    if (payload.onError) {
                         payload.onError(error);
                     }
 

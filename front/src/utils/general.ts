@@ -1,4 +1,4 @@
-import { PAGE_SIZE } from '@constants/constants';
+import { pageSize } from '@constants/constants';
 import dayjs, { Dayjs } from 'dayjs';
 
 export function isNumber(value: unknown): value is number {
@@ -46,5 +46,5 @@ export function stopBubbling(e?: React.MouseEvent<HTMLElement, MouseEvent> | und
 }
 
 export function isMoreThanOnePage(total: number): boolean {
-    return total >= PAGE_SIZE;
+    return total > pageSize;
 }

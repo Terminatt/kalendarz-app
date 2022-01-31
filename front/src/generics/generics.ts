@@ -1,9 +1,18 @@
 export type GenericReactContent = React.ReactElement | React.ReactElement[];
 export type Id = number;
-export type PageNumber = number | undefined;
+
+export interface SearchFilter {
+  search: string;
+}
+
+export interface ListRequestPayload<T> {
+  page?: number;
+  filters?: Partial<T> & Partial<SearchFilter>;
+}
 
 export interface BaseItem {
   id: Id;
+  name: string;
   created: string;
 }
 

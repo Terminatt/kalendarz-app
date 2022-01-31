@@ -17,9 +17,9 @@ const initialState: BaseDataState<RoomType> = {
 };
 
 const matchers: DefaultMatchers = {
-    pending: isPending(createRoomType, updateRoomType, deleteRoomType),
-    fulfilled: isFulfilled(createRoomType, updateRoomType, deleteRoomType),
-    rejected: isRejected(createRoomType, updateRoomType, deleteRoomType),
+    pending: isPending(createRoomType, updateRoomType, deleteRoomType, getRoomTypes),
+    fulfilled: isFulfilled(createRoomType, updateRoomType, deleteRoomType, getRoomTypes),
+    rejected: isRejected(createRoomType, updateRoomType, deleteRoomType, getRoomTypes),
 };
 
 export const roomTypesSlice = createCustomSlice({
