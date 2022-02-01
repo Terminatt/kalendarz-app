@@ -7,12 +7,13 @@ import UserSpace from '@components/UserSpace/UserSpace';
 import { useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import Home from '@pages/Home/Home';
+import RoomTypes from '@pages/AdminZone/RoomTypes/RoomTypes';
 
 import 'styles/global.less';
 import 'styles/overrides.less';
 import 'styles/animations.less';
 import './App.less';
-import RoomTypes from '@pages/AdminZone/RoomTypes/RoomTypes';
+import Rooms from '@pages/AdminZone/Rooms/Rooms';
 
 const AppHeader = () => (
     <span className="header-text">
@@ -45,6 +46,7 @@ const App: React.FC = () => {
                             <Route path="/" element={<Home />} />
                             <Route path="admin-zone">
                                 <Route path="room-types" element={<RoomTypes />} />
+                                <Route path="rooms" element={<Rooms />} />
                             </Route>
                             <Route path="user-zone" element={<div>user zone</div>} />
                         </Routes>
