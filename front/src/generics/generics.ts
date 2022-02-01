@@ -1,4 +1,4 @@
-export type GenericReactContent = React.ReactElement | React.ReactElement[];
+export type GenericReactContent = React.ReactElement | React.ReactElement[] | string;
 export type Id = number;
 
 export interface SearchFilter {

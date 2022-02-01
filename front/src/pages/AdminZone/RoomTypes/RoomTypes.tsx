@@ -1,3 +1,4 @@
+import ColoredBlock from '@components/ColoredBlock/ColoredBlock';
 import EditingPanel from '@components/EditingPanel/EditingPanel';
 import { debounceTime } from '@constants/constants';
 import { Id } from '@generics/generics';
@@ -22,7 +23,6 @@ export interface RoomTypeFormValues {
     color: string;
 }
 
-// TODO Calculate text color based on room type background color
 const RoomTypes: React.FC = () => {
     const [form] = useForm<RoomTypeFormValues>();
     const [errorResponse, setErrorResponse] = useState<null | RoomTypeErrorResponse>(null);
@@ -89,9 +89,9 @@ const RoomTypes: React.FC = () => {
                             <div className="room-types-content-item-date">
                                 {parseDate(item.created)}
                             </div>
-                            <div className="room-types-content-item-color" style={{ backgroundColor: item.color }}>
+                            <ColoredBlock className="room-types-content-item-color" bgColor={item.color}>
                                 {item.color}
-                            </div>
+                            </ColoredBlock>
                         </div>
                     ),
                 }}
