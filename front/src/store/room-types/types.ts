@@ -4,7 +4,7 @@ export interface RoomType extends BaseItem {
     color: string;
 }
 
-export interface RoomTypeCreateErrorResponse {
+export interface RoomTypeErrorResponse {
     [key: string]: ValidationErrorItem;
     name: ValidationErrorItem;
 }

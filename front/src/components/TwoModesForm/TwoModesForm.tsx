@@ -6,8 +6,9 @@ import CustomButton from '@components/CustomButton/CustomButton';
 import './TwoModesForm.less';
 
 export enum FormEditMode {
-    Create = 1,
-    Edit = 2,
+    NONE,
+    CREATE,
+    EDIT,
 }
 
 export interface TwoModesFormProps<T> extends CustomFormProps {
@@ -20,21 +21,21 @@ export interface TwoModesFormProps<T> extends CustomFormProps {
 }
 
 const TwoModesForm = <T, >(props: TwoModesFormProps<T>): React.ReactElement => {
-    const [mode, setMode] = useState<FormEditMode>(FormEditMode.Create);
+    const [mode, setMode] = useState<FormEditMode>(FormEditMode.CREATE);
     const {
         children, selected, formProps, onFormSubmit, primaryBtnText, editPrimaryBtnText, changeModeText, onModeChange, ...rest
     } = props;
     const { form } = formProps;
-    const isCreate = mode === FormEditMode.Create;
+    const isCreate = mode === FormEditMode.CREATE;
 
     useEffect(() => {
         if (!selected) {
-            setMode(FormEditMode.Create);
+            setMode(FormEditMode.CREATE);
             form?.resetFields();
             return;
         }
 
-        setMode(FormEditMode.Edit);
+        setMode(FormEditMode.EDIT);
         form?.setFieldsValue(selected);
     }, [selected]);
 
@@ -47,7 +48,7 @@ const TwoModesForm = <T, >(props: TwoModesFormProps<T>): React.ReactElement => {
     }, [onFormSubmit, mode]);
 
     const onModeBtnClick = useCallback(() => {
-        setMode(FormEditMode.Edit);
+        setMode(FormEditMode.EDIT);
 
         if (!onModeChange) {
             return;
@@ -63,7 +64,7 @@ const TwoModesForm = <T, >(props: TwoModesFormProps<T>): React.ReactElement => {
                     <h2>Panel Edycji</h2>
                 </div>
                 <div className="two-modes-form-header-tag">
-                    {mode === FormEditMode.Create ? <Tag color="#026E05">Nowy</Tag> : <Tag color="#775C02">Edycja</Tag>}
+                    {mode === FormEditMode.CREATE ? <Tag color="#026E05">Nowy</Tag> : <Tag color="#775C02">Edycja</Tag>}
                 </div>
             </div>
             <CustomForm formProps={{ form, onFinish, ...formProps }} {...rest} primaryBtnText={isCreate ? primaryBtnText : editPrimaryBtnText}>

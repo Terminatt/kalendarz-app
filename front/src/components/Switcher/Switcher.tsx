@@ -18,8 +18,9 @@ export interface SwitcherProps<T> {
 }
 
 export enum IndexExceed {
-    LEFT = 1,
-    RIGHT = 2,
+    NONE,
+    LEFT,
+    RIGHT,
 }
 
 const Switcher = <T, >(props: SwitcherProps<T>): React.ReactElement => {

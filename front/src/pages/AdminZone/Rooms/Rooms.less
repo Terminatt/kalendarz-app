@@ -2,31 +2,17 @@
 @import '~styles/variables.less';
 @import '~styles/breakpoints.less';
 
-.room-types {
+.room {
   .full-size();
   .center-horizontally();
 
   &-content {
     .editing-panel-content();
-
-    &-item {
-      &-date {
-        color: @text-color-secondary;
-      }
-
-      &-color {
-        margin-top: @margin-tiny;
-        color: @black;
-        text-align: center;
-        width: 100px;
-        padding: @padding-minimal @padding-small;
-      }
-    }
   }
 }
 
 @media screen and (min-width: @w-xxl) {
-  .room-types {
+  .room {
     align-items: center;
 
     &-content {
@@ -37,9 +23,9 @@
 
 
 @media screen and (min-width: @w-xxxl) {
-  .room-types {
+  .room {
     &-content {
-      .editing-panel-content-big();
+      .editing-panel-content-big()
     }
   }
 }
