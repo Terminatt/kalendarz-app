@@ -5,7 +5,7 @@ import { RootState } from '@store/index';
 import {
     createRoomType, deleteRoomType, getRoomTypes, updateRoomType,
 } from '@store/room-types/asyncActions';
-import { RoomType, RoomTypeCreateErrorResponse } from '@store/room-types/types';
+import { RoomType, RoomTypeErrorResponse } from '@store/room-types/types';
 import { getRequiredRule } from '@utils/form';
 import { parseDate } from '@utils/general';
 import { Form, Input } from 'antd';
@@ -25,7 +25,7 @@ export interface RoomTypeFormValues {
 // TODO Calculate text color based on room type background color
 const RoomTypes: React.FC = () => {
     const [form] = useForm<RoomTypeFormValues>();
-    const [errorResponse, setErrorResponse] = useState<null | RoomTypeCreateErrorResponse>(null);
+    const [errorResponse, setErrorResponse] = useState<null | RoomTypeErrorResponse>(null);
     const roomTypes = useSelector((state: RootState) => state.roomTypes);
     const { data, isLoading } = roomTypes;
     const { count, results } = data;
@@ -40,7 +40,7 @@ const RoomTypes: React.FC = () => {
             onSuccess: () => {
                 dispatch(getRoomTypes());
             },
-            onError: (errorData: AxiosError<RoomTypeCreateErrorResponse, any>) => {
+            onError: (errorData: AxiosError<RoomTypeErrorResponse, any>) => {
                 if (!errorData.response) {
                     return;
                 }
