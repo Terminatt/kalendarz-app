@@ -17,7 +17,7 @@ export const getRoomTypes = createCustomAsyncThunk<void, ListRequestPayload<Room
 });
 
 export const updateRoomType = createCustomAsyncThunk<RoomTypeCreateErrorResponse, Omit<RoomType, 'created'>>('roomTypes/patch', {
-    request: (payload) => axios.patch(`room_types/${payload.id}/`, payload),
+    request: ({ id, ...payload }) => axios.patch(`room_types/${id}/`, payload),
     successMessage: 'Zaktualizowano wybrany typ pokoju',
     errorMessage: 'Wystąpił błąd podczas edycji wybranego typu pokoju',
 });
