@@ -8,7 +8,7 @@ import {
 } from '@store/room-types/asyncActions';
 import { RoomType, RoomTypeErrorResponse } from '@store/room-types/types';
 import { getRequiredRule } from '@utils/form';
-import { parseDate } from '@utils/general';
+import { isMoreThanOnePage, parseDate } from '@utils/general';
 import { Form, Input } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { AxiosError } from 'axios';
@@ -26,6 +26,7 @@ export interface RoomTypeFormValues {
 const RoomTypes: React.FC = () => {
     const [form] = useForm<RoomTypeFormValues>();
     const [errorResponse, setErrorResponse] = useState<null | RoomTypeErrorResponse>(null);
+    const [currentPage, setCurrentPage] = useState<number | null>(null);
     const roomTypes = useSelector((state: RootState) => state.roomTypes);
     const { data, isLoading } = roomTypes;
     const { count, results } = data;
@@ -35,10 +36,17 @@ const RoomTypes: React.FC = () => {
         dispatch(getRoomTypes());
     }, []);
 
+    useEffect(() => {
+        if (isMoreThanOnePage(count)) {
+            return;
+        }
+        setCurrentPage(null);
+    }, [count]);
+
     const onFormSubmit = useCallback((values: RoomTypeFormValues, id?: Id) => {
         const requestOptions = {
             onSuccess: () => {
-                dispatch(getRoomTypes());
+                dispatch(getRoomTypes({ requestPayload: { page: currentPage } }));
             },
             onError: (errorData: AxiosError<RoomTypeErrorResponse, any>) => {
                 if (!errorData.response) {
@@ -61,6 +69,7 @@ const RoomTypes: React.FC = () => {
     }, []);
 
     const onPageChange = useCallback((page: number) => {
+        setCurrentPage(page);
         dispatch(getRoomTypes({ requestPayload: { page } }));
     }, []);
 
