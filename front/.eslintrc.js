@@ -46,6 +46,7 @@ module.exports = {
         "max-len": ["error", 180],
         "import/no-extraneous-dependencies": "off",
         "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
-        "@typescript-eslint/restrict-template-expressions": ['error', {"allowAny": true}]
+        "@typescript-eslint/restrict-template-expressions": ['error', {"allowAny": true}],
+        "@typescript-eslint/no-explicit-any": 'off'
     }
 }

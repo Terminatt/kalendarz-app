@@ -3,7 +3,7 @@ import { Id, ListRequestPayload, PaginatedResults } from '@generics/generics';
 import { RoomTypeFormValues } from '@pages/AdminZone/RoomTypes/RoomTypes';
 import { getList } from '@utils/requests';
 import { createCustomAsyncThunk } from '@utils/store';
-import { RoomType, RoomTypeErrorResponse } from './types';
+import { BaseRoomType, RoomType, RoomTypeErrorResponse } from './types';
 
 export const createRoomType = createCustomAsyncThunk<RoomTypeErrorResponse, RoomTypeFormValues>('roomTypes/create', {
     request: (payload) => axios.post('room_types/', payload),
@@ -16,7 +16,7 @@ export const getRoomTypes = createCustomAsyncThunk<void, ListRequestPayload<Room
     errorMessage: 'Wystąpił błąd podczas pobierania typów pokojów',
 });
 
-export const updateRoomType = createCustomAsyncThunk<RoomTypeErrorResponse, Omit<RoomType, 'created'>>('roomTypes/patch', {
+export const updateRoomType = createCustomAsyncThunk<RoomTypeErrorResponse, BaseRoomType>('roomTypes/patch', {
     request: ({ id, ...payload }) => axios.patch(`room_types/${id}/`, payload),
     successMessage: 'Zaktualizowano wybrany typ pokoju',
     errorMessage: 'Wystąpił błąd podczas edycji wybranego typu pokoju',

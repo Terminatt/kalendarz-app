@@ -1,7 +1,7 @@
 import axios from '@axios/axios';
 import { AxiosResponse } from 'axios';
 
-export function getList<R, T>(url: string, page?: number, filters?: T): Promise<AxiosResponse<R, any>> {
+export function getList<R, T>(url: string, page?: number | null, filters?: T | null): Promise<AxiosResponse<R, any>> {
     let link = `${url}${page ? `?page=${page}` : ''}`;
 
     if (filters) {

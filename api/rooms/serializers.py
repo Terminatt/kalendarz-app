@@ -16,6 +16,15 @@ class RoomTypeSerializer(serializers.ModelSerializer):
         }
 
 class RoomSerializer(serializers.ModelSerializer):
+    type = RoomTypeSerializer()
+    def to_internal_value(self, data):
+         self.fields['type'] = serializers.PrimaryKeyRelatedField(queryset=RoomType.objects.all())
+         return super(RoomSerializer, self).to_internal_value(data)
+
+    def to_representation(self, obj):
+        self.fields['item'] = RoomTypeSerializer()
+        return super(RoomSerializer, self).to_representation(obj)
+
     class Meta:
         model = Room
         fields = ['id', 'name', 'floor', 'type', 'created']

@@ -9,6 +9,7 @@ export interface User extends BaseItem {
   firstName: string;
   lastName: string;
   email: string;
+  created: string;
   title: string;
   username: string;
   groups: Group;

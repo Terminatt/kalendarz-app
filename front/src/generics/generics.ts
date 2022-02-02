@@ -6,14 +6,13 @@ export interface SearchFilter {
 }
 
 export interface ListRequestPayload<T> {
-  page?: number;
+  page?: number | null;
   filters?: Partial<T> & Partial<SearchFilter>;
 }
 
 export interface BaseItem {
   id: Id;
   name: string;
-  created: string;
 }
 
 export interface BaseState {

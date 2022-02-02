@@ -1,23 +1,26 @@
 import ColoredBlock from '@components/ColoredBlock/ColoredBlock';
 import EditingPanel from '@components/EditingPanel/EditingPanel';
+import ObjectSelect from '@components/ObjectSelect/ObjectSelect';
 import { Id } from '@generics/generics';
 import { RootState } from '@store/index';
 import { getRoomTypes } from '@store/room-types/asyncActions';
-import { getRooms } from '@store/rooms/asyncActions';
+import { RoomType } from '@store/room-types/types';
+import { createRoom, getRooms, updateRoom } from '@store/rooms/asyncActions';
 import { RoomErrorResponse } from '@store/rooms/types';
 import { getRequiredRule } from '@utils/form';
 import { parseDate } from '@utils/general';
-import { Form, Input, Select } from 'antd';
+import { Form, Input } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
-import React, { useEffect, useState } from 'react';
+import { AxiosError } from 'axios';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import './Rooms.less';
 
-const { Option } = Select;
 export interface RoomFormValues {
     name: string;
-    type: Id;
+    floor: string;
+    type: RoomType;
 }
 
 const Rooms: React.FC = () => {
@@ -31,10 +34,32 @@ const Rooms: React.FC = () => {
         dispatch(getRoomTypes());
     }, []);
 
+    const onFormSubmit = useCallback((values: RoomFormValues, id?: Id) => {
+        const requestOptions = {
+            onSuccess: () => {
+                dispatch(getRooms());
+            },
+            onError: (errorData: AxiosError<RoomErrorResponse, any>) => {
+                if (!errorData.response) {
+                    return;
+                }
+                setErrorResponse(errorData.response.data);
+            },
+        };
+        const payload = { ...values, type: values.type.id };
+
+        if (!id) {
+            dispatch(createRoom({ requestPayload: payload, ...requestOptions }));
+            return;
+        }
+        dispatch(updateRoom({ requestPayload: { id, ...payload }, ...requestOptions }));
+    }, []);
+
     return (
         <div className="room">
             <EditingPanel
                 className="room-content"
+                onFormSubmit={onFormSubmit}
                 listWithSearchProps={{
                     title: 'Pokoje',
                     searchLabel: 'Wyszukaj pokój',
@@ -67,21 +92,24 @@ const Rooms: React.FC = () => {
                         <Form.Item label="Podaj nazwę pokoju" name="name" rules={[getRequiredRule()]}>
                             <Input placeholder="Nazwa pokoju" />
                         </Form.Item>
+                        <Form.Item label="Podaj piętro" name="floor" rules={[getRequiredRule()]}>
+                            <Input placeholder="Piętro" />
+                        </Form.Item>
                         <Form.Item label="Wybierz typ pokoju" name="type" rules={[getRequiredRule()]}>
-                            <Select placeholder="Typ pokoju" showSearch>
-                                {roomTypes.data.results.map((el) => (
-                                    <Option key={el.id} value={el.id}>
-                                        <div className="room-content-select-option">
-                                            <div>
-                                                {el.name}
-                                            </div>
-                                            <ColoredBlock bgColor={el.color}>
-                                                {el.color}
-                                            </ColoredBlock>
+                            <ObjectSelect
+                                placeholder="Typ pokoju"
+                                data={roomTypes.data.results}
+                                renderOptionContent={(item) => (
+                                    <div className="room-content-select-option">
+                                        <div>
+                                            {item.name}
                                         </div>
-                                    </Option>
-                                ))}
-                            </Select>
+                                        <ColoredBlock bgColor={item.color}>
+                                            {item.color}
+                                        </ColoredBlock>
+                                    </div>
+                                )}
+                            />
                         </Form.Item>
                     </>
                 )}
