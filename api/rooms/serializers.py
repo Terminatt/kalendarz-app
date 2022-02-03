@@ -22,7 +22,7 @@ class RoomSerializer(serializers.ModelSerializer):
          return super(RoomSerializer, self).to_internal_value(data)
 
     def to_representation(self, obj):
-        self.fields['item'] = RoomTypeSerializer()
+        self.fields['type'] = RoomTypeSerializer()
         return super(RoomSerializer, self).to_representation(obj)
 
     class Meta:

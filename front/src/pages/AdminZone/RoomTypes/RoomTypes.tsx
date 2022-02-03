@@ -7,7 +7,7 @@ import {
     createRoomType, deleteRoomType, getRoomTypes, updateRoomType,
 } from '@store/room-types/asyncActions';
 import { RoomType, RoomTypeErrorResponse } from '@store/room-types/types';
-import { getRequiredRule } from '@utils/form';
+import { getMaxCharRule, getRequiredRule } from '@utils/form';
 import { isMoreThanOnePage, parseDate } from '@utils/general';
 import { Form, Input } from 'antd';
 import { useForm } from 'antd/es/form/Form';
@@ -114,10 +114,10 @@ const RoomTypes: React.FC = () => {
                 }}
                 formItems={(
                     <>
-                        <Form.Item label="Podaj nazwę typu" name="name" rules={[getRequiredRule()]}>
+                        <Form.Item label="Podaj nazwę typu" name="name" rules={[getRequiredRule(), getMaxCharRule(24, 'Nazwa typu może mieć maksymalnie 24 znaki')]}>
                             <Input placeholder="Nazwa typu" />
                         </Form.Item>
-                        <Form.Item label="Podaj kolor" name="color" rules={[getRequiredRule()]}>
+                        <Form.Item label="Podaj kolor" name="color" rules={[getRequiredRule(), getMaxCharRule(24, 'Kolor może mieć maksymalnie 24 znaki')]}>
                             <Input placeholder="Kolor" />
                         </Form.Item>
                     </>
