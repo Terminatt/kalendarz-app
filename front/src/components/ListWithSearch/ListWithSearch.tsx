@@ -21,6 +21,7 @@ export interface ListWithSearchProps<T> {
     isLoading?: boolean;
     selected?: T | null;
     total?: number;
+    pageNumber?: number
     renderContent: (item: T, index: number) => React.ReactNode;
     onEdit?: (item: T) => void;
     onDelete?: (item: T) => void;
@@ -32,13 +33,14 @@ export interface ListWithSearchProps<T> {
 
 const ListWithSearch = <T extends BaseItem, >(props: ListWithSearchProps<T>): React.ReactElement => {
     const [selectedInternal, setSelected] = useState<T | null>(null);
-    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [currentPageInternal, setCurrentPage] = useState<number>(1);
     const {
         dataSource, renderContent, onEdit, onDelete,
         title, placeholder, onSearch, onSearchChange, searchLabel, onSelect,
-        isLoading, selected, total, onPageChange,
+        isLoading, selected, total, onPageChange, pageNumber,
     } = props;
     const selectedListItem = isDefined(selected) ? selected : selectedInternal;
+    const currentPage = pageNumber || currentPageInternal;
 
     const onListItemClick = useCallback((item: T) => {
         const newSelected = item.id !== selectedListItem?.id ? item : null;
@@ -53,7 +55,10 @@ const ListWithSearch = <T extends BaseItem, >(props: ListWithSearchProps<T>): Re
     }, [dataSource, selected, onSelect]);
 
     const onPaginationChange = useCallback((page: number) => {
-        setCurrentPage(page);
+        if (!pageNumber) {
+            setCurrentPage(page);
+        }
+
         if (!onPageChange) {
             return;
         }

@@ -8,7 +8,7 @@ import {
 } from '@store/room-types/asyncActions';
 import { RoomType, RoomTypeErrorResponse } from '@store/room-types/types';
 import { getMaxCharRule, getRequiredRule } from '@utils/form';
-import { calculatePageOnDelete, isMoreThanOnePage, parseDate } from '@utils/general';
+import { parseDate } from '@utils/general';
 import { Form, Input } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { AxiosError } from 'axios';
@@ -26,7 +26,6 @@ export interface RoomTypeFormValues {
 const RoomTypes: React.FC = () => {
     const [form] = useForm<RoomTypeFormValues>();
     const [errorResponse, setErrorResponse] = useState<null | RoomTypeErrorResponse>(null);
-    const [currentPage, setCurrentPage] = useState<number | null>(null);
     const roomTypes = useSelector((state: RootState) => state.roomTypes);
     const { data, isLoading } = roomTypes;
     const { count, results } = data;
@@ -36,14 +35,7 @@ const RoomTypes: React.FC = () => {
         dispatch(getRoomTypes());
     }, []);
 
-    useEffect(() => {
-        if (isMoreThanOnePage(count)) {
-            return;
-        }
-        setCurrentPage(null);
-    }, [count]);
-
-    const onFormSubmit = useCallback((values: RoomTypeFormValues, id?: Id) => {
+    const onFormSubmit = useCallback((values: RoomTypeFormValues, currentPage: number, id?: Id) => {
         const requestOptions = {
             onSuccess: () => {
                 dispatch(getRoomTypes({ requestPayload: { page: currentPage } }));
@@ -62,21 +54,18 @@ const RoomTypes: React.FC = () => {
         }
 
         dispatch(updateRoomType({ requestPayload: { id, ...values }, ...requestOptions }));
-    }, [currentPage]);
+    }, []);
 
-    const onDelete = useCallback((item: RoomType) => {
-        const page = calculatePageOnDelete(data.results.length, currentPage);
-
+    const onDelete = useCallback((item: RoomType, currentPage: number) => {
         dispatch(deleteRoomType({
             requestPayload: item.id,
             onSuccess: () => {
-                dispatch(getRoomTypes({ requestPayload: { page } }));
+                dispatch(getRoomTypes({ requestPayload: { page: currentPage } }));
             },
         }));
-    }, [currentPage, data]);
+    }, []);
 
     const onPageChange = useCallback((page: number) => {
-        setCurrentPage(page);
         dispatch(getRoomTypes({ requestPayload: { page } }));
     }, []);
 
@@ -90,15 +79,15 @@ const RoomTypes: React.FC = () => {
                 className="room-types-content"
                 onFormSubmit={onFormSubmit}
                 onDelete={onDelete}
+                onPageChange={onPageChange}
+                dataSource={results}
                 listWithSearchProps={{
                     title: 'Typy pokojów',
                     searchLabel: 'Wyszukaj typ pokoju',
                     placeholder: 'Nazwa typu',
                     total: count,
-                    dataSource: results,
                     isLoading,
                     onSearchChange,
-                    onPageChange,
                     renderContent: (item) => (
                         <div className="room-types-content-item">
                             <div>{item.name}</div>

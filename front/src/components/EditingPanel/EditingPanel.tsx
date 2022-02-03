@@ -5,21 +5,33 @@ import TwoModesForm, { TwoModesFormProps } from '@components/TwoModesForm/TwoMod
 import { BaseItem, GenericReactContent, Id } from '@generics/generics';
 
 import './EditingPanel.less';
+import { calculatePageOnDelete } from '@utils/general';
 
 export interface EditingPanel<T> {
-    listWithSearchProps: Omit<ListWithSearchProps<T>, 'onSelect' | 'onDelete' | 'selectedItem'>;
+    listWithSearchProps: Omit<ListWithSearchProps<T>, 'onSelect' | 'onDelete' | 'selectedItem' | 'onPageChange' | 'dataSource'>;
     twoModesFormProps: Omit<TwoModesFormProps<T>, 'selected' | 'onFormSubmit' | 'onModeChange'>;
     formItems: GenericReactContent;
     className?: string;
-    onFormSubmit?: (values: T, id?: Id) => void;
-    onDelete?: (item: T) => void;
+    dataSource: T[];
+    onFormSubmit?: (values: T, page: number, id?: Id) => void;
+    onDelete?: (item: T, page: number) => void;
+    onPageChange?: (page: number) => void;
 }
 
 const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.ReactElement => {
     const {
-        listWithSearchProps, twoModesFormProps, formItems, className, onDelete, onFormSubmit,
+        listWithSearchProps, twoModesFormProps, formItems, className, dataSource, onDelete, onFormSubmit, onPageChange,
     } = props;
     const [selected, setSelected] = useState<T | null>();
+    const [currentPage, setCurrentPage] = useState<number>(1);
+
+    const onListPageChange = useCallback((page: number) => {
+        setCurrentPage(page);
+        if (!onPageChange) {
+            return;
+        }
+        onPageChange(page);
+    }, [onPageChange]);
 
     const onListItemSelect = useCallback((item: T | null) => {
         setSelected(item);
@@ -29,18 +41,24 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
         if (!onFormSubmit) {
             return;
         }
-        onFormSubmit(values, selected?.id);
-    }, [selected, onFormSubmit]);
+        onFormSubmit(values, currentPage, selected?.id);
+    }, [selected, currentPage, onFormSubmit]);
 
     const onItemDelete = useCallback((item: T) => {
+        let calculatedPage = calculatePageOnDelete(dataSource.length, currentPage);
+
+        if (!calculatedPage) {
+            calculatedPage = 1;
+        }
+        setCurrentPage(calculatedPage);
         setSelected(null);
 
         if (!onDelete) {
             return;
         }
 
-        onDelete(item);
-    }, [onDelete]);
+        onDelete(item, calculatedPage);
+    }, [currentPage, dataSource, onDelete]);
 
     const onModeChange = useCallback(() => {
         setSelected(null);
@@ -50,7 +68,15 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
         <TwoColumnLayout
             left={
                 (
-                    <ListWithSearch {...listWithSearchProps} onSelect={onListItemSelect} onDelete={onItemDelete} selected={selected} />
+                    <ListWithSearch
+                        {...listWithSearchProps}
+                        onSelect={onListItemSelect}
+                        onDelete={onItemDelete}
+                        selected={selected}
+                        onPageChange={onListPageChange}
+                        pageNumber={currentPage}
+                        dataSource={dataSource}
+                    />
                 )
             }
             right={(

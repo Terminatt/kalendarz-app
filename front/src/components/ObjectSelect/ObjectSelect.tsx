@@ -12,7 +12,7 @@ export interface ObjectSelectProps<T extends BaseItem> {
 
 const { Option } = Select;
 
-const ObjectSelect = <T extends BaseItem, >(props: ObjectSelectProps<T>) => {
+const ObjectSelect = <T extends BaseItem, >(props: ObjectSelectProps<T>): React.ReactElement => {
     const [selected, setSelected] = useState<T | null | undefined>(null);
     const {
         data, placeholder, value, onChange, renderOptionContent,

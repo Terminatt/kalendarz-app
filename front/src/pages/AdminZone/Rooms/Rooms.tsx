@@ -67,12 +67,12 @@ const Rooms: React.FC = () => {
                 className="room-content"
                 onFormSubmit={onFormSubmit}
                 onDelete={onDelete}
+                dataSource={rooms.data.results}
                 listWithSearchProps={{
                     title: 'Pokoje',
                     searchLabel: 'Wyszukaj pokój',
-                    placeholder: 'Nazwa pokoju',
-                    dataSource: rooms.data.results,
                     isLoading: rooms.isLoading,
+                    placeholder: 'Nazwa pokoju',
                     total: rooms.data.count,
                     renderContent: (item) => (
                         <div className="room-content-item">
