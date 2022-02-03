@@ -36,9 +36,9 @@ const ObjectSelect = <T extends BaseItem, >(props: ObjectSelectProps<T>) => {
     };
 
     return (
-        <Select value={selected?.id} placeholder={placeholder} onSelect={onSelect}>
+        <Select value={selected?.id} placeholder={placeholder} onSelect={onSelect} optionLabelProp="label">
             {data.map((el) => (
-                <Option key={el.id} value={el.id}>
+                <Option key={el.id} value={el.id} label={el.name}>
                     {renderOptionContent(el)}
                 </Option>
             ))}
