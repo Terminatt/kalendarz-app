@@ -8,7 +8,7 @@ import {
 } from '@store/room-types/asyncActions';
 import { RoomType, RoomTypeErrorResponse } from '@store/room-types/types';
 import { getMaxCharRule, getRequiredRule } from '@utils/form';
-import { isMoreThanOnePage, parseDate } from '@utils/general';
+import { calculatePageOnDelete, isMoreThanOnePage, parseDate } from '@utils/general';
 import { Form, Input } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { AxiosError } from 'axios';
@@ -62,11 +62,18 @@ const RoomTypes: React.FC = () => {
         }
 
         dispatch(updateRoomType({ requestPayload: { id, ...values }, ...requestOptions }));
-    }, []);
+    }, [currentPage]);
 
     const onDelete = useCallback((item: RoomType) => {
-        dispatch(deleteRoomType({ requestPayload: item.id, onSuccess: () => dispatch(getRoomTypes()) }));
-    }, []);
+        const page = calculatePageOnDelete(data.results.length, currentPage);
+
+        dispatch(deleteRoomType({
+            requestPayload: item.id,
+            onSuccess: () => {
+                dispatch(getRoomTypes({ requestPayload: { page } }));
+            },
+        }));
+    }, [currentPage, data]);
 
     const onPageChange = useCallback((page: number) => {
         setCurrentPage(page);

@@ -5,8 +5,10 @@ import { Id } from '@generics/generics';
 import { RootState } from '@store/index';
 import { getRoomTypes } from '@store/room-types/asyncActions';
 import { RoomType } from '@store/room-types/types';
-import { createRoom, getRooms, updateRoom } from '@store/rooms/asyncActions';
-import { RoomErrorResponse } from '@store/rooms/types';
+import {
+    createRoom, deleteRoom, getRooms, updateRoom,
+} from '@store/rooms/asyncActions';
+import { Room, RoomErrorResponse } from '@store/rooms/types';
 import { getRequiredRule } from '@utils/form';
 import { parseDate } from '@utils/general';
 import { Form, Input } from 'antd';
@@ -55,11 +57,16 @@ const Rooms: React.FC = () => {
         dispatch(updateRoom({ requestPayload: { id, ...payload }, ...requestOptions }));
     }, []);
 
+    const onDelete = useCallback((item: Room) => {
+        dispatch(deleteRoom({ requestPayload: item.id, onSuccess: () => dispatch(getRooms()) }));
+    }, []);
+
     return (
         <div className="room">
             <EditingPanel
                 className="room-content"
                 onFormSubmit={onFormSubmit}
+                onDelete={onDelete}
                 listWithSearchProps={{
                     title: 'Pokoje',
                     searchLabel: 'Wyszukaj pokój',

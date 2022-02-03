@@ -48,3 +48,12 @@ export function stopBubbling(e?: React.MouseEvent<HTMLElement, MouseEvent> | und
 export function isMoreThanOnePage(total: number): boolean {
     return total > pageSize;
 }
+
+export function calculatePageOnDelete(dataLength: number, page: number | null): number | null {
+    if (!page) {
+        return null;
+    }
+
+    const calculated = dataLength === 1 ? page - 1 : page;
+    return calculated === 0 ? null : calculated;
+}

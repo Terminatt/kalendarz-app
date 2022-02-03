@@ -30,7 +30,7 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
             return;
         }
         onFormSubmit(values, selected?.id);
-    }, [selected]);
+    }, [selected, onFormSubmit]);
 
     const onItemDelete = useCallback((item: T) => {
         setSelected(null);
@@ -40,7 +40,7 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
         }
 
         onDelete(item);
-    }, []);
+    }, [onDelete]);
 
     const onModeChange = useCallback(() => {
         setSelected(null);

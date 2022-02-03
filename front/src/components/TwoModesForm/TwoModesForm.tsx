@@ -45,7 +45,7 @@ const TwoModesForm = <T, >(props: TwoModesFormProps<T>): React.ReactElement => {
         }
 
         onFormSubmit(values, mode);
-    }, [onFormSubmit, mode]);
+    }, [mode, onFormSubmit]);
 
     const onModeBtnClick = useCallback(() => {
         setMode(FormEditMode.EDIT);

@@ -58,7 +58,7 @@ const ListWithSearch = <T extends BaseItem, >(props: ListWithSearchProps<T>): Re
             return;
         }
         onPageChange(page);
-    }, []);
+    }, [onPageChange]);
 
     return (
         <div className="list-with-search">
