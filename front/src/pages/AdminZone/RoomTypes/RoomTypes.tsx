@@ -35,10 +35,10 @@ const RoomTypes: React.FC = () => {
         dispatch(getRoomTypes());
     }, []);
 
-    const onFormSubmit = useCallback((values: RoomTypeFormValues, currentPage: number, id?: Id) => {
+    const onFormSubmit = useCallback((values: RoomTypeFormValues, page: number, id?: Id) => {
         const requestOptions = {
             onSuccess: () => {
-                dispatch(getRoomTypes({ requestPayload: { page: currentPage } }));
+                dispatch(getRoomTypes({ requestPayload: { page } }));
             },
             onError: (errorData: AxiosError<RoomTypeErrorResponse, any>) => {
                 if (!errorData.response) {
@@ -56,11 +56,11 @@ const RoomTypes: React.FC = () => {
         dispatch(updateRoomType({ requestPayload: { id, ...values }, ...requestOptions }));
     }, []);
 
-    const onDelete = useCallback((item: RoomType, currentPage: number) => {
+    const onDelete = useCallback((item: RoomType, page: number) => {
         dispatch(deleteRoomType({
             requestPayload: item.id,
             onSuccess: () => {
-                dispatch(getRoomTypes({ requestPayload: { page: currentPage } }));
+                dispatch(getRoomTypes({ requestPayload: { page } }));
             },
         }));
     }, []);
