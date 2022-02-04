@@ -40,7 +40,7 @@ const ListWithSearch = <T extends BaseItem, >(props: ListWithSearchProps<T>): Re
         isLoading, selected, total, onPageChange, pageNumber,
     } = props;
     const selectedListItem = isDefined(selected) ? selected : selectedInternal;
-    const currentPage = pageNumber || currentPageInternal;
+    const currentPage = isDefined(pageNumber) ? pageNumber : currentPageInternal;
 
     const onListItemClick = useCallback((item: T) => {
         const newSelected = item.id !== selectedListItem?.id ? item : null;
