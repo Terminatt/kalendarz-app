@@ -1,6 +1,7 @@
 import ColoredBlock from '@components/ColoredBlock/ColoredBlock';
 import EditingPanel from '@components/EditingPanel/EditingPanel';
 import ObjectSelect from '@components/ObjectSelect/ObjectSelect';
+import { debounceTime } from '@constants/constants';
 import { Id } from '@generics/generics';
 import { RootState } from '@store/index';
 import { getRoomTypes } from '@store/room-types/asyncActions';
@@ -16,6 +17,7 @@ import { useForm } from 'antd/lib/form/Form';
 import { AxiosError } from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { debounce } from 'ts-debounce';
 
 import './Rooms.less';
 
@@ -61,12 +63,24 @@ const Rooms: React.FC = () => {
         dispatch(deleteRoom({ requestPayload: item.id, onSuccess: () => dispatch(getRooms()) }));
     }, []);
 
+    const onPageChange = useCallback((page: number) => {
+        dispatch(getRooms({ requestPayload: { page } }));
+    }, []);
+
+    const onSearchChange = useCallback(debounce((e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(getRooms({ requestPayload: { filters: { search: e.target.value } } }));
+    }, debounceTime), []);
+
+    const onSelectSearchChange = useCallback(debounce((value: string) => {
+        dispatch(getRoomTypes({ requestPayload: { filters: { search: value } } }));
+    }, debounceTime), []);
     return (
         <div className="room">
             <EditingPanel
                 className="room-content"
                 onFormSubmit={onFormSubmit}
                 onDelete={onDelete}
+                onPageChange={onPageChange}
                 dataSource={rooms.data.results}
                 listWithSearchProps={{
                     title: 'Pokoje',
@@ -74,6 +88,7 @@ const Rooms: React.FC = () => {
                     isLoading: rooms.isLoading,
                     placeholder: 'Nazwa pokoju',
                     total: rooms.data.count,
+                    onSearchChange,
                     renderContent: (item) => (
                         <div className="room-content-item">
                             <div>{item.name}</div>
@@ -105,6 +120,10 @@ const Rooms: React.FC = () => {
                         <Form.Item label="Wybierz typ pokoju" name="type" rules={[getRequiredRule()]}>
                             <ObjectSelect
                                 placeholder="Typ pokoju"
+                                allowClear
+                                showSearch
+                                isLoading={roomTypes.isLoading}
+                                onSearch={onSelectSearchChange}
                                 data={roomTypes.data.results}
                                 renderOptionContent={(item) => (
                                     <div className="room-content-select-option">

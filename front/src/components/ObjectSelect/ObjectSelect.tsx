@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { BaseItem, GenericReactContent, Id } from '@generics/generics';
 import { Select } from 'antd';
 
 export interface ObjectSelectProps<T extends BaseItem> {
     data: T[];
-    value?: T;
     placeholder: string;
+    value?: T;
+    showSearch?: boolean;
+    allowClear?: boolean;
+    isLoading?: boolean;
     onChange?: (value: T) => void;
+    onSearch?: (value: string) => void;
     renderOptionContent: (item: T) => GenericReactContent;
 }
 
@@ -15,14 +19,14 @@ const { Option } = Select;
 const ObjectSelect = <T extends BaseItem, >(props: ObjectSelectProps<T>): React.ReactElement => {
     const [selected, setSelected] = useState<T | null | undefined>(null);
     const {
-        data, placeholder, value, onChange, renderOptionContent,
+        data, placeholder, value, allowClear, showSearch, isLoading, onChange, onSearch, renderOptionContent,
     } = props;
 
     useEffect(() => {
         setSelected(value);
     }, [value]);
 
-    const onSelect = (id: Id) => {
+    const onSelect = useCallback((id: Id) => {
         const item = data.find((el) => el.id === id);
         if (!item) {
             return;
@@ -33,10 +37,27 @@ const ObjectSelect = <T extends BaseItem, >(props: ObjectSelectProps<T>): React.
             return;
         }
         onChange(item);
-    };
+    }, [data, onChange]);
+
+    const onSelectSearch = useCallback((searchValue: string) => {
+        if (!onSearch) {
+            return;
+        }
+        onSearch(searchValue);
+    }, [onSearch]);
 
     return (
-        <Select value={selected?.id} placeholder={placeholder} onSelect={onSelect} optionLabelProp="label">
+        <Select
+            showSearch={showSearch}
+            allowClear={allowClear}
+            value={selected?.id}
+            placeholder={placeholder}
+            filterOption={false}
+            optionLabelProp="label"
+            onSelect={onSelect}
+            onSearch={onSelectSearch}
+            loading={isLoading}
+        >
             {data.map((el) => (
                 <Option key={el.id} value={el.id} label={el.name}>
                     {renderOptionContent(el)}
