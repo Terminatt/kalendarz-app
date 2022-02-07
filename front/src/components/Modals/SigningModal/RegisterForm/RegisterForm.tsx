@@ -18,7 +18,6 @@ export interface RegisterFormValues {
   email: string;
   password: string;
   repeatPassword?: string;
-  title: string;
 }
 
 export interface RegisterFormProps {
@@ -110,14 +109,6 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
                 rules={[getRequiredRule(), getRepeatPasswordRule('password')]}
             >
                 <Input type="password" placeholder="Powtórz hasło" />
-            </Form.Item>
-            <Form.Item
-                label="Tytuł"
-                name="title"
-                wrapperCol={{ span: 6 }}
-                rules={[getMaxCharRule(24, 'Tytuł może mieć maksymalnie 24 znaki')]}
-            >
-                <Input placeholder="Podaj tytuł" />
             </Form.Item>
         </CustomForm>
     );

@@ -7,7 +7,6 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=24)
     last_name = models.CharField(max_length=24)
     password = models.CharField(max_length=24)
-    title = models.CharField(max_length=24)
     created = models.DateTimeField(auto_now_add=True)
 
     REQUIRED_FIELDS = ['groups_id', 'email']

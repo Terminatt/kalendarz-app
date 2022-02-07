@@ -31,8 +31,6 @@ const UserSpace: React.FC = () => {
 
     return isLogged ? (
         <div className="user-space">
-            {data?.title}
-            &nbsp;
             {data?.firstName}
             &nbsp;
             {data?.lastName}
