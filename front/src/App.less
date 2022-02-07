@@ -70,8 +70,12 @@ body {
     &-user-space {
       display: flex;
       width: 100%;
-      justify-content: flex-end;
       padding-bottom: @padding-small;
+      justify-content: space-between;
+      align-items: center;
+      &-hamburger {
+        font-size: @font-size-big;
+      }
     }
 
     &-routes {
@@ -85,6 +89,24 @@ body {
   .app {
     &-content {
       width: calc(100% - @sidebar-width);
+
+      &-user-space {
+        justify-content: flex-end;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: @w-md) {
+  .app {
+    &-content {      
+      &-user-space {
+        justify-content: flex-end;
+
+        &-hamburger {
+          display: none;
+        }
+      }
     }
   }
 }

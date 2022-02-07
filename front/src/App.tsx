@@ -11,11 +11,13 @@ import RoomTypes from '@pages/AdminZone/RoomTypes/RoomTypes';
 import Rooms from '@pages/AdminZone/Rooms/Rooms';
 import { debounceTime, mainWidthBreakpoint } from '@constants/constants';
 import { debounce } from '@utils/general';
+import { MenuOutlined } from '@ant-design/icons';
 
 import 'styles/global.less';
 import 'styles/overrides.less';
 import 'styles/animations.less';
 import './App.less';
+import CustomButton from '@components/CustomButton/CustomButton';
 
 const AppHeader = () => (
     <span className="header-text">
@@ -28,6 +30,10 @@ const App: React.FC = () => {
     const [sidebarVisible, setSidebarVisible] = useState<boolean>(true);
     const dispatch = useDispatch();
 
+    const changeVisibility = useCallback(() => {
+        setSidebarVisible(!sidebarVisible);
+    }, [sidebarVisible]);
+
     const changeVisibilityOnStart = useCallback(() => {
         if (window.innerWidth <= mainWidthBreakpoint) {
             setSidebarVisible(false);
@@ -36,7 +42,7 @@ const App: React.FC = () => {
         setSidebarVisible(true);
     }, []);
 
-    const changeVisibility = useCallback(debounce(() => {
+    const changeVisibilityOnResize = useCallback(debounce(() => {
         if (window.innerWidth <= mainWidthBreakpoint) {
             return;
         }
@@ -47,9 +53,9 @@ const App: React.FC = () => {
         changeVisibilityOnStart();
         dispatch(authenticate());
 
-        window.addEventListener('resize', changeVisibility);
+        window.addEventListener('resize', changeVisibilityOnResize);
         return () => {
-            window.removeEventListener('resize', changeVisibility);
+            window.removeEventListener('resize', changeVisibilityOnResize);
         };
     }, []);
 
@@ -65,6 +71,9 @@ const App: React.FC = () => {
                 <main>
                     <div className="app-content-user-space">
                         <UserSpace />
+                        <CustomButton variant="icon" aria-label="otwórz nawigacje" className="app-content-user-space-hamburger" onClick={changeVisibility}>
+                            <MenuOutlined />
+                        </CustomButton>
                     </div>
                     <div className="app-content-routes">
                         <Routes>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Divider } from 'antd';
 import { GenericReactContent } from '@generics/generics';
 import { Link } from 'react-router-dom';
+import FocusTrap from 'focus-trap-react';
 
 import './Sidebar.less';
 
@@ -18,25 +19,27 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
     } = props;
 
     return visible ? (
-        <div className="sidebar">
-            <div className="sidebar-wrapper">
-                <header className="sidebar-wrapper-header">
-                    <h1 className="sidebar-wrapper-header-content">
-                        <Link to="/" tabIndex={0} className="sidebar-wrapper-header-content-link">
-                            {headerText}
-                        </Link>
-                    </h1>
-                </header>
-                <div className="sidebar-wrapper-top">
-                    {top}
+        <FocusTrap>
+            <div className="sidebar">
+                <div className="sidebar-wrapper">
+                    <header className="sidebar-wrapper-header">
+                        <h1 className="sidebar-wrapper-header-content">
+                            <Link to="/" tabIndex={0} className="sidebar-wrapper-header-content-link">
+                                {headerText}
+                            </Link>
+                        </h1>
+                    </header>
+                    <div className="sidebar-wrapper-top">
+                        {top}
+                    </div>
+                    {!!bottom && <Divider />}
+                    <div className="sidebar-wrapper-bottom">
+                        {bottom}
+                    </div>
                 </div>
-                {!!bottom && <Divider />}
-                <div className="sidebar-wrapper-bottom">
-                    {bottom}
-                </div>
+                <div className="sidebar-mask" />
             </div>
-            <div className="sidebar-mask" />
-        </div>
+        </FocusTrap>
     ) : null;
 };
 
