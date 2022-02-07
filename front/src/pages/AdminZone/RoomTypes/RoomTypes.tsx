@@ -8,13 +8,12 @@ import {
 } from '@store/room-types/asyncActions';
 import { RoomType, RoomTypeErrorResponse } from '@store/room-types/types';
 import { getMaxCharRule, getRequiredRule } from '@utils/form';
-import { parseDate } from '@utils/general';
+import { debounce, parseDate } from '@utils/general';
 import { Form, Input } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { AxiosError } from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { debounce } from 'ts-debounce';
 
 import './RoomTypes.less';
 

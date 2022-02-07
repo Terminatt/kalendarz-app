@@ -9,29 +9,35 @@ export interface SidebarProps {
     top: GenericReactContent;
     bottom?: GenericReactContent;
     headerText?: string | GenericReactContent
+    visible: boolean;
 }
 
 const Sidebar: React.FC<SidebarProps> = (props) => {
-    const { top, bottom, headerText } = props;
+    const {
+        top, bottom, headerText, visible,
+    } = props;
 
-    return (
+    return visible ? (
         <div className="sidebar">
-            <header className="sidebar-header">
-                <h1 className="sidebar-header-content">
-                    <Link to="/" tabIndex={0} className="sidebar-header-content-link">
-                        {headerText}
-                    </Link>
-                </h1>
-            </header>
-            <div className="sidebar-top">
-                {top}
+            <div className="sidebar-wrapper">
+                <header className="sidebar-wrapper-header">
+                    <h1 className="sidebar-wrapper-header-content">
+                        <Link to="/" tabIndex={0} className="sidebar-wrapper-header-content-link">
+                            {headerText}
+                        </Link>
+                    </h1>
+                </header>
+                <div className="sidebar-wrapper-top">
+                    {top}
+                </div>
+                {!!bottom && <Divider />}
+                <div className="sidebar-wrapper-bottom">
+                    {bottom}
+                </div>
             </div>
-            {!!bottom && <Divider />}
-            <div className="sidebar-bottom">
-                {bottom}
-            </div>
+            <div className="sidebar-mask" />
         </div>
-    );
+    ) : null;
 };
 
 export default Sidebar;

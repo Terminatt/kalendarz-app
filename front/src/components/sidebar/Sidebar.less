@@ -1,41 +1,73 @@
 @import '~styles/variables.less';
+@import '~styles/breakpoints.less';
 
 .sidebar {
-    background: @primary-bg;
-    width: @sidebar-width;
-    border-radius: @border-radius-regular;
-    height: 100%;
-    box-shadow: @box-shadow-mild;
-
-    &-header {
-        padding: @padding-medium @padding-medium 0 @padding-medium;
-
-        &-content {
-            margin-bottom: @margin-tiny;
-
-            &-link {
-                padding: @padding-tiny;
-                color: @text-color;
-            }
+    &-wrapper {
+        background: @primary-bg;
+        width: @sidebar-width;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
     
-            &-link:focus {
-                outline: 2px solid @border-color-base;
-                width: max-content;
-                height: max-content;
+        &-header {
+            padding: @padding-medium @padding-medium 0 @padding-medium;
+    
+            &-content {
+                margin-bottom: @margin-tiny;
+    
+                &-link {
+                    padding: @padding-tiny;
+                    color: @text-color;
+                }
+        
+                &-link:focus {
+                    outline: 2px solid @border-color-base;
+                    width: max-content;
+                    height: max-content;
+                }
+    
+                &-link:hover {
+                    color: @text-color;
+                    text-decoration: underline;
+                }
             }
-
-            &-link:hover {
-                color: @text-color;
-                text-decoration: underline;
-            }
+        }
+    
+        &-top {
+            padding: 0 @padding-medium;
+        }
+    
+        &-bottom {
+            padding: 0 @padding-medium;
         }
     }
 
-    &-top {
-        padding: 0 @padding-medium;
+    &-mask {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 5;
+        background-color: @black;
+        opacity: @mask-opacity;
     }
+}
 
-    &-bottom {
-        padding: 0 @padding-medium;
+@media screen and (min-width: @w-between) {
+    .sidebar {
+        &-wrapper {
+            position: static;
+            border-radius: @border-radius-regular;
+            box-shadow: @box-shadow-mild;
+        }
+
+        &-mask {
+            display: none;
+        }
     }
 }

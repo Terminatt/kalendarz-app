@@ -53,3 +53,16 @@ export function calculatePageOnDelete(dataLength: number, page: number): number 
     const calculated = dataLength === 1 ? page - 1 : page;
     return calculated === 0 ? null : calculated;
 }
+
+export function debounce <Args extends any[], F extends(...args: Args) => any>(fn: F, delay: number) {
+    let timerId: NodeJS.Timeout | null;
+    return function (...args: Args) {
+        if (timerId) {
+            clearTimeout(timerId);
+        }
+        timerId = setTimeout(() => {
+            fn(...args);
+            timerId = null;
+        }, delay);
+    };
+}

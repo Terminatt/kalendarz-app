@@ -4,12 +4,12 @@
 
 body {
   margin: 0;
+  padding: @padding-big;
   font-family: 'Roboto', 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: @white;
   background-color: @background;
-  padding: @padding-big;
   overflow: hidden;
   width: 100% !important; // disable antd flicker problem
 }
@@ -59,8 +59,9 @@ body {
 
 .app {
   display: flex;
+  
   &-content {
-    width: calc(100% - @sidebar-width);
+    width: 100%;
 
     main {
       height: 100%;
@@ -76,6 +77,14 @@ body {
     &-routes {
       height: 100%;
       overflow-y: auto;
+    }
+  }
+}
+
+@media screen and (min-width: @w-between) {
+  .app {
+    &-content {
+      width: calc(100% - @sidebar-width);
     }
   }
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { authenticate } from '@store/user/asyncActions';
 import Navigation from '@components/Navigation/Navigation';
 import ReservationSearch from '@components/ReservationSearch/ReservationSearch';
@@ -8,12 +8,14 @@ import { useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import Home from '@pages/Home/Home';
 import RoomTypes from '@pages/AdminZone/RoomTypes/RoomTypes';
+import Rooms from '@pages/AdminZone/Rooms/Rooms';
+import { debounceTime, mainWidthBreakpoint } from '@constants/constants';
+import { debounce } from '@utils/general';
 
 import 'styles/global.less';
 import 'styles/overrides.less';
 import 'styles/animations.less';
 import './App.less';
-import Rooms from '@pages/AdminZone/Rooms/Rooms';
 
 const AppHeader = () => (
     <span className="header-text">
@@ -23,15 +25,38 @@ const AppHeader = () => (
 );
 
 const App: React.FC = () => {
+    const [sidebarVisible, setSidebarVisible] = useState<boolean>(true);
     const dispatch = useDispatch();
 
+    const changeVisibilityOnStart = useCallback(() => {
+        if (window.innerWidth <= mainWidthBreakpoint) {
+            setSidebarVisible(false);
+            return;
+        }
+        setSidebarVisible(true);
+    }, []);
+
+    const changeVisibility = useCallback(debounce(() => {
+        if (window.innerWidth <= mainWidthBreakpoint) {
+            return;
+        }
+        setSidebarVisible(true);
+    }, debounceTime), []);
+
     useEffect(() => {
+        changeVisibilityOnStart();
         dispatch(authenticate());
+
+        window.addEventListener('resize', changeVisibility);
+        return () => {
+            window.removeEventListener('resize', changeVisibility);
+        };
     }, []);
 
     return (
         <div className="app">
             <Sidebar
+                visible={sidebarVisible}
                 top={<Navigation />}
                 bottom={<ReservationSearch />}
                 headerText={<AppHeader />}

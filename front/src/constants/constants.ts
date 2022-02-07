@@ -32,3 +32,5 @@ export enum Month {
 export const pageSize = 10;
 
 export const debounceTime = 350; // miliseconds
+
+export const mainWidthBreakpoint = 1366; // pixels
