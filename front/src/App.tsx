@@ -12,12 +12,12 @@ import Rooms from '@pages/AdminZone/Rooms/Rooms';
 import { debounceTime, mainWidthBreakpoint } from '@constants/constants';
 import { debounce } from '@utils/general';
 import { MenuOutlined } from '@ant-design/icons';
+import CustomButton from '@components/CustomButton/CustomButton';
 
 import 'styles/global.less';
 import 'styles/overrides.less';
 import 'styles/animations.less';
 import './App.less';
-import CustomButton from '@components/CustomButton/CustomButton';
 
 const AppHeader = () => (
     <span className="header-text">
