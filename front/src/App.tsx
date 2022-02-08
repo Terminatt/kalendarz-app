@@ -69,9 +69,9 @@ const App: React.FC = () => {
             />
             <div className="app-content">
                 <main>
-                    <div className="app-content-user-space">
+                    <div className="app-content-bar">
                         <UserSpace />
-                        <CustomButton variant="icon" aria-label="otwórz nawigacje" className="app-content-user-space-hamburger" onClick={changeVisibility}>
+                        <CustomButton variant="icon" aria-label="otwórz nawigacje" className="app-content-bar-hamburger" onClick={changeVisibility}>
                             <MenuOutlined />
                         </CustomButton>
                     </div>
