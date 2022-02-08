@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { Form, Select } from 'antd';
-import { formLayout } from '@constants/constants';
+import { FORM_LAYOUT } from '@constants/constants';
 import CustomDatePicker from '@components/CustomDatePicker/CustomDatePicker';
 import CustomButton from '@components/CustomButton/CustomButton';
 import { Dayjs } from 'dayjs';
@@ -18,7 +18,7 @@ const ReservationSearch: React.FC = () => {
 
     return (
         <div className="reservation-search">
-            <Form form={form} {...formLayout} role="search">
+            <Form form={form} {...FORM_LAYOUT} role="search">
                 <h2>Rezerwacja sal</h2>
                 <Form.Item name="date" label="Data">
                     <CustomDatePicker disabledDate={disabledDates} placeholder="Podaj datę" />

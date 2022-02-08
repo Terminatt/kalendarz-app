@@ -1,7 +1,7 @@
 import ColoredBlock from '@components/ColoredBlock/ColoredBlock';
 import EditingPanel from '@components/EditingPanel/EditingPanel';
 import ObjectSelect from '@components/ObjectSelect/ObjectSelect';
-import { debounceTime } from '@constants/constants';
+import { DEBOUNCE_TIME } from '@constants/constants';
 import { Id } from '@generics/generics';
 import { RootState } from '@store/index';
 import { getRoomTypes } from '@store/room-types/asyncActions';
@@ -68,11 +68,11 @@ const Rooms: React.FC = () => {
 
     const onSearchChange = useCallback(debounce((e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(getRooms({ requestPayload: { filters: { search: e.target.value } } }));
-    }, debounceTime), []);
+    }, DEBOUNCE_TIME), []);
 
     const onSelectSearchChange = useCallback(debounce((value: string) => {
         dispatch(getRoomTypes({ requestPayload: { filters: { search: value } } }));
-    }, debounceTime), []);
+    }, DEBOUNCE_TIME), []);
     return (
         <div className="room">
             <EditingPanel

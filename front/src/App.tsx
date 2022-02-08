@@ -11,7 +11,7 @@ import { Route, Routes } from 'react-router-dom';
 import Home from '@pages/Home/Home';
 import RoomTypes from '@pages/AdminZone/RoomTypes/RoomTypes';
 import Rooms from '@pages/AdminZone/Rooms/Rooms';
-import { debounceTime, mainWidthBreakpoint } from '@constants/constants';
+import { DEBOUNCE_TIME, MAIN_WIDTH_BREAKPOINT } from '@constants/constants';
 import { debounce } from '@utils/general';
 import { MenuOutlined } from '@ant-design/icons';
 import CustomButton from '@components/CustomButton/CustomButton';
@@ -43,7 +43,7 @@ const App: React.FC = () => {
     }, [sidebarVisible]);
 
     const changeVisibilityOnStart = useCallback(() => {
-        if (window.innerWidth <= mainWidthBreakpoint) {
+        if (window.innerWidth <= MAIN_WIDTH_BREAKPOINT) {
             setSidebarVisible(false);
             return;
         }
@@ -51,11 +51,11 @@ const App: React.FC = () => {
     }, []);
 
     const changeVisibilityOnResize = useCallback(debounce(() => {
-        if (window.innerWidth <= mainWidthBreakpoint) {
+        if (window.innerWidth <= MAIN_WIDTH_BREAKPOINT) {
             return;
         }
         setSidebarVisible(true);
-    }, debounceTime), []);
+    }, DEBOUNCE_TIME), []);
 
     useEffect(() => {
         changeVisibilityOnStart();

@@ -1,4 +1,4 @@
-import { errorMessages, formLayout } from '@constants/constants';
+import { ERROR_MESSAGES, FORM_LAYOUT } from '@constants/constants';
 import React, { useEffect } from 'react';
 import { Form, FormProps } from 'antd';
 import CustomButton from '@components/CustomButton/CustomButton';
@@ -31,13 +31,13 @@ const CustomForm: React.FC<CustomFormProps> = (props) => {
         if (!errorResponse) {
             return;
         }
-        const errors = parseErrorResponse(errorResponse, errorMessages);
+        const errors = parseErrorResponse(errorResponse, ERROR_MESSAGES);
 
         form?.setFields(errors);
     }, [errorResponse]);
 
     return (
-        <Form className={joinClassNames(['custom-form', className])} form={form} {...restFormProps} {...formLayout}>
+        <Form className={joinClassNames(['custom-form', className])} form={form} {...restFormProps} {...FORM_LAYOUT}>
             {children}
             <div className="custom-form-btns">
                 <CustomButton

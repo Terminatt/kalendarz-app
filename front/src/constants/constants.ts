@@ -1,9 +1,9 @@
-export const formLayout = {
+export const FORM_LAYOUT = {
     labelCol: { span: 24 },
     wrapperCol: { span: 24 },
 };
 
-export const errorMessages: {[key: string]: string} = {
+export const ERROR_MESSAGES: {[key: string]: string} = {
     USERNAME_TAKEN: 'Użytkownik o podanej nazwie już istnieje',
     EMAIL_TAKEN: 'Użytkownik o podanym emailu już istnieje',
     PASSWORD_TOO_SIMPLE: 'Hasło jest zbyt proste',
@@ -11,8 +11,8 @@ export const errorMessages: {[key: string]: string} = {
     NOT_UNIQUE_NAME: 'Nazwa już została zajęta',
 };
 
-export const dayNames = ['Nd', 'Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb'];
-export const monthNames = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
+export const DAY_NAMES = ['Nd', 'Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb'];
+export const MONTH_NAMES = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
 
 export enum Month {
     JANUARY,
@@ -29,8 +29,8 @@ export enum Month {
     DECEMBER,
 }
 
-export const pageSize = 10;
+export const PAGE_SIZE = 10;
 
-export const debounceTime = 350; // miliseconds
+export const DEBOUNCE_TIME = 350; // miliseconds
 
-export const mainWidthBreakpoint = 1366; // pixels
+export const MAIN_WIDTH_BREAKPOINT = 1366; // pixels

@@ -1,4 +1,4 @@
-import { debounceTime } from '@constants/constants';
+import { DEBOUNCE_TIME } from '@constants/constants';
 import { GenericReactContent } from '@generics/generics';
 import { debounce, getEntries } from '@utils/general';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -32,7 +32,7 @@ export const ResizeWrapper: React.FC<ResizeWrapperProps> = (props) => {
             stateCopy[key] = true;
         });
         setBp(stateCopy);
-    }, debounceTime), [bp]);
+    }, DEBOUNCE_TIME), [bp]);
 
     useEffect(() => {
         window.addEventListener('resize', changeVisibilityOnResize);

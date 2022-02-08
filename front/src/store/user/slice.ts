@@ -1,4 +1,4 @@
-import { errorMessages } from '@constants/constants';
+import { ERROR_MESSAGES } from '@constants/constants';
 import {
     isFulfilled, isPending, isRejected,
 } from '@reduxjs/toolkit';
@@ -42,7 +42,7 @@ export const userSlice = createCustomSlice(
                     return;
                 }
 
-                const message = errorMessages[error.payload.error.type];
+                const message = ERROR_MESSAGES[error.payload.error.type];
                 if (!message) {
                     return;
                 }

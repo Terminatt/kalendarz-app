@@ -1,7 +1,7 @@
 import { isExisting, joinClassNames } from '@utils/general';
 import dayjs, { Dayjs } from 'dayjs';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Month, monthNames } from '@constants/constants';
+import { Month, MONTH_NAMES } from '@constants/constants';
 import Switcher, { IndexExceed } from '@components/Switcher/Switcher';
 import HugeDivider from '@components/HugeDivider/HugeDivider';
 import CalendarItem, { CalendarItemType } from './CalendarItem/CalendarItem';
@@ -24,7 +24,7 @@ const Calendar: React.FC<CalendarProps> = (props) => {
     const [selectedYear, setYear] = useState<number | null>(null);
     const [selectedMonth, setMonth] = useState<number | null>(null);
     const [daysInMonth, setDaysInMonth] = useState<CalendarDay[]>([]);
-    const monthOptions = getMonthsOptions(monthNames);
+    const monthOptions = getMonthsOptions(MONTH_NAMES);
     const { className } = props;
 
     const createDaysInMonth = useCallback((_selectedYear: number, _selectedMonth: number): CalendarDay[] => {

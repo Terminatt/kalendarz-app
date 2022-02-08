@@ -1,6 +1,6 @@
 import ColoredBlock from '@components/ColoredBlock/ColoredBlock';
 import EditingPanel from '@components/EditingPanel/EditingPanel';
-import { debounceTime } from '@constants/constants';
+import { DEBOUNCE_TIME } from '@constants/constants';
 import { Id } from '@generics/generics';
 import { RootState } from '@store/index';
 import {
@@ -70,7 +70,7 @@ const RoomTypes: React.FC = () => {
 
     const onSearchChange = useCallback(debounce((e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(getRoomTypes({ requestPayload: { filters: { search: e.target.value } } }));
-    }, debounceTime), []);
+    }, DEBOUNCE_TIME), []);
 
     return (
         <div className="room-types">
