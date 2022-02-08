@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+    useCallback, useContext, useEffect, useState,
+} from 'react';
 import { authenticate } from '@store/user/asyncActions';
 import Navigation from '@components/Navigation/Navigation';
 import ReservationSearch from '@components/ReservationSearch/ReservationSearch';
@@ -13,6 +15,7 @@ import { debounceTime, mainWidthBreakpoint } from '@constants/constants';
 import { debounce } from '@utils/general';
 import { MenuOutlined } from '@ant-design/icons';
 import CustomButton from '@components/CustomButton/CustomButton';
+import { ResizeContext } from '@contexts/ResizeContext/ResizeContext';
 
 import 'styles/global.less';
 import 'styles/overrides.less';
@@ -28,6 +31,7 @@ const AppHeader = () => (
 
 const App: React.FC = () => {
     const [sidebarVisible, setSidebarVisible] = useState<boolean>(true);
+    const bpContext = useContext(ResizeContext);
     const dispatch = useDispatch();
 
     const onSidebarClose = useCallback(() => {

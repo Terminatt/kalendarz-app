@@ -66,3 +66,12 @@ export function debounce<Args extends any[], F extends(...args: Args) => any>(fn
         }, delay);
     };
 }
+
+type Entries<T> = {
+    [K in keyof T]: [K, T[K]]
+} [keyof T][]
+
+export function getEntries<T>(obj: T): Entries<T> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return Object.entries(obj) as Entries<T>;
+}
