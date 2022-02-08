@@ -30,6 +30,10 @@ const App: React.FC = () => {
     const [sidebarVisible, setSidebarVisible] = useState<boolean>(true);
     const dispatch = useDispatch();
 
+    const onSidebarClose = useCallback(() => {
+        setSidebarVisible(false);
+    }, []);
+
     const changeVisibility = useCallback(() => {
         setSidebarVisible(!sidebarVisible);
     }, [sidebarVisible]);
@@ -63,6 +67,7 @@ const App: React.FC = () => {
         <div className="app">
             <Sidebar
                 visible={sidebarVisible}
+                onClose={onSidebarClose}
                 top={<Navigation />}
                 bottom={<ReservationSearch />}
                 headerText={<AppHeader />}

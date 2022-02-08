@@ -10,15 +10,21 @@
         top: 0;
         left: 0;
         z-index: 10;
+
+        &-close { 
+            position: absolute;
+            top: 20px;
+            right: 15px;
+        }
     
         &-header {
-            padding: @padding-medium @padding-medium 0 @padding-medium;
+            padding: @padding-big @padding-medium 0 @padding-medium;
     
             &-content {
                 margin-bottom: @margin-tiny;
     
                 &-link {
-                    padding: @padding-tiny;
+                    padding: 0 @padding-tiny @padding-tiny @padding-tiny;
                     color: @text-color;
                 }
         
@@ -61,9 +67,13 @@
 @media screen and (min-width: @w-between) {
     .sidebar {
         &-wrapper {
-            position: static;
+            position: relative;
             border-radius: @border-radius-regular;
             box-shadow: @box-shadow-mild;
+
+            &-close {
+                display: none;
+            }
         }
 
         &-mask {

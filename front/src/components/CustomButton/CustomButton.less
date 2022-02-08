@@ -12,6 +12,11 @@
     border: 2px solid @primary-color;
   }
 
+  &-primary:hover {
+    background-color: transparent;
+    border-color: darken(@primary-color, 15%);
+  }
+  
   &-default {
     border: 2px solid @border-color-base;
   }
@@ -19,11 +24,6 @@
   &-default:hover {
     background-color: transparent;
     border-color: darken(@border-color-base, 15%);
-  }
-
-  &-primary:hover {
-    background-color: transparent;
-    border-color: darken(@primary-color, 15%);
   }
 
   &-clear {
@@ -71,6 +71,16 @@
     &:focus {
       outline: 2px solid @border-color-base;
     }
+  }
+
+  &-icon-border {
+    border: 2px solid @primary-color;
+    padding: 0  @padding-tiny;
+  }
+
+  &-icon-border:hover {
+    background-color: transparent;
+    border-color: darken(@primary-color, 15%);
   }
 }
 

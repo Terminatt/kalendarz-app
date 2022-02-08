@@ -19,7 +19,7 @@ export const login = createCustomAsyncThunk<ValidationError, LoginFormValues, Us
 
 export const logout = createCustomAsyncThunk<ValidationError, LoginFormValues, User>('user/logout', {
     request: () => axios.get('logout/'),
-    successMessage: 'Pomyślnie wylogowano użytkownika użytkownika',
+    successMessage: 'Pomyślnie wylogowano użytkownika',
     errorMessage: 'Wystąpił błąd podczas wylogowywania',
 });
 
