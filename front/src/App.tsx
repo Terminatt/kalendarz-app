@@ -51,6 +51,7 @@ const App: React.FC = () => {
     return (
         <div className="app">
             <Sidebar
+                trapActive={!bpContext?.between}
                 visible={sidebarVisible}
                 onClose={onSidebarClose}
                 top={<Navigation />}

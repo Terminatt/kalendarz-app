@@ -47,6 +47,7 @@ module.exports = {
         "import/no-extraneous-dependencies": "off",
         "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
         "@typescript-eslint/restrict-template-expressions": ['error', {"allowAny": true}],
-        "@typescript-eslint/no-explicit-any": 'off'
+        "@typescript-eslint/no-explicit-any": 'off',
+        "react/jsx-no-useless-fragment": ['error', {"allowExpressions": true}]
     }
 }

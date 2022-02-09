@@ -6,21 +6,23 @@ import { CloseOutlined } from '@ant-design/icons';
 
 import './Sidebar.less';
 import CustomButton from '@components/CustomButton/CustomButton';
+import FocusTrap from 'focus-trap-react';
 
 export interface SidebarProps {
     top: GenericReactContent;
     bottom?: GenericReactContent;
     headerText?: string | GenericReactContent
     visible: boolean;
+    trapActive?: boolean;
     onClose?: () => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = (props) => {
     const {
-        top, bottom, headerText, visible, onClose,
+        top, bottom, headerText, visible, trapActive, onClose,
     } = props;
 
-    return visible ? (
+    const renderContent = () => (
         <div className="sidebar">
             <div className="sidebar-wrapper">
                 {onClose && (
@@ -51,6 +53,16 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             }
             <div onClick={onClose} className="sidebar-mask" />
         </div>
+    );
+
+    return visible ? (
+        <>
+            {trapActive ? (
+                <FocusTrap>
+                    {renderContent()}
+                </FocusTrap>
+            ) : renderContent() }
+        </>
     ) : null;
 };
 
