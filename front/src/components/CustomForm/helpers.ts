@@ -1,8 +1,9 @@
 import { ResponseError } from '@generics/generics';
+import { getEntries } from '@utils/general';
 
 export function parseErrorResponse(errorResponse: ResponseError, ERROR_MESSAGES: {[key: string]: string}):
 Array<{name: string, errors: string[]}> {
-    const entries = Object.entries(errorResponse);
+    const entries = getEntries(errorResponse);
     const errors: Array<{name: string, errors: string[]}> = [];
 
     // TODO SERVE ARRAY CASE

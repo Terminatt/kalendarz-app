@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
-import { ResizeWrapper } from '@contexts/ResizeContext/ResizeWrapper';
+import { ResizeListenerWrapper } from '@contexts/ResizeListenerContext/ResizeListenerWrapper';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store';
 import App from './App';
@@ -17,9 +17,9 @@ ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
             <Provider store={store}>
-                <ResizeWrapper>
+                <ResizeListenerWrapper>
                     <App />
-                </ResizeWrapper>
+                </ResizeListenerWrapper>
             </Provider>
         </BrowserRouter>
     </React.StrictMode>,

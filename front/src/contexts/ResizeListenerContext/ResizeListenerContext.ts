@@ -10,8 +10,8 @@ export const breakpointsMap = {
     xxl: 1600,
     xxxl: 2050,
 };
-export type ResizeContextValues = {
+export type ResizeListenerContextValues = {
     [key in keyof typeof breakpointsMap]: boolean
 }
 
-export const ResizeContext = React.createContext<ResizeContextValues | null>(null);
+export const ResizeListenerContext = React.createContext<ResizeListenerContextValues | null>(null);

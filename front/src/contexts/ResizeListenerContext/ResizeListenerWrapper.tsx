@@ -2,14 +2,15 @@ import { DEBOUNCE_TIME } from '@constants/constants';
 import { GenericReactContent } from '@generics/generics';
 import { debounce, getEntries } from '@utils/general';
 import React, { useCallback, useEffect, useState } from 'react';
-import { breakpointsMap, ResizeContext, ResizeContextValues } from './ResizeContext';
+import { breakpointsMap, ResizeListenerContext, ResizeListenerContextValues } from './ResizeListenerContext';
 
-export interface ResizeWrapperProps {
+export interface ResizeListenerWrapperProps {
     children: GenericReactContent;
 }
-export const ResizeWrapper: React.FC<ResizeWrapperProps> = (props) => {
+export const ResizeListenerWrapper: React.FC<ResizeListenerWrapperProps> = (props) => {
     const { children } = props;
-    const [bp, setBp] = useState<ResizeContextValues>({
+    // when true, it means the width is above breakpoint
+    const [bp, setBp] = useState<ResizeListenerContextValues>({
         xs: true,
         sm: true,
         md: true,
@@ -20,7 +21,7 @@ export const ResizeWrapper: React.FC<ResizeWrapperProps> = (props) => {
         xxxl: true,
     });
 
-    const changeVisibilityOnResize = useCallback(debounce(() => {
+    const updateBreakpoints = useCallback(() => {
         const stateCopy = { ...bp };
         const entries = getEntries(breakpointsMap);
 
@@ -32,14 +33,17 @@ export const ResizeWrapper: React.FC<ResizeWrapperProps> = (props) => {
             stateCopy[key] = true;
         });
         setBp(stateCopy);
-    }, DEBOUNCE_TIME), [bp]);
+    }, [bp]);
 
     useEffect(() => {
-        window.addEventListener('resize', changeVisibilityOnResize);
+        updateBreakpoints();
+
+        const updateBreakpointsOnResize = debounce(updateBreakpoints, DEBOUNCE_TIME);
+        window.addEventListener('resize', updateBreakpointsOnResize);
         return () => {
-            window.removeEventListener('resize', changeVisibilityOnResize);
+            window.removeEventListener('resize', updateBreakpointsOnResize);
         };
     }, []);
 
-    return <ResizeContext.Provider value={bp}>{children}</ResizeContext.Provider>;
+    return <ResizeListenerContext.Provider value={bp}>{children}</ResizeListenerContext.Provider>;
 };

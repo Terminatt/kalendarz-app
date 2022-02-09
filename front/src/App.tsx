@@ -11,11 +11,9 @@ import { Route, Routes } from 'react-router-dom';
 import Home from '@pages/Home/Home';
 import RoomTypes from '@pages/AdminZone/RoomTypes/RoomTypes';
 import Rooms from '@pages/AdminZone/Rooms/Rooms';
-import { DEBOUNCE_TIME, MAIN_WIDTH_BREAKPOINT } from '@constants/constants';
-import { debounce } from '@utils/general';
 import { MenuOutlined } from '@ant-design/icons';
 import CustomButton from '@components/CustomButton/CustomButton';
-import { ResizeContext } from '@contexts/ResizeContext/ResizeContext';
+import { ResizeListenerContext } from '@contexts/ResizeListenerContext/ResizeListenerContext';
 
 import 'styles/global.less';
 import 'styles/overrides.less';
@@ -31,7 +29,7 @@ const AppHeader = () => (
 
 const App: React.FC = () => {
     const [sidebarVisible, setSidebarVisible] = useState<boolean>(true);
-    const bpContext = useContext(ResizeContext);
+    const bpContext = useContext(ResizeListenerContext);
     const dispatch = useDispatch();
 
     const onSidebarClose = useCallback(() => {
@@ -42,30 +40,13 @@ const App: React.FC = () => {
         setSidebarVisible(!sidebarVisible);
     }, [sidebarVisible]);
 
-    const changeVisibilityOnStart = useCallback(() => {
-        if (window.innerWidth <= MAIN_WIDTH_BREAKPOINT) {
-            setSidebarVisible(false);
-            return;
-        }
-        setSidebarVisible(true);
+    useEffect(() => {
+        dispatch(authenticate());
     }, []);
-
-    const changeVisibilityOnResize = useCallback(debounce(() => {
-        if (window.innerWidth <= MAIN_WIDTH_BREAKPOINT) {
-            return;
-        }
-        setSidebarVisible(true);
-    }, DEBOUNCE_TIME), []);
 
     useEffect(() => {
-        changeVisibilityOnStart();
-        dispatch(authenticate());
-
-        window.addEventListener('resize', changeVisibilityOnResize);
-        return () => {
-            window.removeEventListener('resize', changeVisibilityOnResize);
-        };
-    }, []);
+        setSidebarVisible(!!bpContext?.between);
+    }, [bpContext?.between]);
 
     return (
         <div className="app">
