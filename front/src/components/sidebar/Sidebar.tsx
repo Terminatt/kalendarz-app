@@ -45,7 +45,11 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                     {bottom}
                 </div>
             </div>
-            <div className="sidebar-mask" />
+            {
+            /* eslint-disable jsx-a11y/click-events-have-key-events */
+            /* eslint-disable jsx-a11y/no-static-element-interactions */
+            }
+            <div onClick={onClose} className="sidebar-mask" />
         </div>
     ) : null;
 };
