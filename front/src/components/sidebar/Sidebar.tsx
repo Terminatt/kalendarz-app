@@ -1,29 +1,31 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { Divider } from 'antd';
 import { GenericReactContent } from '@generics/generics';
 import { Link } from 'react-router-dom';
 import { CloseOutlined } from '@ant-design/icons';
-
-import './Sidebar.less';
 import CustomButton from '@components/CustomButton/CustomButton';
 import FocusTrap from 'focus-trap-react';
+import { CSSTransition } from 'react-transition-group';
+
+import './Sidebar.less';
 
 export interface SidebarProps {
     top: GenericReactContent;
     bottom?: GenericReactContent;
     headerText?: string | GenericReactContent
     visible: boolean;
-    trapActive?: boolean;
+    isSmallScreen: boolean;
     onClose?: () => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = (props) => {
+    const [isAfterFirstTrigger, setIsAfterFirstTrigger] = useState(false);
     const {
-        top, bottom, headerText, visible, trapActive, onClose,
+        top, bottom, headerText, visible, isSmallScreen, onClose,
     } = props;
 
     const renderContent = () => (
-        <div className="sidebar">
+        <div className="sidebar" style={{ display: isSmallScreen && !isAfterFirstTrigger ? 'none' : '' }}>
             <div className="sidebar-wrapper">
                 {onClose && (
                     <div className="sidebar-wrapper-close">
@@ -47,23 +49,37 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                     {bottom}
                 </div>
             </div>
+        </div>
+    );
+
+    const onExited = useCallback(() => {
+        if (!isAfterFirstTrigger) {
+            setIsAfterFirstTrigger(true);
+        }
+    }, [isAfterFirstTrigger]);
+
+    return isSmallScreen ? (
+        <>
+            <CSSTransition
+                onExited={onExited}
+                unmountOnExit
+                in={visible}
+                classNames="come-left"
+                timeout={{ enter: 500, exit: 300 }}
+            >
+                {isAfterFirstTrigger ? (
+                    <FocusTrap>
+                        {renderContent()}
+                    </FocusTrap>
+                ) : renderContent() }
+            </CSSTransition>
             {
             /* eslint-disable jsx-a11y/click-events-have-key-events */
             /* eslint-disable jsx-a11y/no-static-element-interactions */
             }
-            <div onClick={onClose} className="sidebar-mask" />
-        </div>
-    );
-
-    return visible ? (
-        <>
-            {trapActive ? (
-                <FocusTrap>
-                    {renderContent()}
-                </FocusTrap>
-            ) : renderContent() }
+            {visible && <div onClick={onClose} className="site-mask" />}
         </>
-    ) : null;
+    ) : renderContent();
 };
 
 export default Sidebar;

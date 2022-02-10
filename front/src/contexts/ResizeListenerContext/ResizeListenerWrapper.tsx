@@ -9,16 +9,17 @@ export interface ResizeListenerWrapperProps {
 }
 export const ResizeListenerWrapper: React.FC<ResizeListenerWrapperProps> = (props) => {
     const { children } = props;
+
     // when true, it means the width is above breakpoint
     const [bp, setBp] = useState<ResizeListenerContextValues>({
-        xs: true,
-        sm: true,
-        md: true,
-        lg: true,
-        xl: true,
-        between: true,
-        xxl: true,
-        xxxl: true,
+        xs: false,
+        sm: false,
+        md: false,
+        lg: false,
+        xl: false,
+        between: false,
+        xxl: false,
+        xxxl: false,
     });
 
     const updateBreakpoints = useCallback(() => {
@@ -37,7 +38,6 @@ export const ResizeListenerWrapper: React.FC<ResizeListenerWrapperProps> = (prop
 
     useEffect(() => {
         updateBreakpoints();
-
         const updateBreakpointsOnResize = debounce(updateBreakpoints, DEBOUNCE_TIME);
         window.addEventListener('resize', updateBreakpointsOnResize);
         return () => {

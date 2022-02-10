@@ -4,7 +4,6 @@
 
 body {
   margin: 0;
-  padding: @padding-big;
   font-family: 'Roboto', 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -59,10 +58,16 @@ body {
 
 .app {
   display: flex;
-  
+
+  &-sidebar {
+    height: 100%;
+    z-index: 15;
+  }
+
   &-content {
     width: 100%;
-
+    padding: @padding-big;
+    
     main {
       height: 100%;
     }
@@ -86,6 +91,11 @@ body {
 
 @media screen and (min-width: @w-between) {
   .app {
+
+    &-sidebar {
+      padding: @padding-big 0 @padding-big @padding-big;
+    }
+
     &-content {
       width: calc(100% - @sidebar-width);
 

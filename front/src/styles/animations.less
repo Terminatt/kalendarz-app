@@ -7,11 +7,24 @@
   transition: opacity 500ms ease-in;
 }
 
-.opacity-leave {
+.opacity-exit {
   opacity: 1;
 }
 
-.opacity-leave.opacity-leave-active {
-  opacity: 0.01;
-  transition: opacity 300ms ease-in;
+.come-left-enter {
+  transform: translateX(-600px);
+}
+
+.come-left-enter-active {
+  transform: translateX(0);
+  transition: transform 500ms;
+}
+
+.come-left-exit {
+  transform: translateX(0);
+}
+
+.come-left-exit-active {
+  transform: translateX(-600px);
+  transition: transform 300ms;
 }

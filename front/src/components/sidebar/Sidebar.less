@@ -2,14 +2,14 @@
 @import '~styles/breakpoints.less';
 
 .sidebar {
+    height: 100%;
+    z-index: 10;
+    position: relative;
     &-wrapper {
         background: @primary-bg;
+        position: absolute;
         width: @sidebar-width;
         height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 10;
 
         &-close { 
             position: absolute;
@@ -50,18 +50,18 @@
         }
     }
 
-    &-mask {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100vw;
-        height: 100vh;
-        z-index: 5;
-        background-color: @black;
-        opacity: @mask-opacity;
-    }
+}
+
+.site-mask {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: @black;
+    opacity: @mask-opacity;
 }
 
 @media screen and (min-width: @w-between) {
@@ -75,9 +75,9 @@
                 display: none;
             }
         }
-
-        &-mask {
-            display: none;
-        }
+    }
+    
+    .site-mask {
+        display: none;
     }
 }

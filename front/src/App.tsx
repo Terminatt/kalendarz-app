@@ -50,14 +50,16 @@ const App: React.FC = () => {
 
     return (
         <div className="app">
-            <Sidebar
-                trapActive={!bpContext?.between}
-                visible={sidebarVisible}
-                onClose={onSidebarClose}
-                top={<Navigation />}
-                bottom={<ReservationSearch />}
-                headerText={<AppHeader />}
-            />
+            <div className="app-sidebar">
+                <Sidebar
+                    isSmallScreen={!bpContext?.between}
+                    visible={sidebarVisible}
+                    onClose={onSidebarClose}
+                    top={<Navigation />}
+                    bottom={<ReservationSearch />}
+                    headerText={<AppHeader />}
+                />
+            </div>
             <div className="app-content">
                 <main>
                     <div className="app-content-bar">
