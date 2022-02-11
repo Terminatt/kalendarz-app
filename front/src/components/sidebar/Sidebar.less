@@ -10,6 +10,7 @@
         background: @primary-bg;
         width: @sidebar-width;
         height: 100%;
+        z-index: 15;
 
         &-close { 
             position: absolute;
@@ -49,19 +50,12 @@
             padding: 0 @padding-medium;
         }
     }
-
 }
 
-.site-mask {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: @black;
-    opacity: @mask-opacity;
+.come-left-enter-active.sidebar {
+    .sidebar-mask {
+        width: calc(100vw + 600px);
+    }
 }
 
 @media screen and (min-width: @w-between) {
@@ -75,9 +69,8 @@
                 display: none;
             }
         }
-    }
-    
-    .site-mask {
-        display: none;
+        &-mask {
+            display: none;
+        }
     }
 }

@@ -8,6 +8,7 @@ import FocusTrap from 'focus-trap-react';
 import { CSSTransition } from 'react-transition-group';
 
 import './Sidebar.less';
+import SiteMask from '@components/SiteMask/SiteMask';
 
 export interface SidebarProps {
     top: GenericReactContent;
@@ -49,6 +50,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                     {bottom}
                 </div>
             </div>
+            <SiteMask className="sidebar-mask" visible={visible} onClick={onClose} />
         </div>
     );
 
@@ -59,26 +61,19 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
     }, [isAfterFirstTrigger]);
 
     return isSmallScreen ? (
-        <>
-            <CSSTransition
-                onExited={onExited}
-                unmountOnExit
-                in={visible}
-                classNames="come-left"
-                timeout={{ enter: 500, exit: 300 }}
-            >
-                {isAfterFirstTrigger ? (
-                    <FocusTrap>
-                        {renderContent()}
-                    </FocusTrap>
-                ) : renderContent() }
-            </CSSTransition>
-            {
-            /* eslint-disable jsx-a11y/click-events-have-key-events */
-            /* eslint-disable jsx-a11y/no-static-element-interactions */
-            }
-            {visible && <div onClick={onClose} className="site-mask" />}
-        </>
+        <CSSTransition
+            onExited={onExited}
+            unmountOnExit
+            in={visible}
+            classNames="come-left"
+            timeout={{ enter: 500, exit: 300 }}
+        >
+            {isAfterFirstTrigger ? (
+                <FocusTrap>
+                    {renderContent()}
+                </FocusTrap>
+            ) : renderContent() }
+        </CSSTransition>
     ) : renderContent();
 };
 
