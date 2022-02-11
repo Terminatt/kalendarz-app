@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import {
-    Input, List, Form, Popconfirm, Pagination,
+    Input, List, Form, Pagination,
 } from 'antd';
 import CustomButton from '@components/CustomButton/CustomButton';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
@@ -8,6 +8,7 @@ import { FORM_LAYOUT, PAGE_SIZE } from '@constants/constants';
 import { isDefined, isMoreThanOnePage, stopBubbling } from '@utils/general';
 import CustomEmpty from '@components/CustomEmpty/CustomEmpty';
 import { BaseItem } from '@generics/generics';
+import DeletePopconfirm from '@components/DeletePopconfirm/DeletePopconfirm';
 
 import './ListWithSearch.less';
 
@@ -86,9 +87,7 @@ const ListWithSearch = <T extends BaseItem, >(props: ListWithSearchProps<T>): Re
                             actions={[
                                 <CustomButton onClick={() => onEdit && onEdit(item)} icon={<EditOutlined />} size="small" key="edit">Edytuj</CustomButton>,
                                 onDelete && (
-                                    <Popconfirm
-                                        okButtonProps={{ className: 'custom-btn custom-btn-delete' }}
-                                        cancelButtonProps={{ className: 'custom-btn custom-btn-primary' }}
+                                    <DeletePopconfirm
                                         title="Czy na pewno chcesz usunąć ten element?"
                                         onCancel={stopBubbling}
                                         onConfirm={(e) => {
@@ -109,7 +108,7 @@ const ListWithSearch = <T extends BaseItem, >(props: ListWithSearchProps<T>): Re
 
                                         </CustomButton>
 
-                                    </Popconfirm>
+                                    </DeletePopconfirm>
                                 ),
                             ].filter((el) => !!el)}
                         >
