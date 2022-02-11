@@ -28,7 +28,7 @@ export function isWeekend(current: Dayjs): boolean {
     return dayNumber === 0 || dayNumber === 6;
 }
 
-export function joinClassNames(classNames: Array<string | undefined>): string {
+export function joinClassNames(classNames: Array<string | undefined | null>): string {
     return classNames.filter((el) => !!el).join(' ');
 }
 

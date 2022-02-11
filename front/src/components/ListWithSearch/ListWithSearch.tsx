@@ -5,7 +5,9 @@ import {
 import CustomButton from '@components/CustomButton/CustomButton';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { FORM_LAYOUT, PAGE_SIZE } from '@constants/constants';
-import { isDefined, isMoreThanOnePage, stopBubbling } from '@utils/general';
+import {
+    isDefined, isMoreThanOnePage, joinClassNames, stopBubbling,
+} from '@utils/general';
 import CustomEmpty from '@components/CustomEmpty/CustomEmpty';
 import { BaseItem } from '@generics/generics';
 import DeletePopconfirm from '@components/DeletePopconfirm/DeletePopconfirm';
@@ -82,7 +84,7 @@ const ListWithSearch = <T extends BaseItem, >(props: ListWithSearchProps<T>): Re
                     loading={isLoading}
                     renderItem={(item, index) => (
                         <List.Item
-                            className={`list-with-search-item ${selectedListItem?.id === item.id ? 'list-with-search-selected' : ''}`}
+                            className={joinClassNames(['list-with-search-item', selectedListItem?.id === item.id ? 'list-with-search-selected' : null])}
                             onClick={() => onListItemClick(item)}
                             actions={[
                                 <CustomButton onClick={() => onEdit && onEdit(item)} icon={<EditOutlined />} size="small" key="edit">Edytuj</CustomButton>,
