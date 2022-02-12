@@ -63,7 +63,6 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
     const onModeChange = useCallback(() => {
         setSelected(null);
     }, []);
-
     return (
         <TwoColumnLayout
             left={

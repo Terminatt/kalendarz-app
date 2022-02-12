@@ -37,10 +37,10 @@ const Rooms: React.FC = () => {
         dispatch(getRoomTypes());
     }, []);
 
-    const onFormSubmit = useCallback((values: RoomFormValues, id?: Id) => {
+    const onFormSubmit = useCallback((values: RoomFormValues, page: number, id?: Id) => {
         const requestOptions = {
             onSuccess: () => {
-                dispatch(getRooms());
+                dispatch(getRooms({ requestPayload: { page } }));
             },
             onError: (errorData: AxiosError<RoomErrorResponse, any>) => {
                 if (!errorData.response) {
@@ -50,7 +50,6 @@ const Rooms: React.FC = () => {
             },
         };
         const payload = { ...values, type: values.type.id };
-
         if (!id) {
             dispatch(createRoom({ requestPayload: payload, ...requestOptions }));
             return;
