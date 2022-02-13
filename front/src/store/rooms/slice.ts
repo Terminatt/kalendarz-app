@@ -23,9 +23,16 @@ const matchers: DefaultMatchers = {
 export const roomsSlice = createCustomSlice({
     name: 'rooms',
     initialState,
-    reducers: {},
+    reducers: {
+        clearRoomState(state) {
+            state.data.results = [];
+            state.data.count = 0;
+        },
+    },
 }, matchers, (builder) => {
     builder.addCase(getRooms.fulfilled, (state, res) => {
         state.data = res.payload.data;
     });
 });
+
+export const { clearRoomState } = roomsSlice.actions;

@@ -32,12 +32,12 @@ export interface RejectResponse<ErrorData = void> {
   errorMessage?: string;
 }
 
-export interface ValidationError {
+export interface ErrorType {
   type: string,
   message: string;
 }
 
-export type ValidationErrorItem = string[] | ValidationError | undefined;
+export type ValidationErrorItem = string[] | ErrorType | undefined;
 
 export interface ResponseError {
   [key: string]: ValidationErrorItem

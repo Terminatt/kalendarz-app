@@ -1,7 +1,7 @@
 import axios from '@axios/axios';
 import { LoginFormValues } from '@components/Modals/SigningModal/LoginForm/LoginForm';
 import { RegisterFormValues } from '@components/Modals/SigningModal/RegisterForm/RegisterForm';
-import { ValidationError } from '@generics/generics';
+import { ErrorType } from '@generics/generics';
 import { createCustomAsyncThunk } from '@utils/store';
 import { User, UserRegisterErrorResponse } from './types';
 
@@ -12,17 +12,17 @@ export const registerAccount = createCustomAsyncThunk<UserRegisterErrorResponse,
     errorMessage: 'Wystąpił błąd podczas tworzenia konta',
 });
 
-export const login = createCustomAsyncThunk<ValidationError, LoginFormValues, User>('user/login', {
+export const login = createCustomAsyncThunk<ErrorType, LoginFormValues, User>('user/login', {
     request: (payload) => axios.post('login/', payload),
     successMessage: 'Pomyślnie zalogowano użytkownika',
 });
 
-export const logout = createCustomAsyncThunk<ValidationError, LoginFormValues, User>('user/logout', {
+export const logout = createCustomAsyncThunk<ErrorType, LoginFormValues, User>('user/logout', {
     request: () => axios.get('logout/'),
     successMessage: 'Pomyślnie wylogowano użytkownika',
     errorMessage: 'Wystąpił błąd podczas wylogowywania',
 });
 
-export const authenticate = createCustomAsyncThunk<ValidationError, void, User>('user/authenticate', {
+export const authenticate = createCustomAsyncThunk<ErrorType, void, User>('user/authenticate', {
     request: () => axios.post('authenticate/'),
 });

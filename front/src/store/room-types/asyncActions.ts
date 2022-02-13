@@ -1,5 +1,7 @@
 import axios from '@axios/axios';
-import { Id, ListRequestPayload, PaginatedResults } from '@generics/generics';
+import {
+    ErrorType, Id, ListRequestPayload, PaginatedResults,
+} from '@generics/generics';
 import { RoomTypeFormValues } from '@pages/AdminZone/RoomTypes/RoomTypes';
 import { getList } from '@utils/requests';
 import { createCustomAsyncThunk } from '@utils/store';
@@ -22,7 +24,7 @@ export const updateRoomType = createCustomAsyncThunk<RoomTypeErrorResponse, Base
     errorMessage: 'Wystąpił błąd podczas edycji wybranego typu pokoju',
 });
 
-export const deleteRoomType = createCustomAsyncThunk<void, Id>('roomTypes/delete', {
+export const deleteRoomType = createCustomAsyncThunk<ErrorType, Id>('roomTypes/delete', {
     request: (id) => axios.delete(`room_types/${id}/`),
     successMessage: 'Pomyślnie usunięto typ pokoju',
     errorMessage: 'Wystąpił błąd podczas usuwania pokoju',

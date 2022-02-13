@@ -8,10 +8,7 @@ import { FulfilledActionFromAsyncThunk, PendingActionFromAsyncThunk, RejectedAct
 import { NoInfer } from '@reduxjs/toolkit/dist/tsHelpers';
 import { notification } from 'antd';
 import { AxiosResponse, AxiosError } from 'axios';
-
-export function isAxiosError<ErrorData>(err: AxiosError<ErrorData> | Error | unknown): err is AxiosError<ErrorData> {
-    return !!(err as AxiosError).response;
-}
+import { isAxiosError } from './requests';
 
 export interface CustomAsyncThunkResponse<Data = void> {
   data: Data;

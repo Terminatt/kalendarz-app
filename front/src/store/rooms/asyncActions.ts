@@ -10,7 +10,7 @@ export const createRoom = createCustomAsyncThunk<RoomErrorResponse, Omit<RoomWit
     errorMessage: 'Wystąpił błąd podczas tworzenia nowego pokoju',
 });
 
-export const getRooms = createCustomAsyncThunk<void, ListRequestPayload<Room> | undefined, PaginatedResults<Room>>('room/get', {
+export const getRooms = createCustomAsyncThunk<void, ListRequestPayload<RoomWithTypeId> | undefined, PaginatedResults<Room>>('room/get', {
     request: (payload) => getList('rooms/', payload?.page, payload?.filters),
     errorMessage: 'Wystąpił błąd podczas pobierania pokojów',
 });

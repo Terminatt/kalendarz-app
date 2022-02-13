@@ -33,4 +33,6 @@ export const PAGE_SIZE = 10;
 
 export const DEBOUNCE_TIME = 350; // miliseconds
 
-export const MAIN_WIDTH_BREAKPOINT = 1366; // pixels
+export enum RequestErrorType {
+    RELATED_OBJECT = 'RELATED_OBJECT'
+}

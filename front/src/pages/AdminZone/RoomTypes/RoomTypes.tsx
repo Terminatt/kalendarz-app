@@ -1,12 +1,14 @@
 import ColoredBlock from '@components/ColoredBlock/ColoredBlock';
 import EditingPanel from '@components/EditingPanel/EditingPanel';
-import { DEBOUNCE_TIME } from '@constants/constants';
+import { DEBOUNCE_TIME, RequestErrorType } from '@constants/constants';
 import { Id } from '@generics/generics';
 import { RootState } from '@store/index';
 import {
     createRoomType, deleteRoomType, getRoomTypes, updateRoomType,
 } from '@store/room-types/asyncActions';
 import { RoomType, RoomTypeErrorResponse } from '@store/room-types/types';
+import { getRooms } from '@store/rooms/asyncActions';
+import { clearRoomState } from '@store/rooms/slice';
 import { getMaxCharRule, getRequiredRule } from '@utils/form';
 import { debounce, parseDate } from '@utils/general';
 import { Form, Input } from 'antd';
@@ -31,6 +33,7 @@ const RoomTypes: React.FC = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        dispatch(clearRoomState());
         dispatch(getRoomTypes());
     }, []);
 
@@ -60,6 +63,17 @@ const RoomTypes: React.FC = () => {
             requestPayload: item.id,
             onSuccess: () => {
                 dispatch(getRoomTypes({ requestPayload: { page } }));
+            },
+            onError: (error) => {
+                if (!error.response) {
+                    return;
+                }
+
+                if (error.response.data.type !== RequestErrorType.RELATED_OBJECT) {
+                    return;
+                }
+
+                dispatch(getRooms({ requestPayload: { filters: { type: item.id } } }));
             },
         }));
     }, []);

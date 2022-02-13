@@ -1,6 +1,11 @@
 from rest_framework.viewsets import ModelViewSet
 import json;
 import importlib
+from django.db.models import ProtectedError
+from rest_framework.response import Response
+from rest_framework import status
+from utils.response_error import ErrorType, get_error_dict
+
 
 acl_matrix = json.load(open("acl/acl.json"))
 
@@ -79,3 +84,13 @@ class CustomModelViewSet(ModelViewSet):
         """
         self.action = self.action_map.get(request.method.lower())
         return super().initialize_request(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        try:
+            return super().destroy(request, *args, **kwargs)
+
+        except ProtectedError as e:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data=get_error_dict(errorType=ErrorType.RELATED_OBJECT, msg='This object is in relation with another object'))
+
+        except Exception as e:
+            return Response(status.HTTP_500_INTERNAL_SERVER_ERROR, data=e)
