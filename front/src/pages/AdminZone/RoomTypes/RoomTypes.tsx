@@ -1,4 +1,6 @@
 import ColoredBlock from '@components/ColoredBlock/ColoredBlock';
+import CustomButton from '@components/CustomButton/CustomButton';
+import CustomList from '@components/CustomList/CustomList';
 import EditingPanel from '@components/EditingPanel/EditingPanel';
 import { DEBOUNCE_TIME, RequestErrorType } from '@constants/constants';
 import { Id } from '@generics/generics';
@@ -16,6 +18,7 @@ import { useForm } from 'antd/es/form/Form';
 import { AxiosError } from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import RoomItem from '../Rooms/components/RoomItem/RoomItem';
 
 import './RoomTypes.less';
 
@@ -28,9 +31,7 @@ const RoomTypes: React.FC = () => {
     const [form] = useForm<RoomTypeFormValues>();
     const [errorResponse, setErrorResponse] = useState<null | RoomTypeErrorResponse>(null);
     const [roomPanelActive, setRoomPanelActive] = useState<boolean>(false);
-    const roomTypes = useSelector((state: RootState) => state.roomTypes);
-    const { data, isLoading } = roomTypes;
-    const { count, results } = data;
+    const { rooms, roomTypes } = useSelector((state: RootState) => state);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -98,16 +99,17 @@ const RoomTypes: React.FC = () => {
                 onFormSubmit={onFormSubmit}
                 onDelete={onDelete}
                 onPageChange={onPageChange}
-                dataSource={results}
+                dataSource={roomTypes.data.results}
                 additionalPanelActive={roomPanelActive}
                 onAdditionalPanelBack={onRoomPanelBack}
                 listWithSearchProps={{
                     title: 'Typy pokojów',
                     searchLabel: 'Wyszukaj typ pokoju',
                     placeholder: 'Nazwa typu',
-                    total: count,
-                    isLoading,
+                    total: roomTypes.data.count,
+                    isLoading: roomTypes.isLoading,
                     addEditBtn: true,
+                    showSearch: true,
                     onSearchChange,
                     renderContent: (item) => (
                         <div className="room-types-content-item">
@@ -123,7 +125,7 @@ const RoomTypes: React.FC = () => {
                 }}
                 twoModesFormProps={{
                     errorResponse,
-                    isLoading,
+                    isLoading: roomTypes.isLoading,
                     formProps: { form },
                     primaryBtnText: 'Stwórz nowy typ pokoju',
                     editPrimaryBtnText: 'Zaktualizuj typ pokoju',
@@ -138,6 +140,17 @@ const RoomTypes: React.FC = () => {
                             <Input placeholder="Kolor" />
                         </Form.Item>
                     </>
+                )}
+                additionalPanel={(
+                    <div className="room-types-additional">
+                        <CustomList
+                            dataSource={rooms.data.results}
+                            title="Powiązane pokoje"
+                            subtitle="Usuń powiązane pokoje, by usunąć typ pokoju"
+                            renderContent={(item) => <RoomItem item={item} />}
+                        />
+                        <div className="room-types-additional-btn"><CustomButton>Edytuj powiązane pokoje</CustomButton></div>
+                    </div>
                 )}
             />
         </div>

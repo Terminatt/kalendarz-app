@@ -12,13 +12,14 @@ import CustomEmpty from '@components/CustomEmpty/CustomEmpty';
 import { BaseItem } from '@generics/generics';
 import DeletePopconfirm from '@components/DeletePopconfirm/DeletePopconfirm';
 
-import './ListWithSearch.less';
+import './CustomList.less';
 
 const { Search } = Input;
 
 export interface ListWithSearchProps<T> {
     dataSource: T[];
     title?: string;
+    subtitle?: string;
     placeholder?: string;
     searchLabel?: string;
     isLoading?: boolean;
@@ -26,6 +27,7 @@ export interface ListWithSearchProps<T> {
     total?: number;
     pageNumber?: number;
     addEditBtn?: boolean;
+    showSearch?: boolean;
     renderContent: (item: T, index: number) => React.ReactNode;
     onEdit?: (item: T) => void;
     onDelete?: (item: T) => void;
@@ -35,13 +37,13 @@ export interface ListWithSearchProps<T> {
     onPageChange?: (page: number) => void;
 }
 
-const ListWithSearch = <T extends BaseItem, >(props: ListWithSearchProps<T>): React.ReactElement => {
+const CustomList = <T extends BaseItem, >(props: ListWithSearchProps<T>): React.ReactElement => {
     const [selectedInternal, setSelected] = useState<T | null>(null);
     const [currentPageInternal, setCurrentPage] = useState<number>(1);
     const {
         dataSource, renderContent, onEdit, onDelete,
         title, placeholder, onSearch, onSearchChange, searchLabel, onSelect,
-        isLoading, selected, total, onPageChange, pageNumber, addEditBtn,
+        isLoading, selected, total, onPageChange, pageNumber, addEditBtn, showSearch, subtitle,
     } = props;
     const selectedListItem = isDefined(selected) ? selected : selectedInternal;
     const currentPage = isDefined(pageNumber) ? pageNumber : currentPageInternal;
@@ -70,12 +72,15 @@ const ListWithSearch = <T extends BaseItem, >(props: ListWithSearchProps<T>): Re
     }, [onPageChange]);
 
     return (
-        <div className="list-with-search">
-            {title && <h2 className="list-with-search-header">{title}</h2>}
-            <Form.Item className="list-with-search-input" label={searchLabel} {...FORM_LAYOUT}>
-                <Search onChange={onSearchChange} onSearch={onSearch} placeholder={placeholder} allowClear />
-            </Form.Item>
-            <div className="list-with-search-container">
+        <div className="custom-list">
+            {title && <h2 className="custom-list-header">{title}</h2>}
+            {subtitle && <span className="custom-list-subheader">{subtitle}</span>}
+            {showSearch && (
+                <Form.Item className="custom-list-input" label={searchLabel} {...FORM_LAYOUT}>
+                    <Search onChange={onSearchChange} onSearch={onSearch} placeholder={placeholder} allowClear />
+                </Form.Item>
+            )}
+            <div className={joinClassNames(['custom-list-container', !showSearch ? 'custom-list-alone' : null])}>
                 <List
                     locale={{
                         emptyText: <CustomEmpty />,
@@ -85,7 +90,7 @@ const ListWithSearch = <T extends BaseItem, >(props: ListWithSearchProps<T>): Re
                     loading={isLoading}
                     renderItem={(item, index) => (
                         <List.Item
-                            className={joinClassNames(['list-with-search-item', selectedListItem?.id === item.id ? 'list-with-search-selected' : null])}
+                            className={joinClassNames(['custom-list-item', selectedListItem?.id === item.id ? 'custom-list-selected' : null])}
                             onClick={() => onListItemClick(item)}
                             actions={[
                                 addEditBtn && <CustomButton onClick={() => onEdit && onEdit(item)} icon={<EditOutlined />} size="small" key="edit">Edytuj</CustomButton>,
@@ -122,7 +127,7 @@ const ListWithSearch = <T extends BaseItem, >(props: ListWithSearchProps<T>): Re
             </div>
             <div>
                 {total && isMoreThanOnePage(total) ? (
-                    <div className="list-with-search-pagination">
+                    <div className="custom-list-pagination">
                         <Pagination current={currentPage} total={total} onChange={onPaginationChange} pageSize={PAGE_SIZE} />
                     </div>
                 ) : null}
@@ -131,4 +136,4 @@ const ListWithSearch = <T extends BaseItem, >(props: ListWithSearchProps<T>): Re
     );
 };
 
-export default ListWithSearch;
+export default CustomList;

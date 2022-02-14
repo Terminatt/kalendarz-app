@@ -88,6 +88,7 @@ const Rooms: React.FC = () => {
                     placeholder: 'Nazwa pokoju',
                     total: rooms.data.count,
                     addEditBtn: true,
+                    showSearch: true,
                     onSearchChange,
                     renderContent: (item) => <RoomItem item={item} />,
                 }}

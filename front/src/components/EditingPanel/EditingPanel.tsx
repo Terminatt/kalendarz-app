@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import ListWithSearch, { ListWithSearchProps } from '@components/ListWithSearch/ListWithSearch';
+import CustomList, { ListWithSearchProps } from '@components/CustomList/CustomList';
 import TwoColumnLayout from '@components/TwoColumnLayout/TwoColumnLayout';
 import TwoModesForm, { TwoModesFormProps } from '@components/TwoModesForm/TwoModesForm';
 import { BaseItem, GenericReactContent, Id } from '@generics/generics';
@@ -55,6 +55,7 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
         if (!calculatedPage) {
             calculatedPage = 1;
         }
+
         setCurrentPage(calculatedPage);
         setSelected(null);
 
@@ -68,12 +69,13 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
     const onModeChange = useCallback(() => {
         setSelected(null);
     }, []);
+
     return (
         <TwoColumnLayout
             className={joinClassNames(['editing-panel', className])}
             left={
                 (
-                    <ListWithSearch
+                    <CustomList
                         {...listWithSearchProps}
                         onSelect={onListItemSelect}
                         onDelete={onItemDelete}

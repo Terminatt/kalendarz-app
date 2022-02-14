@@ -1,16 +1,26 @@
 @import '~styles/variables.less';
 
-.list-with-search {
+.custom-list {
   height: 100%;
   display: flex;
   flex-flow: column;
+
   &-header {
     margin-bottom: 0;
+  }
+
+  &-subtitle {
+    margin-top: @margin-tiny;
+    color: @text-color-secondary;
   }
   
   &-container {
     overflow-y: auto;
     padding-right:  @padding-small;
+  }
+
+  &-alone {
+    margin-top: @margin-medium;
   }
 
   &-input {
