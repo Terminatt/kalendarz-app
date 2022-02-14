@@ -1,4 +1,4 @@
-import { ERROR_MESSAGES, FORM_LAYOUT } from '@constants/constants';
+import { VALIDATION_ERROR_MESSAGES, FORM_LAYOUT } from '@constants/constants';
 import React, { useEffect } from 'react';
 import { Form, FormProps } from 'antd';
 import CustomButton from '@components/CustomButton/CustomButton';
@@ -31,7 +31,7 @@ const CustomForm: React.FC<CustomFormProps> = (props) => {
         if (!errorResponse) {
             return;
         }
-        const errors = parseErrorResponse(errorResponse, ERROR_MESSAGES);
+        const errors = parseErrorResponse(errorResponse, VALIDATION_ERROR_MESSAGES);
 
         form?.setFields(errors);
     }, [errorResponse]);
