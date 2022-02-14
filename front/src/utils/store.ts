@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { RequestErrorType } from '@constants/constants';
 import { BaseState, RejectResponse } from '@generics/generics';
 import {
     ActionReducerMapBuilder,
@@ -8,7 +9,7 @@ import { FulfilledActionFromAsyncThunk, PendingActionFromAsyncThunk, RejectedAct
 import { NoInfer } from '@reduxjs/toolkit/dist/tsHelpers';
 import { notification } from 'antd';
 import { AxiosResponse, AxiosError } from 'axios';
-import { isAxiosError } from './requests';
+import { isAxiosError, isRequestErrorType } from './requests';
 
 export interface CustomAsyncThunkResponse<Data = void> {
   data: Data;
@@ -30,12 +31,15 @@ export function createCustomAsyncThunk<ErrorData = void, Payload = void, Data = 
       request: (payload: Payload extends undefined ? undefined : Payload) => Promise<AxiosResponse<Data>>;
       successMessage?: string;
       errorMessage?: string;
+      blockErrorMsg?: RequestErrorType | RequestErrorType[];
   },
 ): AsyncThunk<CustomAsyncThunkResponse<Data>, CustomAsyncThunkPayload<ErrorData, Payload, Data> | void, CustomThunkConfig<ErrorData>> {
     return createAsyncThunk<CustomAsyncThunkResponse<Data>, CustomAsyncThunkPayload<ErrorData, Payload, Data> | void, CustomThunkConfig<ErrorData>>(
         prefix,
         async (_payload, { rejectWithValue }) => {
-            const { request, successMessage, errorMessage } = options;
+            const {
+                request, successMessage, errorMessage, blockErrorMsg,
+            } = options;
             const payload = _payload || {};
             try {
                 const response = await request(payload.requestPayload as Payload extends undefined ? undefined : Payload);
@@ -48,11 +52,20 @@ export function createCustomAsyncThunk<ErrorData = void, Payload = void, Data = 
                 return { data, successMessage };
             } catch (error) {
                 if (isAxiosError<ErrorData>(error)) {
+                    let showMsg = true;
                     if (payload.onError) {
                         payload.onError(error);
                     }
 
-                    return rejectWithValue({ error: error.response?.data, errorMessage });
+                    if (!!blockErrorMsg && isRequestErrorType(error)) {
+                        if (Array.isArray(blockErrorMsg)) {
+                            showMsg = blockErrorMsg.includes(error.response.data.type);
+                        } else {
+                            showMsg = blockErrorMsg === error.response.data.type;
+                        }
+                    }
+
+                    return rejectWithValue({ error: error.response?.data, errorMessage: showMsg ? errorMessage : null });
                 }
                 return rejectWithValue({ errorMessage });
             }

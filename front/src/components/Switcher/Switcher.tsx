@@ -3,7 +3,7 @@ import React, {
     useCallback, useEffect, useState,
 } from 'react';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
-import { isDefined, isExisting } from '@utils/general';
+import { isDefined, isNumber } from '@utils/general';
 
 import './Switcher.less';
 
@@ -42,7 +42,7 @@ const Switcher = <T, >(props: SwitcherProps<T>): React.ReactElement => {
     }, [onChange]);
 
     const onLeftButtonClick = useCallback(() => {
-        if (!isExisting(selectedItem)) {
+        if (!isNumber(selectedItem)) {
             return;
         }
 
@@ -63,7 +63,7 @@ const Switcher = <T, >(props: SwitcherProps<T>): React.ReactElement => {
     }, [selectedIndex, selected, onIndexChange]);
 
     const onRightButtonClick = useCallback(() => {
-        if (!isExisting(selectedItem)) {
+        if (!isNumber(selectedItem)) {
             return;
         }
 

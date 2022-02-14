@@ -5,10 +5,6 @@ export function isNumber(value: unknown): value is number {
     return typeof value === 'number';
 }
 
-export function isExisting<T>(value?: T | null): value is T {
-    return value !== undefined && value !== null;
-}
-
 export function isDefined<T>(value?: T | null): value is T | null {
     return value !== undefined;
 }

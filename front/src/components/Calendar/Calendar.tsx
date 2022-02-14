@@ -1,4 +1,4 @@
-import { isExisting, joinClassNames } from '@utils/general';
+import { isNumber, joinClassNames } from '@utils/general';
 import dayjs, { Dayjs } from 'dayjs';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Month, MONTH_NAMES } from '@constants/constants';
@@ -42,7 +42,7 @@ const Calendar: React.FC<CalendarProps> = (props) => {
     }, []);
 
     useEffect(() => {
-        if (!isExisting(selectedYear) || !isExisting(selectedMonth)) {
+        if (!isNumber(selectedYear) || !isNumber(selectedMonth)) {
             return;
         }
 

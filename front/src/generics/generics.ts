@@ -1,3 +1,5 @@
+import { RequestErrorType } from '@constants/constants';
+
 export type GenericReactContent = React.ReactElement | React.ReactElement[] | string;
 export type Id = number;
 
@@ -29,11 +31,11 @@ export interface BaseFullDataState<Data extends BaseItem> extends BaseDataState<
 
 export interface RejectResponse<ErrorData = void> {
   error?: ErrorData;
-  errorMessage?: string;
+  errorMessage?: string | null;
 }
 
 export interface ErrorType {
-  type: string,
+  type: RequestErrorType,
   message: string;
 }
 
