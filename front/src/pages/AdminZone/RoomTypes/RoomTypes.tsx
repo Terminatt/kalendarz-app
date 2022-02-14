@@ -100,6 +100,7 @@ const RoomTypes: React.FC = () => {
                     placeholder: 'Nazwa typu',
                     total: count,
                     isLoading,
+                    addEditBtn: true,
                     onSearchChange,
                     renderContent: (item) => (
                         <div className="room-types-content-item">

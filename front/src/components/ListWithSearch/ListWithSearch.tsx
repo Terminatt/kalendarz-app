@@ -24,7 +24,8 @@ export interface ListWithSearchProps<T> {
     isLoading?: boolean;
     selected?: T | null;
     total?: number;
-    pageNumber?: number
+    pageNumber?: number;
+    addEditBtn?: boolean;
     renderContent: (item: T, index: number) => React.ReactNode;
     onEdit?: (item: T) => void;
     onDelete?: (item: T) => void;
@@ -40,7 +41,7 @@ const ListWithSearch = <T extends BaseItem, >(props: ListWithSearchProps<T>): Re
     const {
         dataSource, renderContent, onEdit, onDelete,
         title, placeholder, onSearch, onSearchChange, searchLabel, onSelect,
-        isLoading, selected, total, onPageChange, pageNumber,
+        isLoading, selected, total, onPageChange, pageNumber, addEditBtn,
     } = props;
     const selectedListItem = isDefined(selected) ? selected : selectedInternal;
     const currentPage = isDefined(pageNumber) ? pageNumber : currentPageInternal;
@@ -87,7 +88,7 @@ const ListWithSearch = <T extends BaseItem, >(props: ListWithSearchProps<T>): Re
                             className={joinClassNames(['list-with-search-item', selectedListItem?.id === item.id ? 'list-with-search-selected' : null])}
                             onClick={() => onListItemClick(item)}
                             actions={[
-                                <CustomButton onClick={() => onEdit && onEdit(item)} icon={<EditOutlined />} size="small" key="edit">Edytuj</CustomButton>,
+                                addEditBtn && <CustomButton onClick={() => onEdit && onEdit(item)} icon={<EditOutlined />} size="small" key="edit">Edytuj</CustomButton>,
                                 onDelete && (
                                     <DeletePopconfirm
                                         title="Czy na pewno chcesz usunąć ten element?"

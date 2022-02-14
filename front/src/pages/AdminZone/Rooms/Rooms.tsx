@@ -86,6 +86,7 @@ const Rooms: React.FC = () => {
                     isLoading: rooms.isLoading,
                     placeholder: 'Nazwa pokoju',
                     total: rooms.data.count,
+                    addEditBtn: true,
                     onSearchChange,
                     renderContent: (item) => (
                         <div className="room-content-item">
