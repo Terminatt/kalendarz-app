@@ -11,12 +11,13 @@ import {
 } from '@store/rooms/asyncActions';
 import { Room, RoomErrorResponse } from '@store/rooms/types';
 import { getRequiredRule } from '@utils/form';
-import { debounce, parseDate } from '@utils/general';
+import { debounce } from '@utils/general';
 import { Form, Input } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import { AxiosError } from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import RoomItem from './components/RoomItem/RoomItem';
 
 import './Rooms.less';
 
@@ -88,17 +89,7 @@ const Rooms: React.FC = () => {
                     total: rooms.data.count,
                     addEditBtn: true,
                     onSearchChange,
-                    renderContent: (item) => (
-                        <div className="room-content-item">
-                            <div>{item.name}</div>
-                            <div className="room-content-item-date">
-                                {parseDate(item.created)}
-                            </div>
-                            <ColoredBlock className="room-content-item-color" bgColor={item.type.color}>
-                                {item.type.name}
-                            </ColoredBlock>
-                        </div>
-                    ),
+                    renderContent: (item) => <RoomItem item={item} />,
                 }}
                 twoModesFormProps={{
                     errorResponse,

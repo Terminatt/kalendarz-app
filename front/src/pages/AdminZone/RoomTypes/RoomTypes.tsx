@@ -73,7 +73,7 @@ const RoomTypes: React.FC = () => {
                 if (error.response.data.type !== RequestErrorType.RELATED_OBJECT) {
                     return;
                 }
-
+                setRoomPanelActive(true);
                 dispatch(getRooms({ requestPayload: { filters: { type: item.id } } }));
             },
         }));
