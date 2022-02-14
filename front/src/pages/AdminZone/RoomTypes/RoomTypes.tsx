@@ -27,6 +27,7 @@ export interface RoomTypeFormValues {
 const RoomTypes: React.FC = () => {
     const [form] = useForm<RoomTypeFormValues>();
     const [errorResponse, setErrorResponse] = useState<null | RoomTypeErrorResponse>(null);
+    const [roomPanelActive, setRoomPanelActive] = useState<boolean>(false);
     const roomTypes = useSelector((state: RootState) => state.roomTypes);
     const { data, isLoading } = roomTypes;
     const { count, results } = data;
@@ -86,6 +87,10 @@ const RoomTypes: React.FC = () => {
         dispatch(getRoomTypes({ requestPayload: { filters: { search: e.target.value } } }));
     }, DEBOUNCE_TIME), []);
 
+    const onRoomPanelBack = useCallback(() => {
+        setRoomPanelActive(false);
+    }, []);
+
     return (
         <div className="room-types">
             <EditingPanel
@@ -94,6 +99,8 @@ const RoomTypes: React.FC = () => {
                 onDelete={onDelete}
                 onPageChange={onPageChange}
                 dataSource={results}
+                additionalPanelActive={roomPanelActive}
+                onAdditionalPanelBack={onRoomPanelBack}
                 listWithSearchProps={{
                     title: 'Typy pokojów',
                     searchLabel: 'Wyszukaj typ pokoju',

@@ -3,9 +3,10 @@ import ListWithSearch, { ListWithSearchProps } from '@components/ListWithSearch/
 import TwoColumnLayout from '@components/TwoColumnLayout/TwoColumnLayout';
 import TwoModesForm, { TwoModesFormProps } from '@components/TwoModesForm/TwoModesForm';
 import { BaseItem, GenericReactContent, Id } from '@generics/generics';
-
+import { calculatePageOnDelete, joinClassNames } from '@utils/general';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 import './EditingPanel.less';
-import { calculatePageOnDelete } from '@utils/general';
+import CustomButton from '@components/CustomButton/CustomButton';
 
 export interface EditingPanel<T> {
     listWithSearchProps: Omit<ListWithSearchProps<T>, 'onSelect' | 'onDelete' | 'selectedItem' | 'onPageChange' | 'dataSource'>;
@@ -13,6 +14,9 @@ export interface EditingPanel<T> {
     formItems: GenericReactContent;
     className?: string;
     dataSource: T[];
+    additionalPanelActive?: boolean;
+    additionalPanel?: GenericReactContent;
+    onAdditionalPanelBack?: () => void;
     onFormSubmit?: (values: T, page: number, id?: Id) => void;
     onDelete?: (item: T, page: number) => void;
     onPageChange?: (page: number) => void;
@@ -20,7 +24,8 @@ export interface EditingPanel<T> {
 
 const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.ReactElement => {
     const {
-        listWithSearchProps, twoModesFormProps, formItems, className, dataSource, onDelete, onFormSubmit, onPageChange,
+        listWithSearchProps, twoModesFormProps, formItems, className, dataSource, additionalPanelActive, additionalPanel,
+        onAdditionalPanelBack, onDelete, onFormSubmit, onPageChange,
     } = props;
     const [selected, setSelected] = useState<T | null>();
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -65,6 +70,7 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
     }, []);
     return (
         <TwoColumnLayout
+            className={joinClassNames(['editing-panel', className])}
             left={
                 (
                     <ListWithSearch
@@ -79,11 +85,21 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
                 )
             }
             right={(
-                <TwoModesForm {...twoModesFormProps} selected={selected} onFormSubmit={onSubmit} onModeChange={onModeChange}>
-                    {formItems}
-                </TwoModesForm>
+                <>
+                    {additionalPanelActive ? (
+                        <div className="editing-panel-additional">
+                            <div className="editing-panel-additional-header">
+                                <CustomButton icon={<ArrowLeftOutlined />} size="small" onClick={onAdditionalPanelBack}>Wróć do panelu edycji</CustomButton>
+                            </div>
+                            {additionalPanel}
+                        </div>
+                    ) : (
+                        <TwoModesForm {...twoModesFormProps} selected={selected} onFormSubmit={onSubmit} onModeChange={onModeChange}>
+                            {formItems}
+                        </TwoModesForm>
+                    )}
+                </>
             )}
-            className={className}
         />
     );
 };
