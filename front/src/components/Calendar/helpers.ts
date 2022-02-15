@@ -1,6 +1,8 @@
 import { SwitcherOption } from '@components/Switcher/Switcher';
 import { DAY_NAMES, Month } from '@constants/constants';
-import { isBeforeToday, isToday, isWeekend } from '@utils/general';
+import {
+    isBeforeToday, isToday, isWeekend,
+} from '@utils/general';
 import dayjs, { Dayjs } from 'dayjs';
 import { CalendarItemType } from './CalendarItem/CalendarItem';
 
@@ -8,6 +10,7 @@ export interface CalendarDay {
     dayNumber: string;
     dayName: string;
     type: CalendarItemType;
+    date: Dayjs;
 }
 export type EvaluateTypeHandler = (date: Dayjs) => CalendarItemType;
 export function createDayList(year: number, month: Month, evaluateType: EvaluateTypeHandler): CalendarDay[] {
@@ -23,6 +26,7 @@ export function createDayList(year: number, month: Month, evaluateType: Evaluate
                 dayNumber: i < 9 ? `0${i + 1}` : `${i + 1}`,
                 dayName: DAY_NAMES[dayNumber],
                 type: evaluateType(dateTmp),
+                date: dateTmp,
             },
         );
     }
@@ -43,6 +47,7 @@ export function createLastWeekList(year: number, month: Month, evaluateType: Eva
                 dayNumber: `${dateTmp.format('DD')}`,
                 dayName: DAY_NAMES[dayNumber],
                 type: evaluateType(dateTmp),
+                date: dateTmp,
             },
         );
     }

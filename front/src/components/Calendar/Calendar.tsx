@@ -17,6 +17,7 @@ import './Calendar.less';
 
 export interface CalendarProps {
     className?: string;
+    onDayClick?: (date: Dayjs) => void;
 }
 
 const Calendar: React.FC<CalendarProps> = (props) => {
@@ -25,7 +26,7 @@ const Calendar: React.FC<CalendarProps> = (props) => {
     const [selectedMonth, setMonth] = useState<number | null>(null);
     const [daysInMonth, setDaysInMonth] = useState<CalendarDay[]>([]);
     const monthOptions = getMonthsOptions(MONTH_NAMES);
-    const { className } = props;
+    const { className, onDayClick } = props;
 
     const createDaysInMonth = useCallback((_selectedYear: number, _selectedMonth: number): CalendarDay[] => {
         const dayList = createDayList(_selectedYear, _selectedMonth, evaluateCurrentMonthDayType);
@@ -73,6 +74,14 @@ const Calendar: React.FC<CalendarProps> = (props) => {
         setMonth(value);
     }, [selectedYear]);
 
+    const onCalendarItemClick = useCallback((date: Dayjs) => {
+        if (!onDayClick) {
+            return;
+        }
+
+        onDayClick(date);
+    }, [onDayClick]);
+
     return (
         <div className={joinClassNames(['calendar', className])}>
             <HugeDivider className="calendar-divider" text={selectedYear || ''} />
@@ -85,7 +94,13 @@ const Calendar: React.FC<CalendarProps> = (props) => {
                 </div>
                 <div className="calendar-content-dates">
                     {daysInMonth.map((el) => (
-                        <CalendarItem key={el.dayNumber + el.type} type={el.type} dayName={el.dayName} dayNumber={el.dayNumber} />
+                        <CalendarItem
+                            onClick={() => onCalendarItemClick(el.date)}
+                            key={el.dayNumber + el.type}
+                            type={el.type}
+                            dayName={el.dayName}
+                            dayNumber={el.dayNumber}
+                        />
                     ))}
                 </div>
             </div>

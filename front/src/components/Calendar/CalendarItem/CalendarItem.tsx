@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import './CalendarItem.less';
 
@@ -14,14 +14,24 @@ export interface CalendarItemProps {
   type: CalendarItemType,
   dayNumber: string;
   dayName: string;
+  onClick?: () => void;
 }
 
 const CalendarItem: React.FC<CalendarItemProps> = (props) => {
-    const { type, dayNumber, dayName } = props;
+    const {
+        type, dayNumber, dayName, onClick,
+    } = props;
     const disabled = type === CalendarItemType.ANOTHER_MONTH_DAY;
 
+    const onItemClick = useCallback(() => {
+        if (!onClick) {
+            return;
+        }
+        onClick();
+    }, [onClick]);
+
     return (
-        <button className={`calendar-item calendar-item-${type}`} type="button" disabled={disabled}>
+        <button onClick={onItemClick} className={`calendar-item calendar-item-${type}`} type="button" disabled={disabled}>
             <div>{dayNumber}</div>
             <div>{dayName}</div>
         </button>

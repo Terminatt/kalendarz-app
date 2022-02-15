@@ -32,6 +32,14 @@ export function parseDate(date: string): string {
     return dayjs(date).format('DD.MM.YYYY HH:mm:ss');
 }
 
+export function parseIsoDate(date: string | Dayjs): string {
+    if (typeof date === 'string') {
+        return dayjs(date).format('YYYY-MM-DD');
+    }
+
+    return date.format('YYYY-MM-DD');
+}
+
 export function stopBubbling(e?: React.MouseEvent<HTMLElement, MouseEvent> | undefined): void {
     if (!e) {
         return;
