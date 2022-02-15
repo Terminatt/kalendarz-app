@@ -1,5 +1,4 @@
 import ColoredBlock from '@components/ColoredBlock/ColoredBlock';
-import CustomButton from '@components/CustomButton/CustomButton';
 import CustomList from '@components/CustomList/CustomList';
 import EditingPanel from '@components/EditingPanel/EditingPanel';
 import { DEBOUNCE_TIME, RequestErrorType } from '@constants/constants';
@@ -18,6 +17,7 @@ import { useForm } from 'antd/es/form/Form';
 import { AxiosError } from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import RoomItem from '../Rooms/components/RoomItem/RoomItem';
 
 import './RoomTypes.less';
@@ -33,6 +33,7 @@ const RoomTypes: React.FC = () => {
     const [roomPanelActive, setRoomPanelActive] = useState<boolean>(false);
     const { rooms, roomTypes } = useSelector((state: RootState) => state);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(clearRoomState());
@@ -92,6 +93,10 @@ const RoomTypes: React.FC = () => {
         setRoomPanelActive(false);
     }, []);
 
+    const onEditRelatedClick = useCallback((item: RoomType) => {
+        navigate(`/admin-zone/rooms?type=${item.id}`);
+    }, []);
+
     return (
         <div className="room-types">
             <EditingPanel
@@ -102,6 +107,8 @@ const RoomTypes: React.FC = () => {
                 dataSource={roomTypes.data.results}
                 additionalPanelActive={roomPanelActive}
                 onAdditionalPanelBack={onRoomPanelBack}
+                additionalPanelBtnText="Edytuj powiązane pokoje"
+                onAdditionalBtnClick={onEditRelatedClick}
                 listWithSearchProps={{
                     title: 'Typy pokojów',
                     searchLabel: 'Wyszukaj typ pokoju',
@@ -142,15 +149,12 @@ const RoomTypes: React.FC = () => {
                     </>
                 )}
                 additionalPanel={(
-                    <div className="room-types-additional">
-                        <CustomList
-                            dataSource={rooms.data.results}
-                            title="Powiązane pokoje"
-                            subtitle="Usuń powiązane pokoje, by usunąć typ pokoju"
-                            renderContent={(item) => <RoomItem item={item} />}
-                        />
-                        <div className="room-types-additional-btn"><CustomButton>Edytuj powiązane pokoje</CustomButton></div>
-                    </div>
+                    <CustomList
+                        dataSource={rooms.data.results}
+                        title="Powiązane pokoje"
+                        subtitle="Usuń powiązane pokoje, by usunąć typ pokoju"
+                        renderContent={(item) => <RoomItem item={item} />}
+                    />
                 )}
             />
         </div>

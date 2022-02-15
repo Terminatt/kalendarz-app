@@ -3,6 +3,7 @@ import EditingPanel from '@components/EditingPanel/EditingPanel';
 import ObjectSelect from '@components/ObjectSelect/ObjectSelect';
 import { DEBOUNCE_TIME } from '@constants/constants';
 import { Id } from '@generics/generics';
+import useQuery from '@hooks/useQuery';
 import { RootState } from '@store/index';
 import { getRoomTypes } from '@store/room-types/asyncActions';
 import { RoomType } from '@store/room-types/types';
@@ -30,11 +31,19 @@ export interface RoomFormValues {
 const Rooms: React.FC = () => {
     const [form] = useForm<RoomFormValues>();
     const [errorResponse, setErrorResponse] = useState<null | RoomErrorResponse>(null);
-    const dispatch = useDispatch();
     const { rooms, roomTypes } = useSelector((state: RootState) => state);
+    const query = useQuery();
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getRooms());
+        const type = query.get('type');
+        dispatch(getRooms({
+            requestPayload: {
+                filters: {
+                    type: type ? parseInt(type, 10) : undefined,
+                },
+            },
+        }));
         dispatch(getRoomTypes());
     }, []);
 

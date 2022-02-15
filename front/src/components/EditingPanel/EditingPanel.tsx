@@ -16,16 +16,20 @@ export interface EditingPanel<T> {
     dataSource: T[];
     additionalPanelActive?: boolean;
     additionalPanel?: GenericReactContent;
+    additionalPanelBtnText?: string;
     onAdditionalPanelBack?: () => void;
     onFormSubmit?: (values: T, page: number, id?: Id) => void;
     onDelete?: (item: T, page: number) => void;
     onPageChange?: (page: number) => void;
+    onAdditionalBtnClick?: (item: T) => void;
 }
 
 const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.ReactElement => {
     const {
-        listWithSearchProps, twoModesFormProps, formItems, className, dataSource, additionalPanelActive, additionalPanel,
-        onAdditionalPanelBack, onDelete, onFormSubmit, onPageChange,
+        listWithSearchProps, twoModesFormProps, formItems,
+        className, dataSource, additionalPanelActive, additionalPanel,
+        additionalPanelBtnText,
+        onAdditionalPanelBack, onDelete, onFormSubmit, onPageChange, onAdditionalBtnClick,
     } = props;
     const [selected, setSelected] = useState<T | null>();
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -70,6 +74,14 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
         setSelected(null);
     }, []);
 
+    const onPanelBtnClick = useCallback(() => {
+        if (!selected || !onAdditionalBtnClick) {
+            return;
+        }
+
+        onAdditionalBtnClick(selected);
+    }, [onAdditionalBtnClick, selected]);
+
     return (
         <TwoColumnLayout
             className={joinClassNames(['editing-panel', className])}
@@ -94,6 +106,9 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
                                 <CustomButton icon={<ArrowLeftOutlined />} size="small" onClick={onAdditionalPanelBack}>Wróć do panelu edycji</CustomButton>
                             </div>
                             {additionalPanel}
+                            <div className="editing-panel-additional-btn">
+                                <CustomButton onClick={onPanelBtnClick}>{additionalPanelBtnText}</CustomButton>
+                            </div>
                         </div>
                     ) : (
                         <TwoModesForm {...twoModesFormProps} selected={selected} onFormSubmit={onSubmit} onModeChange={onModeChange}>

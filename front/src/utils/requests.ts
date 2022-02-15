@@ -20,11 +20,20 @@ export function getList<R, T>(url: string, page?: number | null, filters?: T | n
 
     if (filters) {
         const entries = Object.entries(filters);
-        if (!page && entries.length !== 0) {
-            link = `${link}?${entries[0][0]}=${entries[0][1]}`;
-            entries.shift();
-        }
+        let isFirstParam = true;
+
         entries.forEach(([key, value]) => {
+            if (!entries[0][1]) {
+                return;
+            }
+
+            if (!page && isFirstParam) {
+                link = `${link}?${entries[0][0]}=${entries[0][1]}`;
+                isFirstParam = true;
+
+                return;
+            }
+
             link = `${link}&${key}=${value}`;
         });
     }
