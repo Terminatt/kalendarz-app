@@ -14,6 +14,7 @@ import Rooms from '@pages/AdminZone/Rooms/Rooms';
 import { MenuOutlined } from '@ant-design/icons';
 import CustomButton from '@components/CustomButton/CustomButton';
 import { ResizeListenerContext } from '@contexts/ResizeListenerContext/ResizeListenerContext';
+import RoomReservation from '@pages/RoomReservation/RoomReservation';
 
 import 'styles/global.less';
 import 'styles/overrides.less';
@@ -71,6 +72,7 @@ const App: React.FC = () => {
                     <div className="app-content-routes">
                         <Routes>
                             <Route path="/" element={<Home />} />
+                            <Route path="room-reservation" element={<RoomReservation />} />
                             <Route path="admin-zone">
                                 <Route path="room-types" element={<RoomTypes />} />
                                 <Route path="rooms" element={<Rooms />} />
