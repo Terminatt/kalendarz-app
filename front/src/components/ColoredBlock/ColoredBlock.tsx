@@ -5,7 +5,7 @@ import React from 'react';
 import './ColoredBlock.less';
 
 export interface ColoredBlock {
-    bgColor: string;
+    bgColor?: string;
     className?: string;
     children: GenericReactContent;
 }

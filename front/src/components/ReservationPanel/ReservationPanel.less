@@ -1,0 +1,56 @@
+@import '~styles/variables.less';
+@import '~styles/mixins.less';
+
+.reservation-panel {
+    &-switcher {
+        .center-horizontally();
+        margin-bottom: @margin-medium;
+    }
+
+    &-content {
+        width: 100%;
+        height: 400px; // TODO remove to make it dynamic
+        background-color: @primary-bg;
+        padding: @padding-small;
+        border-radius: @border-radius-regular;
+        box-shadow: @box-shadow-mild;
+        display: flex;
+
+        &-left {
+            border-right: 2px solid @border-color-base;
+        }
+
+        &-right {
+            overflow-x: auto;
+        }
+
+        &-row {
+            position: relative;
+            padding-bottom: @padding-small;
+            border-bottom: 2px solid @border-color-base;
+            display: inline-flex;
+            width: max-content;
+
+            & > div {
+                margin-right: @margin-small;
+            }
+
+            &-right > div:first-child {
+                margin-left: @margin-small;
+            }
+        }
+
+        &-header-block-left, &-header-block-right {
+            background-color: @reservation-block-color;
+        }
+        
+        &-header-block-left {
+            width: 150px;
+        }
+
+        &-header-block-right {
+            flex-shrink: 0;
+            width: 150px;
+        }
+    }
+}
