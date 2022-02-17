@@ -36,6 +36,16 @@
                 margin-right: @margin-small;
             }
 
+            &-right {
+                &-time-block {
+                    margin-right: @margin-small;
+                }
+
+                &-time-block:first-child {
+                    margin-left: @margin-small;
+                }
+            }
+
             &-right > div:first-child {
                 margin-left: @margin-small;
             }
@@ -47,6 +57,7 @@
 
         &-header-block-left, &-header-block-right {
             background-color: @reservation-block-color;
+            height: 30px;
         }
         
         &-header-block-left {
@@ -59,3 +70,4 @@
         }
     }
 }
+
