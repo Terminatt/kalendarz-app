@@ -22,6 +22,7 @@
 
         &-right {
             overflow-x: auto;
+            scroll-margin-left: @margin-small;
         }
 
         &-row {
@@ -38,6 +39,10 @@
             &-right > div:first-child {
                 margin-left: @margin-small;
             }
+        }
+
+        &-row:not(:first-child) {
+            margin-top: @margin-small;
         }
 
         &-header-block-left, &-header-block-right {
