@@ -14,18 +14,19 @@
         padding: @padding-small;
         border-radius: @border-radius-regular;
         box-shadow: @box-shadow-mild;
+        overflow: auto;
+
 
         &-left {
             border-right: 2px solid @border-color-base;
+            height: 100%;
         }
 
         &-right {
-            overflow-x: auto;
-            scroll-margin-left: @margin-small;
+            height: 100%;
         }
 
         &-row {
-            position: relative;
             padding-bottom: @padding-small;
             border-bottom: 2px solid @border-color-base;
             display: inline-flex;

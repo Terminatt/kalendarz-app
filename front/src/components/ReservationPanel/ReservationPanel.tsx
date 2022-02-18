@@ -27,38 +27,41 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
             <div className="reservation-panel-switcher">
                 test
             </div>
-            <div className={joinClassNames(['reservation-panel-content', timeBlockContainerClassname])}>
-                <div className="reservation-panel-content-left">
-                    <div className="reservation-panel-content-row">
-                        <ColoredBlock className="reservation-panel-content-header-block-left">Nazwa sali</ColoredBlock>
-                        <ColoredBlock className="reservation-panel-content-header-block-left">Ilość miejsc</ColoredBlock>
-                    </div>
-                    {rooms.map((room) => (
-                        <div key={room.id} className="reservation-panel-content-row">
-                            <ColoredBlock bgColor={room.type.color} className="reservation-panel-content-header-block-left">{room.name}</ColoredBlock>
-                            <ColoredBlock bgColor={room.type.color} className="reservation-panel-content-header-block-left">100</ColoredBlock>
+            <div className="reservation-panel-content-scrollbar">
+                <div className={joinClassNames(['reservation-panel-content', timeBlockContainerClassname])}>
+                    <div className="reservation-panel-content-left">
+                        <div className="reservation-panel-content-row">
+                            <ColoredBlock className="reservation-panel-content-header-block-left">Nazwa sali</ColoredBlock>
+                            <ColoredBlock className="reservation-panel-content-header-block-left">Ilość miejsc</ColoredBlock>
                         </div>
-                    ))}
-                </div>
-                <div className="reservation-panel-content-right">
-                    <div className="reservation-panel-content-row reservation-panel-content-row-right">
-                        {WORKING_HOURS.map((el) => (
-                            <ColoredBlock key={el} className="reservation-panel-content-header-block-right">{el}</ColoredBlock>
+                        {rooms.map((room) => (
+                            <div key={room.id} className="reservation-panel-content-row">
+                                <ColoredBlock bgColor={room.type.color} className="reservation-panel-content-header-block-left">{room.name}</ColoredBlock>
+                                <ColoredBlock bgColor={room.type.color} className="reservation-panel-content-header-block-left">100</ColoredBlock>
+                            </div>
                         ))}
                     </div>
-                    {rooms.map((room) => (
-                        <div key={room.id} className="reservation-panel-content-row reservation-panel-content-row-right">
+                    <div className="reservation-panel-content-right">
+                        <div className="reservation-panel-content-row reservation-panel-content-row-right">
                             {WORKING_HOURS.map((el) => (
-                                <>
-                                    <TimeBlock key={`${el}1`} aria-label={el} className="reservation-panel-content-row-right-time-block" />
-                                    <TimeBlock key={`${el}2`} aria-label={el} className="reservation-panel-content-row-right-time-block" />
-                                    <TimeBlock key={`${el}3`} aria-label={el} className="reservation-panel-content-row-right-time-block" />
-                                    <TimeBlock key={`${el}4`} aria-label={el} className="reservation-panel-content-row-right-time-block" />
-                                </>
+                                <ColoredBlock key={el} className="reservation-panel-content-header-block-right">{el}</ColoredBlock>
                             ))}
                         </div>
-                    ))}
+                        {rooms.map((room) => (
+                            <div key={room.id} className="reservation-panel-content-row reservation-panel-content-row-right">
+                                {WORKING_HOURS.map((el) => (
+                                    <>
+                                        <TimeBlock key={`${el}1`} aria-label={el} className="reservation-panel-content-row-right-time-block" />
+                                        <TimeBlock key={`${el}2`} aria-label={el} className="reservation-panel-content-row-right-time-block" />
+                                        <TimeBlock key={`${el}3`} aria-label={el} className="reservation-panel-content-row-right-time-block" />
+                                        <TimeBlock key={`${el}4`} aria-label={el} className="reservation-panel-content-row-right-time-block" />
+                                    </>
+                                ))}
+                            </div>
+                        ))}
+                    </div>
                 </div>
+
             </div>
         </div>
     );
