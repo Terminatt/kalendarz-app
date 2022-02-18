@@ -13,7 +13,7 @@ export interface ReservationPanelProps {
     day: Dayjs;
     className?: string;
     timeBlockContainerClassname?: string;
-    rooms: Room[]
+    rooms: Room[];
 }
 
 const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
