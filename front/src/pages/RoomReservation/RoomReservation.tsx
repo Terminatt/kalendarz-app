@@ -23,6 +23,7 @@ const RoomReservation: React.FC = () => {
         <div className="room-reservation">
             <div className="room-reservation-content">
                 <ReservationPanel
+                    timeBlockContainerClassname="room-reservation-content-timeblocks"
                     rooms={results}
                     day={day}
                 />

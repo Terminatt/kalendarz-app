@@ -4,8 +4,13 @@
 .room-reservation {
     .center();
     width: 100%;
-    height: max-content;
+    height: 100%;
     &-content {
         width: @default-panel-width;
+        height: 100%;
+
+        &-timeblocks {
+            min-height: @panel-height-small;
+        }
     }
 }

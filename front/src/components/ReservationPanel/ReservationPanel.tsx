@@ -12,11 +12,14 @@ import './ReservationPanel.less';
 export interface ReservationPanelProps {
     day: Dayjs;
     className?: string;
+    timeBlockContainerClassname?: string;
     rooms: Room[]
 }
 
 const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
-    const { day, className, rooms } = props;
+    const {
+        day, className, timeBlockContainerClassname, rooms,
+    } = props;
 
     return (
         <div className={joinClassNames(['reservation-panel', className])}>
@@ -24,7 +27,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
             <div className="reservation-panel-switcher">
                 test
             </div>
-            <div className="reservation-panel-content">
+            <div className={joinClassNames(['reservation-panel-content', timeBlockContainerClassname])}>
                 <div className="reservation-panel-content-left">
                     <div className="reservation-panel-content-row">
                         <ColoredBlock className="reservation-panel-content-header-block-left">Nazwa sali</ColoredBlock>
