@@ -7,19 +7,23 @@
         margin-bottom: @margin-medium;
     }
 
-    &-content {
+    &-container {
         .full-size();
-        display: flex;
         background-color: @primary-bg;
         padding: @padding-small;
         border-radius: @border-radius-regular;
         box-shadow: @box-shadow-mild;
-        overflow: auto;
+    }
 
+    &-content {
+        .full-size();
+        display: flex;
+        overflow: auto;
+        padding-bottom: @padding-small;
 
         &-left {
+            height: max-content;
             border-right: 2px solid @border-color-base;
-            height: 100%;
         }
 
         &-right {
