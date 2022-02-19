@@ -1,9 +1,19 @@
 @import '~styles/variables.less';
 
 .time-block {
-    background-color: @border-color-base;
+    background-color: @reservation-block-color;
     height: 30px;
     border: none;
     width: 28.5px;
     border-radius: @border-radius-regular;
+    transition: background-color @animation-duration-base;
+    cursor: pointer;
+
+    &:hover {
+        background-color: darken(@primary-color, 15%);
+    }
+
+    &-selected, &-selected:hover {
+        background-color: @primary-color;
+    }
 }
