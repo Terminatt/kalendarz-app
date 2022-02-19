@@ -10,15 +10,17 @@ export interface TimeBlockProps {
     ariaLabel?: string;
     tooltipOverlay?: GenericReactContent;
     selected?: boolean;
+    onClick?: () => void;
 }
 
 const TimeBlock: React.FC<TimeBlockProps> = (props) => {
     const {
-        className, ariaLabel, selected, tooltipOverlay,
+        className, ariaLabel, selected, tooltipOverlay, onClick,
     } = props;
 
     const renderBlock = () => (
         <button
+            onClick={onClick}
             type="button"
             aria-label={ariaLabel}
             className={joinClassNames(['time-block', selected ? 'time-block-selected' : null, className])}
