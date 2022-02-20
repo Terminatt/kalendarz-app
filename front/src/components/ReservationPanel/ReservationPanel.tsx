@@ -8,7 +8,7 @@ import { joinClassNames } from '@utils/general';
 import { Dayjs } from 'dayjs';
 import React, { useCallback, useState } from 'react';
 import cloneDeep from 'lodash.clonedeep';
-import { getTimeBlockValue } from './helpers';
+import { getTimeBlockValue, isTimeBlockSelected } from './helpers';
 
 import './ReservationPanel.less';
 
@@ -75,26 +75,6 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
 
         setSelectedBlocks(blockCopy);
     }, [selectedBlocks]);
-
-    const isTimeBlockSelected = useCallback((timeValue: number, interval?: TimeInterval, hoveredFocused?: HoveredFocusedTimeBlock): boolean => {
-        if (!interval?.start) {
-            return false;
-        }
-
-        if (hoveredFocused?.hovered) {
-            return timeValue <= hoveredFocused.hovered;
-        }
-
-        if (hoveredFocused?.focused) {
-            return timeValue <= hoveredFocused.focused;
-        }
-
-        if (interval?.end) {
-            return timeValue >= interval.start && timeValue <= interval.end;
-        }
-
-        return timeValue === interval.start;
-    }, []);
 
     const fillHoveredFocusedData = useCallback((_hoveredFocused: HoveredFocusedBlocksHashMap, roomId: Id): HoveredFocusedBlocksHashMap => {
         const hoveredFocused = _hoveredFocused;
