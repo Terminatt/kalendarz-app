@@ -8,7 +8,7 @@ import { joinClassNames } from '@utils/general';
 import { Dayjs } from 'dayjs';
 import React, { useCallback, useState } from 'react';
 import cloneDeep from 'lodash.clonedeep';
-import { getTimeBlockValue, isTimeBlockSelected } from './helpers';
+import { getTimeBlockValue } from './helpers';
 
 import './ReservationPanel.less';
 
@@ -29,6 +29,15 @@ export interface TimeInterval {
     endDisplayValue: string | null;
 }
 
+export interface HoveredFocusedBlocksHashMap {
+    [key: number]: HoveredFocusedTimeBlock;
+}
+
+export interface HoveredFocusedTimeBlock {
+    hovered: number | null;
+    focused: number | null;
+}
+
 const timeBlockPerHour = Array.from(Array(4).keys());
 
 const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
@@ -36,8 +45,9 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         day, className, timeBlockContainerClassname, rooms,
     } = props;
     const [selectedBlocks, setSelectedBlocks] = useState<SelectedBlocksHashMap>({});
+    const [hoveredFocusedBlocks, setHoveredFocusedBlock] = useState<HoveredFocusedBlocksHashMap>({});
 
-    const onTimeBlockClick = useCallback((roomId: Id, timeBlock: number, displayValue: string) => {
+    const onTimeBlockClick = useCallback((roomId: Id, timeBlock: number, displayValue: string): void => {
         const blockCopy = cloneDeep(selectedBlocks);
         if (!blockCopy[roomId]) {
             blockCopy[roomId] = {
@@ -66,23 +76,74 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         setSelectedBlocks(blockCopy);
     }, [selectedBlocks]);
 
+    const isTimeBlockSelected = useCallback((timeValue: number, interval?: TimeInterval, hoveredFocused?: HoveredFocusedTimeBlock): boolean => {
+        if (!interval?.start) {
+            return false;
+        }
+
+        if (hoveredFocused?.hovered) {
+            return timeValue <= hoveredFocused.hovered;
+        }
+
+        if (hoveredFocused?.focused) {
+            return timeValue <= hoveredFocused.focused;
+        }
+
+        if (interval?.end) {
+            return timeValue >= interval.start && timeValue <= interval.end;
+        }
+
+        return timeValue === interval.start;
+    }, []);
+
+    const fillHoveredFocusedData = useCallback((_hoveredFocused: HoveredFocusedBlocksHashMap, roomId: Id): HoveredFocusedBlocksHashMap => {
+        const hoveredFocused = _hoveredFocused;
+        if (!hoveredFocused[roomId]) {
+            hoveredFocused[roomId] = { hovered: null, focused: null };
+        }
+
+        return hoveredFocused;
+    }, []);
+
+    const onTimeBlockHover = useCallback((timeValue: number, roomId: number, dataKey: keyof HoveredFocusedTimeBlock): void => {
+        let hoveredFocusedCopy = cloneDeep(hoveredFocusedBlocks);
+        hoveredFocusedCopy = fillHoveredFocusedData(hoveredFocusedCopy, roomId);
+
+        hoveredFocusedCopy[roomId][dataKey] = timeValue;
+        setHoveredFocusedBlock(hoveredFocusedCopy);
+    }, [hoveredFocusedBlocks]);
+
+    const onTimeBlockHoverOut = useCallback((roomId: Id, dataKey: keyof HoveredFocusedTimeBlock) => {
+        let hoveredFocusedCopy = cloneDeep(hoveredFocusedBlocks);
+        hoveredFocusedCopy = fillHoveredFocusedData(hoveredFocusedCopy, roomId);
+
+        hoveredFocusedCopy[roomId][dataKey] = null;
+        setHoveredFocusedBlock(hoveredFocusedCopy);
+    }, [hoveredFocusedBlocks]);
+
     const renderTimeBlocks = useCallback((workingHour: number, roomId: Id) => timeBlockPerHour.map((timeElement) => {
         const minutes = getTimeBlockValue(timeElement);
         const timeValue = parseInt(`${workingHour}${minutes}`, 10);
         const block = selectedBlocks[roomId];
+        const hoveredFocused = hoveredFocusedBlocks[roomId];
         const textValue = `${workingHour}:${minutes}`;
 
         return (
             <TimeBlock
-                selected={isTimeBlockSelected(timeValue, block)}
+                selected={isTimeBlockSelected(timeValue, block, hoveredFocused)}
+                onMouseOver={() => onTimeBlockHover(timeValue, roomId, 'hovered')}
+                onFocus={() => onTimeBlockHover(timeValue, roomId, 'focused')}
+                onMouseLeave={() => onTimeBlockHoverOut(roomId, 'hovered')}
+                onBlur={() => onTimeBlockHoverOut(roomId, 'focused')}
                 onClick={() => onTimeBlockClick(roomId, timeValue, textValue)}
-                tooltipOverlay={`${block?.start !== timeValue && block?.startDisplayValue ? `${block.startDisplayValue}-` : ''}${textValue}`}
+                tooltipOverlay={`${block?.start !== timeValue && block?.startDisplayValue ? `${block.startDisplayValue} - ` : ''}${textValue}`}
                 key={`${workingHour}${timeElement}`}
                 aria-label={workingHour}
                 className="reservation-panel-content-row-right-time-block"
             />
         );
-    }), [selectedBlocks, onTimeBlockClick]);
+    }), [selectedBlocks, hoveredFocusedBlocks, onTimeBlockClick]);
+
     return (
         <div className={joinClassNames(['reservation-panel', className])}>
             <HugeDivider className="reservation-panel-divider" text={DAY_NAMES_FULL[day.day()]} />
@@ -111,11 +172,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                         </div>
                         {rooms.map((room) => (
                             <div key={room.id} className="reservation-panel-content-row reservation-panel-content-row-right">
-                                {WORKING_HOURS.map((el) => (
-                                    <>
-                                        {renderTimeBlocks(el, room.id)}
-                                    </>
-                                ))}
+                                {WORKING_HOURS.map((el) => renderTimeBlocks(el, room.id))}
                             </div>
                         ))}
                     </div>

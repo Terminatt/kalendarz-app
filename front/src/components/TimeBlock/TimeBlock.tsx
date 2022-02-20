@@ -11,16 +11,25 @@ export interface TimeBlockProps {
     tooltipOverlay?: GenericReactContent;
     selected?: boolean;
     onClick?: () => void;
+    onMouseOver?: () => void;
+    onMouseLeave?: () => void;
+    onFocus?: () => void;
+    onBlur?: () => void;
 }
 
 const TimeBlock: React.FC<TimeBlockProps> = (props) => {
     const {
-        className, ariaLabel, selected, tooltipOverlay, onClick,
+        className, ariaLabel, selected, tooltipOverlay,
+        onClick, onMouseOver, onMouseLeave, onFocus, onBlur,
     } = props;
 
     const renderBlock = () => (
         <button
+            onMouseLeave={onMouseLeave}
             onClick={onClick}
+            onMouseOver={onMouseOver}
+            onFocus={onFocus}
+            onBlur={onBlur}
             type="button"
             aria-label={ariaLabel}
             className={joinClassNames(['time-block', selected ? 'time-block-selected' : null, className])}
