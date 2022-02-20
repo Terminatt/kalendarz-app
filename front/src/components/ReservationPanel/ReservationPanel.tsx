@@ -51,6 +51,13 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         if (!blockCopy[roomId].start) {
             blockCopy[roomId].start = timeBlock;
             blockCopy[roomId].startDisplayValue = displayValue;
+        } else if (blockCopy[roomId].start === timeBlock) {
+            blockCopy[roomId] = {
+                start: null,
+                startDisplayValue: null,
+                end: null,
+                endDisplayValue: null,
+            };
         } else {
             blockCopy[roomId].end = timeBlock;
             blockCopy[roomId].endDisplayValue = displayValue;
@@ -58,6 +65,24 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
 
         setSelectedBlocks(blockCopy);
     }, [selectedBlocks]);
+
+    const renderTimeBlocks = useCallback((workingHour: number, roomId: Id) => timeBlockPerHour.map((timeElement) => {
+        const minutes = getTimeBlockValue(timeElement);
+        const timeValue = parseInt(`${workingHour}${minutes}`, 10);
+        const block = selectedBlocks[roomId];
+        const textValue = `${workingHour}:${minutes}`;
+
+        return (
+            <TimeBlock
+                selected={isTimeBlockSelected(timeValue, block)}
+                onClick={() => onTimeBlockClick(roomId, timeValue, textValue)}
+                tooltipOverlay={`${block?.start !== timeValue && block?.startDisplayValue ? `${block.startDisplayValue}-` : ''}${textValue}`}
+                key={`${workingHour}${timeElement}`}
+                aria-label={workingHour}
+                className="reservation-panel-content-row-right-time-block"
+            />
+        );
+    }), [selectedBlocks, onTimeBlockClick]);
     return (
         <div className={joinClassNames(['reservation-panel', className])}>
             <HugeDivider className="reservation-panel-divider" text={DAY_NAMES_FULL[day.day()]} />
@@ -88,23 +113,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                             <div key={room.id} className="reservation-panel-content-row reservation-panel-content-row-right">
                                 {WORKING_HOURS.map((el) => (
                                     <>
-                                        {timeBlockPerHour.map((timeElement) => {
-                                            const minutes = getTimeBlockValue(timeElement);
-                                            const timeValue = parseInt(`${el}${minutes}`, 10);
-                                            const block = selectedBlocks[room.id];
-                                            const textValue = `${el}:${minutes}`;
-
-                                            return (
-                                                <TimeBlock
-                                                    selected={isTimeBlockSelected(timeValue, block)}
-                                                    onClick={() => onTimeBlockClick(room.id, timeValue, textValue)}
-                                                    tooltipOverlay={`${block?.start !== timeValue && block?.startDisplayValue ? `${block.startDisplayValue}-` : ''}${textValue}`}
-                                                    key={`${el}${timeElement}`}
-                                                    aria-label={el}
-                                                    className="reservation-panel-content-row-right-time-block"
-                                                />
-                                            );
-                                        })}
+                                        {renderTimeBlocks(el, room.id)}
                                     </>
                                 ))}
                             </div>
