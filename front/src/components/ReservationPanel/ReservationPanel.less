@@ -13,64 +13,64 @@
         padding: @padding-small;
         border-radius: @border-radius-regular;
         box-shadow: @box-shadow-mild;
-    }
 
-    &-content {
-        .full-size();
-        display: flex;
-        overflow: auto;
-        padding-bottom: @padding-small;
-
-        &-left {
-            height: max-content;
-            border-right: 2px solid @border-color-base;
-        }
-
-        &-right {
-            height: max-content;
-        }
-
-        &-row {
+        &-content {
+            .full-size();
+            display: flex;
+            overflow: auto;
             padding-bottom: @padding-small;
-            border-bottom: 2px solid @border-color-base;
-            display: inline-flex;
-            width: max-content;
-
-            & > div {
-                margin-right: @margin-small;
+    
+            &-left {
+                height: max-content;
+                border-right: 2px solid @border-color-base;
             }
-
+    
             &-right {
-                &-time-block {
+                height: max-content;
+            }
+    
+            &-row {
+                padding-bottom: @padding-small;
+                border-bottom: 2px solid @border-color-base;
+                display: inline-flex;
+                width: max-content;
+    
+                & > div {
                     margin-right: @margin-small;
                 }
-
-                &-time-block:first-child {
+    
+                &-right {
+                    &-time-block {
+                        margin-right: @margin-small;
+                    }
+    
+                    &-time-block:first-child {
+                        margin-left: @margin-small;
+                    }
+                }
+    
+                &-right > div:first-child {
                     margin-left: @margin-small;
                 }
             }
-
-            &-right > div:first-child {
-                margin-left: @margin-small;
+    
+            &-row:not(:first-child) {
+                margin-top: @margin-small;
             }
-        }
-
-        &-row:not(:first-child) {
-            margin-top: @margin-small;
-        }
-
-        &-header-block-left, &-header-block-right {
-            background-color: @reservation-block-color;
-            height: 30px;
-        }
-        
-        &-header-block-left {
-            width: 150px;
-        }
-
-        &-header-block-right {
-            flex-shrink: 0;
-            width: 150px;
+    
+            &-header-block-left, &-header-block-right {
+                background-color: @reservation-block-color;
+                height: 30px;
+            }
+            
+            &-header-block-left {
+                width: 150px;
+            }
+    
+            &-header-block-right {
+                flex-shrink: 0;
+                width: 150px;
+            }
         }
     }
 }

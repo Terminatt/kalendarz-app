@@ -119,7 +119,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                 tooltipOverlay={`${block?.start !== timeValue && block?.startDisplayValue ? `${block.startDisplayValue} - ` : ''}${textValue}`}
                 key={`${workingHour}${timeElement}`}
                 aria-label={workingHour}
-                className="reservation-panel-content-row-right-time-block"
+                className="reservation-panel-container-content-row-right-time-block"
             />
         );
     }), [selectedBlocks, hoveredFocusedBlocks, onTimeBlockClick]);
@@ -131,33 +131,32 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                 test
             </div>
             <div className="reservation-panel-container">
-                <div className={joinClassNames(['reservation-panel-content', timeBlockContainerClassname])}>
-                    <div className="reservation-panel-content-left">
-                        <div className="reservation-panel-content-row">
-                            <ColoredBlock className="reservation-panel-content-header-block-left">Nazwa sali</ColoredBlock>
-                            <ColoredBlock className="reservation-panel-content-header-block-left">Ilość miejsc</ColoredBlock>
+                <div className={joinClassNames(['reservation-panel-container-content', timeBlockContainerClassname])}>
+                    <div className="reservation-panel-container-content-left">
+                        <div className="reservation-panel-container-content-row">
+                            <ColoredBlock className="reservation-panel-container-content-header-block-left">Nazwa sali</ColoredBlock>
+                            <ColoredBlock className="reservation-panel-container-content-header-block-left">Ilość miejsc</ColoredBlock>
                         </div>
                         {rooms.map((room) => (
-                            <div key={room.id} className="reservation-panel-content-row">
-                                <ColoredBlock bgColor={room.type.color} className="reservation-panel-content-header-block-left">{room.name}</ColoredBlock>
-                                <ColoredBlock bgColor={room.type.color} className="reservation-panel-content-header-block-left">100</ColoredBlock>
+                            <div key={room.id} className="reservation-panel-container-content-row">
+                                <ColoredBlock bgColor={room.type.color} className="reservation-panel-container-content-header-block-left">{room.name}</ColoredBlock>
+                                <ColoredBlock bgColor={room.type.color} className="reservation-panel-container-content-header-block-left">100</ColoredBlock>
                             </div>
                         ))}
                     </div>
-                    <div className="reservation-panel-content-right">
-                        <div className="reservation-panel-content-row reservation-panel-content-row-right">
+                    <div className="reservation-panel-container-content-right">
+                        <div className="reservation-panel-container-content-row reservation-panel-container-content-row-right">
                             {WORKING_HOURS.map((el) => (
-                                <ColoredBlock key={el} className="reservation-panel-content-header-block-right">{`${el}:00`}</ColoredBlock>
+                                <ColoredBlock key={el} className="reservation-panel-container-content-header-block-right">{`${el}:00`}</ColoredBlock>
                             ))}
                         </div>
                         {rooms.map((room) => (
-                            <div key={room.id} className="reservation-panel-content-row reservation-panel-content-row-right">
+                            <div key={room.id} className="reservation-panel-container-content-row reservation-panel-container-content-row-right">
                                 {WORKING_HOURS.map((el) => renderTimeBlocks(el, room.id))}
                             </div>
                         ))}
                     </div>
                 </div>
-
             </div>
         </div>
     );
