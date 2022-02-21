@@ -33,5 +33,9 @@ export function isTimeBlockSelected(timeValue: number, interval?: TimeInterval, 
         return timeValue <= hoveredFocused.focused && timeValue >= interval.start;
     }
 
+    if (interval?.end) {
+        return timeValue >= interval.start && timeValue <= interval.end;
+    }
+
     return timeValue === interval.start;
 }
