@@ -11,16 +11,26 @@ export function isTimeBlockSelected(timeValue: number, interval?: TimeInterval, 
         return false;
     }
 
+    if (interval.start === hoveredFocused?.hovered || interval.start === hoveredFocused?.focused) {
+        if (interval?.end) {
+            return timeValue >= interval.start && timeValue <= interval.end;
+        }
+    }
+
     if (hoveredFocused?.hovered) {
-        return timeValue <= hoveredFocused.hovered;
+        if (interval.start >= hoveredFocused.hovered) {
+            return timeValue >= hoveredFocused.hovered && timeValue <= interval.start;
+        }
+
+        return timeValue <= hoveredFocused.hovered && timeValue >= interval.start;
     }
 
     if (hoveredFocused?.focused) {
-        return timeValue <= hoveredFocused.focused;
-    }
+        if (interval.start >= hoveredFocused.focused) {
+            return timeValue >= hoveredFocused.focused && timeValue <= interval.start;
+        }
 
-    if (interval?.end) {
-        return timeValue >= interval.start && timeValue <= interval.end;
+        return timeValue <= hoveredFocused.focused && timeValue >= interval.start;
     }
 
     return timeValue === interval.start;

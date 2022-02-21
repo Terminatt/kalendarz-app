@@ -63,12 +63,19 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                 room,
             };
         }
+        const { start } = blockCopy[id];
 
-        if (!blockCopy[id].start) {
+        if (!start) {
             blockCopy[id].start = timeBlock;
             blockCopy[id].startDisplayValue = displayValue;
         } else if (blockCopy[id].start === timeBlock) {
             delete blockCopy[id];
+        } else if (start && start > timeBlock) {
+            blockCopy[id].end = blockCopy[id].start;
+            blockCopy[id].endDisplayValue = blockCopy[id].startDisplayValue;
+
+            blockCopy[id].start = timeBlock;
+            blockCopy[id].startDisplayValue = displayValue;
         } else {
             blockCopy[id].end = timeBlock;
             blockCopy[id].endDisplayValue = displayValue;
