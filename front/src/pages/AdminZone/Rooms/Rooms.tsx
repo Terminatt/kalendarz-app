@@ -67,8 +67,13 @@ const Rooms: React.FC = () => {
         dispatch(updateRoom({ requestPayload: { id, ...payload }, ...requestOptions }));
     }, []);
 
-    const onDelete = useCallback((item: Room) => {
-        dispatch(deleteRoom({ requestPayload: item.id, onSuccess: () => dispatch(getRooms()) }));
+    const onDelete = useCallback((item: Room, page: number) => {
+        dispatch(deleteRoom({
+            requestPayload: item.id,
+            onSuccess: () => {
+                dispatch(getRooms({ requestPayload: { page } }));
+            },
+        }));
     }, []);
 
     const onPageChange = useCallback((page: number) => {

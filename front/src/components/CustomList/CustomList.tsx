@@ -98,7 +98,10 @@ const CustomList = <T extends BaseItem, >(props: ListWithSearchProps<T>): React.
                                     <DeletePopconfirm
                                         title="Czy na pewno chcesz usunąć ten element?"
                                         onCancel={stopBubbling}
-                                        onConfirm={() => onDelete(item)}
+                                        onConfirm={(e) => {
+                                            stopBubbling(e);
+                                            onDelete(item);
+                                        }}
                                         okText="Tak"
                                         cancelText="Nie"
                                     >
