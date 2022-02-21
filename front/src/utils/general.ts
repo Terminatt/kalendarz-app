@@ -1,4 +1,4 @@
-import { PAGE_SIZE } from '@constants/constants';
+import { NUMBER_DECLINATION_MAP, PAGE_SIZE } from '@constants/constants';
 import dayjs, { Dayjs } from 'dayjs';
 
 export function isNumber(value: unknown): value is number {
@@ -78,4 +78,17 @@ type Entries<T> = {
 export function getEntries<T>(obj: T): Entries<T> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return Object.entries(obj) as Entries<T>;
+}
+
+export function getDeclinatedWord(value: number, key: keyof typeof NUMBER_DECLINATION_MAP): string {
+    switch (value) {
+    case 1:
+        return NUMBER_DECLINATION_MAP[key].one;
+    case 2:
+    case 3:
+    case 4:
+        return NUMBER_DECLINATION_MAP[key].twoToFour;
+    default:
+        return NUMBER_DECLINATION_MAP[key].rest;
+    }
 }

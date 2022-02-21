@@ -13,6 +13,16 @@ const RoomItem: React.FC<RoomItemProps> = (props) => {
     return (
         <div className="room-item">
             <div>{item.name}</div>
+            <div>
+                Ilość miejsc:
+                {' '}
+                {item.capacity}
+            </div>
+            <div>
+                Piętro:
+                {' '}
+                {item.floor}
+            </div>
             <div className="room-item-date">
                 {parseDate(item.created)}
             </div>

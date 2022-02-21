@@ -75,3 +75,8 @@ class CustomValidation():
         ]
         self.__validate_with_message(
             validators=custom_validators, field=password)
+
+class PositiveNumber:
+    def __call__(self, value):
+        if value <= 0:
+            raise serializers.ValidationError(get_error_dict(errorType=ErrorType.NEGATIVE_NUMBER, msg='Provided number must be positive'))

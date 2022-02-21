@@ -4,7 +4,7 @@ import TimeBlock from '@components/TimeBlock/TimeBlock';
 import { DAY_NAMES_FULL, WORKING_HOURS } from '@constants/constants';
 import { Id } from '@generics/generics';
 import { Room } from '@store/rooms/types';
-import { getEntries, joinClassNames } from '@utils/general';
+import { getDeclinatedWord, getEntries, joinClassNames } from '@utils/general';
 import { Dayjs } from 'dayjs';
 import React, { useCallback, useState } from 'react';
 import cloneDeep from 'lodash.clonedeep';
@@ -148,7 +148,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                         {rooms.map((room) => (
                             <div key={room.id} className="reservation-panel-container-content-row">
                                 <ColoredBlock bgColor={room.type.color} className="reservation-panel-container-content-header-block-left">{room.name}</ColoredBlock>
-                                <ColoredBlock bgColor={room.type.color} className="reservation-panel-container-content-header-block-left">100</ColoredBlock>
+                                <ColoredBlock bgColor={room.type.color} className="reservation-panel-container-content-header-block-left">{room.capacity}</ColoredBlock>
                             </div>
                         ))}
                     </div>
@@ -175,7 +175,13 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                                 </CustomButton>
                                 <div className="reservation-panel-container-summary-item-details">
                                     {interval.room.name}
-                                    , 100 miejsc,&nbsp;
+                                    ,
+                                    &nbsp;
+                                    {interval.room.capacity}
+                                    &nbsp;
+                                    {getDeclinatedWord(interval.room.capacity, 'place')}
+                                    ,
+                                    &nbsp;
                                     {interval.startDisplayValue}
                                     &nbsp;
                                     -

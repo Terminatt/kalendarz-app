@@ -13,7 +13,7 @@ import {
 import { Room, RoomErrorResponse } from '@store/rooms/types';
 import { getRequiredRule } from '@utils/form';
 import { debounce } from '@utils/general';
-import { Form, Input } from 'antd';
+import { Form, Input, InputNumber } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import { AxiosError } from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -25,6 +25,7 @@ import './Rooms.less';
 export interface RoomFormValues {
     name: string;
     floor: string;
+    capacity: number;
     type: RoomType;
 }
 
@@ -121,6 +122,9 @@ const Rooms: React.FC = () => {
                         </Form.Item>
                         <Form.Item label="Podaj piętro" name="floor" rules={[getRequiredRule()]}>
                             <Input placeholder="Piętro" />
+                        </Form.Item>
+                        <Form.Item label="Podaj ilość miejsc" name="capacity" rules={[getRequiredRule()]}>
+                            <InputNumber width="100%" min={1} placeholder="Miejsca" />
                         </Form.Item>
                         <Form.Item label="Wybierz typ pokoju" name="type" rules={[getRequiredRule()]}>
                             <ObjectSelect

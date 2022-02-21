@@ -3,6 +3,7 @@ import { RoomType } from '@store/room-types/types';
 
 export interface BaseRoom extends BaseItem {
   floor: string;
+  capacity: number;
 }
 
 export interface Room extends BaseRoom {

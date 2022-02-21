@@ -39,3 +39,11 @@ export const DEBOUNCE_TIME = 350; // miliseconds
 export enum RequestErrorType {
     RELATED_OBJECT = 'RELATED_OBJECT'
 }
+
+export const NUMBER_DECLINATION_MAP = {
+    place: {
+        one: 'miejsce',
+        twoToFour: 'miejsca',
+        rest: 'miejsc',
+    },
+};
