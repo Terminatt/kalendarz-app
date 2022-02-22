@@ -1,6 +1,6 @@
 from django.db import models
-from api.rooms.models import Room
-from api.users.models import User
+from rooms.models import Room
+from users.models import User
 
 class Reservation(models.Model):
     created = models.DateTimeField(auto_now_add=True)

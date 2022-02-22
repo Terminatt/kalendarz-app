@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'users.apps.UsersConfig',
     'rooms.apps.RoomsConfig',
+    'reservations.apps.ReservationsConfig',
     'rest_framework.authtoken',
 ]
 
