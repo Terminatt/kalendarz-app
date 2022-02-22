@@ -32,7 +32,7 @@ export interface TimeInterval {
 }
 
 export interface HoveredFocusedBlocksHashMap {
-    [key: number]: HoveredFocusedTimeBlock;
+    [key: Id]: HoveredFocusedTimeBlock;
 }
 
 export interface HoveredFocusedTimeBlock {
@@ -131,6 +131,21 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
             />
         );
     }), [selectedBlocks, hoveredFocusedBlocks, onTimeBlockClick]);
+
+    const onDeleteItem = useCallback((roomId: Id) => {
+        const blocksCopy = cloneDeep(selectedBlocks);
+
+        if (!blocksCopy[roomId]) {
+            return;
+        }
+        delete blocksCopy[roomId];
+        setSelectedBlocks(blocksCopy);
+    }, [selectedBlocks]);
+
+    const onClear = useCallback(() => {
+        setSelectedBlocks({});
+    }, []);
+
     return (
         <div className={joinClassNames(['reservation-panel', className])}>
             <HugeDivider className="reservation-panel-divider" text={DAY_NAMES_FULL[day.day()]} />
@@ -164,7 +179,14 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                         ))}
                     </div>
                 </div>
-                {selectedBlockEntries.length !== 0 ? <ReservationSummary className="reservation-panel-container-summary" selectedBlocks={selectedBlockEntries} /> : null}
+                {selectedBlockEntries.length !== 0 ? (
+                    <ReservationSummary
+                        onClear={onClear}
+                        onDeleteItem={onDeleteItem}
+                        className="reservation-panel-container-summary"
+                        selectedBlocks={selectedBlockEntries}
+                    />
+                ) : null}
             </div>
         </div>
     );
