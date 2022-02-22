@@ -138,8 +138,8 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
             <div className="reservation-panel-switcher">
                 test
             </div>
-            <div className="reservation-panel-container">
-                <div className={joinClassNames(['reservation-panel-container-content', timeBlockContainerClassname])}>
+            <div className={joinClassNames(['reservation-panel-container', timeBlockContainerClassname])}>
+                <div className="reservation-panel-container-content">
                     <div className="reservation-panel-container-content-left">
                         <div className="reservation-panel-container-content-row">
                             <ColoredBlock className="reservation-panel-container-content-header-block-left">Nazwa sali</ColoredBlock>
