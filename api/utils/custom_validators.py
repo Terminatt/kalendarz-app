@@ -23,7 +23,7 @@ class ValidatorWithMessage(Generic[T]):
         self.error_message = message
 
 
-class CustomValidation():
+class CustomUserValidation():
     """
     Validator helpers for common fields
     """
