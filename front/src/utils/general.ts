@@ -71,7 +71,7 @@ export function debounce<Args extends any[], F extends(...args: Args) => any>(fn
     };
 }
 
-type Entries<T> = {
+export type Entries<T> = {
     [K in keyof T]: [K, T[K]]
 } [keyof T][]
 

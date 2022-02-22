@@ -4,15 +4,14 @@ import TimeBlock from '@components/TimeBlock/TimeBlock';
 import { DAY_NAMES_FULL, WORKING_HOURS } from '@constants/constants';
 import { Id } from '@generics/generics';
 import { Room } from '@store/rooms/types';
-import { getDeclinatedWord, getEntries, joinClassNames } from '@utils/general';
+import { getEntries, joinClassNames } from '@utils/general';
 import { Dayjs } from 'dayjs';
 import React, { useCallback, useState } from 'react';
 import cloneDeep from 'lodash.clonedeep';
-import CustomButton from '@components/CustomButton/CustomButton';
-import { DeleteOutlined } from '@ant-design/icons';
 import { getTimeBlockValue, isTimeBlockSelected } from './helpers';
 
 import './ReservationPanel.less';
+import ReservationSummary from './ReservationSummary/ReservationSummary';
 
 export interface ReservationPanelProps {
     day: Dayjs;
@@ -165,41 +164,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                         ))}
                     </div>
                 </div>
-                {selectedBlockEntries.length !== 0 ? (
-                    <div className="reservation-panel-container-summary">
-                        <h2>Podsumowanie</h2>
-                        {selectedBlockEntries.map(([roomId, interval]) => (
-                            <div key={roomId} className="reservation-panel-container-summary-item">
-                                <CustomButton icon={<DeleteOutlined />} size="small" variant="delete">
-                                    Usuń
-                                </CustomButton>
-                                <div className="reservation-panel-container-summary-item-details">
-                                    {interval.room.name}
-                                    ,
-                                    &nbsp;
-                                    {interval.room.capacity}
-                                    &nbsp;
-                                    {getDeclinatedWord(interval.room.capacity, 'place')}
-                                    ,
-                                    &nbsp;
-                                    {interval.startDisplayValue}
-                                    &nbsp;
-                                    -
-                                    &nbsp;
-                                    {interval.endDisplayValue ? interval.endDisplayValue : 'Brak'}
-                                </div>
-                            </div>
-                        ))}
-                        <div className="reservation-panel-container-summary-action">
-                            <CustomButton className="reservation-panel-container-summary-action-btn">
-                                Zarezerwuj sale
-                            </CustomButton>
-                            <CustomButton className="reservation-panel-container-summary-action-btn" variant="clear">
-                                Wyczyść
-                            </CustomButton>
-                        </div>
-                    </div>
-                ) : null}
+                {selectedBlockEntries.length !== 0 ? <ReservationSummary className="reservation-panel-container-summary" selectedBlocks={selectedBlockEntries} /> : null}
             </div>
         </div>
     );
