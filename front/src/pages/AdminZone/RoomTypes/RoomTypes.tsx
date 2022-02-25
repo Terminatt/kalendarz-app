@@ -61,11 +61,16 @@ const RoomTypes: React.FC = () => {
         dispatch(updateRoomType({ requestPayload: { id, ...values }, ...requestOptions }));
     }, []);
 
-    const onDelete = useCallback((item: RoomType, page: number) => {
+    const onDelete = useCallback((item: RoomType, page: number, cb?: () => void) => {
         dispatch(deleteRoomType({
             requestPayload: item.id,
             onSuccess: () => {
                 dispatch(getRoomTypes({ requestPayload: { page } }));
+
+                if (!cb) {
+                    return;
+                }
+                cb();
             },
             onError: (error) => {
                 if (!error.response) {
@@ -97,6 +102,10 @@ const RoomTypes: React.FC = () => {
         navigate(`/admin-zone/rooms?type=${item.id}`);
     }, []);
 
+    const onItemSelect = useCallback(() => {
+        setRoomPanelActive(false);
+    }, []);
+
     return (
         <div className="room-types">
             <EditingPanel
@@ -109,6 +118,7 @@ const RoomTypes: React.FC = () => {
                 onAdditionalPanelBack={onRoomPanelBack}
                 additionalPanelBtnText="Edytuj powiązane pokoje"
                 onAdditionalBtnClick={onEditRelatedClick}
+                onItemSelect={onItemSelect}
                 listWithSearchProps={{
                     title: 'Typy pokojów',
                     searchLabel: 'Wyszukaj typ pokoju',

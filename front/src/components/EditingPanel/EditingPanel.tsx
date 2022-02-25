@@ -19,9 +19,10 @@ export interface EditingPanel<T> {
     additionalPanelBtnText?: string;
     onAdditionalPanelBack?: () => void;
     onFormSubmit?: (values: T, page: number, id?: Id) => void;
-    onDelete?: (item: T, page: number) => void;
+    onDelete?: (item: T, page: number, cb?: () => void) => void;
     onPageChange?: (page: number) => void;
     onAdditionalBtnClick?: (item: T) => void;
+    onItemSelect?: (item: T | null) => void;
 }
 // TODO add possibilty to add filters to for editing panel
 const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.ReactElement => {
@@ -29,7 +30,7 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
         listWithSearchProps, twoModesFormProps, formItems,
         className, dataSource, additionalPanelActive, additionalPanel,
         additionalPanelBtnText,
-        onAdditionalPanelBack, onDelete, onFormSubmit, onPageChange, onAdditionalBtnClick,
+        onAdditionalPanelBack, onDelete, onFormSubmit, onPageChange, onAdditionalBtnClick, onItemSelect,
     } = props;
     const [selected, setSelected] = useState<T | null>();
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -44,7 +45,12 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
 
     const onListItemSelect = useCallback((item: T | null) => {
         setSelected(item);
-    }, []);
+
+        if (!onItemSelect) {
+            return;
+        }
+        onItemSelect(item);
+    }, [onItemSelect]);
 
     const onSubmit = useCallback((values: T) => {
         if (!onFormSubmit) {
@@ -61,13 +67,12 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
         }
 
         setCurrentPage(calculatedPage);
-        setSelected(null);
 
         if (!onDelete) {
             return;
         }
 
-        onDelete(item, calculatedPage);
+        onDelete(item, calculatedPage, () => setSelected(null));
     }, [currentPage, dataSource, onDelete]);
 
     const onModeChange = useCallback(() => {
