@@ -28,5 +28,15 @@
             "partial_update": ["AdminUser"],
             "destroy": ["AdminUser"]
         }
+    },
+    "reservation": {
+        "permissions": {
+            "create": ["LoggedInUserOrAdmin"],
+            "list": [],
+            "retrieve": [],
+            "update": ["LoggedInUserOrAdmin"],
+            "partial_update": ["LoggedInUserOrAdmin"],
+            "destroy": ["LoggedInUserOrAdmin"]
+        }
     }
 }
