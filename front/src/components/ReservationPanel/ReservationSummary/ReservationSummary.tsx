@@ -4,6 +4,7 @@ import React, { useCallback } from 'react';
 import { DeleteOutlined } from '@ant-design/icons';
 import { Id } from '@generics/generics';
 import dayjs from 'dayjs';
+import FormItem from 'antd/lib/form/FormItem';
 import { BlockValidationError, SelectedBlocksHashMap } from '../ReservationPanel';
 
 import './ReservationSummary.less';
@@ -69,7 +70,7 @@ const ReservationSummary: React.FC<ReservationSummaryProps> = (props) => {
                     {validationErrors[roomId] && validationErrors[roomId].map((el) => (
                         (
                             <div key={el.type} className="reservation-summary-item-row-error">
-                                {el.message}
+                                <FormItem validateStatus="error" help={el.message} />
                             </div>
                         )
                     ))}

@@ -89,6 +89,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         }
 
         delete validationErrorsCopy[roomId];
+        setValidationErrors(validationErrorsCopy);
     }, [validationErrors]);
 
     const onTimeBlockClick = useCallback((room: Room, timeBlock: number, displayValue: string): void => {
@@ -124,7 +125,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         }
 
         setSelectedBlocks(blockCopy);
-    }, [selectedBlocks]);
+    }, [selectedBlocks, removeEndUnsetError]);
 
     const fillHoveredFocusedData = useCallback((_hoveredFocused: HoveredFocusedBlocksHashMap, roomId: Id): HoveredFocusedBlocksHashMap => {
         const hoveredFocused = _hoveredFocused;
