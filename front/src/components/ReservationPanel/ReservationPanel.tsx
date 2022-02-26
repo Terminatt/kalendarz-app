@@ -8,16 +8,17 @@ import { getEntries, joinClassNames } from '@utils/general';
 import { Dayjs } from 'dayjs';
 import React, { useCallback, useState } from 'react';
 import cloneDeep from 'lodash.clonedeep';
-import { getTimeBlockValue, isTimeBlockSelected } from './helpers';
+import { getTimeBlockValue, isTimeBlockSelected, validateInterval } from './helpers';
 
 import './ReservationPanel.less';
-import ReservationSummary from './ReservationSummary/ReservationSummary';
+import ReservationSummary, { ReservationInterval } from './ReservationSummary/ReservationSummary';
 
 export interface ReservationPanelProps {
     day: Dayjs;
     className?: string;
     timeBlockContainerClassname?: string;
     rooms: Room[];
+    onReserve?: (intervals: ReservationInterval[]) => void;
 }
 export interface SelectedBlocksHashMap {
     [key: number]: TimeInterval;
@@ -40,15 +41,55 @@ export interface HoveredFocusedTimeBlock {
     focused: number | null;
 }
 
+export interface BlockValidationError {
+    [key: string]: BlockValidationErrorRule[];
+}
+
+export interface BlockValidationErrorRule {
+    type: BlockValidationTypes;
+    message: string;
+}
+
+export enum BlockValidationTypes {
+    END_UNSET,
+}
+
 const timeBlockPerHour = Array.from(Array(4).keys());
 
 const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
     const {
-        day, className, timeBlockContainerClassname, rooms,
+        day, className, timeBlockContainerClassname, rooms, onReserve,
     } = props;
     const [selectedBlocks, setSelectedBlocks] = useState<SelectedBlocksHashMap>({});
     const [hoveredFocusedBlocks, setHoveredFocusedBlock] = useState<HoveredFocusedBlocksHashMap>({});
     const selectedBlockEntries = getEntries(selectedBlocks);
+    const [validationErrors, setValidationErrors] = useState<BlockValidationError>({});
+
+    const removeValidationError = useCallback((roomId: Id) => {
+        if (!validationErrors[roomId]) {
+            return;
+        }
+
+        const validationErrorsCopy = cloneDeep(validationErrors);
+        delete validationErrorsCopy[roomId];
+
+        setValidationErrors(validationErrorsCopy);
+    }, [validationErrors]);
+
+    const removeEndUnsetError = useCallback((roomId: Id) => {
+        if (!validationErrors[roomId]) {
+            return;
+        }
+
+        const validationErrorsCopy = cloneDeep(validationErrors);
+        validationErrorsCopy[roomId] = validationErrorsCopy[roomId].filter((el) => el.type !== BlockValidationTypes.END_UNSET);
+
+        if (validationErrorsCopy[roomId].length !== 0) {
+            return;
+        }
+
+        delete validationErrorsCopy[roomId];
+    }, [validationErrors]);
 
     const onTimeBlockClick = useCallback((room: Room, timeBlock: number, displayValue: string): void => {
         const { id } = room;
@@ -75,9 +116,11 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
 
             blockCopy[id].start = timeBlock;
             blockCopy[id].startDisplayValue = displayValue;
+            removeEndUnsetError(id);
         } else {
             blockCopy[id].end = timeBlock;
             blockCopy[id].endDisplayValue = displayValue;
+            removeEndUnsetError(id);
         }
 
         setSelectedBlocks(blockCopy);
@@ -139,12 +182,40 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
             return;
         }
         delete blocksCopy[roomId];
+        removeValidationError(roomId);
         setSelectedBlocks(blocksCopy);
     }, [selectedBlocks]);
 
     const onClear = useCallback(() => {
         setSelectedBlocks({});
+        setValidationErrors({});
     }, []);
+
+    const validateBlocks = useCallback(() => {
+        const newErrors: BlockValidationError = {};
+
+        selectedBlockEntries.forEach(([roomId, interval]) => {
+            const errors = validateInterval(interval);
+            if (errors.length === 0) {
+                return;
+            }
+
+            newErrors[roomId] = errors;
+        });
+
+        setValidationErrors(newErrors);
+        return Object.values(newErrors).length !== 0;
+    }, [selectedBlocks]);
+
+    const onReserveBlocks = useCallback((interval: ReservationInterval[]) => {
+        const isError = validateBlocks();
+
+        if (isError || !onReserve) {
+            return;
+        }
+
+        onReserve(interval);
+    }, [validateBlocks, onReserve]);
 
     return (
         <div className={joinClassNames(['reservation-panel', className])}>
@@ -181,8 +252,10 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                 </div>
                 {selectedBlockEntries.length !== 0 ? (
                     <ReservationSummary
+                        validationErrors={validationErrors}
                         onClear={onClear}
                         onDeleteItem={onDeleteItem}
+                        onReserve={onReserveBlocks}
                         className="reservation-panel-container-summary"
                         selectedBlocks={selectedBlockEntries}
                     />

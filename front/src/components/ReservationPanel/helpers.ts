@@ -1,5 +1,7 @@
 import { TIME_BLOCK_MINUTES } from '@constants/constants';
-import { HoveredFocusedTimeBlock, TimeInterval } from './ReservationPanel';
+import {
+    BlockValidationErrorRule, BlockValidationTypes, HoveredFocusedTimeBlock, TimeInterval,
+} from './ReservationPanel';
 
 export function getTimeBlockValue(timeBlockIndex: number): string {
     const timeValue = TIME_BLOCK_MINUTES * timeBlockIndex;
@@ -38,4 +40,17 @@ export function isTimeBlockSelected(timeValue: number, interval?: TimeInterval, 
     }
 
     return timeValue === interval.start;
+}
+
+export function validateInterval(interval: TimeInterval): BlockValidationErrorRule[] {
+    const errors: BlockValidationErrorRule[] = [];
+
+    if (!interval.end) {
+        errors.push({
+            type: BlockValidationTypes.END_UNSET,
+            message: 'Ten okres czasu musi mieć ustawione zakończenie',
+        });
+    }
+
+    return errors;
 }

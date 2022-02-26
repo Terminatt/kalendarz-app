@@ -6,14 +6,19 @@
     border-top: 2px solid @border-color-base;
 
     &-item {
-        .center-vertically();
-    
         &:not(:last-child) {
             margin-bottom: @margin-medium;
         }
-
-        &-details {
-            margin-left: @margin-small;
+        &-row {
+            .center-vertically();
+        
+            &-details {
+                margin-left: @margin-small;
+            }
+            &-error {
+                margin-top: @margin-tiny;
+                color: @red-color;
+            }
         }
     }
 
