@@ -92,3 +92,7 @@ export function getDeclinatedWord(value: number, key: keyof typeof NUMBER_DECLIN
         return NUMBER_DECLINATION_MAP[key].rest;
     }
 }
+
+export function convertToBaseTen(textValue: string): number {
+    return parseInt(textValue, 10);
+}

@@ -4,15 +4,21 @@ import TimeBlock from '@components/TimeBlock/TimeBlock';
 import { DAY_NAMES_FULL, WORKING_HOURS } from '@constants/constants';
 import { Id } from '@generics/generics';
 import { Room } from '@store/rooms/types';
-import { getEntries, joinClassNames } from '@utils/general';
+import { convertToBaseTen, getEntries, joinClassNames } from '@utils/general';
 import { Dayjs } from 'dayjs';
 import React, { useCallback, useState } from 'react';
 import cloneDeep from 'lodash.clonedeep';
-import { getTimeBlockValue, isTimeBlockSelected, validateInterval } from './helpers';
+import {
+    getTimeBlockValue, isTimeBlockSelected, transformBlockToDate, validateInterval,
+} from './helpers';
 
 import './ReservationPanel.less';
-import ReservationSummary, { ReservationInterval } from './ReservationSummary/ReservationSummary';
+import ReservationSummary from './ReservationSummary/ReservationSummary';
 
+export interface ReservationInterval {
+    start: Dayjs;
+    end: Dayjs;
+}
 export interface ReservationPanelProps {
     day: Dayjs;
     className?: string;
@@ -26,9 +32,9 @@ export interface SelectedBlocksHashMap {
 
 export interface TimeInterval {
     start: number | null;
-    startDisplayValue: string | null;
+    startTextValue: string | null;
     end: number | null;
-    endDisplayValue: string | null;
+    endTextValue: string | null;
     room: Room;
 }
 
@@ -92,15 +98,15 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         setValidationErrors(validationErrorsCopy);
     }, [validationErrors]);
 
-    const onTimeBlockClick = useCallback((room: Room, timeBlock: number, displayValue: string): void => {
+    const onTimeBlockClick = useCallback((room: Room, timeBlock: number, textValue: string): void => {
         const { id } = room;
         const blockCopy = cloneDeep(selectedBlocks);
         if (!blockCopy[id]) {
             blockCopy[id] = {
                 start: null,
                 end: null,
-                startDisplayValue: null,
-                endDisplayValue: null,
+                startTextValue: null,
+                endTextValue: null,
                 room,
             };
         }
@@ -108,19 +114,19 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
 
         if (!start) {
             blockCopy[id].start = timeBlock;
-            blockCopy[id].startDisplayValue = displayValue;
+            blockCopy[id].startTextValue = textValue;
         } else if (blockCopy[id].start === timeBlock) {
             delete blockCopy[id];
         } else if (start && start > timeBlock) {
             blockCopy[id].end = blockCopy[id].start;
-            blockCopy[id].endDisplayValue = blockCopy[id].startDisplayValue;
+            blockCopy[id].endTextValue = blockCopy[id].startTextValue;
 
             blockCopy[id].start = timeBlock;
-            blockCopy[id].startDisplayValue = displayValue;
+            blockCopy[id].startTextValue = textValue;
             removeEndUnsetError(id);
         } else {
             blockCopy[id].end = timeBlock;
-            blockCopy[id].endDisplayValue = displayValue;
+            blockCopy[id].endTextValue = textValue;
             removeEndUnsetError(id);
         }
 
@@ -155,7 +161,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
     const renderTimeBlocks = useCallback((workingHour: number, room: Room) => timeBlockPerHour.map((timeElement) => {
         const { id } = room;
         const minutes = getTimeBlockValue(timeElement);
-        const timeValue = parseInt(`${workingHour}${minutes}`, 10);
+        const timeValue = convertToBaseTen(`${workingHour}${minutes}`);
         const block = selectedBlocks[id];
         const hoveredFocused = hoveredFocusedBlocks[id];
         const textValue = `${workingHour}:${minutes}`;
@@ -168,7 +174,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                 onMouseLeave={() => onTimeBlockHoverOut(id, 'hovered')}
                 onBlur={() => onTimeBlockHoverOut(id, 'focused')}
                 onClick={() => onTimeBlockClick(room, timeValue, textValue)}
-                tooltipOverlay={`${block?.start !== timeValue && block?.startDisplayValue ? `${block.startDisplayValue} - ` : ''}${textValue}`}
+                tooltipOverlay={`${block?.start !== timeValue && block?.startTextValue ? `${block.startTextValue} - ` : ''}${textValue}`}
                 key={`${workingHour}${timeElement}`}
                 aria-label={workingHour}
                 className="reservation-panel-container-content-row-right-time-block"
@@ -208,15 +214,19 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         return Object.values(newErrors).length !== 0;
     }, [selectedBlocks]);
 
-    const onReserveBlocks = useCallback((interval: ReservationInterval[]) => {
+    const onReserveBlocks = useCallback(() => {
         const isError = validateBlocks();
 
         if (isError || !onReserve) {
             return;
         }
 
-        onReserve(interval);
-    }, [validateBlocks, onReserve]);
+        const reservationIntervals = selectedBlockEntries
+            .map(([, interval]) => transformBlockToDate(interval, day))
+            .filter((el): el is ReservationInterval => !!el);
+
+        onReserve(reservationIntervals);
+    }, [selectedBlocks, validateBlocks, onReserve]);
 
     return (
         <div className={joinClassNames(['reservation-panel', className])}>

@@ -3,23 +3,18 @@ import { Entries, getDeclinatedWord, joinClassNames } from '@utils/general';
 import React, { useCallback } from 'react';
 import { DeleteOutlined } from '@ant-design/icons';
 import { Id } from '@generics/generics';
-import dayjs from 'dayjs';
 import FormItem from 'antd/lib/form/FormItem';
 import { BlockValidationError, SelectedBlocksHashMap } from '../ReservationPanel';
 
 import './ReservationSummary.less';
 
-export interface ReservationInterval {
-    start: dayjs.Dayjs;
-    end: dayjs.Dayjs;
-}
 export interface ReservationSummaryProps {
     selectedBlocks: Entries<SelectedBlocksHashMap>
     className?: string;
     validationErrors: BlockValidationError;
     onDeleteItem?: (roomId: Id) => void;
     onClear?: () => void;
-    onReserve?: (intervals: ReservationInterval[]) => void;
+    onReserve?: () => void;
 }
 
 const ReservationSummary: React.FC<ReservationSummaryProps> = (props) => {
@@ -39,7 +34,7 @@ const ReservationSummary: React.FC<ReservationSummaryProps> = (props) => {
             return;
         }
 
-        onReserve([]);
+        onReserve();
     }, [onReserve]);
 
     return (
@@ -60,11 +55,11 @@ const ReservationSummary: React.FC<ReservationSummaryProps> = (props) => {
                             {getDeclinatedWord(interval.room.capacity, 'place')}
                             ,
                             &nbsp;
-                            {interval.startDisplayValue}
+                            {interval.startTextValue}
                             &nbsp;
                             -
                             &nbsp;
-                            {interval.endDisplayValue ? interval.endDisplayValue : 'Brak'}
+                            {interval.endTextValue ? interval.endTextValue : 'Brak'}
                         </div>
                     </div>
                     {validationErrors[roomId] && validationErrors[roomId].map((el) => (

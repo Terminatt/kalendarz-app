@@ -12,7 +12,7 @@ import {
 } from '@store/rooms/asyncActions';
 import { Room, RoomErrorResponse } from '@store/rooms/types';
 import { getRequiredRule } from '@utils/form';
-import { debounce } from '@utils/general';
+import { convertToBaseTen, debounce } from '@utils/general';
 import { Form, Input, InputNumber } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import { AxiosError } from 'axios';
@@ -41,7 +41,7 @@ const Rooms: React.FC = () => {
         dispatch(getRooms({
             requestPayload: {
                 filters: {
-                    type: type ? parseInt(type, 10) : undefined,
+                    type: type ? convertToBaseTen(type) : undefined,
                 },
             },
         }));

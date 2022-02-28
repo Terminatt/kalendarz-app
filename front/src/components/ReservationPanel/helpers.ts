@@ -1,6 +1,8 @@
 import { TIME_BLOCK_MINUTES } from '@constants/constants';
+import { convertToBaseTen } from '@utils/general';
+import { Dayjs } from 'dayjs';
 import {
-    BlockValidationErrorRule, BlockValidationTypes, HoveredFocusedTimeBlock, TimeInterval,
+    BlockValidationErrorRule, BlockValidationTypes, HoveredFocusedTimeBlock, ReservationInterval, TimeInterval,
 } from './ReservationPanel';
 
 export function getTimeBlockValue(timeBlockIndex: number): string {
@@ -53,4 +55,21 @@ export function validateInterval(interval: TimeInterval): BlockValidationErrorRu
     }
 
     return errors;
+}
+
+export function transformBlockToDate(interval: TimeInterval, day: Dayjs): ReservationInterval | null {
+    const startSplit = interval.startTextValue?.split(':');
+    const endSplit = interval.endTextValue?.split(':');
+
+    if (!startSplit || !endSplit) {
+        return null;
+    }
+
+    const start = day.clone().hour(convertToBaseTen(startSplit[0])).minute(convertToBaseTen(startSplit[1]));
+    const end = day.clone().hour(convertToBaseTen(endSplit[0])).minute(convertToBaseTen(endSplit[1]));
+
+    return {
+        start,
+        end,
+    };
 }
