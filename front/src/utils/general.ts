@@ -28,8 +28,12 @@ export function joinClassNames(classNames: Array<string | undefined | null>): st
     return classNames.filter((el) => !!el).join(' ');
 }
 
-export function parseDate(date: string): string {
+export function parseDate(date: string | Dayjs): string {
     return dayjs(date).format('DD.MM.YYYY HH:mm:ss');
+}
+
+export function parseDateToDay(date: string | Dayjs): string {
+    return dayjs(date).format('DD.MM.YYYY');
 }
 
 export function parseIsoDate(date: string | Dayjs): string {

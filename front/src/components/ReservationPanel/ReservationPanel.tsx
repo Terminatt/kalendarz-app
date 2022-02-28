@@ -5,7 +5,7 @@ import { DAY_NAMES_FULL, WORKING_HOURS } from '@constants/constants';
 import { Id } from '@generics/generics';
 import { Room } from '@store/rooms/types';
 import {
-    convertToBaseTen, getEntries, joinClassNames, parseIsoDate,
+    convertToBaseTen, getEntries, joinClassNames, parseDateToDay,
 } from '@utils/general';
 import { Dayjs } from 'dayjs';
 import React, { useCallback, useState } from 'react';
@@ -238,7 +238,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
             <HugeDivider className="reservation-panel-divider" text={DAY_NAMES_FULL[day.day()]} />
             <div className="reservation-panel-switcher">
                 <SwitcherLayout onLeftClick={onLeftSwitcherClick} onRightClick={onRightSwitcherClick}>
-                    {parseIsoDate(day)}
+                    {parseDateToDay(day)}
                 </SwitcherLayout>
             </div>
             <div className={joinClassNames(['reservation-panel-container', timeBlockContainerClassname])}>
