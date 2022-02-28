@@ -4,10 +4,13 @@ import TimeBlock from '@components/TimeBlock/TimeBlock';
 import { DAY_NAMES_FULL, WORKING_HOURS } from '@constants/constants';
 import { Id } from '@generics/generics';
 import { Room } from '@store/rooms/types';
-import { convertToBaseTen, getEntries, joinClassNames } from '@utils/general';
+import {
+    convertToBaseTen, getEntries, joinClassNames, parseIsoDate,
+} from '@utils/general';
 import { Dayjs } from 'dayjs';
 import React, { useCallback, useState } from 'react';
 import cloneDeep from 'lodash.clonedeep';
+import SwitcherLayout from '@components/Switcher/SwitcherLayout/SwitcherLayout';
 import {
     getTimeBlockValue, isTimeBlockSelected, transformBlockToDate, validateInterval,
 } from './helpers';
@@ -25,6 +28,8 @@ export interface ReservationPanelProps {
     timeBlockContainerClassname?: string;
     rooms: Room[];
     onReserve?: (intervals: ReservationInterval[]) => void;
+    onLeftSwitcherClick?: () => void;
+    onRightSwitcherClick?: () => void;
 }
 export interface SelectedBlocksHashMap {
     [key: number]: TimeInterval;
@@ -64,7 +69,7 @@ const timeBlockPerHour = Array.from(Array(4).keys());
 
 const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
     const {
-        day, className, timeBlockContainerClassname, rooms, onReserve,
+        day, className, timeBlockContainerClassname, rooms, onReserve, onLeftSwitcherClick, onRightSwitcherClick,
     } = props;
     const [selectedBlocks, setSelectedBlocks] = useState<SelectedBlocksHashMap>({});
     const [hoveredFocusedBlocks, setHoveredFocusedBlock] = useState<HoveredFocusedBlocksHashMap>({});
@@ -232,7 +237,9 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         <div className={joinClassNames(['reservation-panel', className])}>
             <HugeDivider className="reservation-panel-divider" text={DAY_NAMES_FULL[day.day()]} />
             <div className="reservation-panel-switcher">
-                test
+                <SwitcherLayout onLeftClick={onLeftSwitcherClick} onRightClick={onRightSwitcherClick}>
+                    {parseIsoDate(day)}
+                </SwitcherLayout>
             </div>
             <div className={joinClassNames(['reservation-panel-container', timeBlockContainerClassname])}>
                 <div className="reservation-panel-container-content">
