@@ -1,11 +1,8 @@
-import TransparentButton from '@components/TransparentButton/TransparentButton';
 import React, {
     useCallback, useEffect, useState,
 } from 'react';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { isDefined, isNumber } from '@utils/general';
-
-import './Switcher.less';
+import SwitcherLayout from './SwitcherLayout/SwitcherLayout';
 
 export interface SwitcherOption<T> {
   label: string;
@@ -84,17 +81,9 @@ const Switcher = <T, >(props: SwitcherProps<T>): React.ReactElement => {
     }, [selectedIndex, selected, onIndexChange]);
 
     return (
-        <div className="switcher">
-            <TransparentButton onClick={onLeftButtonClick} className="switcher-btn switcher-btn-left">
-                <LeftOutlined />
-            </TransparentButton>
-            <span className="switcher-selected">
-                {selectedItem !== null ? options[selectedItem].label : ''}
-            </span>
-            <TransparentButton onClick={onRightButtonClick} className="switcher-btn switcher-btn-right">
-                <RightOutlined />
-            </TransparentButton>
-        </div>
+        <SwitcherLayout onLeftClick={onLeftButtonClick} onRightClick={onRightButtonClick}>
+            {selectedItem !== null ? options[selectedItem].label : ''}
+        </SwitcherLayout>
     );
 };
 
