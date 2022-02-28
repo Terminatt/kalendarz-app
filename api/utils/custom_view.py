@@ -19,6 +19,7 @@ class CustomModelViewSet(ModelViewSet):
     """
     acl_name = None
     avoid_authentication = []
+    create_many = False
 
     def import_permission_class(self, acl):
         """
@@ -85,7 +86,28 @@ class CustomModelViewSet(ModelViewSet):
         self.action = self.action_map.get(request.method.lower())
         return super().initialize_request(request, *args, **kwargs)
 
+    def create(self, request, *args, **kwargs):
+        """
+        Override!
+        
+        Provide many to serializer
+        """
+        many = False
+        if self.create_many:
+            many = isinstance(request.data, list)
+
+        serializer = self.get_serializer(data=request.data, many=many)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
     def destroy(self, request, *args, **kwargs):
+        """
+        Override!
+        
+        Change error structure returned by this method
+        """
         try:
             return super().destroy(request, *args, **kwargs)
 

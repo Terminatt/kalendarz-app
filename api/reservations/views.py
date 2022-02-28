@@ -4,7 +4,6 @@ from utils.custom_expiring_token import CustomExpiringToken
 from utils.custom_view import CustomModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 
-
 class ReservationViewSet(CustomModelViewSet):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
@@ -12,3 +11,5 @@ class ReservationViewSet(CustomModelViewSet):
     authentication_classes = [CustomExpiringToken]
     avoid_authentication = ['list']
     filter_backends = [DjangoFilterBackend]
+    create_many = True
+
