@@ -1,7 +1,7 @@
 import ReservationPanel, { ReservationInterval } from '@components/ReservationPanel/ReservationPanel';
 import useQuery from '@hooks/useQuery';
 import { RootState } from '@store/index';
-import { createReservation } from '@store/reservations/asyncActions';
+import { createReservation, getReservations } from '@store/reservations/asyncActions';
 import { getRooms } from '@store/rooms/asyncActions';
 import { parseIsoDate } from '@utils/general';
 import dayjs from 'dayjs';
@@ -21,6 +21,7 @@ const RoomReservation: React.FC = () => {
 
     useEffect(() => {
         dispatch(getRooms());
+        dispatch(getReservations());
     }, []);
 
     const onArrowClick = useCallback((direction: 'left' | 'right') => {
@@ -29,7 +30,12 @@ const RoomReservation: React.FC = () => {
     }, [day]);
 
     const onReserve = useCallback((intervals: ReservationInterval[]) => {
-        dispatch((createReservation({ requestPayload: intervals })));
+        dispatch((createReservation({
+            requestPayload: intervals,
+            onSuccess: () => {
+                dispatch(getReservations());
+            },
+        })));
     }, []);
 
     return (

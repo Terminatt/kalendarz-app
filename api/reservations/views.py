@@ -12,4 +12,5 @@ class ReservationViewSet(CustomModelViewSet):
     avoid_authentication = ['list']
     filter_backends = [DjangoFilterBackend]
     create_many = True
+    pagination_class = None
 

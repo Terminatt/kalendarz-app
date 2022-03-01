@@ -1,6 +1,9 @@
 import { BaseDataState } from '@generics/generics';
 import { isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 import { createCustomSlice, DefaultMatchers } from '@utils/store';
+import {
+    createReservation, deleteReservation, getReservations, updateReservation,
+} from './asyncActions';
 import { Reservation } from './types';
 
 const initialState: BaseDataState<Reservation> = {
@@ -12,13 +15,17 @@ const initialState: BaseDataState<Reservation> = {
 };
 
 const matchers: DefaultMatchers = {
-    pending: isPending(),
-    fulfilled: isFulfilled(),
-    rejected: isRejected(),
+    pending: isPending(createReservation, updateReservation, deleteReservation, getReservations),
+    fulfilled: isFulfilled(createReservation, updateReservation, deleteReservation, getReservations),
+    rejected: isRejected(createReservation, updateReservation, deleteReservation, getReservations),
 };
 
 export const reservationsSlice = createCustomSlice({
     name: 'reservation',
     initialState,
     reducers: {},
-}, matchers);
+}, matchers, (builder) => {
+    builder.addCase(getReservations.fulfilled, (state, res) => {
+        state.data.results = res.payload.data;
+    });
+});
