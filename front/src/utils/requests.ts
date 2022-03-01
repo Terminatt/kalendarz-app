@@ -29,7 +29,7 @@ export function getList<R, T>(url: string, page?: number | null, filters?: T | n
 
             if (!page && isFirstParam) {
                 link = `${link}?${entries[0][0]}=${entries[0][1]}`;
-                isFirstParam = true;
+                isFirstParam = false;
 
                 return;
             }

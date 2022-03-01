@@ -4,7 +4,7 @@ import { RootState } from '@store/index';
 import { createReservation, getReservations } from '@store/reservations/asyncActions';
 import { getRooms } from '@store/rooms/asyncActions';
 import { parseIsoDate } from '@utils/general';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -19,21 +19,34 @@ const RoomReservation: React.FC = () => {
     const { results } = data;
     const dispatch = useDispatch();
 
+    const getReservationsList = useCallback((newDay: Dayjs) => {
+        dispatch(getReservations({
+            requestPayload: {
+                filters: {
+                    start_min: newDay.hour(1).toISOString(),
+                    start_max: newDay.hour(23).toISOString(),
+                },
+            },
+        }));
+    }, []);
+
     useEffect(() => {
         dispatch(getRooms());
-        dispatch(getReservations());
+        getReservationsList(day);
     }, []);
 
     const onArrowClick = useCallback((direction: 'left' | 'right') => {
-        const isoDate = parseIsoDate(day.add(direction === 'left' ? -1 : 1, 'day'));
+        const newDay = day.add(direction === 'left' ? -1 : 1, 'day');
+        const isoDate = parseIsoDate(newDay);
         navigate(`/room-reservation?day=${isoDate}`);
+        getReservationsList(newDay);
     }, [day]);
 
     const onReserve = useCallback((intervals: ReservationInterval[]) => {
         dispatch((createReservation({
             requestPayload: intervals,
             onSuccess: () => {
-                dispatch(getReservations());
+                getReservationsList(day);
             },
         })));
     }, []);
