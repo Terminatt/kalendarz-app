@@ -1,5 +1,7 @@
 import CustomButton from '@components/CustomButton/CustomButton';
-import { Entries, getDeclinatedWord, joinClassNames } from '@utils/general';
+import {
+    convertToBaseTen, Entries, getDeclinatedWord, joinClassNames,
+} from '@utils/general';
 import React, { useCallback } from 'react';
 import { DeleteOutlined } from '@ant-design/icons';
 import { Id } from '@generics/generics';
@@ -43,7 +45,7 @@ const ReservationSummary: React.FC<ReservationSummaryProps> = (props) => {
             {selectedBlocks.map(([roomId, interval]) => (
                 <div key={roomId} className="reservation-summary-item">
                     <div className="reservation-summary-item-row">
-                        <CustomButton onClick={() => onDelete(roomId)} icon={<DeleteOutlined />} size="small" variant="delete">
+                        <CustomButton onClick={() => onDelete(convertToBaseTen(roomId))} icon={<DeleteOutlined />} size="small" variant="delete">
                             Usuń
                         </CustomButton>
                         <div className="reservation-summary-item-row-details">

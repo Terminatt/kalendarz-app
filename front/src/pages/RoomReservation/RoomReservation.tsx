@@ -1,6 +1,7 @@
-import ReservationPanel from '@components/ReservationPanel/ReservationPanel';
+import ReservationPanel, { ReservationInterval } from '@components/ReservationPanel/ReservationPanel';
 import useQuery from '@hooks/useQuery';
 import { RootState } from '@store/index';
+import { createReservation } from '@store/reservations/asyncActions';
 import { getRooms } from '@store/rooms/asyncActions';
 import { parseIsoDate } from '@utils/general';
 import dayjs from 'dayjs';
@@ -27,6 +28,10 @@ const RoomReservation: React.FC = () => {
         navigate(`/room-reservation?day=${isoDate}`);
     }, [day]);
 
+    const onReserve = useCallback((intervals: ReservationInterval[]) => {
+        dispatch((createReservation({ requestPayload: intervals })));
+    }, []);
+
     return (
         <div className="room-reservation">
             <div className="room-reservation-content">
@@ -36,6 +41,7 @@ const RoomReservation: React.FC = () => {
                     day={day}
                     onLeftSwitcherClick={() => onArrowClick('left')}
                     onRightSwitcherClick={() => onArrowClick('right')}
+                    onReserve={onReserve}
                 />
             </div>
         </div>

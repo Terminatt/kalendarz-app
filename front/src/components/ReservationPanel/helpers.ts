@@ -1,4 +1,5 @@
 import { TIME_BLOCK_MINUTES } from '@constants/constants';
+import { Id } from '@generics/generics';
 import { convertToBaseTen } from '@utils/general';
 import { Dayjs } from 'dayjs';
 import {
@@ -57,7 +58,7 @@ export function validateInterval(interval: TimeInterval): BlockValidationErrorRu
     return errors;
 }
 
-export function transformBlockToDate(interval: TimeInterval, day: Dayjs): ReservationInterval | null {
+export function transformBlockToDate(interval: TimeInterval, day: Dayjs, roomId: Id): ReservationInterval | null {
     const startSplit = interval.startTextValue?.split(':');
     const endSplit = interval.endTextValue?.split(':');
 
@@ -69,7 +70,8 @@ export function transformBlockToDate(interval: TimeInterval, day: Dayjs): Reserv
     const end = day.clone().hour(convertToBaseTen(endSplit[0])).minute(convertToBaseTen(endSplit[1]));
 
     return {
-        start,
-        end,
+        start: start.toISOString(),
+        end: end.toISOString(),
+        room: roomId,
     };
 }

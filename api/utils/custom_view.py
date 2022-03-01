@@ -96,6 +96,7 @@ class CustomModelViewSet(ModelViewSet):
         if self.create_many:
             many = isinstance(request.data, list)
 
+
         serializer = self.get_serializer(data=request.data, many=many)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)

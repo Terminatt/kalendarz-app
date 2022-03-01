@@ -19,8 +19,9 @@ import './ReservationPanel.less';
 import ReservationSummary from './ReservationSummary/ReservationSummary';
 
 export interface ReservationInterval {
-    start: Dayjs;
-    end: Dayjs;
+    start: string;
+    end: string;
+    room: Id;
 }
 export interface ReservationPanelProps {
     day: Dayjs;
@@ -32,7 +33,7 @@ export interface ReservationPanelProps {
     onRightSwitcherClick?: () => void;
 }
 export interface SelectedBlocksHashMap {
-    [key: number]: TimeInterval;
+    [key: string]: TimeInterval;
 }
 
 export interface TimeInterval {
@@ -227,7 +228,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         }
 
         const reservationIntervals = selectedBlockEntries
-            .map(([, interval]) => transformBlockToDate(interval, day))
+            .map(([roomId, interval]) => transformBlockToDate(interval, day, convertToBaseTen(roomId)))
             .filter((el): el is ReservationInterval => !!el);
 
         onReserve(reservationIntervals);

@@ -7,4 +7,4 @@ class ReservationSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(default=serializers.CurrentUserDefault(), queryset=User.objects.all())
     class Meta:
         model = Reservation
-        fields = ['id', 'created', 'start', 'end', 'room']
+        fields = ['id', 'created', 'start', 'end', 'room', 'user']
