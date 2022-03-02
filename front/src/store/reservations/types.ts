@@ -1,4 +1,14 @@
-import { BaseItem, Id } from '@generics/generics';
+import { BaseDataState, BaseItem, Id } from '@generics/generics';
+import { User } from '@store/user/types';
+import { Dayjs } from 'dayjs';
+
+export interface ReservationState<T extends BaseItem> extends BaseDataState<T> {
+    hashMapData: ReservationHashMap;
+}
+
+export interface ReservationHashMap {
+    [key: string]: ReservationWithParsedDate[];
+}
 
 export interface BaseReservation {
     start: string;
@@ -6,4 +16,11 @@ export interface BaseReservation {
     room: Id;
 }
 
-export interface Reservation extends BaseItem, BaseReservation {}
+export interface Reservation extends BaseItem, BaseReservation {
+    user: User;
+}
+
+export interface ReservationWithParsedDate extends Omit<Reservation, 'start' | 'end'> {
+    start: Dayjs;
+    end: Dayjs;
+}

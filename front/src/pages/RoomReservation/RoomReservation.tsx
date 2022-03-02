@@ -15,8 +15,7 @@ const RoomReservation: React.FC = () => {
     const query = useQuery();
     const navigate = useNavigate();
     const day = dayjs(query.get('day'));
-    const { data } = useSelector((state: RootState) => state.rooms);
-    const { results } = data;
+    const { rooms, reservation } = useSelector((state: RootState) => state);
     const dispatch = useDispatch();
 
     const getReservationsList = useCallback((newDay: Dayjs) => {
@@ -56,7 +55,8 @@ const RoomReservation: React.FC = () => {
             <div className="room-reservation-content">
                 <ReservationPanel
                     timeBlockContainerClassname="room-reservation-content-timeblocks"
-                    rooms={results}
+                    rooms={rooms.data.results}
+                    reservations={reservation.hashMapData}
                     day={day}
                     onLeftSwitcherClick={() => onArrowClick('left')}
                     onRightSwitcherClick={() => onArrowClick('right')}

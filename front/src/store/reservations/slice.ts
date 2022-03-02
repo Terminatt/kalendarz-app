@@ -1,17 +1,18 @@
-import { BaseDataState } from '@generics/generics';
 import { isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 import { createCustomSlice, DefaultMatchers } from '@utils/store';
+import dayjs from 'dayjs';
 import {
     createReservation, deleteReservation, getReservations, updateReservation,
 } from './asyncActions';
-import { Reservation } from './types';
+import { Reservation, ReservationHashMap, ReservationState } from './types';
 
-const initialState: BaseDataState<Reservation> = {
+const initialState: ReservationState<Reservation> = {
     isLoading: false,
     data: {
         count: 0,
         results: [],
     },
+    hashMapData: {},
 };
 
 const matchers: DefaultMatchers = {
@@ -27,5 +28,18 @@ export const reservationsSlice = createCustomSlice({
 }, matchers, (builder) => {
     builder.addCase(getReservations.fulfilled, (state, res) => {
         state.data.results = res.payload.data;
+        const hashMapData: ReservationHashMap = {};
+        res.payload.data.forEach((el) => {
+            if (!hashMapData[el.room]) {
+                hashMapData[el.room] = [];
+            }
+
+            hashMapData[el.room].push({
+                ...el,
+                start: dayjs(el.start),
+                end: dayjs(el.end),
+            });
+        });
+        state.hashMapData = hashMapData;
     });
 });

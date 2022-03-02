@@ -47,3 +47,5 @@ export const NUMBER_DECLINATION_MAP = {
         rest: 'miejsc',
     },
 };
+
+export const BLOCK_COLORS = ['#94d2bd', '#e9d8a6', '#48cae4', '#fcd5ce', '#e6ccb2', '#ffc8dd', '#e9f5db'];
