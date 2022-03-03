@@ -1,7 +1,7 @@
 import ColoredBlock from '@components/ColoredBlock/ColoredBlock';
 import HugeDivider from '@components/HugeDivider/HugeDivider';
 import TimeBlock from '@components/TimeBlock/TimeBlock';
-import { BLOCK_COLORS, DAY_NAMES_FULL, WORKING_HOURS } from '@constants/constants';
+import { DAY_NAMES_FULL, WORKING_HOURS } from '@constants/constants';
 import { Id } from '@generics/generics';
 import { Room } from '@store/rooms/types';
 import {
@@ -11,8 +11,9 @@ import { Dayjs } from 'dayjs';
 import React, { useCallback, useState } from 'react';
 import cloneDeep from 'lodash.clonedeep';
 import SwitcherLayout from '@components/Switcher/SwitcherLayout/SwitcherLayout';
-import { ReservationHashMap } from '@store/reservations/types';
+import { ReservationHashMap, ReservationWithParsedDate } from '@store/reservations/types';
 import {
+    fillReservedBlocks,
     getTimeBlockValue, isTimeBlockSelected, transformBlockToDate, validateInterval,
 } from './helpers';
 import ReservationSummary from './ReservationSummary/ReservationSummary';
@@ -172,76 +173,84 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         setHoveredFocusedBlock(hoveredFocusedCopy);
     }, [hoveredFocusedBlocks]);
 
-    const renderTimeBlocks = useCallback((workingHour: number, room: Room) => {
-        const roomReservation = reservations[room.id];
-        let reservation;
+    const renderTimeBlocks = useCallback((workingHour: number, room: Room, blocksCount: boolean[], bgColor?: string) => (
+        <>
+            {timeBlockPerHour.map((timeElement) => {
+                const { id } = room;
+                const minutes = getTimeBlockValue(timeElement);
+                const timeValue = convertToBaseTen(`${workingHour}${minutes}`);
+                const block = selectedBlocks[id];
+                const hoveredFocused = hoveredFocusedBlocks[id];
+                const textValue = `${workingHour}:${minutes}`;
 
-        if (roomReservation) {
-            reservation = roomReservation.find((el) => workingHour >= el.start.get('hour') && workingHour <= el.end.get('hour'));
-        }
+                return (
+                    <TimeBlock
+                        isReserved={blocksCount[timeElement]}
+                        style={{ backgroundColor: blocksCount[timeElement] ? bgColor : 'default' }}
+                        selected={isTimeBlockSelected(timeValue, block, hoveredFocused)}
+                        onMouseOver={() => onTimeBlockHover(timeValue, id, 'hovered')}
+                        onFocus={() => onTimeBlockHover(timeValue, id, 'focused')}
+                        onMouseLeave={() => onTimeBlockHoverOut(id, 'hovered')}
+                        onBlur={() => onTimeBlockHoverOut(id, 'focused')}
+                        onClick={() => onTimeBlockClick(room, timeValue, textValue)}
+                        tooltipOverlay={`${block?.start !== timeValue && block?.startTextValue ? `${block.startTextValue} - ` : ''}${textValue}`}
+                        key={`${workingHour}${timeElement}`}
+                        aria-label={workingHour}
+                        className={blocksCount[timeElement] ? 'reservation-panel-container-content-row-right-time-block-reserved'
+                            : 'reservation-panel-container-content-row-right-time-block'}
+                    />
+                );
+            })}
+        </>
+    ), [selectedBlocks, hoveredFocusedBlocks, reservations, onTimeBlockClick]);
 
-        if (reservation && workingHour <= reservation?.end.get('hour')) {
-            return <ColoredBlock bgColor="yellow" style={{ width: 150 }} />;
-        }
+    const renderReservedBlocks = useCallback((room: Room) => {
+        const blocks: React.ReactElement[][] = [];
+        let currentReservation: ReservationWithParsedDate | undefined;
+        let currentIndex = 0;
 
-        if (reservation && workingHour === reservation?.end.get('hour')) {
-            const endMinutes = reservation.end.get('minutes') / 15;
-            return (
-                <>
-                    <ColoredBlock bgColor="yellow" style={{ width: 150 / endMinutes }} />
-                    {
-                        timeBlockPerHour.slice(endMinutes).map((timeElement) => {
-                            const { id } = room;
-                            const minutes = getTimeBlockValue(timeElement);
-                            const timeValue = convertToBaseTen(`${workingHour}${minutes}`);
-                            const block = selectedBlocks[id];
-                            const hoveredFocused = hoveredFocusedBlocks[id];
-                            const textValue = `${workingHour}:${minutes}`;
+        WORKING_HOURS.forEach((workingHour) => {
+            const roomReservation = reservations[room.id];
+            const reservation = roomReservation?.find((el) => workingHour >= el.start.get('hour') && workingHour <= el.end.get('hour'));
+            let blocksCount = timeBlockPerHour.map(() => false);
 
-                            return (
-                                <TimeBlock
-                                    selected={isTimeBlockSelected(timeValue, block, hoveredFocused)}
-                                    onMouseOver={() => onTimeBlockHover(timeValue, id, 'hovered')}
-                                    onFocus={() => onTimeBlockHover(timeValue, id, 'focused')}
-                                    onMouseLeave={() => onTimeBlockHoverOut(id, 'hovered')}
-                                    onBlur={() => onTimeBlockHoverOut(id, 'focused')}
-                                    onClick={() => onTimeBlockClick(room, timeValue, textValue)}
-                                    tooltipOverlay={`${block?.start !== timeValue && block?.startTextValue ? `${block.startTextValue} - ` : ''}${textValue}`}
-                                    key={`${workingHour}${timeElement}`}
-                                    aria-label={workingHour}
-                                    className="reservation-panel-container-content-row-right-time-block"
-                                />
-                            );
-                        })
-                    }
-                </>
-            );
-        }
+            if (currentReservation?.id !== reservation?.id) {
+                currentReservation = reservation;
+                currentIndex += 1;
+            }
 
-        return timeBlockPerHour.map((timeElement) => {
-            const { id } = room;
-            const minutes = getTimeBlockValue(timeElement);
-            const timeValue = convertToBaseTen(`${workingHour}${minutes}`);
-            const block = selectedBlocks[id];
-            const hoveredFocused = hoveredFocusedBlocks[id];
-            const textValue = `${workingHour}:${minutes}`;
+            if (!reservation) {
+                currentIndex += 1;
+            }
 
-            return (
-                <TimeBlock
-                    selected={isTimeBlockSelected(timeValue, block, hoveredFocused)}
-                    onMouseOver={() => onTimeBlockHover(timeValue, id, 'hovered')}
-                    onFocus={() => onTimeBlockHover(timeValue, id, 'focused')}
-                    onMouseLeave={() => onTimeBlockHoverOut(id, 'hovered')}
-                    onBlur={() => onTimeBlockHoverOut(id, 'focused')}
-                    onClick={() => onTimeBlockClick(room, timeValue, textValue)}
-                    tooltipOverlay={`${block?.start !== timeValue && block?.startTextValue ? `${block.startTextValue} - ` : ''}${textValue}`}
-                    key={`${workingHour}${timeElement}`}
-                    aria-label={workingHour}
-                    className="reservation-panel-container-content-row-right-time-block"
-                />
-            );
+            if (!blocks[currentIndex]) {
+                blocks[currentIndex] = [];
+            }
+
+            if (reservation) {
+                const startHour = reservation.start.get('hour');
+                const startMinutes = reservation.start.get('minutes') / 15;
+                const endHour = reservation.end.get('hour');
+                const endMinutes = reservation.end.get('minutes') / 15;
+
+                if (startHour === workingHour && workingHour === endHour) {
+                    blocksCount = fillReservedBlocks(blocksCount, startMinutes, endMinutes);
+                } else if (startHour === workingHour) {
+                    blocksCount = fillReservedBlocks(blocksCount, startMinutes, blocksCount.length - 1);
+                } else if (startHour < workingHour && endHour > workingHour) {
+                    blocksCount = fillReservedBlocks(blocksCount, 0, blocksCount.length - 1);
+                } else if (endHour === workingHour) {
+                    blocksCount = fillReservedBlocks(blocksCount, 0, endHour);
+                }
+            }
+            return blocks[currentIndex].push(renderTimeBlocks(workingHour, room, blocksCount, reservation?.color));
         });
-    }, [selectedBlocks, hoveredFocusedBlocks, onTimeBlockClick]);
+
+        return blocks.map((el, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <div key={index} className="reservation-panel-container-content-row-right-chunk">{el}</div>
+        ));
+    }, [reservations, renderTimeBlocks]);
 
     const onDeleteItem = useCallback((roomId: Id) => {
         const blocksCopy = cloneDeep(selectedBlocks);
@@ -319,7 +328,8 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                         </div>
                         {rooms.map((room) => (
                             <div key={room.id} className="reservation-panel-container-content-row reservation-panel-container-content-row-right">
-                                {WORKING_HOURS.map((el) => renderTimeBlocks(el, room))}
+                                {renderReservedBlocks(room)}
+                                {/* {WORKING_HOURS.map((el) => renderTimeBlocks(el, room))} */}
                             </div>
                         ))}
                     </div>

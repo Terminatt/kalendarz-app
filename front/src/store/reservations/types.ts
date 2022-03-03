@@ -23,4 +23,5 @@ export interface Reservation extends BaseItem, BaseReservation {
 export interface ReservationWithParsedDate extends Omit<Reservation, 'start' | 'end'> {
     start: Dayjs;
     end: Dayjs;
+    color: string;
 }

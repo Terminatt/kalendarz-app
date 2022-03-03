@@ -75,3 +75,11 @@ export function transformBlockToDate(interval: TimeInterval, day: Dayjs, roomId:
         room: roomId,
     };
 }
+
+export function fillReservedBlocks(blocks: boolean[], startIndex: number, endIndex: number): boolean[] {
+    const blocksCopy = [...blocks];
+    for (let i = startIndex; i <= endIndex; i++) {
+        blocksCopy[i] = true;
+    }
+    return blocksCopy;
+}

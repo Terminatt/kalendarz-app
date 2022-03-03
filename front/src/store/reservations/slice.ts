@@ -1,3 +1,4 @@
+import { BLOCK_COLORS } from '@constants/constants';
 import { isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 import { createCustomSlice, DefaultMatchers } from '@utils/store';
 import dayjs from 'dayjs';
@@ -38,6 +39,7 @@ export const reservationsSlice = createCustomSlice({
                 ...el,
                 start: dayjs(el.start),
                 end: dayjs(el.end),
+                color: BLOCK_COLORS[Math.floor(Math.random() * BLOCK_COLORS.length)],
             });
         });
         state.hashMapData = hashMapData;
