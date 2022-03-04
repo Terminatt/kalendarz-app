@@ -146,8 +146,11 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                     // eslint-disable-next-line react/no-array-index-key
                         key={el.reservation.id + index}
                         colSpan={cols + 2}
-                        style={{ backgroundColor: room.type.color }}
-                    />,
+                        style={{ backgroundColor: el.reservation.color }}
+                        className="block-table-row-reserved"
+                    >
+                        {`${el.reservation.user.firstName} ${el.reservation.user.lastName}`}
+                    </td>,
                 );
                 return;
             }
