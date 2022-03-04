@@ -6,14 +6,13 @@ import React, { useCallback } from 'react';
 import { DeleteOutlined } from '@ant-design/icons';
 import { Id } from '@generics/generics';
 import FormItem from 'antd/lib/form/FormItem';
-import { BlockValidationError, SelectedBlocksHashMap } from '../ReservationPanel';
+import { SelectedBlocksHashMap } from '../ReservationPanel';
 
 import './ReservationSummary.less';
 
 export interface ReservationSummaryProps {
     selectedBlocks: Entries<SelectedBlocksHashMap>
     className?: string;
-    validationErrors: BlockValidationError;
     onDeleteItem?: (roomId: Id) => void;
     onClear?: () => void;
     onReserve?: () => void;
@@ -21,7 +20,7 @@ export interface ReservationSummaryProps {
 
 const ReservationSummary: React.FC<ReservationSummaryProps> = (props) => {
     const {
-        className, selectedBlocks, validationErrors = {}, onDeleteItem, onClear, onReserve,
+        className, selectedBlocks, onDeleteItem, onClear, onReserve,
     } = props;
 
     const onDelete = useCallback((roomId: Id) => {
@@ -64,13 +63,6 @@ const ReservationSummary: React.FC<ReservationSummaryProps> = (props) => {
                             {interval.endTextValue ? interval.endTextValue : 'Brak'}
                         </div>
                     </div>
-                    {validationErrors[roomId] && validationErrors[roomId].map((el) => (
-                        (
-                            <div key={el.type} className="reservation-summary-item-row-error">
-                                <FormItem validateStatus="error" help={el.message} />
-                            </div>
-                        )
-                    ))}
                 </div>
             ))}
             <div className="reservation-summary-action">

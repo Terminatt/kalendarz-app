@@ -17,79 +17,47 @@
         padding: @padding-small;
         border-radius: @border-radius-regular;
         box-shadow: @box-shadow-mild;
-
-        &-content {
-            display: flex;
+        &-table {
             overflow: auto;
             padding-bottom: @padding-small;
+        }
+    }
+    
 
-            &-left {
-                height: max-content;
-                border-right: 2px solid @border-color-base;
-            }
-    
-            &-right {
-                height: max-content;
-            }
-    
-            &-row {
-                padding-bottom: @padding-small;
-                border-bottom: 2px solid @border-color-base;
-                display: inline-flex;
-                width: max-content;
-    
-                &-right {
-                    &-container:first-child {
-                        margin-left: @margin-small;
-                    }
+    &-summary {
+        margin-top: @margin-small;
+    }
+}
 
-                    &-time-block {
-                        margin-right: @margin-small;
-                        &-reserved {
-                            width: 38px;
-                            border-radius: 0;
-                        }
+.block-table {
+    border-collapse: separate;
+    border-spacing: 12px;
+    width: 2500px;
+    &-row {
 
-                        &-reserved:last-of-type {
-                            margin-right: @margin-small;
-                        }
-                    }
-                    &-chunk {
-                        height: 30px;
-                    }
-                    
-                    &-chunk:first-child {
-                        margin-left: 12px;
-                    }
-                }
-            }
-    
-            &-row:not(:first-child) {
-                margin-top: @margin-small;
-            }
-    
-            &-header-block-left, &-header-block-right {
-                margin-left: @margin-small;
-                background-color: @reservation-block-color;
-                height: 30px;
-            }
+        &-header {
+            background-color: @reservation-block-color;
+            color: @black;
+            height: 35px
 
-            &-header-block-left:last-child, &-header-block-right:last-child {
-                margin-right: @margin-small
-            }
-            
-            &-header-block-left {
-                width: 150px;
-            }
-    
-            &-header-block-right {
-                flex-shrink: 0;
-                width: 150px;
-            }
+        }
+        &-col {
+            border-right: 2px solid @secondary-bg;
         }
 
-        &-summary {
-            margin-top: @margin-small;
+        &-room {
+            border-top: 2px solid @secondary-bg;
+        }
+
+        &-time {
+            background-color: @reservation-block-color;
+            cursor: pointer;
+            border-radius: @border-radius-regular;
+            transition: background-color @animation-duration-base;
+
+            &:hover {
+                background-color: @primary-color;
+            }
         }
     }
 }
