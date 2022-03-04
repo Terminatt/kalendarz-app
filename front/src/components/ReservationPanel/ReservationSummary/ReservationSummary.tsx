@@ -47,7 +47,7 @@ const ReservationSummary: React.FC<ReservationSummaryProps> = (props) => {
                         <CustomButton onClick={() => onDelete(convertToBaseTen(roomId))} icon={<DeleteOutlined />} size="small" variant="delete">
                             Usuń
                         </CustomButton>
-                        <div className="reservation-summary-item-row-details">
+                        {/* <div className="reservation-summary-item-row-details">
                             {interval.room.name}
                             ,
                             &nbsp;
@@ -61,7 +61,7 @@ const ReservationSummary: React.FC<ReservationSummaryProps> = (props) => {
                             -
                             &nbsp;
                             {interval.endTextValue ? interval.endTextValue : 'Brak'}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             ))}

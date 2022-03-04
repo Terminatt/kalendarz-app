@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { ResizeListenerWrapper } from '@contexts/ResizeListenerContext/ResizeListenerWrapper';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store';
@@ -12,6 +14,8 @@ import 'dayjs/locale/pl';
 
 dayjs.locale('pl');
 dayjs.extend(isToday);
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
 
 ReactDOM.render(
     <React.StrictMode>

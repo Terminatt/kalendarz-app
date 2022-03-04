@@ -1,0 +1,58 @@
+@import '~styles/variables.less';
+
+.block {
+    background-color: @reservation-block-color;
+    cursor: pointer;
+    border-radius: @border-radius-regular;
+    transition: background-color @animation-duration-base;
+    position: relative;
+
+    &-btn {
+        background-color: inherit;
+        border: none;
+        width: 100%;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    &-selected {
+        background-color: @primary-color;
+    }
+
+    &:hover, &:focus {
+        background-color: @primary-color;
+
+        .block-overlay {
+            display: block;
+            opacity: 1;
+        }
+    }
+
+    &-overlay {
+        position: absolute;
+        background-color: @secondary-bg;
+        padding: @padding-tiny;
+        border-radius: @border-radius-regular;
+        display: none;
+        opacity: 0;
+        transition: opacity @animation-duration-base;
+        top: -50px;
+        z-index: 100; 
+        left: 50%;
+        transform: translateX(-50%);
+        &-arrow {
+            background-color: @secondary-bg;
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 30px;
+            clip-path: polygon(49% 100%, 0 0, 100% 0);
+            z-index: -1; 
+            
+        }
+    }
+}

@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
 import HugeDivider from '@components/HugeDivider/HugeDivider';
 import { DAY_NAMES_FULL, WORKING_HOURS } from '@constants/constants';
 import { Id } from '@generics/generics';
@@ -8,9 +7,10 @@ import { Dayjs } from 'dayjs';
 import React, { useCallback, useEffect, useState } from 'react';
 import SwitcherLayout from '@components/Switcher/SwitcherLayout/SwitcherLayout';
 import { ReservationHashMap, ReservationWithParsedDate } from '@store/reservations/types';
+import { cloneDeep } from 'lodash';
+import ReservationBlockChunk from './ReservationBlockChunk/ReservationBlockChunk';
 
 import './ReservationPanel.less';
-import { Tooltip } from 'antd';
 
 export interface ReservationInterval {
     start: string;
@@ -32,11 +32,10 @@ export interface SelectedBlocksHashMap {
 }
 
 export interface TimeInterval {
-    start: number | null;
-    startTextValue: string | null;
-    end: number | null;
-    endTextValue: string | null;
-    room: Room;
+    start?: Dayjs;
+    end?: Dayjs;
+    startLimit: Dayjs;
+    endLimit: Dayjs;
 }
 
 export interface ReservationsPerRoom {
@@ -54,6 +53,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         day, className, timeBlockContainerClassname, rooms, reservations, onReserve, onLeftSwitcherClick, onRightSwitcherClick,
     } = props;
     const [reservationsPerRoom, setReservationsPerRoom] = useState<ReservationsPerRoom>({});
+    const [selectedBlocks, setSelectedBlocks] = useState<SelectedBlocksHashMap>({});
 
     const prepareData = useCallback((room: Room): ReservationRange[] | null => {
         const roomReservation = reservations[room.id];
@@ -106,31 +106,56 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         setReservationsPerRoom(newReservationsPerRoom);
     }, [rooms, reservations]);
 
-    const createBlocks = (endIndex: number, start: Dayjs) => {
-        const elements: React.ReactElement[] = [];
-        let time = start;
-        for (let i = 0; i <= endIndex; i++) {
-            const displayTime = time.format('HH:mm');
-            elements.push(
-                <Tooltip key={displayTime} overlay={displayTime}>
-                    <td
-                        colSpan={2}
-                        className="block-table-row-time"
-                    />
-                </Tooltip>,
-            );
-            const minute = time.get('minute');
-            time = time.minute(minute + 15);
+    const onSelectBlock = useCallback((startLimit: Dayjs, endLimit: Dayjs, selected: Dayjs, room: Room) => {
+        const copy = cloneDeep(selectedBlocks);
+        const selectedBlock = copy[room.id];
+
+        if (selectedBlock?.startLimit.isAfter(selected) || selectedBlock?.endLimit.isBefore(selected)) {
+            return;
         }
 
-        return elements;
+        if (!selectedBlock) {
+            copy[room.id] = {
+                start: selected,
+                startLimit,
+                endLimit,
+            };
+        }
+
+        if (selectedBlock) {
+            if (selectedBlock.start?.isAfter(selected)) {
+                copy[room.id].end = copy[room.id].start;
+                copy[room.id].start = selected;
+            } else if (selectedBlock.start?.isSame(selected)) {
+                delete copy[room.id];
+            } else {
+                copy[room.id].end = selected;
+            }
+        }
+
+        setSelectedBlocks(copy);
+    }, [selectedBlocks]);
+
+    const createChunk = (endIndex: number, start: Dayjs, room: Room) => {
+        const reservation = selectedBlocks[room.id];
+
+        return (
+            <ReservationBlockChunk
+                key={start.format('HH:mm')}
+                startSelected={reservation?.start}
+                endSelected={reservation?.end}
+                onClick={(startLimit, endLimit, selected) => onSelectBlock(startLimit, endLimit, selected, room)}
+                blocks={endIndex}
+                start={start}
+            />
+        );
     };
 
-    const renderBlocks = () => {
+    const renderBlocks = (room: Room) => {
         const startToday = day.clone().hour(8);
         const endToday = day.clone().hour(19).minute(45);
         const blocks = endToday.diff(startToday, 'minutes') / 15;
-        return createBlocks(blocks, startToday);
+        return createChunk(blocks, startToday, room);
     };
 
     const renderBlocksWithReservation = (room: Room) => {
@@ -154,7 +179,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                 );
                 return;
             }
-            elements = [...elements, ...createBlocks(blocks, el.start)];
+            elements = [...elements, createChunk(blocks, el.start, room)];
         });
 
         return elements;
@@ -211,7 +236,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                                         {room.capacity}
 
                                     </th>
-                                    {reservationsPerRoom[room.id] ? renderBlocksWithReservation(room) : renderBlocks()}
+                                    {reservationsPerRoom[room.id] ? renderBlocksWithReservation(room) : renderBlocks(room)}
                                 </tr>
                             ))}
                         </tbody>
