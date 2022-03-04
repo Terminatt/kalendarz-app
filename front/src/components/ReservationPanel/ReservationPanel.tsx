@@ -106,24 +106,35 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         setReservationsPerRoom(newReservationsPerRoom);
     }, [rooms, reservations]);
 
-    const renderBlocks = () => {
-        const startToday = day.clone().hour(8);
-        const endToday = day.clone().hour(19);
-        const diff = (endToday.diff(startToday, 'minutes') / 15) * 2;
+    const createBlocks = (endIndex: number, start: Dayjs) => {
         const elements: React.ReactElement[] = [];
-        for (let i = 0; i < diff; i++) {
+        let time = start;
+        for (let i = 0; i <= endIndex; i++) {
+            const displayTime = time.format('HH:mm');
             elements.push(
-                <th
-                    colSpan={2}
-                    className="block-table-row-col block-table-row-header block-table-row-left"
-                />,
+                <Tooltip key={displayTime} overlay={displayTime}>
+                    <td
+                        colSpan={2}
+                        className="block-table-row-time"
+                    />
+                </Tooltip>,
             );
+            const minute = time.get('minute');
+            time = time.minute(minute + 15);
         }
+
         return elements;
     };
 
+    const renderBlocks = () => {
+        const startToday = day.clone().hour(8);
+        const endToday = day.clone().hour(19).minute(45);
+        const blocks = endToday.diff(startToday, 'minutes') / 15;
+        return createBlocks(blocks, startToday);
+    };
+
     const renderBlocksWithReservation = (room: Room) => {
-        const elements: React.ReactElement[] = [];
+        let elements: React.ReactElement[] = [];
         reservationsPerRoom[room.id].forEach((el, index) => {
             const diff = el.end.diff(el.start, 'minutes');
             const blocks = (diff / 15);
@@ -140,21 +151,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                 );
                 return;
             }
-
-            let time = el.start;
-            for (let i = 0; i <= blocks; i++) {
-                elements.push(
-                    <Tooltip overlay={time.format('HH:mm')}>
-                        <td
-                            key={i}
-                            colSpan={2}
-                            className="block-table-row-time"
-                        />
-                    </Tooltip>,
-                );
-                const minute = time.get('minute');
-                time = time.minute(minute + 15);
-            }
+            elements = [...elements, ...createBlocks(blocks, el.start)];
         });
 
         return elements;
@@ -211,10 +208,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                                         {room.capacity}
 
                                     </th>
-                                    {/* {WORKING_HOURS.map((el) => (
-                                        <th colSpan={2} key={el} className="block-table-row-time" />
-                                    ))} */}
-                                    {reservationsPerRoom[room.id] ? renderBlocksWithReservation(room) : renderBlocks}
+                                    {reservationsPerRoom[room.id] ? renderBlocksWithReservation(room) : renderBlocks()}
                                 </tr>
                             ))}
                         </tbody>
