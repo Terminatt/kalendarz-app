@@ -2,7 +2,7 @@ import HugeDivider from '@components/HugeDivider/HugeDivider';
 import { DAY_NAMES_FULL, TIME_BLOCK_MINUTES, WORKING_HOURS } from '@constants/constants';
 import { Id } from '@generics/generics';
 import { Room } from '@store/rooms/types';
-import { joinClassNames, parseDateToDay } from '@utils/general';
+import { getEntries, joinClassNames, parseDateToDay } from '@utils/general';
 import { Dayjs } from 'dayjs';
 import React, { useCallback, useEffect, useState } from 'react';
 import SwitcherLayout from '@components/Switcher/SwitcherLayout/SwitcherLayout';
@@ -12,6 +12,7 @@ import ReservationBlockChunk from './ReservationBlockChunk/ReservationBlockChunk
 
 import './ReservationPanel.less';
 import { getDayReservationRanges } from './helpers';
+import ReservationSummary from './ReservationSummary/ReservationSummary';
 
 export interface ReservationInterval {
     start: string;
@@ -28,14 +29,18 @@ export interface ReservationPanelProps {
     onLeftSwitcherClick?: () => void;
     onRightSwitcherClick?: () => void;
 }
-export interface BlocksHashMap {
-    [key: string]: TimeInterval;
+export interface BlocksHashMap<T extends TimeInterval> {
+    [key: string]: T;
 }
 export interface TimeInterval {
     start?: Dayjs;
     end?: Dayjs;
     startLimit: Dayjs;
     endLimit: Dayjs;
+}
+
+export interface TimeIntervalWithRoom extends TimeInterval{
+    room: Room;
 }
 
 export interface ReservationsPerRoom {
@@ -53,8 +58,9 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         day, className, timeBlockContainerClassName, rooms, reservations, onReserve, onLeftSwitcherClick, onRightSwitcherClick,
     } = props;
     const [reservationsPerRoom, setReservationsPerRoom] = useState<ReservationsPerRoom>({});
-    const [selectedBlocks, setSelectedBlocks] = useState<BlocksHashMap>({});
-    const [hoveredBlocks, setHoveredBlocks] = useState<BlocksHashMap>({});
+    const [selectedBlocks, setSelectedBlocks] = useState<BlocksHashMap<TimeIntervalWithRoom>>({});
+    const [hoveredBlocks, setHoveredBlocks] = useState<BlocksHashMap<TimeInterval>>({});
+    const selectedEntries = getEntries(selectedBlocks);
 
     const prepareData = useCallback((room: Room): ReservationRange[] | null => {
         const roomReservation = reservations[room.id];
@@ -121,6 +127,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                 start: selected,
                 startLimit,
                 endLimit,
+                room,
             };
         }
 
@@ -215,6 +222,19 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         return elements;
     }, [reservationsPerRoom, createChunk]);
 
+    const onDeleteItem = useCallback((roomId: number) => {
+        const copy = cloneDeep(selectedBlocks);
+        if (copy[roomId]) {
+            delete copy[roomId];
+        }
+
+        setSelectedBlocks(copy);
+    }, [selectedBlocks]);
+
+    const onClear = useCallback(() => {
+        setSelectedBlocks({});
+    }, [selectedBlocks]);
+
     return (
         <div className={joinClassNames(['reservation-panel', className])}>
             <HugeDivider className="reservation-panel-divider" text={DAY_NAMES_FULL[day.day()]} />
@@ -272,6 +292,12 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                         </tbody>
                     </table>
                 </div>
+
+                {selectedEntries.length !== 0 ? (
+                    <div className="reservation-panel-container-summary">
+                        <ReservationSummary onDeleteItem={onDeleteItem} onClear={onClear} selectedBlocks={selectedEntries} />
+                    </div>
+                ) : null}
             </div>
         </div>
     );

@@ -8,10 +8,10 @@ import { Id } from '@generics/generics';
 import FormItem from 'antd/lib/form/FormItem';
 
 import './ReservationSummary.less';
-import { BlocksHashMap } from '../ReservationPanel';
+import { BlocksHashMap, TimeIntervalWithRoom } from '../ReservationPanel';
 
 export interface ReservationSummaryProps {
-    selectedBlocks: Entries<BlocksHashMap>
+    selectedBlocks: Entries<BlocksHashMap<TimeIntervalWithRoom>>
     className?: string;
     onDeleteItem?: (roomId: Id) => void;
     onClear?: () => void;
@@ -47,7 +47,7 @@ const ReservationSummary: React.FC<ReservationSummaryProps> = (props) => {
                         <CustomButton onClick={() => onDelete(convertToBaseTen(roomId))} icon={<DeleteOutlined />} size="small" variant="delete">
                             Usuń
                         </CustomButton>
-                        {/* <div className="reservation-summary-item-row-details">
+                        <div className="reservation-summary-item-row-details">
                             {interval.room.name}
                             ,
                             &nbsp;
@@ -56,12 +56,12 @@ const ReservationSummary: React.FC<ReservationSummaryProps> = (props) => {
                             {getDeclinatedWord(interval.room.capacity, 'place')}
                             ,
                             &nbsp;
-                            {interval.startTextValue}
+                            {interval.start?.format('HH:mm')}
                             &nbsp;
                             -
                             &nbsp;
-                            {interval.endTextValue ? interval.endTextValue : 'Brak'}
-                        </div> */}
+                            {interval.end ? interval.end.format('HH:mm') : 'Brak'}
+                        </div>
                     </div>
                 </div>
             ))}
