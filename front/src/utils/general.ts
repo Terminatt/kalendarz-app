@@ -44,6 +44,10 @@ export function parseIsoDate(date: string | Dayjs): string {
     return date.format('YYYY-MM-DD');
 }
 
+export function parseHourDate(date: string | Dayjs): string {
+    return dayjs(date).format('HH:mm');
+}
+
 export function stopBubbling(e?: React.MouseEvent<HTMLElement, MouseEvent> | undefined): void {
     if (!e) {
         return;

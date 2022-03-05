@@ -2,7 +2,9 @@ import HugeDivider from '@components/HugeDivider/HugeDivider';
 import { DAY_NAMES_FULL, TIME_BLOCK_MINUTES, WORKING_HOURS } from '@constants/constants';
 import { Id } from '@generics/generics';
 import { Room } from '@store/rooms/types';
-import { getEntries, joinClassNames, parseDateToDay } from '@utils/general';
+import {
+    getEntries, joinClassNames, parseDateToDay, parseHourDate,
+} from '@utils/general';
 import { Dayjs } from 'dayjs';
 import React, { useCallback, useEffect, useState } from 'react';
 import SwitcherLayout from '@components/Switcher/SwitcherLayout/SwitcherLayout';
@@ -175,7 +177,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         const hovered = hoveredBlocks[room.id];
         return (
             <ReservationBlockChunk
-                key={start.format('HH:mm')}
+                key={parseHourDate(start)}
                 selectedInterval={reservation}
                 hoveredEnd={hovered?.end}
                 onClick={(startLimit, endLimit, selected) => onSelectBlock(startLimit, endLimit, selected, room)}

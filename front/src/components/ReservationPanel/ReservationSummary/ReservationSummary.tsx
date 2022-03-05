@@ -1,6 +1,6 @@
 import CustomButton from '@components/CustomButton/CustomButton';
 import {
-    convertToBaseTen, Entries, getDeclinatedWord, joinClassNames,
+    convertToBaseTen, Entries, getDeclinatedWord, joinClassNames, parseHourDate,
 } from '@utils/general';
 import React, { useCallback } from 'react';
 import { DeleteOutlined } from '@ant-design/icons';
@@ -56,11 +56,11 @@ const ReservationSummary: React.FC<ReservationSummaryProps> = (props) => {
                             {getDeclinatedWord(interval.room.capacity, 'place')}
                             ,
                             &nbsp;
-                            {interval.start?.format('HH:mm')}
+                            {interval.start && parseHourDate(interval.start)}
                             &nbsp;
                             -
                             &nbsp;
-                            {interval.end ? interval.end.format('HH:mm') : 'Brak'}
+                            {interval.end ? parseHourDate(interval.end) : 'Brak'}
                         </div>
                     </div>
                 </div>

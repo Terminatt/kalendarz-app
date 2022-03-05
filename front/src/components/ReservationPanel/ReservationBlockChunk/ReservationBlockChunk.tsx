@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { TIME_BLOCK_MINUTES } from '@constants/constants';
-import { joinClassNames } from '@utils/general';
+import { joinClassNames, parseHourDate } from '@utils/general';
 import dayjs, { Dayjs } from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { TimeInterval } from '../ReservationPanel';
@@ -34,7 +34,7 @@ const ReservationBlockChunk: React.FC<ReservationBlockChunkProps> = (props) => {
         const elements: React.ReactElement[] = [];
         let time = start;
         for (let i = 0; i <= blocks; i++) {
-            const displayTime = time.format('HH:mm');
+            const displayTime = parseHourDate(time);
             const selected = isBlockSelected(time, selectedInterval, hoveredEnd);
             const cloned = time.clone();
 
