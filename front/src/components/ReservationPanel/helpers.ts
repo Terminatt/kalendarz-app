@@ -1,14 +1,8 @@
-import { TIME_BLOCK_MINUTES } from '@constants/constants';
+import { Dayjs } from 'dayjs';
 
-export function getTimeBlockValue(timeBlockIndex: number): string {
-    const timeValue = TIME_BLOCK_MINUTES * timeBlockIndex;
-    return timeValue === 0 ? '00' : timeValue.toString();
-}
-
-export function fillReservedBlocks(blocks: boolean[], startIndex: number, endIndex: number): boolean[] {
-    const blocksCopy = [...blocks];
-    for (let i = startIndex; i <= endIndex; i++) {
-        blocksCopy[i] = true;
-    }
-    return blocksCopy;
+export function getDayReservationRanges(day: Dayjs, hours: number[]): { startToday: Dayjs, endToday: Dayjs } {
+    return {
+        startToday: day.clone().hour(hours[0]),
+        endToday: day.clone().hour(hours[hours.length - 1]).minute(45),
+    };
 }

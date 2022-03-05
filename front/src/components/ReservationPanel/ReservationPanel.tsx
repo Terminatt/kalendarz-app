@@ -11,6 +11,7 @@ import { cloneDeep } from 'lodash';
 import ReservationBlockChunk from './ReservationBlockChunk/ReservationBlockChunk';
 
 import './ReservationPanel.less';
+import { getDayReservationRanges } from './helpers';
 
 export interface ReservationInterval {
     start: string;
@@ -58,8 +59,9 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
     const prepareData = useCallback((room: Room): ReservationRange[] | null => {
         const roomReservation = reservations[room.id];
         const ranges: ReservationRange[] = [];
-        let startToday = day.clone().hour(8);
-        const endToday = day.clone().hour(19).minute(45);
+        const dayRange = getDayReservationRanges(day, WORKING_HOURS);
+        let { startToday } = dayRange;
+        const { endToday } = dayRange;
 
         if (!roomReservation) {
             return null;
@@ -152,8 +154,10 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
     };
 
     const renderBlocks = (room: Room) => {
-        const startToday = day.clone().hour(8);
-        const endToday = day.clone().hour(19).minute(45);
+        const dayRange = getDayReservationRanges(day, WORKING_HOURS);
+        const { startToday } = dayRange;
+        const { endToday } = dayRange;
+
         const blocks = endToday.diff(startToday, 'minutes') / 15;
         return createChunk(blocks, startToday, room);
     };
