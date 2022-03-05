@@ -52,7 +52,8 @@ python manage.py migrate // create db or update it
 
 python groups.py // seed with groups
 
-python manage.py createsuperuser --email admin@example.com --username admin // When asked for providing a group id, type 1
+// When asked for providing a group id, type 1
+python manage.py createsuperuser --email admin@example.com --username admin
 ```
 
 After all these steps, you can start the api application with following command: 
