@@ -1,11 +1,10 @@
-import { BLOCK_COLORS } from '@constants/constants';
 import { isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 import { createCustomSlice, DefaultMatchers } from '@utils/store';
-import dayjs from 'dayjs';
 import {
     createReservation, deleteReservation, getReservations, updateReservation,
 } from './asyncActions';
-import { Reservation, ReservationHashMap, ReservationState } from './types';
+import { parseReservationData } from './helpers';
+import { Reservation, ReservationState } from './types';
 
 const initialState: ReservationState<Reservation> = {
     isLoading: false,
@@ -29,19 +28,6 @@ export const reservationsSlice = createCustomSlice({
 }, matchers, (builder) => {
     builder.addCase(getReservations.fulfilled, (state, res) => {
         state.data.results = res.payload.data;
-        const hashMapData: ReservationHashMap = {};
-        res.payload.data.forEach((el) => {
-            if (!hashMapData[el.room]) {
-                hashMapData[el.room] = [];
-            }
-
-            hashMapData[el.room].push({
-                ...el,
-                start: dayjs(el.start),
-                end: dayjs(el.end),
-                color: BLOCK_COLORS[Math.floor(Math.random() * BLOCK_COLORS.length)],
-            });
-        });
-        state.hashMapData = hashMapData;
+        state.hashMapData = parseReservationData(res.payload.data);
     });
 });

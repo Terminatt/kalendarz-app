@@ -100,3 +100,7 @@ export function getDeclinatedWord(value: number, key: keyof typeof NUMBER_DECLIN
 export function convertToBaseTen(textValue: string): number {
     return parseInt(textValue, 10);
 }
+
+export function getRandomItem(colors: string[]): string {
+    return colors[Math.floor(Math.random() * colors.length)];
+}
