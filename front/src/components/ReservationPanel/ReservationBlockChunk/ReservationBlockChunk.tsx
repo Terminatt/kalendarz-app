@@ -4,14 +4,15 @@ import { TIME_BLOCK_MINUTES } from '@constants/constants';
 import { joinClassNames } from '@utils/general';
 import dayjs, { Dayjs } from 'dayjs';
 import React, { useEffect, useState } from 'react';
+import { TimeInterval } from '../ReservationPanel';
+import { isBlockSelected } from './helpers';
 
 import './ReservationBlockChunk.less';
 
 export interface ReservationBlockChunkProps {
     start: Dayjs;
     blocks: number;
-    startSelected?: Dayjs;
-    endSelected?: Dayjs;
+    selectedInterval?: TimeInterval;
     hoveredEnd?: Dayjs;
     onClick?: (startLimit: Dayjs, endLimit: Dayjs, selected: Dayjs) => void;
     onMouseEnter?: (startLimit: Dayjs, endLimit: Dayjs, selected: Dayjs) => void;
@@ -22,7 +23,7 @@ export interface ReservationBlockChunkProps {
 const ReservationBlockChunk: React.FC<ReservationBlockChunkProps> = (props) => {
     const [end, setEnd] = useState<Dayjs>(dayjs());
     const {
-        start, blocks, startSelected, endSelected, hoveredEnd, onClick, onMouseEnter, onMouseLeave,
+        start, blocks, selectedInterval, hoveredEnd, onClick, onMouseEnter, onMouseLeave,
     } = props;
 
     useEffect(() => {
@@ -34,24 +35,8 @@ const ReservationBlockChunk: React.FC<ReservationBlockChunkProps> = (props) => {
         let time = start;
         for (let i = 0; i <= blocks; i++) {
             const displayTime = time.format('HH:mm');
-            let selected = false;
+            const selected = isBlockSelected(time, selectedInterval, hoveredEnd);
             const cloned = time.clone();
-
-            if (startSelected?.isBefore(cloned) && endSelected?.isAfter(cloned)) {
-                selected = true;
-            } else if (startSelected?.isSame(cloned) || endSelected?.isSame(cloned)) {
-                selected = true;
-            } else if (hoveredEnd) {
-                if (cloned.isSameOrAfter(hoveredEnd) && cloned.isBefore(startSelected)) {
-                    selected = true;
-                } else if (!endSelected) {
-                    if (cloned.isSameOrBefore(hoveredEnd) && cloned.isAfter(startSelected)) {
-                        selected = true;
-                    }
-                } else if (cloned.isSameOrBefore(hoveredEnd) && cloned.isAfter(endSelected)) {
-                    selected = true;
-                }
-            }
 
             elements.push(
                 <td

@@ -21,7 +21,7 @@ export interface ReservationInterval {
 export interface ReservationPanelProps {
     day: Dayjs;
     className?: string;
-    timeBlockContainerClassname?: string;
+    timeBlockContainerClassName?: string;
     rooms: Room[];
     reservations: ReservationHashMap;
     onReserve?: (intervals: ReservationInterval[]) => void;
@@ -50,7 +50,7 @@ export interface ReservationRange {
 
 const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
     const {
-        day, className, timeBlockContainerClassname, rooms, reservations, onReserve, onLeftSwitcherClick, onRightSwitcherClick,
+        day, className, timeBlockContainerClassName, rooms, reservations, onReserve, onLeftSwitcherClick, onRightSwitcherClick,
     } = props;
     const [reservationsPerRoom, setReservationsPerRoom] = useState<ReservationsPerRoom>({});
     const [selectedBlocks, setSelectedBlocks] = useState<BlocksHashMap>({});
@@ -169,8 +169,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         return (
             <ReservationBlockChunk
                 key={start.format('HH:mm')}
-                startSelected={reservation?.start}
-                endSelected={reservation?.end}
+                selectedInterval={reservation}
                 hoveredEnd={hovered?.end}
                 onClick={(startLimit, endLimit, selected) => onSelectBlock(startLimit, endLimit, selected, room)}
                 onMouseEnter={(startLimit, endLimit, selected) => onHoverBlock(startLimit, endLimit, selected, room)}
@@ -224,7 +223,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                     {parseDateToDay(day)}
                 </SwitcherLayout>
             </div>
-            <div className={joinClassNames(['reservation-panel-container', timeBlockContainerClassname])}>
+            <div className={joinClassNames(['reservation-panel-container', timeBlockContainerClassName])}>
                 <div className="reservation-panel-container-table">
                     <table className="block-table">
                         <colgroup>
