@@ -28,10 +28,9 @@ export interface ReservationPanelProps {
     onLeftSwitcherClick?: () => void;
     onRightSwitcherClick?: () => void;
 }
-export interface SelectedBlocksHashMap {
+export interface BlocksHashMap {
     [key: string]: TimeInterval;
 }
-
 export interface TimeInterval {
     start?: Dayjs;
     end?: Dayjs;
@@ -54,7 +53,8 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         day, className, timeBlockContainerClassname, rooms, reservations, onReserve, onLeftSwitcherClick, onRightSwitcherClick,
     } = props;
     const [reservationsPerRoom, setReservationsPerRoom] = useState<ReservationsPerRoom>({});
-    const [selectedBlocks, setSelectedBlocks] = useState<SelectedBlocksHashMap>({});
+    const [selectedBlocks, setSelectedBlocks] = useState<BlocksHashMap>({});
+    const [hoveredBlocks, setHoveredBlocks] = useState<BlocksHashMap>({});
 
     const prepareData = useCallback((room: Room): ReservationRange[] | null => {
         const roomReservation = reservations[room.id];
@@ -138,15 +138,43 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         setSelectedBlocks(copy);
     }, [selectedBlocks]);
 
+    const onHoverBlock = useCallback((startLimit: Dayjs, endLimit: Dayjs, hovered: Dayjs, room: Room) => {
+        const copy = cloneDeep(hoveredBlocks);
+        const hoveredBlock = copy[room.id];
+        if (hoveredBlock?.startLimit.isAfter(hovered) || hoveredBlock?.endLimit.isBefore(hovered)) {
+            return;
+        }
+
+        copy[room.id] = {
+            end: hovered,
+            startLimit,
+            endLimit,
+        };
+
+        setHoveredBlocks(copy);
+    }, [hoveredBlocks]);
+
+    const onMouseLeave = useCallback((room: Room) => {
+        const copy = cloneDeep(hoveredBlocks);
+        if (copy[room.id]) {
+            delete copy[room.id];
+        }
+
+        setHoveredBlocks(copy);
+    }, [hoveredBlocks]);
+
     const createChunk = (endIndex: number, start: Dayjs, room: Room) => {
         const reservation = selectedBlocks[room.id];
-
+        const hovered = hoveredBlocks[room.id];
         return (
             <ReservationBlockChunk
                 key={start.format('HH:mm')}
                 startSelected={reservation?.start}
                 endSelected={reservation?.end}
+                hoveredEnd={hovered?.end}
                 onClick={(startLimit, endLimit, selected) => onSelectBlock(startLimit, endLimit, selected, room)}
+                onMouseEnter={(startLimit, endLimit, selected) => onHoverBlock(startLimit, endLimit, selected, room)}
+                onMouseLeave={() => onMouseLeave(room)}
                 blocks={endIndex}
                 start={start}
             />

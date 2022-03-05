@@ -6,12 +6,12 @@ import React, { useCallback } from 'react';
 import { DeleteOutlined } from '@ant-design/icons';
 import { Id } from '@generics/generics';
 import FormItem from 'antd/lib/form/FormItem';
-import { SelectedBlocksHashMap } from '../ReservationPanel';
 
 import './ReservationSummary.less';
+import { BlocksHashMap } from '../ReservationPanel';
 
 export interface ReservationSummaryProps {
-    selectedBlocks: Entries<SelectedBlocksHashMap>
+    selectedBlocks: Entries<BlocksHashMap>
     className?: string;
     onDeleteItem?: (roomId: Id) => void;
     onClear?: () => void;
