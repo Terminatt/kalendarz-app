@@ -1,5 +1,5 @@
 import HugeDivider from '@components/HugeDivider/HugeDivider';
-import { DAY_NAMES_FULL, WORKING_HOURS } from '@constants/constants';
+import { DAY_NAMES_FULL, TIME_BLOCK_MINUTES, WORKING_HOURS } from '@constants/constants';
 import { Id } from '@generics/generics';
 import { Room } from '@store/rooms/types';
 import { joinClassNames, parseDateToDay } from '@utils/general';
@@ -70,14 +70,14 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         roomReservation.forEach((el) => {
             if (el.start.isSame(startToday)) {
                 ranges.push({ reservation: el, start: el.start, end: el.end });
-                startToday = el.end.clone().add(15, 'minutes');
+                startToday = el.end.clone().add(TIME_BLOCK_MINUTES, 'minutes');
                 return;
             }
             const diff = el.start.diff(startToday, 'minutes');
 
             ranges.push({
                 start: startToday,
-                end: startToday.minute(diff - 15),
+                end: startToday.minute(diff - TIME_BLOCK_MINUTES),
             });
 
             ranges.push({
@@ -85,7 +85,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                 start: el.start,
                 end: el.end,
             });
-            startToday = el.end.clone().add(15, 'minutes');
+            startToday = el.end.clone().add(TIME_BLOCK_MINUTES, 'minutes');
         });
 
         ranges.push({
@@ -158,7 +158,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         const { startToday } = dayRange;
         const { endToday } = dayRange;
 
-        const blocks = endToday.diff(startToday, 'minutes') / 15;
+        const blocks = endToday.diff(startToday, 'minutes') / TIME_BLOCK_MINUTES;
         return createChunk(blocks, startToday, room);
     };
 
@@ -166,7 +166,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         let elements: React.ReactElement[] = [];
         reservationsPerRoom[room.id].forEach((el, index) => {
             const diff = el.end.diff(el.start, 'minutes');
-            const blocks = (diff / 15);
+            const blocks = (diff / TIME_BLOCK_MINUTES);
             const cols = blocks * 2;
 
             if (el.reservation) {
