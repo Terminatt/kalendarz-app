@@ -64,6 +64,8 @@ After all these steps, you can start the api application with following command:
 python manage.py runserver
 ```
 
+The Back-End application should be accessible on `http://localhost:8000/` url.
+
 ### Front-End side
 To run Front-end side simply run these following commands
 
@@ -76,3 +78,5 @@ npm install
 
 npm start
 ```
+
+The Front-End application should be accessible on `http://localhost:3000/` url.
