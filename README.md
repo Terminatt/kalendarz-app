@@ -1,7 +1,7 @@
 
 # Kalendarz<sup>App</sup>
 
-(&#x1F534;): This application is currently under the development. 
+(&#x1F534;): This application is currently under development. 
 
 The application was created for my Bachelors Thesis defense. It allows for managing reservations of rooms in a company/university. 
 It is fully responsive and accessible for people with disabilities.
