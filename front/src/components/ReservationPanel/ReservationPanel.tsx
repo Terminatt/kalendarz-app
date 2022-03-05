@@ -181,28 +181,27 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         );
     };
 
-    const renderBlocks = (room: Room) => {
+    const renderBlocks = useCallback((room: Room) => {
         const dayRange = getDayReservationRanges(day, WORKING_HOURS);
         const { startToday } = dayRange;
         const { endToday } = dayRange;
 
         const blocks = endToday.diff(startToday, 'minutes') / TIME_BLOCK_MINUTES;
         return createChunk(blocks, startToday, room);
-    };
+    }, [day, createChunk]);
 
-    const renderBlocksWithReservation = (room: Room) => {
+    const renderBlocksWithReservation = useCallback((room: Room) => {
         let elements: React.ReactElement[] = [];
-        reservationsPerRoom[room.id].forEach((el, index) => {
+        reservationsPerRoom[room.id].forEach((el) => {
             const diff = el.end.diff(el.start, 'minutes');
             const blocks = (diff / TIME_BLOCK_MINUTES);
-            const cols = blocks * 2;
+            const cols = (blocks * 2) + 2;
 
             if (el.reservation) {
                 elements.push(
                     <td
-                    // eslint-disable-next-line react/no-array-index-key
-                        key={el.reservation.id + index}
-                        colSpan={cols + 2}
+                        key={el.reservation.id}
+                        colSpan={cols}
                         style={{ backgroundColor: el.reservation.color }}
                         className="block-table-row-reserved"
                     >
@@ -215,7 +214,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         });
 
         return elements;
-    };
+    }, [reservationsPerRoom, createChunk]);
 
     return (
         <div className={joinClassNames(['reservation-panel', className])}>
