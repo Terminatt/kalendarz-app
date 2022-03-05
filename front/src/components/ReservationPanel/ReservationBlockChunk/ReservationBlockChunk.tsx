@@ -37,19 +37,18 @@ const ReservationBlockChunk: React.FC<ReservationBlockChunkProps> = (props) => {
             let selected = false;
             const cloned = time.clone();
 
-            // TODO needs optimalization
             if (startSelected?.isBefore(cloned) && endSelected?.isAfter(cloned)) {
                 selected = true;
             } else if (startSelected?.isSame(cloned) || endSelected?.isSame(cloned)) {
                 selected = true;
             } else if (hoveredEnd) {
-                if (startSelected?.isAfter(hoveredEnd) && cloned.isSameOrAfter(hoveredEnd) && cloned.isBefore(startSelected)) {
+                if (cloned.isSameOrAfter(hoveredEnd) && cloned.isBefore(startSelected)) {
                     selected = true;
                 } else if (!endSelected) {
-                    if (startSelected?.isBefore(hoveredEnd) && cloned.isSameOrBefore(hoveredEnd) && cloned.isAfter(startSelected)) {
+                    if (cloned.isSameOrBefore(hoveredEnd) && cloned.isAfter(startSelected)) {
                         selected = true;
                     }
-                } else if (endSelected?.isBefore(hoveredEnd) && cloned.isSameOrBefore(hoveredEnd) && cloned.isAfter(endSelected)) {
+                } else if (cloned.isSameOrBefore(hoveredEnd) && cloned.isAfter(endSelected)) {
                     selected = true;
                 }
             }
