@@ -235,16 +235,24 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
 
     const onDeleteItem = useCallback((roomId: number) => {
         const copy = cloneDeep(selectedBlocks);
+        const errorCopy = cloneDeep(validationErrors);
+
         if (copy[roomId]) {
             delete copy[roomId];
         }
 
+        if (errorCopy[roomId]) {
+            delete errorCopy[roomId];
+        }
+
         setSelectedBlocks(copy);
+        setValidationErrors(errorCopy);
     }, [selectedBlocks]);
 
     const onClear = useCallback(() => {
         setSelectedBlocks({});
-    }, [selectedBlocks]);
+        setValidationErrors({});
+    }, []);
 
     const validateReservations = useCallback((blocks: Entries<BlocksHashMap<TimeIntervalWithRoom>>): blocks is Entries<BlocksHashMap<Required<TimeIntervalWithRoom>>> => {
         const newValidationErrors: ReservationErrors = {};
@@ -282,6 +290,9 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
             end: value.end.toISOString(),
             room: convertToBaseTen(roomId),
         })));
+
+        setSelectedBlocks({});
+        setValidationErrors({});
     }, [reservations, selectedBlocks]);
 
     return (
