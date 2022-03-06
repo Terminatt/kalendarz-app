@@ -88,7 +88,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         roomReservation.forEach((el) => {
             if (el.start.isSame(startToday)) {
                 ranges.push({ reservation: el, start: el.start, end: el.end });
-                startToday = el.end.clone().add(TIME_BLOCK_MINUTES, 'minutes');
+                startToday = el.end.add(TIME_BLOCK_MINUTES, 'minutes');
                 return;
             }
             const diff = el.start.diff(startToday, 'minutes');
@@ -110,7 +110,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                 start: el.start,
                 end: el.end,
             });
-            startToday = el.end.clone().add(TIME_BLOCK_MINUTES, 'minutes');
+            startToday = el.end.add(TIME_BLOCK_MINUTES, 'minutes');
         });
 
         ranges.push({

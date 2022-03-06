@@ -27,7 +27,7 @@ const ReservationBlockChunk: React.FC<ReservationBlockChunkProps> = (props) => {
     } = props;
 
     useEffect(() => {
-        setEnd(start.clone().minute(TIME_BLOCK_MINUTES * blocks));
+        setEnd(start.minute(TIME_BLOCK_MINUTES * blocks));
     }, [start, blocks]);
 
     const createBlocks = () => {
