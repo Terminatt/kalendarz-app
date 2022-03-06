@@ -19,7 +19,7 @@ The app consist of two units:
 - Authentication based on expiring tokens
 
 ## Currently under development
-- Reservation panel
+- Reservation panel (95% finished)
 - User management panel for Admin
 - User management panel for logged in user
 - My Reservations panel for logged in user
