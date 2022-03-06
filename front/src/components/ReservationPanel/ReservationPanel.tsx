@@ -93,10 +93,17 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
             }
             const diff = el.start.diff(startToday, 'minutes');
 
-            ranges.push({
-                start: startToday,
-                end: startToday.minute(diff - TIME_BLOCK_MINUTES),
-            });
+            if (ranges.length === 0) {
+                ranges.push({
+                    start: startToday,
+                    end: startToday.minute(diff - TIME_BLOCK_MINUTES),
+                });
+            } else {
+                ranges.push({
+                    start: startToday,
+                    end: startToday.add(diff - TIME_BLOCK_MINUTES, 'minute'),
+                });
+            }
 
             ranges.push({
                 reservation: el,
@@ -123,6 +130,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
             }
             newReservationsPerRoom[el.id] = ranges;
         });
+        // console.log(newReservationsPerRoom);
         setReservationsPerRoom(newReservationsPerRoom);
     }, [rooms, reservations]);
 
@@ -213,7 +221,6 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
             const diff = el.end.diff(el.start, 'minutes');
             const blocks = (diff / TIME_BLOCK_MINUTES);
             const cols = (blocks * 2) + 2;
-
             if (el.reservation) {
                 elements.push(
                     <td
