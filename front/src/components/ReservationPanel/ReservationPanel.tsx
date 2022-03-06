@@ -334,10 +334,10 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                 <div className="reservation-panel-container-table">
                     <table className="block-table">
                         <colgroup>
-                            <col span={8} width={150} />
-                            <col span={8} width={150} />
+                            <col span={8} />
+                            <col span={8} />
                             {WORKING_HOURS.map((el) => (
-                                <col key={el} span={8} width={150} />
+                                <col key={el} span={8} />
                             ))}
                         </colgroup>
                         <thead>
