@@ -362,7 +362,6 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                                         className="block-table-row-col block-table-row-header block-table-row-left"
                                     >
                                         {room.capacity}
-
                                     </th>
                                     {reservationsPerRoom[room.id] ? renderBlocksWithReservation(room) : renderBlocks(room)}
                                 </tr>
