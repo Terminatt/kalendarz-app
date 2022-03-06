@@ -4,7 +4,7 @@ import { TIME_BLOCK_MINUTES } from '@constants/constants';
 import { joinClassNames, parseHourDate } from '@utils/general';
 import dayjs, { Dayjs } from 'dayjs';
 import React, { useEffect, useState } from 'react';
-import { TimeInterval } from '../ReservationPanel';
+import { TimeIntervalWithRoom } from '../ReservationPanel';
 import { isBlockSelected } from './helpers';
 
 import './ReservationBlockChunk.less';
@@ -12,7 +12,7 @@ import './ReservationBlockChunk.less';
 export interface ReservationBlockChunkProps {
     start: Dayjs;
     blocks: number;
-    selectedInterval?: TimeInterval;
+    selectedInterval?: TimeIntervalWithRoom;
     hoveredEnd?: Dayjs;
     onClick?: (startLimit: Dayjs, endLimit: Dayjs, selected: Dayjs) => void;
     onMouseEnter?: (startLimit: Dayjs, endLimit: Dayjs, selected: Dayjs) => void;

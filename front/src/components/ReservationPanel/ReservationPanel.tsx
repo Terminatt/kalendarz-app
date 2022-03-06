@@ -3,6 +3,8 @@ import { DAY_NAMES_FULL, TIME_BLOCK_MINUTES, WORKING_HOURS } from '@constants/co
 import { Id } from '@generics/generics';
 import { Room } from '@store/rooms/types';
 import {
+    convertToBaseTen,
+    Entries,
     getEntries, joinClassNames, parseDateToDay, parseHourDate,
 } from '@utils/general';
 import { Dayjs } from 'dayjs';
@@ -35,13 +37,13 @@ export interface BlocksHashMap<T extends TimeInterval> {
     [key: string]: T;
 }
 export interface TimeInterval {
-    start?: Dayjs;
     end?: Dayjs;
     startLimit: Dayjs;
     endLimit: Dayjs;
 }
 
 export interface TimeIntervalWithRoom extends TimeInterval{
+    start: Dayjs;
     room: Room;
 }
 
@@ -54,6 +56,13 @@ export interface ReservationRange {
     start: Dayjs,
     end: Dayjs
 }
+export interface ReservationErrors {
+    [key: string]: ReservationValidationError[];
+}
+
+export enum ReservationValidationError {
+    NO_END = 'Ten okres czasu nie ma zakończenia',
+}
 
 const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
     const {
@@ -62,6 +71,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
     const [reservationsPerRoom, setReservationsPerRoom] = useState<ReservationsPerRoom>({});
     const [selectedBlocks, setSelectedBlocks] = useState<BlocksHashMap<TimeIntervalWithRoom>>({});
     const [hoveredBlocks, setHoveredBlocks] = useState<BlocksHashMap<TimeInterval>>({});
+    const [validationErrors, setValidationErrors] = useState<ReservationErrors>({});
     const selectedEntries = getEntries(selectedBlocks);
 
     const prepareData = useCallback((room: Room): ReservationRange[] | null => {
@@ -191,8 +201,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
 
     const renderBlocks = useCallback((room: Room) => {
         const dayRange = getDayReservationRanges(day, WORKING_HOURS);
-        const { startToday } = dayRange;
-        const { endToday } = dayRange;
+        const { startToday, endToday } = dayRange;
 
         const blocks = endToday.diff(startToday, 'minutes') / TIME_BLOCK_MINUTES;
         return createChunk(blocks, startToday, room);
@@ -237,6 +246,44 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         setSelectedBlocks({});
     }, [selectedBlocks]);
 
+    const validateReservations = useCallback((blocks: Entries<BlocksHashMap<TimeIntervalWithRoom>>): blocks is Entries<BlocksHashMap<Required<TimeIntervalWithRoom>>> => {
+        const newValidationErrors: ReservationErrors = {};
+        let isCorrect = true;
+
+        blocks.forEach(([roomId, value]) => {
+            const errors: ReservationValidationError[] = [];
+
+            if (!value.end) {
+                errors.push(ReservationValidationError.NO_END);
+            }
+
+            if (errors.length !== 0) {
+                isCorrect = false;
+                newValidationErrors[roomId] = errors;
+            }
+        });
+
+        setValidationErrors(newValidationErrors);
+
+        return isCorrect;
+    }, []);
+
+    const onReserveItems = useCallback(() => {
+        if (!onReserve) {
+            return;
+        }
+
+        if (!validateReservations(selectedEntries)) {
+            return;
+        }
+
+        onReserve(selectedEntries.map(([roomId, value]) => ({
+            start: value.start.toISOString(),
+            end: value.end.toISOString(),
+            room: convertToBaseTen(roomId),
+        })));
+    }, [reservations, selectedBlocks]);
+
     return (
         <div className={joinClassNames(['reservation-panel', className])}>
             <HugeDivider className="reservation-panel-divider" text={DAY_NAMES_FULL[day.day()]} />
@@ -251,18 +298,9 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                         <colgroup>
                             <col span={8} width={150} />
                             <col span={8} width={150} />
-                            <col span={8} width={150} />
-                            <col span={8} width={150} />
-                            <col span={8} width={150} />
-                            <col span={8} width={150} />
-                            <col span={8} width={150} />
-                            <col span={8} width={150} />
-                            <col span={8} width={150} />
-                            <col span={8} width={150} />
-                            <col span={8} width={150} />
-                            <col span={8} width={150} />
-                            <col span={8} width={150} />
-                            <col span={8} width={150} />
+                            {WORKING_HOURS.map((el) => (
+                                <col key={el} span={8} width={150} />
+                            ))}
                         </colgroup>
                         <thead>
                             <tr className="block-table-row">
@@ -297,7 +335,13 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
 
                 {selectedEntries.length !== 0 ? (
                     <div className="reservation-panel-container-summary">
-                        <ReservationSummary onDeleteItem={onDeleteItem} onClear={onClear} selectedBlocks={selectedEntries} />
+                        <ReservationSummary
+                            validationErrors={validationErrors}
+                            onReserve={onReserveItems}
+                            onDeleteItem={onDeleteItem}
+                            onClear={onClear}
+                            selectedBlocks={selectedEntries}
+                        />
                     </div>
                 ) : null}
             </div>

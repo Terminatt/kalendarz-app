@@ -1,7 +1,7 @@
 import { Dayjs } from 'dayjs';
-import { TimeInterval } from '../ReservationPanel';
+import { TimeIntervalWithRoom } from '../ReservationPanel';
 
-export function isBlockSelected(current: Dayjs, selectedInterval?: TimeInterval, hovered?: Dayjs): boolean {
+export function isBlockSelected(current: Dayjs, selectedInterval?: TimeIntervalWithRoom, hovered?: Dayjs): boolean {
     if (selectedInterval?.start?.isBefore(current) && selectedInterval?.end?.isAfter(current)) {
         return true;
     }

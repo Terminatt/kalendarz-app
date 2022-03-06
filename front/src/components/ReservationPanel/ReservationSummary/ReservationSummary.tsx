@@ -8,11 +8,12 @@ import { Id } from '@generics/generics';
 import FormItem from 'antd/lib/form/FormItem';
 
 import './ReservationSummary.less';
-import { BlocksHashMap, TimeIntervalWithRoom } from '../ReservationPanel';
+import { BlocksHashMap, ReservationErrors, TimeIntervalWithRoom } from '../ReservationPanel';
 
 export interface ReservationSummaryProps {
     selectedBlocks: Entries<BlocksHashMap<TimeIntervalWithRoom>>
     className?: string;
+    validationErrors: ReservationErrors;
     onDeleteItem?: (roomId: Id) => void;
     onClear?: () => void;
     onReserve?: () => void;
@@ -20,7 +21,7 @@ export interface ReservationSummaryProps {
 
 const ReservationSummary: React.FC<ReservationSummaryProps> = (props) => {
     const {
-        className, selectedBlocks, onDeleteItem, onClear, onReserve,
+        className, selectedBlocks, validationErrors, onDeleteItem, onClear, onReserve,
     } = props;
 
     const onDelete = useCallback((roomId: Id) => {
@@ -34,7 +35,6 @@ const ReservationSummary: React.FC<ReservationSummaryProps> = (props) => {
         if (!onReserve) {
             return;
         }
-
         onReserve();
     }, [onReserve]);
 
@@ -63,6 +63,11 @@ const ReservationSummary: React.FC<ReservationSummaryProps> = (props) => {
                             {interval.end ? parseHourDate(interval.end) : 'Brak'}
                         </div>
                     </div>
+                    {validationErrors[roomId]?.map((el) => (
+                        <div className="reservation-summary-item-row-error" key={el}>
+                            <FormItem help={el} />
+                        </div>
+                    ))}
                 </div>
             ))}
             <div className="reservation-summary-action">

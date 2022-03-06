@@ -15,11 +15,16 @@
             &-details {
                 margin-left: @margin-small;
             }
+
             &-error {
                 margin-top: @margin-tiny;
-                color: @red-color;
+
                 .ant-form-item-control-input {
                     display: none;
+                }
+
+                .ant-form-item-explain, .ant-form-item-extra {
+                    color: @red-color;
                 }
             }
         }
