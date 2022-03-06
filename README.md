@@ -36,7 +36,7 @@ Software Requirements:
 After cloning the application, from inside root directory, you need to create Python virtual environment and activate it. 
 After that you need to install Python packages.
 ```
-// Assuimg we're in root directory
+// Assuming we're in root directory
 
 python3 -m venv env // Create virtual env
 
@@ -48,7 +48,7 @@ pip install -r requirements.txt // install packages
 When the installation is completed, the next step is to create development database, seed it with starting roles and create super admin user.
 
 ```
-// Assuimg we're in root directory
+// Assuming we're in root directory
 
 cd api
 
