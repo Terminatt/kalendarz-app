@@ -29,7 +29,7 @@ export interface ReservationPanelProps {
     timeBlockContainerClassName?: string;
     rooms: Room[];
     reservations: ReservationHashMap;
-    onReserve?: (intervals: ReservationInterval[]) => void;
+    onReserve?: (intervals: ReservationInterval[], cb?: () => void) => void;
     onLeftSwitcherClick?: () => void;
     onRightSwitcherClick?: () => void;
 }
@@ -130,9 +130,32 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
             }
             newReservationsPerRoom[el.id] = ranges;
         });
-        // console.log(newReservationsPerRoom);
+
         setReservationsPerRoom(newReservationsPerRoom);
     }, [rooms, reservations]);
+
+    const removeValidationErrors = useCallback((error: ReservationValidationError | ReservationValidationError[] | 'all', roomId: Id) => {
+        const errorsCopy = cloneDeep(validationErrors);
+
+        if (!errorsCopy[roomId]) {
+            return;
+        }
+
+        if (error === 'all') {
+            delete errorsCopy[roomId];
+            setValidationErrors(errorsCopy);
+            return;
+        }
+
+        if (Array.isArray(error)) {
+            errorsCopy[roomId] = errorsCopy[roomId].filter((el) => error.includes(el));
+            setValidationErrors(errorsCopy);
+            return;
+        }
+
+        errorsCopy[roomId] = errorsCopy[roomId].filter((el) => el === error);
+        setValidationErrors(errorsCopy);
+    }, [validationErrors]);
 
     const onSelectBlock = useCallback((startLimit: Dayjs, endLimit: Dayjs, selected: Dayjs, room: Room) => {
         const copy = cloneDeep(selectedBlocks);
@@ -162,8 +185,10 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
             }
         }
 
+        removeValidationErrors(ReservationValidationError.NO_END, room.id);
+
         setSelectedBlocks(copy);
-    }, [selectedBlocks]);
+    }, [selectedBlocks, validationErrors, removeValidationErrors]);
 
     const onHoverBlock = useCallback((startLimit: Dayjs, endLimit: Dayjs, hovered: Dayjs, room: Room) => {
         const copy = cloneDeep(hoveredBlocks);
@@ -242,19 +267,14 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
 
     const onDeleteItem = useCallback((roomId: number) => {
         const copy = cloneDeep(selectedBlocks);
-        const errorCopy = cloneDeep(validationErrors);
 
         if (copy[roomId]) {
             delete copy[roomId];
         }
 
-        if (errorCopy[roomId]) {
-            delete errorCopy[roomId];
-        }
-
+        removeValidationErrors('all', roomId);
         setSelectedBlocks(copy);
-        setValidationErrors(errorCopy);
-    }, [selectedBlocks]);
+    }, [selectedBlocks, removeValidationErrors]);
 
     const onClear = useCallback(() => {
         setSelectedBlocks({});
@@ -291,15 +311,15 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         if (!validateReservations(selectedEntries)) {
             return;
         }
-
-        onReserve(selectedEntries.map(([roomId, value]) => ({
+        const parsedBlocks = selectedEntries.map(([roomId, value]) => ({
             start: value.start.toISOString(),
             end: value.end.toISOString(),
             room: convertToBaseTen(roomId),
-        })));
+        }));
 
-        setSelectedBlocks({});
-        setValidationErrors({});
+        onReserve(parsedBlocks, () => {
+            setSelectedBlocks({});
+        });
     }, [reservations, selectedBlocks]);
 
     return (

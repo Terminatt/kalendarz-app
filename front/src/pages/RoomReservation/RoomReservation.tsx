@@ -41,11 +41,15 @@ const RoomReservation: React.FC = () => {
         getReservationsList(newDay);
     }, [day]);
 
-    const onReserve = useCallback((intervals: ReservationInterval[]) => {
+    const onReserve = useCallback((intervals: ReservationInterval[], cb?: () => void) => {
         dispatch((createReservation({
             requestPayload: intervals,
             onSuccess: () => {
                 getReservationsList(day);
+
+                if (cb) {
+                    cb();
+                }
             },
         })));
     }, []);
