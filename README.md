@@ -11,6 +11,9 @@ The app consist of two units:
 - Back-End side (Python, Django Rest Framework)
 - Front-End side (TypeScript, React, Less)
 
+## Commit Lint
+The project follows commit lint convention for commit names. To view full list of problems (rules) follow this link [Commit Lint Convention](https://github.com/conventional-changelog/commitlint#what-is-commitlint)
+
 ## Features
 - Permission system based on ACLs
 - Simple Role system (currently two roles: Admin and User)
