@@ -52,7 +52,7 @@ const ReservationSummary: React.FC<ReservationSummaryProps> = (props) => {
                             ,
                             &nbsp;
                             {interval.room.capacity}
-                                    &nbsp;
+                            &nbsp;
                             {getDeclinatedWord(interval.room.capacity, 'place')}
                             ,
                             &nbsp;
