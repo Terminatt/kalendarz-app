@@ -28,6 +28,23 @@
         background-color: @primary-color;
     }
 
+    &-disabled {
+        background-color: @disabled !important;
+        cursor: not-allowed;
+    }
+
+    &-disabled &-btn {
+        cursor: not-allowed;
+        
+        &-text {
+            cursor: not-allowed;
+        }
+    }
+
+    &-disabled &-overlay {
+        display: none !important;
+    }
+
     &:hover, &:focus {
         background-color: @primary-color;
 

@@ -14,6 +14,7 @@ export interface ReservationBlockChunkProps {
     blocks: number;
     selectedInterval?: TimeIntervalWithRoom;
     hoveredEnd?: Dayjs;
+    isPast: boolean;
     onClick?: (startLimit: Dayjs, endLimit: Dayjs, selected: Dayjs) => void;
     onMouseEnter?: (startLimit: Dayjs, endLimit: Dayjs, selected: Dayjs) => void;
     onMouseLeave?: () => void;
@@ -22,7 +23,7 @@ export interface ReservationBlockChunkProps {
 const ReservationBlockChunk: React.FC<ReservationBlockChunkProps> = (props) => {
     const [end, setEnd] = useState<Dayjs>(dayjs());
     const {
-        start, blocks, selectedInterval, hoveredEnd, onClick, onMouseEnter, onMouseLeave,
+        start, blocks, selectedInterval, hoveredEnd, isPast, onClick, onMouseEnter, onMouseLeave,
     } = props;
 
     useEffect(() => {
@@ -43,9 +44,10 @@ const ReservationBlockChunk: React.FC<ReservationBlockChunkProps> = (props) => {
                     onClick={() => onClick && onClick(start, end, cloned)}
                     key={displayTime}
                     colSpan={2}
-                    className={joinClassNames(['block', selected ? 'block-selected' : null])}
+                    className={joinClassNames(['block', selected ? 'block-selected' : null, isPast ? 'block-disabled' : null])}
                 >
                     <button
+                        disabled={isPast}
                         onFocus={() => onMouseEnter && onMouseEnter(start, end, cloned)}
                         onBlur={() => onMouseLeave}
                         type="button"

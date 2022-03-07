@@ -7,16 +7,17 @@ import {
     Entries,
     getEntries, joinClassNames, parseDateToDay, parseHourDate,
 } from '@utils/general';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import React, { useCallback, useEffect, useState } from 'react';
 import SwitcherLayout from '@components/Switcher/SwitcherLayout/SwitcherLayout';
 import { ReservationHashMap, ReservationWithParsedDate } from '@store/reservations/types';
 import { cloneDeep } from 'lodash';
+import { Alert } from 'antd';
 import ReservationBlockChunk from './ReservationBlockChunk/ReservationBlockChunk';
-
-import './ReservationPanel.less';
 import { getDayReservationRanges } from './helpers';
 import ReservationSummary from './ReservationSummary/ReservationSummary';
+
+import './ReservationPanel.less';
 
 export interface ReservationInterval {
     start: string;
@@ -73,6 +74,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
     const [hoveredBlocks, setHoveredBlocks] = useState<BlocksHashMap<TimeInterval>>({});
     const [validationErrors, setValidationErrors] = useState<ReservationErrors>({});
     const selectedEntries = getEntries(selectedBlocks);
+    const isPast = day.isBefore(dayjs());
 
     const prepareData = useCallback((room: Room): ReservationRange[] | null => {
         const roomReservation = reservations[room.id];
@@ -166,6 +168,10 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         const copy = cloneDeep(selectedBlocks);
         const selectedBlock = copy[room.id];
 
+        if (isPast) {
+            return;
+        }
+
         if (selectedBlock?.startLimit.isAfter(selected) || selectedBlock?.endLimit.isBefore(selected)) {
             return;
         }
@@ -225,6 +231,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         const hovered = hoveredBlocks[room.id];
         return (
             <ReservationBlockChunk
+                isPast={isPast}
                 key={parseHourDate(start)}
                 selectedInterval={reservation}
                 hoveredEnd={hovered?.end}
@@ -336,6 +343,15 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                 </SwitcherLayout>
             </div>
             <div className={joinClassNames(['reservation-panel-container', timeBlockContainerClassName])}>
+                {isPast ? (
+                    <Alert
+                        className="reservation-panel-container-past"
+                        showIcon
+                        type="info"
+                        message="Miniony dzień"
+                        description="Ten dzień już minął, rezerwacje nie są już możliwe."
+                    />
+                ) : null}
                 <div className="reservation-panel-container-table">
                     <table className="block-table">
                         <colgroup>
@@ -374,7 +390,6 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                         </tbody>
                     </table>
                 </div>
-
                 {selectedEntries.length !== 0 ? (
                     <div className="reservation-panel-container-summary">
                         <ReservationSummary
