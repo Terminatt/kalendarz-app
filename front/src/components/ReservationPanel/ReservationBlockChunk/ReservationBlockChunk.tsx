@@ -19,7 +19,6 @@ export interface ReservationBlockChunkProps {
     onMouseLeave?: () => void;
 }
 
-// TODO make focusable
 const ReservationBlockChunk: React.FC<ReservationBlockChunkProps> = (props) => {
     const [end, setEnd] = useState<Dayjs>(dayjs());
     const {
@@ -37,7 +36,6 @@ const ReservationBlockChunk: React.FC<ReservationBlockChunkProps> = (props) => {
             const displayTime = parseHourDate(time);
             const selected = isBlockSelected(time, selectedInterval, hoveredEnd);
             const cloned = time.clone();
-
             elements.push(
                 <td
                     onMouseEnter={() => onMouseEnter && onMouseEnter(start, end, cloned)}
@@ -47,6 +45,16 @@ const ReservationBlockChunk: React.FC<ReservationBlockChunkProps> = (props) => {
                     colSpan={2}
                     className={joinClassNames(['block', selected ? 'block-selected' : null])}
                 >
+                    <button
+                        onFocus={() => onMouseEnter && onMouseEnter(start, end, cloned)}
+                        onBlur={() => onMouseLeave}
+                        type="button"
+                        className="block-btn"
+                    >
+                        <span className="block-btn-text">
+                            {displayTime}
+                        </span>
+                    </button>
                     <div className="block-overlay">
                         {displayTime}
                         <div className="block-overlay-arrow" />

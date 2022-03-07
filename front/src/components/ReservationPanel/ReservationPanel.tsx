@@ -134,6 +134,11 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         setReservationsPerRoom(newReservationsPerRoom);
     }, [rooms, reservations]);
 
+    useEffect(() => {
+        setSelectedBlocks({});
+        setValidationErrors({});
+    }, [day]);
+
     const removeValidationErrors = useCallback((error: ReservationValidationError | ReservationValidationError[] | 'all', roomId: Id) => {
         const errorsCopy = cloneDeep(validationErrors);
 

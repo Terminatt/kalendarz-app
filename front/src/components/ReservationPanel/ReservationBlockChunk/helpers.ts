@@ -2,6 +2,10 @@ import { Dayjs } from 'dayjs';
 import { TimeIntervalWithRoom } from '../ReservationPanel';
 
 export function isBlockSelected(current: Dayjs, selectedInterval?: TimeIntervalWithRoom, hovered?: Dayjs): boolean {
+    if (current.isSame(hovered)) {
+        return true;
+    }
+
     if (selectedInterval?.start?.isBefore(current) && selectedInterval?.end?.isAfter(current)) {
         return true;
     }
