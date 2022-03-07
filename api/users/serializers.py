@@ -7,7 +7,6 @@ from django.contrib.auth.models import Group
 from constants import GROUPS
 from rest_framework.validators import UniqueValidator
 
-
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.CharField()
 
