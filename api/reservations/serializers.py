@@ -3,7 +3,6 @@ from users.serializers import UserSerializer
 from users.models import User
 from reservations.models import Reservation
 
-
 class ReservationSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(default=serializers.CurrentUserDefault(), queryset=User.objects.all())
 

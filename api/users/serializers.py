@@ -30,11 +30,9 @@ class UserSerializer(serializers.ModelSerializer):
 
         return email
 
-
     def validate_password(self, pswd):
         CustomUserValidation().validate_password(password=pswd)
         return pswd
-
     class Meta:
         model = User
         fields = ['id', 'first_name', 'last_name',

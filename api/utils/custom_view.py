@@ -6,7 +6,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from utils.response_error import ErrorType, get_error_dict
 
-
 acl_matrix = json.load(open("acl/acl.json"))
 
 class CustomModelViewSet(ModelViewSet):
@@ -95,7 +94,6 @@ class CustomModelViewSet(ModelViewSet):
         many = False
         if self.create_many:
             many = isinstance(request.data, list)
-
 
         serializer = self.get_serializer(data=request.data, many=many)
         serializer.is_valid(raise_exception=True)

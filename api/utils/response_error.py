@@ -13,6 +13,5 @@ class ErrorType():
   RELATED_OBJECT = 'RELATED_OBJECT'
   NEGATIVE_NUMBER = 'NEGATIVE_NUMBER'
   
-
 def get_error_dict(errorType, msg):
   return {'type': errorType, 'message': msg}

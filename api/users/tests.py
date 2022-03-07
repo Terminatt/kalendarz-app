@@ -6,7 +6,6 @@ from rest_framework import status
 from users.models import User
 from constants import GROUPS
 from rest_framework.authtoken.models import Token
-import json
 
 class UserTests(APITestCase):
     token = None
