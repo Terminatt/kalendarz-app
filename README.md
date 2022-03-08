@@ -20,9 +20,9 @@ The project follows commit lint convention for commit names. To view full list o
 - Admin Panel for managing Room Types and Rooms
 - User registration system
 - Authentication based on expiring tokens
+- Reservation panel
 
 ## Currently under development
-- Reservation panel (95% finished)
 - User management panel for Admin
 - User management panel for logged in user
 - My Reservations panel for logged in user
