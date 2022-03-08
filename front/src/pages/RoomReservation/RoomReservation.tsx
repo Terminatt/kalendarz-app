@@ -1,4 +1,5 @@
 import ReservationPanel, { ReservationInterval } from '@components/ReservationPanel/ReservationPanel';
+import useAdmin from '@hooks/useAdmin';
 import useQuery from '@hooks/useQuery';
 import { RootState } from '@store/index';
 import { createReservation, getReservations } from '@store/reservations/asyncActions';
@@ -17,6 +18,7 @@ const RoomReservation: React.FC = () => {
     const day = dayjs(query.get('day'));
     const { rooms, reservation } = useSelector((state: RootState) => state);
     const dispatch = useDispatch();
+    const isAdmin = useAdmin();
 
     const getReservationsList = useCallback((newDay: Dayjs) => {
         dispatch(getReservations({
@@ -54,10 +56,23 @@ const RoomReservation: React.FC = () => {
         })));
     }, []);
 
+    const getDescription = useCallback(() => (isAdmin ? (
+        <span>
+            Brak stworzonych pokoji, aby stworzyć pokój przejdź
+            <a href="/admin-zone/rooms"> tutaj</a>
+            .
+        </span>
+    ) : (
+        <span>
+            Chwilowo administracja pracuje nad wypełnieniem danych dotyczączych pokoji. Wróć później.
+        </span>
+    )), [isAdmin]);
+
     return (
         <div className="room-reservation">
             <div className="room-reservation-content">
                 <ReservationPanel
+                    description={getDescription()}
                     timeBlockContainerClassName="room-reservation-content-timeblocks"
                     rooms={rooms.data.results}
                     reservations={reservation.hashMapData}

@@ -1,7 +1,7 @@
 @import '~styles/variables.less';
 @import '~styles/mixins.less';
 
-.reservation-panel {
+.reservation-panel {    
     &-divider.ant-divider-horizontal.ant-divider-with-text.huge-divider {
         margin: 0;
     }
@@ -12,14 +12,19 @@
     }
 
     &-container {
-        .full-size();
+        min-height: @panel-height-small;
         background-color: @primary-bg;
         padding: @padding-small;
         border-radius: @border-radius-regular;
         box-shadow: @box-shadow-mild;
+        position: relative;
+        &-empty {
+            .absolute-center();
+        }
+
         &-table {
             overflow: auto;
-            max-height: 500px;
+            max-height: 800px;
         }
         
         &-summary {

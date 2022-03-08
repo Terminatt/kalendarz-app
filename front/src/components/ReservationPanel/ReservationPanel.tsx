@@ -1,6 +1,6 @@
 import HugeDivider from '@components/HugeDivider/HugeDivider';
 import { DAY_NAMES_FULL, TIME_BLOCK_MINUTES, WORKING_HOURS } from '@constants/constants';
-import { Id } from '@generics/generics';
+import { GenericReactContent, Id } from '@generics/generics';
 import { Room } from '@store/rooms/types';
 import {
     convertToBaseTen,
@@ -13,6 +13,7 @@ import SwitcherLayout from '@components/Switcher/SwitcherLayout/SwitcherLayout';
 import { ReservationHashMap, ReservationWithParsedDate } from '@store/reservations/types';
 import { cloneDeep } from 'lodash';
 import { Alert } from 'antd';
+import CustomEmpty from '@components/CustomEmpty/CustomEmpty';
 import ReservationBlockChunk from './ReservationBlockChunk/ReservationBlockChunk';
 import { getDayReservationRanges } from './helpers';
 import ReservationSummary from './ReservationSummary/ReservationSummary';
@@ -29,6 +30,7 @@ export interface ReservationPanelProps {
     className?: string;
     timeBlockContainerClassName?: string;
     rooms: Room[];
+    description?: GenericReactContent;
     reservations: ReservationHashMap;
     onReserve?: (intervals: ReservationInterval[], cb?: () => void) => void;
     onLeftSwitcherClick?: () => void;
@@ -67,7 +69,7 @@ export enum ReservationValidationError {
 
 const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
     const {
-        day, className, timeBlockContainerClassName, rooms, reservations, onReserve, onLeftSwitcherClick, onRightSwitcherClick,
+        day, className, timeBlockContainerClassName, reservations, description, rooms, onReserve, onLeftSwitcherClick, onRightSwitcherClick,
     } = props;
     const [reservationsPerRoom, setReservationsPerRoom] = useState<ReservationsPerRoom>({});
     const [selectedBlocks, setSelectedBlocks] = useState<BlocksHashMap<TimeIntervalWithRoom>>({});
@@ -352,44 +354,50 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                         description="Ten dzień już minął, rezerwacje nie są już możliwe."
                     />
                 ) : null}
-                <div className="reservation-panel-container-table">
-                    <table className="block-table">
-                        <colgroup>
-                            <col span={8} />
-                            <col span={8} />
-                            {WORKING_HOURS.map((el) => (
-                                <col key={el} span={8} />
-                            ))}
-                        </colgroup>
-                        <thead>
-                            <tr className="block-table-row">
-                                <th colSpan={8} className="block-table-row-col block-table-row-header">Nazwa sali</th>
-                                <th colSpan={8} className="block-table-row-col block-table-row-header block-table-row-left">Liczba miejsc</th>
+                {rooms.length === 0 ? (
+                    <div className="reservation-panel-container-empty">
+                        <CustomEmpty description={description} />
+                    </div>
+                ) : (
+                    <div className="reservation-panel-container-table">
+                        <table className="block-table">
+                            <colgroup>
+                                <col span={8} />
+                                <col span={8} />
                                 {WORKING_HOURS.map((el) => (
-                                    <th colSpan={8} key={el} className="block-table-row-col block-table-row-header">
-                                        {el}
-                                        :00
-                                    </th>
+                                    <col key={el} span={8} />
                                 ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {rooms.map((room) => (
-                                <tr key={room.id} className="block-table-row block-table-row-room">
-                                    <th colSpan={8} style={{ backgroundColor: room.type.color }} className="block-table-row-col block-table-row-header">{room.name}</th>
-                                    <th
-                                        colSpan={8}
-                                        style={{ backgroundColor: room.type.color }}
-                                        className="block-table-row-col block-table-row-header block-table-row-left"
-                                    >
-                                        {room.capacity}
-                                    </th>
-                                    {reservationsPerRoom[room.id] ? renderBlocksWithReservation(room) : renderBlocks(room)}
+                            </colgroup>
+                            <thead>
+                                <tr className="block-table-row">
+                                    <th colSpan={8} className="block-table-row-col block-table-row-header">Nazwa sali</th>
+                                    <th colSpan={8} className="block-table-row-col block-table-row-header block-table-row-left">Liczba miejsc</th>
+                                    {WORKING_HOURS.map((el) => (
+                                        <th colSpan={8} key={el} className="block-table-row-col block-table-row-header">
+                                            {el}
+                                            :00
+                                        </th>
+                                    ))}
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                {rooms.map((room) => (
+                                    <tr key={room.id} className="block-table-row block-table-row-room">
+                                        <th colSpan={8} style={{ backgroundColor: room.type.color }} className="block-table-row-col block-table-row-header">{room.name}</th>
+                                        <th
+                                            colSpan={8}
+                                            style={{ backgroundColor: room.type.color }}
+                                            className="block-table-row-col block-table-row-header block-table-row-left"
+                                        >
+                                            {room.capacity}
+                                        </th>
+                                        {reservationsPerRoom[room.id] ? renderBlocksWithReservation(room) : renderBlocks(room)}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
                 {selectedEntries.length !== 0 ? (
                     <div className="reservation-panel-container-summary">
                         <ReservationSummary
