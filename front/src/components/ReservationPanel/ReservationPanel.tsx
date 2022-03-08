@@ -345,6 +345,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                 </SwitcherLayout>
             </div>
             <div className={joinClassNames(['reservation-panel-container', timeBlockContainerClassName])}>
+                <h2>Panel rezerwacji</h2>
                 {isPast ? (
                     <Alert
                         className="reservation-panel-container-past"
