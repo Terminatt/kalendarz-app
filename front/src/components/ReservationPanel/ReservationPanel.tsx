@@ -204,8 +204,8 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
     }, [selectedBlocks, validationErrors, removeValidationErrors]);
 
     const onHoverBlock = useCallback((startLimit: Dayjs, endLimit: Dayjs, hovered: Dayjs, room: Room) => {
-        const copy = cloneDeep(hoveredBlocks);
-        const hoveredBlock = copy[room.id];
+        const copy: BlocksHashMap<TimeInterval> = {};
+        const hoveredBlock = hoveredBlocks[room.id];
         if (hoveredBlock?.startLimit.isAfter(hovered) || hoveredBlock?.endLimit.isBefore(hovered)) {
             return;
         }
