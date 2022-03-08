@@ -74,7 +74,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
     const [hoveredBlocks, setHoveredBlocks] = useState<BlocksHashMap<TimeInterval>>({});
     const [validationErrors, setValidationErrors] = useState<ReservationErrors>({});
     const selectedEntries = getEntries(selectedBlocks);
-    const isPast = day.isBefore(dayjs());
+    const isPast = day.isBefore(dayjs().add(-1, 'day'));
 
     const prepareData = useCallback((room: Room): ReservationRange[] | null => {
         const roomReservation = reservations[room.id];
