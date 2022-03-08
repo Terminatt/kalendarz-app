@@ -7,6 +7,6 @@ class Reservation(models.Model):
     start = models.DateTimeField()
     end = models.DateTimeField()
     room = models.ForeignKey(Room, on_delete=models.PROTECT)
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     class Meta:
         ordering = ['created']
