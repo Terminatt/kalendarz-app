@@ -1,8 +1,8 @@
-import { BaseItem, BaseState, ValidationErrorItem } from '@generics/generics';
+import { BaseDataState, BaseItem, ValidationErrorItem } from '@generics/generics';
 
-export interface UserState extends BaseState {
+export interface UserState<T extends BaseItem> extends BaseDataState<T> {
   loadingScreen: boolean;
-  data: User | null;
+  currentUser: T | null
 }
 
 export interface User extends BaseItem {
@@ -18,6 +18,10 @@ export interface UserRegisterErrorResponse {
   email: ValidationErrorItem;
   username: ValidationErrorItem;
   password: ValidationErrorItem;
+}
+
+export interface UserErrorResponse {
+  [key: string]: ValidationErrorItem;
 }
 
 export enum Group {

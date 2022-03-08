@@ -5,20 +5,24 @@ import {
 import { createCustomSlice, DefaultMatchers } from '@utils/store';
 import { notification } from 'antd';
 import {
-    authenticate, login, logout, registerAccount,
+    authenticate, deleteUser, getUsers, login, logout, registerAccount, updateUser,
 } from './asyncActions';
-import { UserState } from './types';
+import { User, UserState } from './types';
 
-const initialState: UserState = {
+const initialState: UserState<User> = {
     isLoading: false,
     loadingScreen: false,
-    data: null,
+    data: {
+        count: 0,
+        results: [],
+    },
+    currentUser: null,
 };
 
 const matchers: DefaultMatchers = {
-    pending: isPending(registerAccount, login, logout),
-    fulfilled: isFulfilled(registerAccount, login, logout),
-    rejected: isRejected(registerAccount, logout),
+    pending: isPending(registerAccount, login, logout, getUsers, updateUser, deleteUser),
+    fulfilled: isFulfilled(registerAccount, login, logout, getUsers, updateUser, deleteUser),
+    rejected: isRejected(registerAccount, logout, getUsers, updateUser, deleteUser),
 };
 
 export const userSlice = createCustomSlice(
@@ -31,10 +35,10 @@ export const userSlice = createCustomSlice(
     (builder) => {
         builder
             .addCase(logout.fulfilled, (state) => {
-                state.data = null;
+                state.currentUser = null;
             })
             .addCase(login.fulfilled, (state, res) => {
-                state.data = res.payload.data;
+                state.currentUser = res.payload.data;
             })
             .addCase(login.rejected, (state, error) => {
                 state.isLoading = false;
@@ -54,10 +58,13 @@ export const userSlice = createCustomSlice(
             })
             .addCase(authenticate.fulfilled, (state, res) => {
                 state.loadingScreen = false;
-                state.data = res.payload.data;
+                state.currentUser = res.payload.data;
             })
             .addCase(authenticate.rejected, (state) => {
                 state.loadingScreen = false;
+            })
+            .addCase(getUsers.fulfilled, (state, res) => {
+                state.data = res.payload.data;
             });
     },
 );

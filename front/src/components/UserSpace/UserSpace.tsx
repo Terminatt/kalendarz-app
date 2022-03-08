@@ -13,7 +13,7 @@ import './UserSpace.less';
 
 const UserSpace: React.FC = () => {
     const user = useSelector((state: RootState) => state.user);
-    const { data, isLoading } = user;
+    const { currentUser, isLoading } = user;
     const isLogged = useLogged();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -31,9 +31,9 @@ const UserSpace: React.FC = () => {
 
     return isLogged ? (
         <div className="user-space">
-            {data?.firstName}
+            {currentUser?.firstName}
             &nbsp;
-            {data?.lastName}
+            {currentUser?.lastName}
             <CustomButton className="user-space-logout" loading={isLoading} disabled={isLoading} onClick={onLogout}>Wyloguj się</CustomButton>
         </div>
     ) : (

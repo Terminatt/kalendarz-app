@@ -23,6 +23,6 @@ export const updateRoom = createCustomAsyncThunk<RoomErrorResponse, RoomWithType
 
 export const deleteRoom = createCustomAsyncThunk<void, Id>('room/delete', {
     request: (id) => axios.delete(`rooms/${id}/`),
-    successMessage: 'Pomyślnie usunięto pokoju',
+    successMessage: 'Pomyślnie usunięto pokój',
     errorMessage: 'Wystąpił błąd podczas usuwania pokoju',
 });

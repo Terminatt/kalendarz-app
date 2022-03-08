@@ -1,9 +1,12 @@
 import axios from '@axios/axios';
 import { LoginFormValues } from '@components/Modals/SigningModal/LoginForm/LoginForm';
 import { RegisterFormValues } from '@components/Modals/SigningModal/RegisterForm/RegisterForm';
-import { ErrorType } from '@generics/generics';
+import {
+    ErrorType, Id, ListRequestPayload, PaginatedResults,
+} from '@generics/generics';
+import { getList } from '@utils/requests';
 import { createCustomAsyncThunk } from '@utils/store';
-import { User, UserRegisterErrorResponse } from './types';
+import { User, UserErrorResponse, UserRegisterErrorResponse } from './types';
 
 type RegisterAccountPayload = Omit<RegisterFormValues, 'repeatPassword'>;
 export const registerAccount = createCustomAsyncThunk<UserRegisterErrorResponse, RegisterAccountPayload>('user/registerAccount', {
@@ -25,4 +28,21 @@ export const logout = createCustomAsyncThunk<ErrorType, LoginFormValues, User>('
 
 export const authenticate = createCustomAsyncThunk<ErrorType, void, User>('user/authenticate', {
     request: () => axios.post('authenticate/'),
+});
+
+export const getUsers = createCustomAsyncThunk<void, ListRequestPayload<User> | undefined, PaginatedResults<User>>('user/get', {
+    request: (payload) => getList('users/', payload?.page, payload?.filters),
+    errorMessage: 'Wystąpił błąd podczas pobierania użytkowników',
+});
+
+export const updateUser = createCustomAsyncThunk<UserErrorResponse, User>('user/patch', {
+    request: ({ id, ...payload }) => axios.patch(`users/${id}`, payload),
+    successMessage: 'Zaktualizowano wybranego użytkownika',
+    errorMessage: 'Wystąpił błąd podczas aktualizacji użytkownika',
+});
+
+export const deleteUser = createCustomAsyncThunk<void, Id>('user/delete', {
+    request: (id) => axios.delete(`users/${id}`),
+    successMessage: 'Pomyślnie usunięto użytkownika',
+    errorMessage: 'Wystąpił błąd podczas usuwania użytkownika',
 });

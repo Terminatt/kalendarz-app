@@ -3,9 +3,9 @@ import { Group } from '@store/user/types';
 import { useSelector } from 'react-redux';
 
 const useAdmin = (): boolean => {
-    const user = useSelector((state: RootState) => state.user.data);
+    const { currentUser } = useSelector((state: RootState) => state.user);
 
-    return user?.groups === Group.ADMIN;
+    return currentUser?.groups === Group.ADMIN;
 };
 
 export default useAdmin;
