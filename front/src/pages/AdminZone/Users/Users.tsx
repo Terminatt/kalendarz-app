@@ -107,7 +107,6 @@ const Users: React.FC = () => {
     }, []);
 
     const onPunishementPanelClick = useCallback((item: User, e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-        console.log(selected?.id, item.id);
         if (item.id === selected?.id) {
             stopBubbling(e);
         }
