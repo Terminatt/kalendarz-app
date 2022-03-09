@@ -108,3 +108,7 @@ export function convertToBaseTen(textValue: string): number {
 export function getRandomItem(colors: string[]): string {
     return colors[Math.floor(Math.random() * colors.length)];
 }
+
+export function createPassword(firstName: string, lastName: string) {
+    return firstName.substring(0, 3) + lastName.substring(0.3);
+}

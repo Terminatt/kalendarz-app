@@ -12,8 +12,8 @@ export function getMinCharRule(min: number, message: string): Rule {
     return { min, message };
 }
 
-export function getEmailRule(message: string): Rule {
-    return { type: 'email', message };
+export function getEmailRule(): Rule {
+    return { type: 'email', message: 'To nie jest poprawny adres email' };
 }
 
 export function getRepeatPasswordRule(fieldName: string): Rule {

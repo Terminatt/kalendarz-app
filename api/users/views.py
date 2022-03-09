@@ -15,7 +15,7 @@ class UserViewSet(CustomModelViewSet):
     acl_name = "users"
     authentication_classes = [CustomExpiringToken]
     avoid_authentication = ['create']
-    
+    search_fields = ['name']
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

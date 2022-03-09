@@ -1,0 +1,37 @@
+@import '~styles/mixins.less';
+@import '~styles/variables.less';
+@import '~styles/breakpoints.less';
+
+.users {
+    .full-size();
+    .center-horizontally();
+  
+    &-content {
+      .editing-panel-content();
+  
+      &-item {
+        &-date {
+          color: @text-color-secondary;
+        }
+      }
+    }
+  }
+  
+  @media screen and (min-width: @w-xxl) {
+    .users {
+      align-items: center;
+  
+      &-content {
+        margin-top: 0;
+      }
+    }
+  }
+  
+  
+  @media screen and (min-width: @w-xxxl) {
+    .users {
+      &-content {
+        .editing-panel-content-big();
+      }
+    }
+  }

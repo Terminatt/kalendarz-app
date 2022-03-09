@@ -27,15 +27,6 @@ class CustomUserValidation():
     """
     Validator helpers for common fields
     """
-    def validate_email(self, email_field):
-        """
-        Validate email against email regex
-        
-        Args:
-            email_field: string containing email
-        """
-        if (re.fullmatch(EMAIL_REGEX, email_field) == None):
-            raise serializers.ValidationError(get_error_dict(errorType=ErrorType.EMAIL_INCORRECT, msg='Provided email is incorrect'))
 
     def __validate_with_message(self, validators, field):
         """
@@ -77,6 +68,10 @@ class CustomUserValidation():
             validators=custom_validators, field=password)
 
 class PositiveNumber:
-    def __call__(self, value):
+    def __call__ (self, value):
         if value <= 0:
             raise serializers.ValidationError(get_error_dict(errorType=ErrorType.NEGATIVE_NUMBER, msg='Provided number must be positive'))
+class ProperEmail:
+    def __call__ (self, value):
+        if (re.fullmatch(EMAIL_REGEX, value) == None):
+            raise serializers.ValidationError(get_error_dict(errorType=ErrorType.EMAIL_INCORRECT, msg='Provided email is incorrect'))

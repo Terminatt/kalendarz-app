@@ -38,16 +38,16 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
     return (
         <CustomForm formProps={{ form, onFinish }} isLoading={isLoading} primaryBtnText="Zaloguj się">
             <Form.Item
-                label="Nazwa użytkownika"
+                label="Podaj nazwę użytkownika"
                 name="username"
             >
-                <Input placeholder="Podaj nazwę użytkownika" />
+                <Input placeholder="Nazwa użytkownika" />
             </Form.Item>
             <Form.Item
-                label="Hasło"
+                label="Podaj hasło"
                 name="password"
             >
-                <Input type="password" placeholder="Podaj hasło" />
+                <Input type="password" placeholder="Hasło" />
             </Form.Item>
         </CustomForm>
     );

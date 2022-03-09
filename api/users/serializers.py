@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from utils.custom_validators import ProperEmail
 from utils.response_error import ErrorType, get_error_dict
 from utils.custom_validators import CustomUserValidation
 from users.models import User
@@ -21,14 +22,6 @@ class UserSerializer(serializers.ModelSerializer):
                 validated_data['password'])
         return super(UserSerializer, self).update(instance, validated_data)
 
-    def validate_email(self, email):
-        CustomUserValidation().validate_email(email_field=email)
-
-        if User.objects.filter(email__iexact=email).exists():
-            raise serializers.ValidationError(get_error_dict(errorType=ErrorType.EMAIL_TAKEN, msg='User with this email arleady exists'))
-
-        return email
-
     def validate_password(self, pswd):
         CustomUserValidation().validate_password(password=pswd)
         return pswd
@@ -39,6 +32,12 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'password': {'write_only': True},
             'groups': {'required': False},
+            'email': {
+                'validators': [
+                    ProperEmail(),
+                    UniqueValidator(queryset=User.objects.all(), message=get_error_dict(errorType=ErrorType.EMAIL_TAKEN, msg='User with this email arleady exists'))
+                ]
+            },
             'username': {
                 'validators': [
                     UniqueValidator(queryset=User.objects.all(), message=get_error_dict(errorType=ErrorType.USERNAME_TAKEN, msg='User with this username arleady exists'))

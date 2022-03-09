@@ -6,10 +6,10 @@ import {
 } from '@generics/generics';
 import { getList } from '@utils/requests';
 import { createCustomAsyncThunk } from '@utils/store';
-import { User, UserErrorResponse, UserRegisterErrorResponse } from './types';
+import { BaseUser, User, UserErrorResponse } from './types';
 
 type RegisterAccountPayload = Omit<RegisterFormValues, 'repeatPassword'>;
-export const registerAccount = createCustomAsyncThunk<UserRegisterErrorResponse, RegisterAccountPayload>('user/registerAccount', {
+export const registerAccount = createCustomAsyncThunk<UserErrorResponse, RegisterAccountPayload>('user/registerAccount', {
     request: (payload) => axios.post('users/', payload),
     successMessage: 'Twoje konto zostało utworzone, możesz się zalogować',
     errorMessage: 'Wystąpił błąd podczas tworzenia konta',
@@ -35,14 +35,14 @@ export const getUsers = createCustomAsyncThunk<void, ListRequestPayload<User> | 
     errorMessage: 'Wystąpił błąd podczas pobierania użytkowników',
 });
 
-export const updateUser = createCustomAsyncThunk<UserErrorResponse, User>('user/patch', {
-    request: ({ id, ...payload }) => axios.patch(`users/${id}`, payload),
+export const updateUser = createCustomAsyncThunk<UserErrorResponse, BaseUser>('user/patch', {
+    request: ({ id, ...payload }) => axios.patch(`users/${id}/`, payload),
     successMessage: 'Zaktualizowano wybranego użytkownika',
     errorMessage: 'Wystąpił błąd podczas aktualizacji użytkownika',
 });
 
 export const deleteUser = createCustomAsyncThunk<void, Id>('user/delete', {
-    request: (id) => axios.delete(`users/${id}`),
+    request: (id) => axios.delete(`users/${id}/`),
     successMessage: 'Pomyślnie usunięto użytkownika',
     errorMessage: 'Wystąpił błąd podczas usuwania użytkownika',
 });

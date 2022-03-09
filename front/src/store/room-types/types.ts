@@ -1,6 +1,7 @@
 import { BaseItem, ValidationErrorItem } from '@generics/generics';
 
 export interface BaseRoomType extends BaseItem {
+    name: string;
     color: string;
 }
 

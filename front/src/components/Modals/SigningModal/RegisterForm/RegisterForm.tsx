@@ -4,7 +4,7 @@ import CustomForm from '@components/CustomForm/CustomForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/index';
 import { registerAccount } from '@store/user/asyncActions';
-import { UserRegisterErrorResponse } from '@store/user/types';
+import { UserErrorResponse } from '@store/user/types';
 import {
     getEmailRule, getMaxCharRule, getMinCharRule, getNumericPasswordRule, getRepeatPasswordRule, getRequiredRule, getSpecialCharacterPasswordRule,
 } from '@utils/form';
@@ -29,7 +29,7 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
     const [form] = useForm<RegisterFormValues>();
     const { isLoading } = useSelector((state: RootState) => state.user);
     const dispatch = useDispatch();
-    const [errorResponse, setErrorResponse] = useState<null | UserRegisterErrorResponse>(null);
+    const [errorResponse, setErrorResponse] = useState<null | UserErrorResponse>(null);
 
     const onFinish = useCallback((values: RegisterFormValues) => {
         const payload = { ...values };
@@ -57,40 +57,40 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
         <CustomForm formProps={{ form, onFinish }} errorResponse={errorResponse} isLoading={isLoading} primaryBtnText="Zarejestruj się">
             <Form.Item
                 className="half-input"
-                label="Imię"
+                label="Podaj imię"
                 name="firstName"
                 rules={[getRequiredRule(), getMaxCharRule(24, 'Imię może mieć maksymalnie 24 znaki')]}
             >
-                <Input placeholder="Podaj imię" />
+                <Input placeholder="Imię" />
             </Form.Item>
             <Form.Item
                 className="half-input"
-                label="Nazwisko"
+                label="Podaj nazwisko"
                 name="lastName"
                 rules={[getRequiredRule(), getMaxCharRule(24, 'Nazwisko może mieć maksymalnie 24 znaki')]}
             >
-                <Input placeholder="Podaj nazwisko" />
+                <Input placeholder="Nazwisko" />
             </Form.Item>
             <Form.Item
-                label="Nazwa użytkownika"
+                label="Podaj nazwę użytkownika"
                 name="username"
                 rules={[getRequiredRule(), getMaxCharRule(24, 'Nazwa użytkownika może mieć maksymalnie 24 znaki')]}
             >
-                <Input placeholder="Podaj nazwę użytkownika" />
+                <Input placeholder="Nazwę użytkownika" />
             </Form.Item>
             <Form.Item
                 label="Email"
-                name="email"
+                name="Podaj email"
                 rules={[
                     getRequiredRule(),
                     getMaxCharRule(50, 'Adres email może mieć maksymalnie 50 znaków'),
-                    getEmailRule('To nie jest poprawny adres email'),
+                    getEmailRule(),
                 ]}
             >
-                <Input placeholder="Podaj email" />
+                <Input placeholder="Email" />
             </Form.Item>
             <Form.Item
-                label="Hasło"
+                label="Podaj hasło"
                 name="password"
                 rules={[
                     getRequiredRule(),
@@ -100,7 +100,7 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
                     getSpecialCharacterPasswordRule(),
                 ]}
             >
-                <Input type="password" placeholder="Podaj hasło" />
+                <Input type="password" placeholder="Hasło" />
             </Form.Item>
             <Form.Item
                 dependencies={['password']}

@@ -49,3 +49,5 @@ export const NUMBER_DECLINATION_MAP = {
 };
 
 export const BLOCK_COLORS = ['#019267', '#FFD365', '#5463FF', '#533E85', '#AD8B73', '#FFB72B', '#085E7D', '#BB6464', '#9C51E0'];
+
+export const ROLE_NAMES = ['Brak', 'Administrator', 'Zwykły użytkownik'];

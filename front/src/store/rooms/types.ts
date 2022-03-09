@@ -2,6 +2,7 @@ import { BaseItem, ValidationErrorItem } from '@generics/generics';
 import { RoomType } from '@store/room-types/types';
 
 export interface BaseRoom extends BaseItem {
+  name: string;
   floor: string;
   capacity: number;
 }

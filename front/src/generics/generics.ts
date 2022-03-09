@@ -13,8 +13,8 @@ export interface ListRequestPayload<T> {
 }
 
 export interface BaseItem {
+  [key: string]: any
   id: Id;
-  name: string;
 }
 
 export interface BaseState {
