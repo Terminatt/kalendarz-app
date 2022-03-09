@@ -18,7 +18,7 @@ import { useForm } from 'antd/lib/form/Form';
 import { AxiosError } from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import RoomItem from './components/RoomItem/RoomItem';
+import RoomItem from './RoomItem/RoomItem';
 
 import './Rooms.less';
 

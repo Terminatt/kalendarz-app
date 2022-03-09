@@ -1,4 +1,3 @@
-import ColoredBlock from '@components/ColoredBlock/ColoredBlock';
 import CustomList from '@components/CustomList/CustomList';
 import EditingPanel from '@components/EditingPanel/EditingPanel';
 import { DEBOUNCE_TIME, RequestErrorType } from '@constants/constants';
@@ -11,14 +10,15 @@ import { RoomType, RoomTypeErrorResponse } from '@store/room-types/types';
 import { getRooms } from '@store/rooms/asyncActions';
 import { clearRoomState } from '@store/rooms/slice';
 import { getMaxCharRule, getRequiredRule } from '@utils/form';
-import { debounce, parseDate } from '@utils/general';
+import { debounce } from '@utils/general';
 import { Form, Input } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { AxiosError } from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import RoomItem from '../Rooms/components/RoomItem/RoomItem';
+import RoomItem from '../Rooms/RoomItem/RoomItem';
+import RoomTypeItem from './RoomTypeItem/RoomTypeItem';
 
 import './RoomTypes.less';
 
@@ -128,17 +128,7 @@ const RoomTypes: React.FC = () => {
                     addEditBtn: true,
                     showSearch: true,
                     onSearchChange,
-                    renderContent: (item) => (
-                        <div className="room-types-content-item">
-                            <div className="room-types-content-item-name">{item.name}</div>
-                            <div className="room-types-content-item-date">
-                                {parseDate(item.created)}
-                            </div>
-                            <ColoredBlock className="room-types-content-item-color" bgColor={item.color}>
-                                {item.color}
-                            </ColoredBlock>
-                        </div>
-                    ),
+                    renderContent: (item) => (<RoomTypeItem item={item} />),
                 }}
                 twoModesFormProps={{
                     errorResponse,

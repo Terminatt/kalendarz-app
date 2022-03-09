@@ -7,16 +7,17 @@ import { useForm } from 'antd/es/form/Form';
 import { Form, Input } from 'antd';
 import { Group, User, UserErrorResponse } from '@store/user/types';
 import EditingPanel from '@components/EditingPanel/EditingPanel';
-import { createPassword, debounce, parseDate } from '@utils/general';
+import { createPassword, debounce } from '@utils/general';
 import { RootState } from '@store/index';
 import {
     getEmailRule, getMaxCharRule, getRequiredRule,
 } from '@utils/form';
 import { Id } from '@generics/generics';
 import { AxiosError } from 'axios';
-import { DEBOUNCE_TIME, ROLE_NAMES } from '@constants/constants';
+import { DEBOUNCE_TIME } from '@constants/constants';
 
 import './Users.less';
+import UserItem from './UserItem/UserItem';
 
 export interface UserFormValues {
     firstName: string;
@@ -93,33 +94,7 @@ const Users: React.FC = () => {
                     addEditBtn: true,
                     showSearch: true,
                     onSearchChange,
-                    renderContent: (item) => (
-                        <div className="users-content-item">
-                            <div className="users-content-item-name">
-                                {item.username}
-                            </div>
-                            <div>
-                                Email:
-                                {' '}
-                                {item.email}
-                            </div>
-                            <div>
-                                Rola:
-                                {' '}
-                                {ROLE_NAMES[item.groups]}
-                            </div>
-                            <div>
-                                Dane:
-                                {' '}
-                                {item.firstName}
-                                {' '}
-                                {item.lastName}
-                            </div>
-                            <div className="users-content-item-date">
-                                {parseDate(item.created)}
-                            </div>
-                        </div>
-                    ),
+                    renderContent: (item) => (<UserItem item={item} />),
                 }}
                 twoModesFormProps={{
                     errorResponse,
