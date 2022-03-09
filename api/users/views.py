@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.viewsets import ViewSet
 from utils.custom_expiring_token import CustomExpiringToken
+from rest_framework import filters
 
 class UserViewSet(CustomModelViewSet):
     queryset = User.objects.all()
@@ -15,7 +16,8 @@ class UserViewSet(CustomModelViewSet):
     acl_name = "users"
     authentication_classes = [CustomExpiringToken]
     avoid_authentication = ['create']
-    search_fields = ['name']
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['username', 'email']
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

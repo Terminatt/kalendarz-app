@@ -87,7 +87,7 @@ const Users: React.FC = () => {
                 listWithSearchProps={{
                     title: 'Użytkownicy',
                     searchLabel: 'Wyszukaj użytkownika',
-                    placeholder: 'Nazwa użytkownika',
+                    placeholder: 'Nazwa użytkownika lub adres email',
                     total: data.count,
                     isLoading,
                     addEditBtn: true,
