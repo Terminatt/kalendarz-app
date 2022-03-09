@@ -12,7 +12,9 @@ const RoomItem: React.FC<RoomItemProps> = (props) => {
     const { item } = props;
     return (
         <div className="room-item">
-            <div className="room-item-name">{item.name}</div>
+            <h3 className="room-item-name">
+                {item.name}
+            </h3>
             <div>
                 Ilość miejsc:
                 {' '}

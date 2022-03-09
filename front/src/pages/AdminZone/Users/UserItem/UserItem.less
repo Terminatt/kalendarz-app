@@ -1,7 +1,13 @@
 @import '~styles/variables.less';
+@import '~styles/mixins.less';
 
 .user-item {
+
     &-name {
+       .header-no-margin();
+    }
+    
+    &-name, &-permabanned {
         font-weight: bold;
     }
 

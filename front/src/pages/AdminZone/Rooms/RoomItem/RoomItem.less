@@ -1,8 +1,9 @@
 @import '~styles/variables.less';
+@import '~styles/mixins.less';
 
 .room-item {
     &-name {
-      font-weight: bold;
+      .header-no-margin();
     }
 
     &-date {

@@ -13,6 +13,8 @@ export interface BaseUser extends BaseItem {
   email: string;
   username: string;
   groups: Group;
+  permaBanned?: boolean;
+  bannedTill?: string | null;
 }
 export interface User extends BaseUser {
   created: string;

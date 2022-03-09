@@ -14,7 +14,9 @@ const RoomTypeItem: React.FC<RoomTypeItemProps> = (props) => {
 
     return (
         <div className="room-type-item">
-            <div className="room-type-item-name">{item.name}</div>
+            <h3 className="room-type-item-name">
+                {item.name}
+            </h3>
             <div className="room-type-item-date">
                 {parseDate(item.created)}
             </div>
