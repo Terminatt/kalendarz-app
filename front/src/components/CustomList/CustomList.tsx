@@ -28,6 +28,7 @@ export interface ListWithSearchProps<T> {
     pageNumber?: number;
     addEditBtn?: boolean;
     showSearch?: boolean;
+    getActionBtns?: (item: T) => React.ReactNode[];
     renderContent: (item: T, index: number) => React.ReactNode;
     onEdit?: (item: T) => void;
     onDelete?: (item: T) => void;
@@ -44,6 +45,7 @@ const CustomList = <T extends BaseItem, >(props: ListWithSearchProps<T>): React.
         dataSource, renderContent, onEdit, onDelete,
         title, placeholder, onSearch, onSearchChange, searchLabel, onSelect,
         isLoading, selected, total, onPageChange, pageNumber, addEditBtn, showSearch, subtitle,
+        getActionBtns,
     } = props;
     const selectedListItem = isDefined(selected) ? selected : selectedInternal;
     const currentPage = isDefined(pageNumber) ? pageNumber : currentPageInternal;
@@ -70,7 +72,6 @@ const CustomList = <T extends BaseItem, >(props: ListWithSearchProps<T>): React.
         }
         onPageChange(page);
     }, [onPageChange]);
-
     return (
         <div className="custom-list">
             {title && <h2 className="custom-list-header">{title}</h2>}
@@ -94,6 +95,7 @@ const CustomList = <T extends BaseItem, >(props: ListWithSearchProps<T>): React.
                             onClick={() => onListItemClick(item)}
                             actions={[
                                 addEditBtn && <CustomButton onClick={() => onEdit && onEdit(item)} icon={<EditOutlined />} size="small" key="edit">Edytuj</CustomButton>,
+                                getActionBtns ? getActionBtns(item) : null,
                                 onDelete && (
                                     <DeletePopconfirm
                                         title="Czy na pewno chcesz usunąć ten element?"

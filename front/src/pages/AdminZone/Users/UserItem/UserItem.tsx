@@ -12,7 +12,7 @@ export interface UserItemProps {
 
 const UserItem: React.FC<UserItemProps> = (props) => {
     const { item } = props;
-    const wasBannedInPast = dayjs(item.bannedTill).isAfter(dayjs());
+    const wasBannedInPast = dayjs(item.bannedTill).isBefore(dayjs());
 
     return (
         <div className="user-item">
