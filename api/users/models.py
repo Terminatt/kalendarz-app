@@ -8,6 +8,9 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=24)
     password = models.CharField(max_length=24)
     created = models.DateTimeField(auto_now_add=True)
+    perma_banned = models.BooleanField(default=False)
+    banned_till = models.DateTimeField(null=True)
+
 
     REQUIRED_FIELDS = ['groups_id', 'email']
     class Meta:
