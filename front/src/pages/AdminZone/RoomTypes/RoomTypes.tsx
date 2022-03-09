@@ -130,7 +130,7 @@ const RoomTypes: React.FC = () => {
                     onSearchChange,
                     renderContent: (item) => (
                         <div className="room-types-content-item">
-                            <div>{item.name}</div>
+                            <div className="room-types-content-item-name">{item.name}</div>
                             <div className="room-types-content-item-date">
                                 {parseDate(item.created)}
                             </div>

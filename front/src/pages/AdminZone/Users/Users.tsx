@@ -95,7 +95,7 @@ const Users: React.FC = () => {
                     onSearchChange,
                     renderContent: (item) => (
                         <div className="users-content-item">
-                            <div>
+                            <div className="users-content-item-name">
                                 {item.username}
                             </div>
                             <div>
