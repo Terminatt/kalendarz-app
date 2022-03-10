@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ColoredBlock Component matches the snapshot 1`] = `
+<div
+  className="colored-block"
+  style={
+    Object {
+      "backgroundColor": "#019267",
+    }
+  }
+>
+  Test
+</div>
+`;
