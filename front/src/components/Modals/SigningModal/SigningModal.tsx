@@ -11,6 +11,7 @@ import LoginForm from './LoginForm/LoginForm';
 
 import './SigningModal.less';
 
+// TODO needs E2E testing with cypress due to transitions
 const SigningModal: React.FC = () => {
     const modal = useSelector((state: RootState) => state.modal);
     const visible = useModalVisibility([ModalType.LOGIN_MODAL, ModalType.REGISTER_MODAL]);
