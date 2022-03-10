@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Custom Menu Component matches the snapshot 1`] = `
+Array [
+  <ul
+    className="ant-menu ant-menu-root ant-menu-vertical ant-menu-light custom-menu"
+    data-menu-list={true}
+    onKeyDown={[Function]}
+    role="menu"
+    tabIndex={0}
+  >
+    <li
+      className="ant-menu-item ant-menu-item-only-child"
+      data-menu-id={null}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      role="menuitem"
+      style={Object {}}
+      tabIndex={-1}
+    >
+      <span
+        className="ant-menu-title-content"
+      >
+        Test
+      </span>
+    </li>
+  </ul>,
+  <div
+    aria-hidden={true}
+    style={
+      Object {
+        "display": "none",
+      }
+    }
+  />,
+]
+`;
