@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Calendar Item Types Another month day today matches the snapshot 1`] = `
+<button
+  className="calendar-item calendar-item-another-month-day"
+  disabled={true}
+  onClick={[Function]}
+  type="button"
+>
+  <div>
+    01
+  </div>
+  <div>
+    Nd
+  </div>
+</button>
+`;
+
+exports[`Calendar Item Types Before today matches the snapshot 1`] = `
+<button
+  className="calendar-item calendar-item-before-today"
+  disabled={false}
+  onClick={[Function]}
+  type="button"
+>
+  <div>
+    01
+  </div>
+  <div>
+    Nd
+  </div>
+</button>
+`;
+
+exports[`Calendar Item Types Dayoff matches the snapshot 1`] = `
+<button
+  className="calendar-item calendar-item-dayoff"
+  disabled={true}
+  onClick={[Function]}
+  type="button"
+>
+  <div>
+    01
+  </div>
+  <div>
+    Nd
+  </div>
+</button>
+`;
+
+exports[`Calendar Item Types Normal matches the snapshot 1`] = `
+<button
+  className="calendar-item calendar-item-normal"
+  disabled={false}
+  onClick={[Function]}
+  type="button"
+>
+  <div>
+    01
+  </div>
+  <div>
+    Nd
+  </div>
+</button>
+`;
+
+exports[`Calendar Item Types Today matches the snapshot 1`] = `
+<button
+  className="calendar-item calendar-item-today"
+  disabled={false}
+  onClick={[Function]}
+  type="button"
+>
+  <div>
+    01
+  </div>
+  <div>
+    Nd
+  </div>
+</button>
+`;

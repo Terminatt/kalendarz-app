@@ -512,7 +512,7 @@ exports[`App Component matches the snapshot 1`] = `
                   </button>
                   <button
                     className="calendar-item calendar-item-dayoff"
-                    disabled={false}
+                    disabled={true}
                     onClick={[Function]}
                     type="button"
                   >
@@ -525,7 +525,7 @@ exports[`App Component matches the snapshot 1`] = `
                   </button>
                   <button
                     className="calendar-item calendar-item-dayoff"
-                    disabled={false}
+                    disabled={true}
                     onClick={[Function]}
                     type="button"
                   >
