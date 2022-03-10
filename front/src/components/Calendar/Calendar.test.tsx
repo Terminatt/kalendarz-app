@@ -37,7 +37,7 @@ describe('Calendar Component', () => {
             <Calendar onDayClick={onDayClick} />
         );
         fireEvent.click(screen.getByText(/01/i));
-        expect(onDayClick).toBeCalled();
+        expect(onDayClick).toBeCalledTimes(1);
     });
 });
 

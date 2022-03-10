@@ -78,7 +78,7 @@ const CustomList = <T extends BaseItem, >(props: ListWithSearchProps<T>): React.
             {subtitle && <span className="custom-list-subheader">{subtitle}</span>}
             {showSearch && (
                 <Form.Item className="custom-list-input" label={searchLabel} {...FORM_LAYOUT}>
-                    <Search onChange={onSearchChange} onSearch={onSearch} placeholder={placeholder} allowClear />
+                    <Search data-testid="search" onChange={onSearchChange} onSearch={onSearch} placeholder={placeholder} allowClear />
                 </Form.Item>
             )}
             <div className={joinClassNames(['custom-list-container', !showSearch ? 'custom-list-alone' : null])}>
