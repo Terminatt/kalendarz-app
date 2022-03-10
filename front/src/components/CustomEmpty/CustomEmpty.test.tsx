@@ -4,7 +4,6 @@ import renderer from 'react-test-renderer';
 import CustomEmpty from './CustomEmpty';
 
 describe('Custom Empty Component', () => {
-    
     it('matches the snapshot', () => {
         const tree = renderer
             .create(

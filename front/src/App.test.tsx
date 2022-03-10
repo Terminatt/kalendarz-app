@@ -12,6 +12,10 @@ describe('App Component', () => {
         matchMedia();
         MockDate.set('2022-02-20');
     });
+
+    afterEach(() => {
+        MockDate.reset();
+    })
     
     it('matches the snapshot', () => {
         const tree = renderer

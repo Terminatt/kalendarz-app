@@ -15,6 +15,10 @@ describe('Calendar Component', () => {
     beforeEach(() => {
         MockDate.set(date);
     });
+
+    afterEach(() => {
+        MockDate.reset();
+    })
     
     it('matches the snapshot', () => {
         const tree = renderer
@@ -86,6 +90,14 @@ describe('Calendar Component helpers', () => {
     });
 
     describe('evaluateCurrentMonthDayType', () => {
+        beforeEach(() => {
+            MockDate.set(date);
+        });
+    
+        afterEach(() => {
+            MockDate.reset();
+        })
+
         it('returns normal day', () => {
             const type = evaluateCurrentMonthDayType(dayjs(date).add(1, 'day'));
 

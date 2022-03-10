@@ -5,9 +5,6 @@ import { DAY_NAMES } from '@constants/constants';
 import { fireEvent, render } from '@testing-library/react';
 
 describe('Calendar Item Types', () => {
-    beforeEach(() => {
-    });
-    
     it('Normal matches the snapshot', () => {
         const tree = renderer
             .create(
