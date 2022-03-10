@@ -24,6 +24,7 @@ describe('Custom List Component', () => {
             }
         ]
     })
+    
     beforeEach(() => {
         matchMedia();
     })
