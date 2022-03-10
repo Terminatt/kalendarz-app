@@ -4,7 +4,8 @@ import { matchMedia } from '@utils/testing';
 import CustomForm from './CustomForm';
 import { Form, Input } from 'antd';
 import { render } from '@testing-library/react';
-import { RequestErrorType } from '@constants/constants';
+import { RequestErrorType, VALIDATION_ERROR_MESSAGES } from '@constants/constants';
+import { parseErrorResponse } from './helpers';
 
 describe('Custom Form Component', () => {
     beforeEach(() => {
@@ -60,3 +61,22 @@ describe('Custom Form Component', () => {
 
     });
 });
+
+describe('Custom Form helpers', () => {
+    describe('parseErrorResponse', () => {
+        it('should return errors parsed from hash map', () => {
+            const errors = parseErrorResponse({
+                name: {
+                    message: 'This username has been taken',
+                    type: RequestErrorType.USERNAME_TAKEN
+                },
+                email: {
+                    message: 'This email has been taken',
+                    type: RequestErrorType.EMAIL_TAKEN
+                }
+            }, VALIDATION_ERROR_MESSAGES);
+
+            expect(errors.length).toBe(2);
+        })
+    })
+})
