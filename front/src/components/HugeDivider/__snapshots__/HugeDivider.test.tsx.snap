@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Huge Divider Component matches the snapshot 1`] = `
+<div
+  className="ant-divider ant-divider-horizontal ant-divider-with-text ant-divider-with-text-center huge-divider"
+  role="separator"
+>
+  <span
+    className="ant-divider-inner-text"
+  >
+    Test
+  </span>
+</div>
+`;
