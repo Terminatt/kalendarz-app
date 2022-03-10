@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Delete Popconfirm Component matches the snapshot 1`] = `
+<button
+  onClick={[Function]}
+  onKeyDown={[Function]}
+  onMouseDown={[Function]}
+  onTouchStart={[Function]}
+>
+  Test
+</button>
+`;
