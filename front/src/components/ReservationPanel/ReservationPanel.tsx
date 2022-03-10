@@ -55,9 +55,9 @@ export interface ReservationsPerRoom {
 }
 
 export interface ReservationRange {
-    reservation?: ReservationWithParsedDate,
-    start: Dayjs,
-    end: Dayjs
+    reservation?: ReservationWithParsedDate;
+    start: Dayjs;
+    end: Dayjs;
 }
 export interface ReservationErrors {
     [key: string]: ReservationValidationError[];

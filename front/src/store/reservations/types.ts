@@ -20,8 +20,9 @@ export interface Reservation extends BaseItem, BaseReservation {
     user: User;
 }
 
-export interface ReservationWithParsedDate extends Omit<Reservation, 'start' | 'end'> {
+export interface ReservationWithParsedDate extends BaseItem {
     start: Dayjs;
     end: Dayjs;
     color: string;
+    user: User
 }
