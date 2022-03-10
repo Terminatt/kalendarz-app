@@ -62,35 +62,35 @@ describe('Calendar Item', () => {
     it('Normal day triggers click', () => {
         const onClick = jest.fn();
         const screen = render(<CalendarItem onClick={onClick} type={CalendarItemType.NORMAL} dayNumber={'01'} dayName={DAY_NAMES[0]} />)
-        fireEvent.click(screen.getByText(/01/i))
+        fireEvent.click(screen.getByText(/01/i));
         expect(onClick).toBeCalled();
     });
 
     it('Today day triggers click', () => {
         const onClick = jest.fn();
         const screen = render(<CalendarItem onClick={onClick} type={CalendarItemType.TODAY} dayNumber={'01'} dayName={DAY_NAMES[0]} />)
-        fireEvent.click(screen.getByText(/01/i))
+        fireEvent.click(screen.getByText(/01/i));
         expect(onClick).toBeCalled();
     });
 
-    it('Dayoff day does not trigger click', () => {
+    it('Dayoff day does trigger click', () => {
         const onClick = jest.fn();
         const screen = render(<CalendarItem onClick={onClick} type={CalendarItemType.DAYOFF} dayNumber={'01'} dayName={DAY_NAMES[0]} />)
-        fireEvent.click(screen.getByText(/01/i))
-        expect(onClick).not.toBeCalled();
+        fireEvent.click(screen.getByText(/01/i));
+        expect(onClick).toBeCalled();
     });
 
     it('Before today day triggers click', () => {
         const onClick = jest.fn();
         const screen = render(<CalendarItem onClick={onClick} type={CalendarItemType.BEFORE_TODAY} dayNumber={'01'} dayName={DAY_NAMES[0]} />)
-        fireEvent.click(screen.getByText(/01/i))
+        fireEvent.click(screen.getByText(/01/i));
         expect(onClick).toBeCalled();
     });
 
     it('Another month day does not trigger click', () => {
         const onClick = jest.fn();
         const screen = render(<CalendarItem onClick={onClick} type={CalendarItemType.ANOTHER_MONTH_DAY} dayNumber={'01'} dayName={DAY_NAMES[0]} />)
-        fireEvent.click(screen.getByText(/01/i))
+        fireEvent.click(screen.getByText(/01/i));
         expect(onClick).not.toBeCalled();
     });
 })
