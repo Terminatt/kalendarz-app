@@ -3,13 +3,23 @@ export const FORM_LAYOUT = {
     wrapperCol: { span: 24 },
 };
 
-export const VALIDATION_ERROR_MESSAGES: {[key: string]: string} = {
+export const VALIDATION_ERROR_MESSAGES: {[key in RequestErrorType]: string} = {
     USERNAME_TAKEN: 'Użytkownik o podanej nazwie już istnieje',
     EMAIL_TAKEN: 'Użytkownik o podanym emailu już istnieje',
     PASSWORD_TOO_SIMPLE: 'Hasło jest zbyt proste',
     INVALID_CREDENTIALS: 'Błędne hasło lub nazwa użytkownika',
     NOT_UNIQUE_NAME: 'Nazwa już została zajęta',
+    RELATED_OBJECT: 'Ten obiekt jest powiązany z innym obiektem',
 };
+
+export enum RequestErrorType {
+    RELATED_OBJECT = 'RELATED_OBJECT',
+    USERNAME_TAKEN = 'USERNAME_TAKEN',
+    EMAIL_TAKEN = 'EMAIL_TAKEN',
+    PASSWORD_TOO_SIMPLE = 'PASSWORD_TOO_SIMPLE',
+    NOT_UNIQUE_NAME = 'NOT_UNIQUE_NAME',
+    INVALID_CREDENTIALS = 'INVALID_CREDENTIALS',
+}
 
 export const DAY_NAMES = ['Nd', 'Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb'];
 export const DAY_NAMES_FULL = ['Niedziela', 'Poniedzialek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
@@ -35,10 +45,6 @@ export enum Month {
 export const PAGE_SIZE = 10;
 
 export const DEBOUNCE_TIME = 350; // miliseconds
-
-export enum RequestErrorType {
-    RELATED_OBJECT = 'RELATED_OBJECT'
-}
 
 export const NUMBER_DECLINATION_MAP = {
     place: {
