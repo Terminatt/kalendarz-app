@@ -20,6 +20,6 @@ describe('Custom Empty Component', () => {
             <CustomEmpty description={text} />
 
         );
-        expect(screen.getByText(text)).toBeTruthy();
+        expect(screen.getByText(text)).not.toBeNull();
     });
 });

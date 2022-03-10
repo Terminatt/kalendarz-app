@@ -106,7 +106,7 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
             right={(
                 <>
                     {additionalPanelActive ? (
-                        <div className="editing-panel-additional">
+                        <div data-testid="additional-panel" className="editing-panel-additional">
                             <div className="editing-panel-additional-header">
                                 <CustomButton icon={<ArrowLeftOutlined />} size="small" onClick={onAdditionalPanelBack}>Wróć do panelu edycji</CustomButton>
                             </div>

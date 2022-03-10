@@ -35,7 +35,7 @@ describe('Custom Form Component', () => {
                 </Form.Item>
             </CustomForm>
         );
-        expect(screen.getByText(text)).toBeTruthy();
+        expect(screen.getByText(text)).not.toBeNull();
     });
 
     it('triggers triggers update on providing error response', () => {
