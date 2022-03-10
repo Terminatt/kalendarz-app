@@ -21,6 +21,7 @@ import 'styles/global.less';
 import 'styles/overrides.less';
 import 'styles/animations.less';
 import './App.less';
+import useLogged from '@hooks/useLogged';
 
 const AppHeader = () => (
     <span className="header-text">
@@ -33,6 +34,7 @@ const App: React.FC = () => {
     const [sidebarVisible, setSidebarVisible] = useState<boolean>(true);
     const bpContext = useContext(ResizeListenerContext);
     const dispatch = useDispatch();
+    const isLogged = useLogged();
 
     const onSidebarClose = useCallback(() => {
         setSidebarVisible(false);
@@ -65,7 +67,7 @@ const App: React.FC = () => {
             <div className="app-content">
                 <main>
                     <div className="app-content-bar">
-                        <UserSpace />
+                        <UserSpace isLogged={isLogged} />
                         <CustomButton variant="icon" aria-label="otwórz nawigacje" className="app-content-bar-hamburger" onClick={changeVisibility}>
                             <MenuOutlined />
                         </CustomButton>

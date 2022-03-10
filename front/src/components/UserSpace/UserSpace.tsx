@@ -1,6 +1,5 @@
 import CustomButton from '@components/CustomButton/CustomButton';
 import SigningModal from '@components/Modals/SigningModal/SigningModal';
-import useLogged from '@hooks/useLogged';
 import { RootState } from '@store/index';
 import { openModal } from '@store/modals/slice';
 import { ModalType } from '@store/modals/types';
@@ -11,10 +10,14 @@ import { useNavigate } from 'react-router-dom';
 
 import './UserSpace.less';
 
-const UserSpace: React.FC = () => {
+export interface UserSpaceProps {
+    isLogged: boolean;
+}
+
+const UserSpace: React.FC<UserSpaceProps> = (props) => {
+    const { isLogged } = props;
     const user = useSelector((state: RootState) => state.user);
     const { currentUser, isLoading } = user;
-    const isLogged = useLogged();
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
