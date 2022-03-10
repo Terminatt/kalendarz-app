@@ -21,7 +21,7 @@ const CalendarItem: React.FC<CalendarItemProps> = (props) => {
     const {
         type, dayNumber, dayName, onClick,
     } = props;
-    const disabled = type === CalendarItemType.ANOTHER_MONTH_DAY;
+    const disabled = type === CalendarItemType.ANOTHER_MONTH_DAY || type === CalendarItemType.DAYOFF;
 
     const onItemClick = useCallback(() => {
         if (!onClick) {
