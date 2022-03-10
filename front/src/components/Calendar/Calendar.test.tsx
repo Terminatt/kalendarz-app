@@ -34,7 +34,7 @@ describe('Calendar Component', () => {
         );
         fireEvent.click(screen.getByText(/01/i));
         expect(onDayClick).toBeCalled();
-    })
+    });
 });
 
 describe('Calendar Component helpers', () => {
