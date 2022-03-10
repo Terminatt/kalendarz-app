@@ -12,7 +12,9 @@ export interface CalendarDay {
     type: CalendarItemType;
     date: Dayjs;
 }
+
 export type EvaluateTypeHandler = (date: Dayjs) => CalendarItemType;
+
 export function createDayList(year: number, month: Month, evaluateType: EvaluateTypeHandler): CalendarDay[] {
     const dayList: CalendarDay[] = [];
     const date = new Date(year, month, 1);
@@ -33,7 +35,7 @@ export function createDayList(year: number, month: Month, evaluateType: Evaluate
     return dayList;
 }
 
-export function createLastWeekList(year: number, month: Month, evaluateType: EvaluateTypeHandler): CalendarDay[] {
+export function createLastDaysFromMonday(year: number, month: Month, evaluateType: EvaluateTypeHandler): CalendarDay[] {
     const dayList: CalendarDay[] = [];
     const date = new Date(year, month, 1);
     const lastDay = dayjs(date).endOf('month');

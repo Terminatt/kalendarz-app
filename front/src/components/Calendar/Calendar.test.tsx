@@ -2,7 +2,7 @@ import React from 'react';
 import MockDate from 'mockdate';
 import renderer from 'react-test-renderer';
 import Calendar from './Calendar';
-import { createDayList, createLastWeekList, evaluateCurrentMonthDayType, getMonthsOptions } from './helpers';
+import { createDayList, createLastDaysFromMonday, evaluateCurrentMonthDayType, getMonthsOptions } from './helpers';
 import dayjs from 'dayjs';
 import { CalendarItemType } from './CalendarItem/CalendarItem';
 import { Month, MONTH_NAMES } from '@constants/constants';
@@ -38,42 +38,42 @@ describe('Calendar Component', () => {
 });
 
 describe('Calendar Component helpers', () => {
-    describe('createLastWeekList', () => {
-        it('returns days till monday of a month before ', () => {
-            const january = createLastWeekList(2022, Month.JANUARY, () => CalendarItemType.ANOTHER_MONTH_DAY);
+    describe('createLastDaysFromMonday', () => {
+        it('returns last days from monday of a month before ', () => {
+            const january = createLastDaysFromMonday(2022, Month.JANUARY, () => CalendarItemType.ANOTHER_MONTH_DAY);
             expect(january.length).toBe(1);
 
-            const february = createLastWeekList(2022, Month.FEBRUARY, () => CalendarItemType.ANOTHER_MONTH_DAY);
+            const february = createLastDaysFromMonday(2022, Month.FEBRUARY, () => CalendarItemType.ANOTHER_MONTH_DAY);
             expect(february.length).toBe(1);
 
-            const march = createLastWeekList(2022, Month.MARCH, () => CalendarItemType.ANOTHER_MONTH_DAY);
+            const march = createLastDaysFromMonday(2022, Month.MARCH, () => CalendarItemType.ANOTHER_MONTH_DAY);
             expect(march.length).toBe(4);
 
-            const april = createLastWeekList(2022, Month.APRIL, () => CalendarItemType.ANOTHER_MONTH_DAY);
+            const april = createLastDaysFromMonday(2022, Month.APRIL, () => CalendarItemType.ANOTHER_MONTH_DAY);
             expect(april.length).toBe(6);
 
-            const may  = createLastWeekList(2022, Month.MAY, () => CalendarItemType.ANOTHER_MONTH_DAY);
+            const may  = createLastDaysFromMonday(2022, Month.MAY, () => CalendarItemType.ANOTHER_MONTH_DAY);
             expect(may.length).toBe(2);
 
-            const june  = createLastWeekList(2022, Month.JUNE, () => CalendarItemType.ANOTHER_MONTH_DAY);
+            const june  = createLastDaysFromMonday(2022, Month.JUNE, () => CalendarItemType.ANOTHER_MONTH_DAY);
             expect(june.length).toBe(4);
 
-            const july  = createLastWeekList(2022, Month.JULY, () => CalendarItemType.ANOTHER_MONTH_DAY);
+            const july  = createLastDaysFromMonday(2022, Month.JULY, () => CalendarItemType.ANOTHER_MONTH_DAY);
             expect(july.length).toBe(0);
 
-            const august  = createLastWeekList(2022, Month.AUGUST, () => CalendarItemType.ANOTHER_MONTH_DAY);
+            const august  = createLastDaysFromMonday(2022, Month.AUGUST, () => CalendarItemType.ANOTHER_MONTH_DAY);
             expect(august.length).toBe(3);
 
-            const september  = createLastWeekList(2022, Month.SEPTEMBER, () => CalendarItemType.ANOTHER_MONTH_DAY);
+            const september  = createLastDaysFromMonday(2022, Month.SEPTEMBER, () => CalendarItemType.ANOTHER_MONTH_DAY);
             expect(september.length).toBe(5);
 
-            const october = createLastWeekList(2022, Month.OCTOBER, () => CalendarItemType.ANOTHER_MONTH_DAY);
+            const october = createLastDaysFromMonday(2022, Month.OCTOBER, () => CalendarItemType.ANOTHER_MONTH_DAY);
             expect(october.length).toBe(1);
 
-            const november = createLastWeekList(2022, Month.NOVEMBER, () => CalendarItemType.ANOTHER_MONTH_DAY);
+            const november = createLastDaysFromMonday(2022, Month.NOVEMBER, () => CalendarItemType.ANOTHER_MONTH_DAY);
             expect(november.length).toBe(3);
 
-            const december = createLastWeekList(2022, Month.DECEMBER, () => CalendarItemType.ANOTHER_MONTH_DAY);
+            const december = createLastDaysFromMonday(2022, Month.DECEMBER, () => CalendarItemType.ANOTHER_MONTH_DAY);
             expect(december.length).toBe(6);
 
         });

@@ -8,7 +8,7 @@ import CalendarItem, { CalendarItemType } from './CalendarItem/CalendarItem';
 import {
     CalendarDay,
     createDayList,
-    createLastWeekList,
+    createLastDaysFromMonday,
     evaluateCurrentMonthDayType,
     getMonthsOptions,
 } from './helpers';
@@ -30,7 +30,7 @@ const Calendar: React.FC<CalendarProps> = (props) => {
 
     const createDaysInMonth = useCallback((_selectedYear: number, _selectedMonth: number): CalendarDay[] => {
         const dayList = createDayList(_selectedYear, _selectedMonth, evaluateCurrentMonthDayType);
-        const weekMonthBefore = createLastWeekList(_selectedYear, _selectedMonth - 1, () => CalendarItemType.ANOTHER_MONTH_DAY);
+        const weekMonthBefore = createLastDaysFromMonday(_selectedYear, _selectedMonth - 1, () => CalendarItemType.ANOTHER_MONTH_DAY);
 
         return [...weekMonthBefore, ...dayList];
     }, []);
