@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import { matchMedia } from '@utils/testing';
 import CustomForm from './CustomForm';
 import { Form, Input } from 'antd';
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { RequestErrorType } from '@constants/constants';
 
 describe('Custom Form Component', () => {
