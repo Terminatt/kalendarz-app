@@ -13,7 +13,7 @@ describe('ColoredBlock Component', () => {
             )
             .toJSON();
         
-            expect(tree).toMatchSnapshot();
+        expect(tree).toMatchSnapshot();
     });
 
     it('renders proper color', () => {
@@ -26,7 +26,7 @@ describe('ColoredBlock Component', () => {
             </ColoredBlock>, container
         )
         
-            expect(container.firstChild).toHaveStyle(`background-color: ${color}`);
+        expect(container.firstChild).toHaveStyle(`background-color: ${color}`);
     });
 
     it('has correct content', () => {
@@ -40,6 +40,6 @@ describe('ColoredBlock Component', () => {
             </ColoredBlock>, container
         )
         
-            expect(container.firstChild?.textContent).toBe(text);
+        expect(container.firstChild?.textContent).toBe(text);
     });
 });

@@ -23,7 +23,7 @@ describe('Calendar Component', () => {
             )
             .toJSON();
         
-            expect(tree).toMatchSnapshot();
+        expect(tree).toMatchSnapshot();
     });
 
     it('triggers click', () => {

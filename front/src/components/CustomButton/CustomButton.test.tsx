@@ -2,6 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import CustomButton from './CustomButton';
 import { MenuOutlined } from '@ant-design/icons';
+import { render } from 'react-dom';
 
 describe('Custom Button Component Variants', () => {
     it('Primary matches the snapshot', () => {
@@ -11,7 +12,7 @@ describe('Custom Button Component Variants', () => {
             )
             .toJSON();
         
-            expect(tree).toMatchSnapshot();
+        expect(tree).toMatchSnapshot();
     });
 
     it('Default matches the snapshot', () => {
@@ -21,7 +22,7 @@ describe('Custom Button Component Variants', () => {
             )
             .toJSON();
         
-            expect(tree).toMatchSnapshot();
+        expect(tree).toMatchSnapshot();
     });
 
     it('Delete matches the snapshot', () => {
@@ -31,7 +32,7 @@ describe('Custom Button Component Variants', () => {
             )
             .toJSON();
         
-            expect(tree).toMatchSnapshot();
+        expect(tree).toMatchSnapshot();
     });
 
     it('Clear matches the snapshot', () => {
@@ -41,7 +42,7 @@ describe('Custom Button Component Variants', () => {
             )
             .toJSON();
         
-            expect(tree).toMatchSnapshot();
+        expect(tree).toMatchSnapshot();
     });
 
     it('Icon matches the snapshot', () => {
@@ -51,7 +52,7 @@ describe('Custom Button Component Variants', () => {
             )
             .toJSON();
         
-            expect(tree).toMatchSnapshot();
+        expect(tree).toMatchSnapshot();
     });
 
 
@@ -62,7 +63,7 @@ describe('Custom Button Component Variants', () => {
             )
             .toJSON();
         
-            expect(tree).toMatchSnapshot();
+        expect(tree).toMatchSnapshot();
     });
 
     it('Minimal matches the snapshot', () => {
@@ -72,6 +73,21 @@ describe('Custom Button Component Variants', () => {
             )
             .toJSON();
         
-            expect(tree).toMatchSnapshot();
+        expect(tree).toMatchSnapshot();
     });
 });
+
+describe('Custom Button component', () => {
+    it('should render text', () => {
+        const container = document.createElement('div');
+        const text = 'Test'
+
+        render(
+            <CustomButton>
+                {text}
+            </CustomButton>, container
+        )
+        
+        expect(container.firstChild?.textContent).toBe(text);
+    })
+})

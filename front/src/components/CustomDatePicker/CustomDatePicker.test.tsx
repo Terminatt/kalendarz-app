@@ -10,6 +10,6 @@ describe('Custom Date Picker', () => {
             )
             .toJSON();
         
-            expect(tree).toMatchSnapshot();
+        expect(tree).toMatchSnapshot();
     });
 });
