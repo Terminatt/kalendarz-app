@@ -22,6 +22,7 @@ exports[`Calendar Component matches the snapshot 1`] = `
     >
       <button
         className="ant-btn transparent-btn switcher-btn switcher-btn-left"
+        data-testid="left-btn"
         onClick={[Function]}
         type="button"
       >
@@ -52,6 +53,7 @@ exports[`Calendar Component matches the snapshot 1`] = `
       </span>
       <button
         className="ant-btn transparent-btn switcher-btn switcher-btn-right"
+        data-testid="right-btn"
         onClick={[Function]}
         type="button"
       >

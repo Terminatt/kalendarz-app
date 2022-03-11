@@ -16,7 +16,7 @@ describe('Reservation Block Chunk Component', () => {
 
     afterEach(() => {
         MockDate.reset();
-    })
+    });
 
     it('matches the snapshot', () => {
         const tree = renderer

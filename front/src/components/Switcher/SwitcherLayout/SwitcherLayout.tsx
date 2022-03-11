@@ -16,13 +16,13 @@ const SwitcherLayout: React.FC<SwitcherLayoutProps> = (props) => {
 
     return (
         <div className="switcher">
-            <TransparentButton onClick={onLeftClick} className="switcher-btn switcher-btn-left">
+            <TransparentButton data-testid="left-btn" onClick={onLeftClick} className="switcher-btn switcher-btn-left">
                 <LeftOutlined />
             </TransparentButton>
             <span className="switcher-selected">
                 {children}
             </span>
-            <TransparentButton onClick={onRightClick} className="switcher-btn switcher-btn-right">
+            <TransparentButton data-testid="right-btn" onClick={onRightClick} className="switcher-btn switcher-btn-right">
                 <RightOutlined />
             </TransparentButton>
         </div>

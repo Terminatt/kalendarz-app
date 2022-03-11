@@ -6,9 +6,9 @@ import React, { useCallback } from 'react';
 import { DeleteOutlined } from '@ant-design/icons';
 import { Id } from '@generics/generics';
 import FormItem from 'antd/lib/form/FormItem';
+import { BlocksHashMap, ReservationErrors, TimeIntervalWithRoom } from '../ReservationPanel';
 
 import './ReservationSummary.less';
-import { BlocksHashMap, ReservationErrors, TimeIntervalWithRoom } from '../ReservationPanel';
 
 export interface ReservationSummaryProps {
     selectedBlocks: Entries<BlocksHashMap<TimeIntervalWithRoom>>
