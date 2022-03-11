@@ -16,10 +16,10 @@ describe('Custom Empty Component', () => {
 
     it('renders text', () => {
         const text = 'Test'
-        const screen = render(
+        const element = render(
             <CustomEmpty description={text} />
 
         );
-        expect(screen.getByText(text)).not.toBeNull();
+        expect(element.getByText(text)).not.toBeNull();
     });
 });

@@ -33,10 +33,10 @@ describe('Calendar Component', () => {
     it('triggers click', () => {
         const onDayClick = jest.fn();
 
-        const screen = render(
+        const element = render(
             <Calendar onDayClick={onDayClick} />
         );
-        fireEvent.click(screen.getByText(/01/i));
+        fireEvent.click(element.getByText(/01/i));
         expect(onDayClick).toBeCalledTimes(1);
     });
 });

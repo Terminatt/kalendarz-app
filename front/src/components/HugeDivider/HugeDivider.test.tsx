@@ -16,9 +16,9 @@ describe('Huge Divider Component', () => {
 
     it('renders text', () => {
         const text = 'Test'
-        const screen = render(
+        const element = render(
             <HugeDivider text={text} />
         );
-        expect(screen.getByText(text)).not.toBeNull();
+        expect(element.getByText(text)).not.toBeNull();
     });
 });

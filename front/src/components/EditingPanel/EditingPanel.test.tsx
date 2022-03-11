@@ -75,7 +75,7 @@ describe('Editing Panel Component', () => {
 
     it('triggers onItemSelect', async () => {
         const onItemSelect = jest.fn();
-        const screen = render(
+        const element = render(
                 <EditingPanel
                     onItemSelect={onItemSelect}
                     listWithSearchProps={{
@@ -97,7 +97,7 @@ describe('Editing Panel Component', () => {
                 />
         );
         
-        const item = await screen.findAllByText('test1');
+        const item = await element.findAllByText('test1');
         fireEvent.click(item[0]);
 
         expect(onItemSelect).toBeCalledTimes(1);
@@ -106,7 +106,7 @@ describe('Editing Panel Component', () => {
 
     it('triggers onDelete', async () => {
         const onDelete = jest.fn();
-        const screen = render(
+        const element = render(
                 <EditingPanel
                     onDelete={onDelete}
                     listWithSearchProps={{
@@ -128,10 +128,10 @@ describe('Editing Panel Component', () => {
                 />
         );
         
-        const btns = await screen.findAllByText('Usuń')
+        const btns = await element.findAllByText('Usuń')
         fireEvent.click(btns[0]);
 
-        const confirmBtn = await screen.findByText('Tak');
+        const confirmBtn = await element.findByText('Tak');
         fireEvent.click(confirmBtn);
 
         expect(onDelete).toBeCalledTimes(1);
@@ -140,7 +140,7 @@ describe('Editing Panel Component', () => {
 
     it('triggers onPageChange', async () => {
         const onPageChange = jest.fn();
-        const screen = render(
+        const element = render(
                 <EditingPanel
                     onPageChange={onPageChange}
                     listWithSearchProps={{
@@ -164,7 +164,7 @@ describe('Editing Panel Component', () => {
         );
         
 
-        const btn = await screen.findByText(2);
+        const btn = await element.findByText(2);
         fireEvent.click(btn);
 
         expect(onPageChange).toBeCalledTimes(1);
@@ -173,7 +173,7 @@ describe('Editing Panel Component', () => {
 
     it('triggers onPageChange', async () => {
         const onPageChange = jest.fn();
-        const screen = render(
+        const element = render(
                 <EditingPanel
                     onPageChange={onPageChange}
                     listWithSearchProps={{
@@ -197,7 +197,7 @@ describe('Editing Panel Component', () => {
         );
         
 
-        const btn = await screen.findByText(2);
+        const btn = await element.findByText(2);
         fireEvent.click(btn);
 
         expect(onPageChange).toBeCalledTimes(1);
@@ -209,7 +209,7 @@ describe('Editing Panel Component', () => {
         const btnName = 'Wróć do panelu edycji';
         let panelActive = true;
 
-        const screen = render(
+        const element = render(
                 <EditingPanel
                     additionalPanelActive={panelActive}
                     onAdditionalPanelBack={onAdditionalPanelBack}
@@ -232,13 +232,13 @@ describe('Editing Panel Component', () => {
                 />
                 );
                 
-        const btn = await screen.findByText(btnName);
+        const btn = await element.findByText(btnName);
         fireEvent.click(btn);
         expect(onAdditionalPanelBack).toBeCalledTimes(1);
 
         panelActive = false;
                 
-        screen.rerender(
+        element.rerender(
                     <EditingPanel
                     additionalPanelActive={panelActive}
                     onAdditionalPanelBack={onAdditionalPanelBack}
@@ -261,14 +261,14 @@ describe('Editing Panel Component', () => {
                 />
                 )
 
-        expect(await screen.queryByTestId('additional-panel')).toBeNull();
+        expect(await element.queryByTestId('additional-panel')).toBeNull();
     });
 
     it('does not trigger onAdditionalPanelBack when no item is selected', async () => {
         const onAdditionalPanelBtnClick = jest.fn();
         const additionalPanelBtnText = "Additional Btn";
 
-        const screen = render(
+        const element = render(
                 <EditingPanel
                     additionalPanelActive
                     onAdditionalBtnClick={onAdditionalPanelBtnClick}
@@ -292,7 +292,7 @@ describe('Editing Panel Component', () => {
                 />
                 );
                 
-        const btn = await screen.findByText(additionalPanelBtnText);
+        const btn = await element.findByText(additionalPanelBtnText);
         fireEvent.click(btn);
         expect(onAdditionalPanelBtnClick).toBeCalledTimes(0);
     });
@@ -301,7 +301,7 @@ describe('Editing Panel Component', () => {
         const onAdditionalPanelBtnClick = jest.fn();
         const additionalPanelBtnText = "Additional Btn";
 
-        const screen = render(
+        const element = render(
                 <EditingPanel
                     additionalPanelActive
                     onAdditionalBtnClick={onAdditionalPanelBtnClick}
@@ -324,16 +324,16 @@ describe('Editing Panel Component', () => {
                     dataSource={data}
                 />
                 );
-        const item = await screen.findByText("test1");
+        const item = await element.findByText("test1");
         fireEvent.click(item);
 
-        const btn = await screen.findByText(additionalPanelBtnText);
+        const btn = await element.findByText(additionalPanelBtnText);
         fireEvent.click(btn);
         expect(onAdditionalPanelBtnClick).toBeCalledTimes(1);
     });
 
     it('changes mode of form on item select', async () => {
-        const screen = render(
+        const element = render(
                 <EditingPanel
                     listWithSearchProps={{
                         renderContent: (item) => (
@@ -353,9 +353,9 @@ describe('Editing Panel Component', () => {
                     dataSource={data}
                 />
                 );
-        const item = await screen.findByText("test1");
+        const item = await element.findByText("test1");
         fireEvent.click(item);
 
-        expect(screen.queryByText('Edycja')).not.toBeNull();
+        expect(element.queryByText('Edycja')).not.toBeNull();
     });
 });

@@ -10,3 +10,13 @@ export const userMock: User = {
     username: 'Test User',
     groups: Group.REGULAR_USER,
 };
+
+export const adminUserMock: User = {
+    id: 2,
+    firstName: 'Test',
+    lastName: 'User',
+    created: dayjs().toISOString(),
+    email: 'test@gmail.com',
+    username: 'Test User',
+    groups: Group.ADMIN,
+};

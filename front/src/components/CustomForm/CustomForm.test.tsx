@@ -28,14 +28,14 @@ describe('Custom Form Component', () => {
 
     it('renders text button', () => {
         const text = 'Test'
-        const screen = render(
+        const element = render(
             <CustomForm formProps={{}} primaryBtnText={text}>
                 <Form.Item>
                     <Input />
                 </Form.Item>
             </CustomForm>
         );
-        expect(screen.getByText(text)).not.toBeNull();
+        expect(element.getByText(text)).not.toBeNull();
     });
 
     it('triggers triggers update on providing error response', () => {

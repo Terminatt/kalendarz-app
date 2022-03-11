@@ -80,7 +80,7 @@ describe('Custom List Component', () => {
 
     it('triggers onEdit with proper data', async () => {
         const onEdit = jest.fn()
-        const screen = render(
+        const element = render(
             <CustomList 
                 addEditBtn
                 onEdit={onEdit}
@@ -92,7 +92,7 @@ describe('Custom List Component', () => {
             )} />
         );
         
-        const btns = screen.queryAllByText('Edytuj')
+        const btns = element.queryAllByText('Edytuj')
         fireEvent.click(btns[0]);
         await waitFor(async () => {
             expect(onEdit).toBeCalledTimes(1);
@@ -102,7 +102,7 @@ describe('Custom List Component', () => {
 
     it('triggers onDelete with proper data', async () => {
         const onDelete = jest.fn()
-        const screen = render(
+        const element = render(
             <CustomList 
                 onDelete={onDelete}
                 dataSource={data} 
@@ -113,10 +113,10 @@ describe('Custom List Component', () => {
             )} />
         );
         
-        const btns = screen.queryAllByText('Usuń')
+        const btns = element.queryAllByText('Usuń')
         fireEvent.click(btns[0]);
         await waitFor(async () => {
-            const confirmBtn = await screen.findByText('Tak');
+            const confirmBtn = await element.findByText('Tak');
             fireEvent.click(confirmBtn);
             expect(onDelete).toBeCalledTimes(1);
             expect(onDelete).toBeCalledWith({id: 1, name: 'test1'});
@@ -125,7 +125,7 @@ describe('Custom List Component', () => {
 
     it('triggers onSelect with proper data', async () => {
         const onSelect = jest.fn()
-        const screen = render(
+        const element = render(
             <CustomList 
                 onSelect={onSelect}
                 dataSource={data} 
@@ -136,7 +136,7 @@ describe('Custom List Component', () => {
             )} />
         );
                 
-        const item = screen.getByText('test1');
+        const item = element.getByText('test1');
         fireEvent.click(item);
                     
         expect(onSelect).toBeCalledTimes(1);
@@ -145,7 +145,7 @@ describe('Custom List Component', () => {
 
     it('triggers onPageChange with proper data', async () => {
         const onPageChange = jest.fn()
-        const screen = render(
+        const element = render(
             <CustomList
                 total={PAGE_SIZE * 2}
                 onPageChange={onPageChange}
@@ -157,7 +157,7 @@ describe('Custom List Component', () => {
             )} />
         );
                 
-        const page = screen.getByText('2');
+        const page = element.getByText('2');
         fireEvent.click(page);
                     
         expect(onPageChange).toBeCalledTimes(1);
@@ -166,7 +166,7 @@ describe('Custom List Component', () => {
 
     it('triggers onSearchChange', async () => {
         const onSearchChange = jest.fn()
-        const screen = render(
+        const element = render(
             <CustomList
                 showSearch
                 onSearchChange={onSearchChange}
@@ -178,7 +178,7 @@ describe('Custom List Component', () => {
             )} />
         );
                 
-        const search = screen.getByTestId('search');
+        const search = element.getByTestId('search');
         Simulate.change(search)
                     
         expect(onSearchChange).toBeCalledTimes(1);
