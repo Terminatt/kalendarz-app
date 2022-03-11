@@ -12,6 +12,7 @@
          "@hooks/*": ["./hooks/*"],
          "@utils/*": ["./utils/*"],
          "@contexts/*": ["./contexts/*"],
+         "@entity-mocks/*": ["./entity-mocks/*"],
          "styles": ["./styles/*"]
       } 
   }

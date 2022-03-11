@@ -10,6 +10,7 @@ import { NoInfer } from '@reduxjs/toolkit/dist/tsHelpers';
 import { notification } from 'antd';
 import { AxiosResponse, AxiosError } from 'axios';
 import { isAxiosError, isRequestErrorType } from './requests';
+import { isTestingEnv } from './testing';
 
 export interface CustomAsyncThunkResponse<Data = void> {
   data: Data;
@@ -102,11 +103,19 @@ export function createCustomSlice<Name extends string, State extends BaseState, 
                         return;
                     }
 
+                    if (isTestingEnv()) {
+                        return;
+                    }
+
                     notification.success({ message: success.payload.successMessage });
                 })
                 .addMatcher(rejected, (state, error: PayloadAction<RejectResponse>) => {
                     state.isLoading = false;
                     if (!error.payload.errorMessage) {
+                        return;
+                    }
+
+                    if (isTestingEnv()) {
                         return;
                     }
 

@@ -21,11 +21,12 @@ export interface RegisterFormValues {
 }
 
 export interface RegisterFormProps {
+    initialValues?: RegisterFormValues;
     onFinishCallback?: () => void;
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = (props) => {
-    const { onFinishCallback } = props;
+    const { initialValues, onFinishCallback } = props;
     const [form] = useForm<RegisterFormValues>();
     const { isLoading } = useSelector((state: RootState) => state.user);
     const dispatch = useDispatch();
@@ -54,7 +55,7 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
     }, [onFinishCallback]);
 
     return (
-        <CustomForm formProps={{ form, onFinish }} errorResponse={errorResponse} isLoading={isLoading} primaryBtnText="Zarejestruj się">
+        <CustomForm formProps={{ form, initialValues, onFinish }} errorResponse={errorResponse} isLoading={isLoading} primaryBtnText="Zarejestruj się">
             <Form.Item
                 className="half-input"
                 label="Podaj imię"
@@ -79,8 +80,8 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
                 <Input placeholder="Nazwę użytkownika" />
             </Form.Item>
             <Form.Item
-                label="Email"
-                name="Podaj email"
+                label="Podaj email"
+                name="email"
                 rules={[
                     getRequiredRule(),
                     getMaxCharRule(50, 'Adres email może mieć maksymalnie 50 znaków'),

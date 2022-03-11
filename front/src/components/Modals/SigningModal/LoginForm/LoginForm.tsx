@@ -13,11 +13,12 @@ export interface LoginFormValues {
 }
 
 export interface LoginFormProps {
+    initialValues?: LoginFormValues;
     onFinishCallback?: () => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = (props) => {
-    const { onFinishCallback } = props;
+    const { initialValues, onFinishCallback } = props;
     const [form] = useForm();
     const dispatch = useDispatch();
     const isLoading = useSelector((state: RootState) => state.user.isLoading);
@@ -36,7 +37,7 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
     }, [onFinishCallback]);
 
     return (
-        <CustomForm formProps={{ form, onFinish }} isLoading={isLoading} primaryBtnText="Zaloguj się">
+        <CustomForm formProps={{ form, initialValues, onFinish }} isLoading={isLoading} primaryBtnText="Zaloguj się">
             <Form.Item
                 label="Podaj nazwę użytkownika"
                 name="username"
