@@ -2,12 +2,11 @@
 
 import { userMock, adminUserMock } from '@entity-mocks/User';
 import { store } from '@store/index';
-import { fireEvent, render, waitFor } from '@utils/testing';
+import { render } from '@utils/testing';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
 import renderer from 'react-test-renderer';
-
 import Navigation from './Navigation';
 
 describe('Navigation Component', () => {
@@ -76,10 +75,10 @@ describe('Navigation Component', () => {
             }
         );
         
-        expect(await element.queryByText('Strefa Użytkownika')).not.toBeNull();
+        expect(await element.findByText('Strefa Użytkownika')).not.toBeNull();
     });
 
-    it('it shows user zone when logged in as admin user', async () => {
+    it('it shows admin zone when logged in as admin user', async () => {
         
         const { element } = render(
             <MemoryRouter>
@@ -90,6 +89,6 @@ describe('Navigation Component', () => {
             }
         );
         
-        expect(await element.queryByText('Strefa Administratora')).not.toBeNull();
+        expect(await element.findByText('Strefa Administratora')).not.toBeNull();
     });
 });

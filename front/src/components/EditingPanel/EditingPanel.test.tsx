@@ -7,7 +7,7 @@ import { fireEvent, render } from '@testing-library/react';
 import { PAGE_SIZE } from '@constants/constants';
 
 
-let data = []
+let data: {id: number, name: string}[] = []
 describe('Editing Panel Component', () => {
     beforeAll(() => {
         data = [

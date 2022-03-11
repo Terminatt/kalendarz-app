@@ -6,7 +6,8 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import { PAGE_SIZE } from '@constants/constants';
 import { Simulate } from 'react-dom/test-utils';
 
-let data = []
+let data: {id: number, name: string}[] = [];
+
 describe('Custom List Component', () => {
     beforeAll(() => {
         data = [
@@ -23,11 +24,11 @@ describe('Custom List Component', () => {
                 name: 'test3',
             }
         ]
-    })
+    });
     
     beforeEach(() => {
         matchMedia();
-    })
+    });
 
     afterEach(() => {
         data = [
@@ -44,7 +45,7 @@ describe('Custom List Component', () => {
                 name: 'test3',
             }
         ]
-    })
+    });
     
     it('matches the snapshot without buttons', () => {
         const tree = renderer

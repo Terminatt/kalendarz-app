@@ -5,12 +5,14 @@ import { Select } from 'antd';
 
 export interface ObjectSelectProps<T extends BaseItem> {
     data: T[];
-    placeholder: string;
+    placeholder?: string;
     value?: T;
     showSearch?: boolean;
     allowClear?: boolean;
     isLoading?: boolean;
     labelKey?: string;
+    searchValue?: string;
+    defaultOpen?: boolean;
     onChange?: (value: T) => void;
     onSearch?: (value: string) => void;
     renderOptionContent: (item: T) => GenericReactContent;
@@ -21,7 +23,7 @@ const { Option } = Select;
 const ObjectSelect = <T extends BaseItem, >(props: ObjectSelectProps<T>): React.ReactElement => {
     const [selected, setSelected] = useState<T | null | undefined>(null);
     const {
-        data, placeholder, value, allowClear, showSearch, isLoading, labelKey = 'name', onChange, onSearch, renderOptionContent,
+        data, placeholder, value, allowClear, showSearch, isLoading, searchValue, labelKey = 'name', defaultOpen, onChange, onSearch, renderOptionContent,
     } = props;
 
     useEffect(() => {
@@ -41,15 +43,10 @@ const ObjectSelect = <T extends BaseItem, >(props: ObjectSelectProps<T>): React.
         onChange(item);
     }, [data, onChange]);
 
-    const onSelectSearch = useCallback((searchValue: string) => {
-        if (!onSearch) {
-            return;
-        }
-        onSearch(searchValue);
-    }, [onSearch]);
-
     return (
         <Select
+            searchValue={searchValue}
+            defaultOpen={defaultOpen}
             showSearch={showSearch}
             allowClear={allowClear}
             value={selected?.id}
@@ -57,7 +54,7 @@ const ObjectSelect = <T extends BaseItem, >(props: ObjectSelectProps<T>): React.
             filterOption={false}
             optionLabelProp="label"
             onSelect={onSelect}
-            onSearch={onSelectSearch}
+            onSearch={onSearch}
             loading={isLoading}
         >
             {data.map((el) => (

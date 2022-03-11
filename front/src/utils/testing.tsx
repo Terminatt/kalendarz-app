@@ -39,7 +39,5 @@ function render(
     return { element: rtlRender(ui, { wrapper: Wrapper as ComponentType, ...options }), store };
 }
 
-// re-export everything
 export * from '@testing-library/react';
-// override render method
 export { render };
