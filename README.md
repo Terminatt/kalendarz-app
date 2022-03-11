@@ -26,7 +26,6 @@ The project follows commit lint convention for commit names. To view full list o
 - User management panel for Admin
 - User management panel for logged in user
 - My Reservations panel for logged in user
-- i18n
 
 # Project setup
 Software Requirements:
