@@ -11,6 +11,7 @@ import { isBeforeToday } from '@utils/general';
 const { Option } = Select;
 const { useForm } = Form;
 
+// TODO  This component is still in development, for now it is just a layout
 const ReservationSearch: React.FC = () => {
     const [form] = useForm();
 
