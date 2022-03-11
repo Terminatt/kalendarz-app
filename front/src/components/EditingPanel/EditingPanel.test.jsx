@@ -3,11 +3,11 @@ import renderer from 'react-test-renderer';
 import EditingPanel from './EditingPanel';
 import { Form, Input } from 'antd';
 import { matchMedia } from '@utils/testing';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { PAGE_SIZE } from '@constants/constants';
 
 
-let data: {id: number, name: string}[] = []
+let data = []
 describe('Editing Panel Component', () => {
     beforeAll(() => {
         data = [

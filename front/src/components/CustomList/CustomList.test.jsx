@@ -6,7 +6,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import { PAGE_SIZE } from '@constants/constants';
 import { Simulate } from 'react-dom/test-utils';
 
-let data: {id: number, name: string}[] = []
+let data = []
 describe('Custom List Component', () => {
     beforeAll(() => {
         data = [
