@@ -14,7 +14,7 @@ export interface ReservationBlockChunkProps {
     blocks: number;
     selectedInterval?: TimeIntervalWithRoom;
     hoveredEnd?: Dayjs;
-    isPast: boolean;
+    isPast?: boolean;
     onClick?: (startLimit: Dayjs, endLimit: Dayjs, selected: Dayjs) => void;
     onMouseEnter?: (startLimit: Dayjs, endLimit: Dayjs, selected: Dayjs) => void;
     onMouseLeave?: () => void;
@@ -39,17 +39,19 @@ const ReservationBlockChunk: React.FC<ReservationBlockChunkProps> = (props) => {
             const cloned = time.clone();
             elements.push(
                 <td
-                    onMouseEnter={() => onMouseEnter && onMouseEnter(start, end, cloned)}
-                    onMouseLeave={onMouseLeave}
-                    onClick={() => onClick && onClick(start, end, cloned)}
+                    data-testid={`block-${i}`}
+                    onMouseEnter={() => !isPast && onMouseEnter && onMouseEnter(start, end, cloned)}
+                    onMouseLeave={() => !isPast && onMouseLeave && onMouseLeave()}
+                    onClick={() => !isPast && onClick && onClick(start, end, cloned)}
                     key={displayTime}
                     colSpan={2}
                     className={joinClassNames(['block', selected ? 'block-selected' : null, isPast ? 'block-disabled' : null])}
                 >
                     <button
+                        data-testid={`btn-${i}`}
                         disabled={isPast}
-                        onFocus={() => onMouseEnter && onMouseEnter(start, end, cloned)}
-                        onBlur={() => onMouseLeave}
+                        onFocus={() => !isPast && onMouseEnter && onMouseEnter(start, end, cloned)}
+                        onBlur={() => !isPast && onMouseLeave && onMouseLeave()}
                         type="button"
                         className="block-btn"
                     >
