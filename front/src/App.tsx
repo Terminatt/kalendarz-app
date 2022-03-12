@@ -34,7 +34,6 @@ const App: React.FC = () => {
     const [sidebarVisible, setSidebarVisible] = useState<boolean>(true);
     const bpContext = useContext(ResizeListenerContext);
     const dispatch = useDispatch();
-    const isLogged = useLogged();
 
     const onSidebarClose = useCallback(() => {
         setSidebarVisible(false);
@@ -67,7 +66,7 @@ const App: React.FC = () => {
             <div className="app-content">
                 <main>
                     <div className="app-content-bar">
-                        <UserSpace isLogged={isLogged} />
+                        <UserSpace />
                         <CustomButton variant="icon" aria-label="otwórz nawigacje" className="app-content-bar-hamburger" onClick={changeVisibility}>
                             <MenuOutlined />
                         </CustomButton>

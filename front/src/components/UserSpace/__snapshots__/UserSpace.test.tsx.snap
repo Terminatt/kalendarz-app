@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Custom Empty Component matches the snapshot 1`] = `
+<div
+  className="signing"
+>
+  <button
+    className="ant-btn custom-btn custom-btn-clear signing-login"
+    onClick={[Function]}
+    type="button"
+  >
+    <span>
+      Zaloguj się
+    </span>
+  </button>
+  <div
+    className="signing-register"
+  >
+    <button
+      className="ant-btn custom-btn custom-btn-primary"
+      onClick={[Function]}
+      type="button"
+    >
+      <span>
+        Rejestracja
+      </span>
+    </button>
+    <div
+      className="signing-forget-password"
+    >
+      Nie pamiętasz hasła?
+    </div>
+  </div>
+</div>
+`;

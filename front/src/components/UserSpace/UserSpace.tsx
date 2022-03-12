@@ -1,28 +1,30 @@
 import CustomButton from '@components/CustomButton/CustomButton';
 import SigningModal from '@components/Modals/SigningModal/SigningModal';
+import useLogged from '@hooks/useLogged';
 import { RootState } from '@store/index';
 import { openModal } from '@store/modals/slice';
 import { ModalType } from '@store/modals/types';
 import { logout } from '@store/user/asyncActions';
+import { isTestingEnv } from '@utils/testing';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import './UserSpace.less';
 
-export interface UserSpaceProps {
-    isLogged: boolean;
-}
-
-const UserSpace: React.FC<UserSpaceProps> = (props) => {
-    const { isLogged } = props;
+const UserSpace: React.FC = () => {
     const user = useSelector((state: RootState) => state.user);
     const { currentUser, isLoading } = user;
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const isLogged = useLogged();
 
     const openSigningModal = useCallback((modalType: ModalType) => {
         dispatch(openModal(modalType));
+
+        if (isTestingEnv()) {
+            console.log(modalType);
+        }
     }, []);
 
     const onLogout = useCallback(() => {
@@ -30,6 +32,10 @@ const UserSpace: React.FC<UserSpaceProps> = (props) => {
             onSuccess: () => navigate('/'),
             onError: () => navigate('/'),
         }));
+
+        if (isTestingEnv()) {
+            console.log();
+        }
     }, []);
 
     return isLogged ? (
@@ -58,8 +64,7 @@ const UserSpace: React.FC<UserSpaceProps> = (props) => {
                     Nie pamiętasz hasła?
                 </div>
             </div>
-
-            <SigningModal />
+            {!isTestingEnv() ? <SigningModal /> : null}
         </div>
     );
 };
