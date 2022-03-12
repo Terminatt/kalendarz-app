@@ -55,6 +55,19 @@ describe('Reservation Panel Component', () => {
                     created: dayjs().toISOString(),
                     color: '#000000'
                 }
+            },
+            {
+                id: 4,
+                name: 'room4',
+                created: dayjs().toISOString(),
+                floor: '1',
+                capacity: 75,
+                type: {
+                    id: 4,
+                    name: 'roomType4',
+                    created: dayjs().toISOString(),
+                    color: '#000000'
+                }
             }
         ];
 
@@ -91,7 +104,16 @@ describe('Reservation Panel Component', () => {
                         color: '#000000',
                         user: userMock,
                     }
-                ]
+                ],
+            4: [
+                {
+                    id: 5,
+                    start: dayjs().hour(8).second(0).millisecond(0),
+                    end: dayjs().hour(12).minute(0).second(0).millisecond(0),
+                    color: '#000000',
+                    user: userMock,
+                },
+            ]
         }
     })
 
@@ -177,6 +199,56 @@ describe('Reservation Panel Component', () => {
         }], expect.any(Function))
     });
 
+    it('does not trigger onReserve when there is period with no end', async () => {
+        const onReserve = jest.fn();
+        const { element } = render(
+            <ReservationPanel day={dayjs()} onReserve={onReserve}  rooms={rooms} reservations={reservations} />
+        );
+        
+        fireEvent.click(element.getAllByTestId('block-0')[0])
+        
+        fireEvent.click(await element.findByText('Zarezerwuj sale'))
+        
+        expect(onReserve).toBeCalledTimes(0);
+        expect(await element.queryByText('Ten okres czasu nie ma zakończenia')).not.toBeNull();
+    });
+
+    it('removes errors validation errors after removing an item', async () => {
+        const onReserve = jest.fn();
+        const { element } = render(
+            <ReservationPanel day={dayjs()} onReserve={onReserve}  rooms={rooms} reservations={reservations} />
+        );
+        
+        fireEvent.click(element.getAllByTestId('block-0')[0])
+        
+        fireEvent.click(await element.findByText('Zarezerwuj sale'))
+
+        fireEvent.click(await element.findByText('Usuń'))
+
+        
+        expect(onReserve).toBeCalledTimes(0);
+        expect(await element.queryByText('Ten okres czasu nie ma zakończenia')).toBeNull();
+    });
+
+    it('triggers onReserve when period in period start was after the end', async () => {
+        const onReserve = jest.fn();
+        const { element } = render(
+            <ReservationPanel day={dayjs()} onReserve={onReserve}  rooms={rooms} reservations={reservations} />
+        );
+        
+        fireEvent.click(element.getAllByTestId('block-3')[0])
+        fireEvent.click(element.getAllByTestId('block-0')[0])
+        
+        fireEvent.click(await element.findByText('Zarezerwuj sale'))
+        
+        expect(onReserve).toBeCalledTimes(1);
+        expect(onReserve).toBeCalledWith([{
+            start: dayjs().hour(8).minute(0).second(0).millisecond(0).toISOString(),
+            end: dayjs().hour(8).minute(45).second(0).millisecond(0).toISOString(),
+            room: 1,
+        }], expect.any(Function))
+    });
+
     it('triggers onReserve when there is selected period', async () => {
         const onReserve = jest.fn();
         const { element } = render(
@@ -196,6 +268,37 @@ describe('Reservation Panel Component', () => {
         }], expect.any(Function))
     });
 
+    it('triggers onReserve after validation error when there is selected end', async () => {
+        const onReserve = jest.fn();
+        const { element } = render(
+            <ReservationPanel day={dayjs()} onReserve={onReserve} rooms={rooms} reservations={reservations} />
+        );
+        
+        fireEvent.click(element.getAllByTestId('block-0')[0])
+        fireEvent.click(await element.findByText('Zarezerwuj sale'))
+
+        fireEvent.click(element.getAllByTestId('block-3')[0])
+        fireEvent.click(await element.findByText('Zarezerwuj sale'))
+        
+        expect(onReserve).toBeCalledTimes(1);
+        expect(onReserve).toBeCalledWith([{
+            start: dayjs().hour(8).minute(0).second(0).millisecond(0).toISOString(),
+            end: dayjs().hour(8).minute(45).second(0).millisecond(0).toISOString(),
+            room: 1,
+        }], expect.any(Function))
+    });
+
+    it('does not trigger on select when showing reservations from the past', async () => {
+        const onSelectSpy = jest.spyOn(console, 'log');
+        const { element } = render(
+            <ReservationPanel day={dayjs('2022-02-19')} rooms={rooms} reservations={{}} />
+        );
+        
+        fireEvent.click(element.getAllByTestId('block-0')[0])
+
+        expect(onSelectSpy).not.toBeCalled();
+    });
+
     it('removes reservation period', async () => {
         const { element } = render(
             <ReservationPanel day={dayjs()} rooms={rooms} reservations={reservations} />
@@ -209,6 +312,8 @@ describe('Reservation Panel Component', () => {
         expect(await element.queryByText('Zarezerwuj sale')).toBeNull();
     });
 
+    
+
     it('clears all reservation periods', async () => {
         const { element } = render(
             <ReservationPanel day={dayjs()} rooms={rooms} reservations={reservations} />
@@ -220,6 +325,46 @@ describe('Reservation Panel Component', () => {
         fireEvent.click(await element.findByText('Wyczyść'))
 
         expect(await element.queryByText('Zarezerwuj sale')).toBeNull();
+    });
+
+    it('triggers onHoverBlock', async () => {
+        const hoverSpy = jest.spyOn(console, 'log');
+        const { element } = render(
+            <ReservationPanel day={dayjs()} rooms={rooms} reservations={reservations} />
+        );
+        
+        fireEvent.mouseEnter(element.getAllByTestId('block-0')[0])
+        
+        expect(hoverSpy).toBeCalledTimes(1);
+        expect(hoverSpy).toBeCalledWith(
+            dayjs().hour(8).minute(0).second(0).millisecond(0),
+            dayjs().hour(9).minute(0).second(0).millisecond(0),
+            dayjs().hour(8).minute(0).second(0).millisecond(0),
+            rooms[0],
+        )
+    });
+
+    it('triggers onMouseLeave', async () => {
+        const spy = jest.spyOn(console, 'log');
+        const { element } = render(
+            <ReservationPanel day={dayjs()} rooms={rooms} reservations={reservations} />
+        );
+        
+        fireEvent.mouseEnter(element.getAllByTestId('block-0')[0])
+        expect(spy).toBeCalledTimes(1);
+        expect(spy).toBeCalledWith(
+            dayjs().hour(8).minute(0).second(0).millisecond(0),
+            dayjs().hour(9).minute(0).second(0).millisecond(0),
+            dayjs().hour(8).minute(0).second(0).millisecond(0),
+            rooms[0],
+        )
+
+        fireEvent.mouseLeave(element.getAllByTestId('block-0')[0])
+
+        expect(spy).toBeCalledTimes(2);
+        expect(spy).toBeCalledWith({})
+
+        
     });
 
 });

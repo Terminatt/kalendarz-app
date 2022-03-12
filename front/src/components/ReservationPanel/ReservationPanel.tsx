@@ -14,6 +14,7 @@ import { ReservationHashMap, ReservationWithParsedDate } from '@store/reservatio
 import { cloneDeep } from 'lodash';
 import { Alert } from 'antd';
 import CustomEmpty from '@components/CustomEmpty/CustomEmpty';
+import { isTestingEnv } from '@utils/testing';
 import ReservationBlockChunk from './ReservationBlockChunk/ReservationBlockChunk';
 import { getDayReservationRanges } from './helpers';
 import ReservationSummary from './ReservationSummary/ReservationSummary';
@@ -143,7 +144,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         setValidationErrors({});
     }, [day]);
 
-    const removeValidationErrors = useCallback((error: ReservationValidationError | ReservationValidationError[] | 'all', roomId: Id) => {
+    const removeValidationErrors = useCallback((error: ReservationValidationError | 'all', roomId: Id) => {
         const errorsCopy = cloneDeep(validationErrors);
 
         if (!errorsCopy[roomId]) {
@@ -152,12 +153,6 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
 
         if (error === 'all') {
             delete errorsCopy[roomId];
-            setValidationErrors(errorsCopy);
-            return;
-        }
-
-        if (Array.isArray(error)) {
-            errorsCopy[roomId] = errorsCopy[roomId].filter((el) => error.includes(el));
             setValidationErrors(errorsCopy);
             return;
         }
@@ -201,6 +196,10 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         removeValidationErrors(ReservationValidationError.NO_END, room.id);
 
         setSelectedBlocks(copy);
+
+        if (isTestingEnv()) {
+            console.log(copy);
+        }
     }, [selectedBlocks, validationErrors, removeValidationErrors]);
 
     const onHoverBlock = useCallback((startLimit: Dayjs, endLimit: Dayjs, hovered: Dayjs, room: Room) => {
@@ -217,6 +216,10 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         };
 
         setHoveredBlocks(copy);
+
+        if (isTestingEnv()) {
+            console.log(startLimit, endLimit, hovered, room);
+        }
     }, [hoveredBlocks]);
 
     const onMouseLeave = useCallback((room: Room) => {
@@ -226,6 +229,10 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         }
 
         setHoveredBlocks(copy);
+
+        if (isTestingEnv()) {
+            console.log(copy);
+        }
     }, [hoveredBlocks]);
 
     const createChunk = (endIndex: number, start: Dayjs, room: Room) => {
