@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-export default (props) => (
-  <div>
+export default (props) => {
+  useEffect(() => {
+    props.onExited && props.onExited();
+  }, [])
+
+  return <div>
     {props.in ? props.children : null}
   </div>
-)
+}

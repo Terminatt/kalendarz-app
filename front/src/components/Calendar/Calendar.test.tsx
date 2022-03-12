@@ -39,6 +39,61 @@ describe('Calendar Component', () => {
         fireEvent.click(element.getByText(/01/i));
         expect(onDayClick).toBeCalledTimes(1);
     });
+
+    it('changes to the year before', async () => {
+        MockDate.set('2022-01-01')
+
+        const element = render(
+            <Calendar />
+        );
+        fireEvent.click(element.getByTestId('left-btn'));
+
+        expect(await element.queryByText('2021')).not.toBeNull();
+    });
+
+    it('changes to the next year', async () => {
+        MockDate.set('2022-12-31')
+
+        const element = render(
+            <Calendar />
+        );
+        fireEvent.click(element.getByTestId('right-btn'));
+
+        expect(await element.queryByText('2023')).not.toBeNull();
+    });
+
+    it('changes to the next month', async () => {
+        MockDate.set('2022-03-01')
+
+        const element = render(
+            <Calendar />
+        );
+        fireEvent.click(element.getByTestId('right-btn'));
+
+        expect(await element.queryByText('Kwiecień')).not.toBeNull();
+    });
+
+    it('changes to the month before', async () => {
+        MockDate.set('2022-03-01')
+
+        const element = render(
+            <Calendar />
+        );
+        fireEvent.click(element.getByTestId('left-btn'));
+
+        expect(await element.queryByText('Luty')).not.toBeNull();
+    });
+
+    it('changes to the year before', async () => {
+        MockDate.set('2022-01-01')
+
+        const element = render(
+            <Calendar />
+        );
+        fireEvent.click(element.getByTestId('left-btn'));
+
+        expect(await element.queryByText('2021')).not.toBeNull();
+    });
 });
 
 describe('Calendar Component helpers', () => {

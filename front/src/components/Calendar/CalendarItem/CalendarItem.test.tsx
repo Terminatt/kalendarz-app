@@ -56,6 +56,13 @@ describe('Calendar Item Types', () => {
 });
 
 describe('Calendar Item', () => {
+    it('renders text properly', async () => {
+        const element = render(<CalendarItem type={CalendarItemType.NORMAL} dayNumber={'01'} dayName={DAY_NAMES[0]} />);
+
+        expect(await element.queryByText('01')).not.toBeNull();
+        expect(await element.queryByText('Nd')).not.toBeNull();
+    });
+
     it('Normal day triggers click', () => {
         const onClick = jest.fn();
         const element = render(<CalendarItem onClick={onClick} type={CalendarItemType.NORMAL} dayNumber={'01'} dayName={DAY_NAMES[0]} />)

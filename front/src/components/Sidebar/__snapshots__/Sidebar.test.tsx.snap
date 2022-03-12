@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Sidebar Component matches the snapshot 1`] = `
+<div
+  className="sidebar"
+  data-testid="sidebar"
+  style={
+    Object {
+      "display": "",
+    }
+  }
+>
+  <div
+    className="sidebar-wrapper"
+  >
+    <header
+      className="sidebar-wrapper-header"
+    >
+      <h1
+        className="sidebar-wrapper-header-content"
+      >
+        <a
+          className="sidebar-wrapper-header-content-link"
+          href="/"
+          onClick={[Function]}
+          tabIndex={0}
+        >
+          This is a text
+        </a>
+      </h1>
+    </header>
+    <div
+      className="sidebar-wrapper-top"
+    >
+      <div>
+        Top Test
+      </div>
+    </div>
+    <div
+      className="ant-divider ant-divider-horizontal"
+      role="separator"
+    />
+    <div
+      className="sidebar-wrapper-bottom"
+    >
+      <div>
+        Bottom Test
+      </div>
+    </div>
+  </div>
+  <div
+    className="mask sidebar-mask"
+  />
+</div>
+`;

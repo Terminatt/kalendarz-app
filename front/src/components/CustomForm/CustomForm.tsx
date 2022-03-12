@@ -4,6 +4,7 @@ import { Form, FormProps } from 'antd';
 import CustomButton from '@components/CustomButton/CustomButton';
 import { GenericReactContent, ResponseError } from '@generics/generics';
 import { joinClassNames } from '@utils/general';
+import { useForm } from 'antd/lib/form/Form';
 import { parseErrorResponse } from './helpers';
 
 import './CustomForm.less';
@@ -22,9 +23,10 @@ const CustomForm: React.FC<CustomFormProps> = (props) => {
         formProps, className, children, primaryBtnText, isLoading, errorResponse,
     } = props;
     const { form, ...restFormProps } = formProps;
+    const [internalForm] = form ? [form] : useForm();
 
     const clearForm = () => {
-        form?.resetFields();
+        internalForm?.resetFields();
     };
 
     useEffect(() => {

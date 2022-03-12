@@ -11,7 +11,13 @@ import useLogged from '@hooks/useLogged';
 
 import './Navigation.less';
 
-const Navigation: React.FC = () => {
+export interface NavigationProps {
+    opened?: string[]
+    onNavItemSelect?: (url: string) => void;
+}
+
+const Navigation: React.FC<NavigationProps> = (props) => {
+    const { opened, onNavItemSelect } = props;
     const [openKeys, setOpenKeys] = useState<string[]>([]);
     const navigate = useNavigate();
     const location = useLocation();
@@ -25,6 +31,12 @@ const Navigation: React.FC = () => {
         // the keypath is constructed from bottom to top: Menu.Item key -> SubMenu key
         const url = keyPath.reverse().join('/');
         navigate(url);
+
+        if (!onNavItemSelect) {
+            return;
+        }
+
+        onNavItemSelect(url);
     }, []);
 
     const onOpen = useCallback((keys: string[]) => {
@@ -47,12 +59,12 @@ const Navigation: React.FC = () => {
             <CustomMenu
                 onOpenChange={onOpen}
                 selectedKeys={selectedKeys}
-                openKeys={openKeys}
+                openKeys={opened || openKeys}
                 onSelect={onSelect}
                 mode="inline"
             >
                 <Menu.SubMenu key="user-zone" icon={<UserOutlined />} title="Strefa Użytkownika">
-                    <Menu.Item icon={<CalendarOutlined />} key="my-reservations">Moje Rezerwacje</Menu.Item>
+                    <Menu.Item data-testid="my-reservations" icon={<CalendarOutlined />} key="my-reservations">Moje Rezerwacje</Menu.Item>
                     <Menu.Item icon={<FolderOutlined />} key="my-account">Moje Konto</Menu.Item>
                 </Menu.SubMenu>
                 {isAdmin ? (

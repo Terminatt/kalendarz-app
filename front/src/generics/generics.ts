@@ -42,7 +42,7 @@ export interface ErrorType {
 export type ValidationErrorItem = string[] | ErrorType | undefined;
 
 export interface ResponseError {
-  [key: string]: ValidationErrorItem
+  [key: string]: ValidationErrorItem | ValidationErrorItem[]
 }
 
 export interface PaginatedResults<T> {

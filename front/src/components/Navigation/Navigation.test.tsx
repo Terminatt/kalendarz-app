@@ -2,8 +2,8 @@
 
 import { userMock, adminUserMock } from '@entity-mocks/User';
 import { store } from '@store/index';
-import { render } from '@utils/testing';
-import React from 'react';
+import { fireEvent, render, waitFor } from '@utils/testing';
+import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
 import renderer from 'react-test-renderer';
@@ -75,7 +75,7 @@ describe('Navigation Component', () => {
             }
         );
         
-        expect(await element.findByText('Strefa Użytkownika')).not.toBeNull();
+        expect(await element.queryByText('Strefa Użytkownika')).not.toBeNull();
     });
 
     it('it shows admin zone when logged in as admin user', async () => {
@@ -89,6 +89,60 @@ describe('Navigation Component', () => {
             }
         );
         
-        expect(await element.findByText('Strefa Administratora')).not.toBeNull();
+        expect(await element.queryByText('Strefa Administratora')).not.toBeNull();
+    });
+
+    it('it triggers useEffect when window location changes', async () => {
+        const mockUseEffect = jest.fn();
+        React.useEffect = mockUseEffect;
+        global.window = { location: { pathname: null } as any } as any;
+        
+        const { element } = render(
+            <MemoryRouter>
+                <Navigation opened={['user-zone']} />
+            </MemoryRouter>, 
+            {
+                preloadedState: {user: {currentUser: adminUserMock}}
+            }
+        );
+        global.window = { location: { pathname: '/test' } as any } as any;
+
+        expect(mockUseEffect).toBeCalled();
+    });
+
+    it('it triggers useEffect when window location changes', async () => {
+        const mockUseEffect = jest.fn();
+        React.useEffect = mockUseEffect;
+        global.window = { location: { pathname: null } as any } as any;
+        
+        const { element } = render(
+            <MemoryRouter>
+                <Navigation opened={['user-zone']} />
+            </MemoryRouter>, 
+            {
+                preloadedState: {user: {currentUser: adminUserMock}}
+            }
+        );
+        global.window = { location: { pathname: '/test' } as any } as any;
+
+        expect(mockUseEffect).toBeCalled();
+    });
+
+    it('it triggers url change when clicking on navigation item', async () => {
+        const onNavItemSelect = jest.fn();
+        
+        const { element } = render(
+            <MemoryRouter>
+                <Navigation onNavItemSelect={onNavItemSelect} opened={['user-zone']} />
+            </MemoryRouter>, 
+            {
+                preloadedState: {user: {currentUser: adminUserMock}}
+            }
+        );
+
+        fireEvent.click(await element.findByTestId('my-reservations'))
+
+        expect(onNavItemSelect).toBeCalledTimes(1);
+        expect(onNavItemSelect).toBeCalledWith('user-zone/my-reservations');
     });
 });

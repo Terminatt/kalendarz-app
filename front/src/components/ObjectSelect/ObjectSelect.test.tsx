@@ -65,9 +65,9 @@ describe('Object Select Component', () => {
                 <div>{item.name}</div>
             )} />
         );        
-        expect(await element.findByText(data[0].name)).not.toBeNull();
-        expect(await element.findByText(data[1].name)).not.toBeNull();
-        expect(await element.findByText(data[2].name)).not.toBeNull();
+        expect(await element.queryByText(data[0].name)).not.toBeNull();
+        expect(await element.queryByText(data[1].name)).not.toBeNull();
+        expect(await element.queryByText(data[2].name)).not.toBeNull();
     });
 
     it('render label key properly in select', async () => {
@@ -78,6 +78,6 @@ describe('Object Select Component', () => {
         );
 
         fireEvent.click(await element.findByText(data[0].name));
-        expect(await element.findByText(data[1].label)).not.toBeNull();
+        expect(await element.queryByText(data[1].label)).not.toBeNull();
     });
 });

@@ -274,8 +274,9 @@ describe('Reservation Block Chunk helpers', () => {
         });
 
         it('should return true when is the same as start', () => {
-            const selected = isBlockSelected(dayjs().hour(1), {
-                start: dayjs().hour(1), 
+            const current = dayjs().hour(1);
+            const selected = isBlockSelected(current, {
+                start: current.clone(), 
                 end: dayjs().hour(3),
                 startLimit: dayjs().hour(0),
                 endLimit: dayjs().hour(4),

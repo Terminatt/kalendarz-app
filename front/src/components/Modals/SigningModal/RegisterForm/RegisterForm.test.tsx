@@ -7,6 +7,7 @@ import RegisterForm from './RegisterForm';
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { userMock } from '@entity-mocks/User';
+import { RequestErrorType } from '@constants/constants';
 
 export const handlers = [
     rest.post('/users', (req, res, ctx) => {
@@ -83,8 +84,39 @@ describe('Register Form Component', () => {
         const btn = element.getByText('Zarejestruj się');
         fireEvent.click(btn)
         await waitFor(() => {
-            expect(element.getByText('Hasło nie może składać się z samych cyfr')).not.toBeNull();
+            expect(element.queryByText('Hasło nie może składać się z samych cyfr')).not.toBeNull();
+        })
+    });
+
+    it('should display field error from api', async () => {
+
+        server.use(
+            rest.post('/users', (req, res, ctx) => {
+                return res(ctx.status(400) ,ctx.json({
+                    username: {
+                        message: 'This username has been taken',
+                        type: RequestErrorType.USERNAME_TAKEN
+                    },
+                    email: {
+                        message: 'This email has been taken',
+                        type: RequestErrorType.EMAIL_TAKEN
+                    }
+                }), ctx.delay(150))
+            })
+        )
+        
+        const { element } = render(<RegisterForm
+            initialValues={{...userMock, password: '123asdw2a!@', repeatPassword: '123asdw2a!@'}} 
+        />);
+        
+        const btn = element.getByText('Zarejestruj się');
+        fireEvent.click(btn)
+
+        await waitFor(async () => {
+            expect(await element.queryByText('Użytkownik o podanej nazwie już istnieje')).not.toBeNull();
+            expect(await element.queryByText('Użytkownik o podanym emailu już istnieje')).not.toBeNull();
         })
     });
 
 });
+

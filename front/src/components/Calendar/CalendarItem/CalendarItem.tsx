@@ -27,6 +27,7 @@ const CalendarItem: React.FC<CalendarItemProps> = (props) => {
         if (!onClick) {
             return;
         }
+
         onClick();
     }, [onClick]);
 

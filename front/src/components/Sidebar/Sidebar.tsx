@@ -15,7 +15,7 @@ export interface SidebarProps {
     bottom?: GenericReactContent;
     headerText?: string | GenericReactContent
     visible: boolean;
-    isSmallScreen: boolean;
+    isSmallScreen?: boolean;
     onClose?: () => void;
 }
 
@@ -26,11 +26,11 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
     } = props;
 
     const renderContent = () => (
-        <div className="sidebar" style={{ display: isSmallScreen && !isAfterFirstTrigger ? 'none' : '' }}>
+        <div className="sidebar" data-testid="sidebar" style={{ display: isSmallScreen && !isAfterFirstTrigger ? 'none' : '' }}>
             <div className="sidebar-wrapper">
                 {onClose && (
                     <div className="sidebar-wrapper-close">
-                        <CustomButton variant="icon-border" aria-label="zamknij nawigacje" onClick={onClose}>
+                        <CustomButton data-testid="close-btn" variant="icon-border" aria-label="zamknij nawigacje" onClick={onClose}>
                             <CloseOutlined className="sidebar-wrapper-close-icon" />
                         </CustomButton>
                     </div>
