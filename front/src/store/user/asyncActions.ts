@@ -35,6 +35,12 @@ export const getUsers = createCustomAsyncThunk<void, ListRequestPayload<User> | 
     errorMessage: 'Wystąpił błąd podczas pobierania użytkowników',
 });
 
+export const getUser = createCustomAsyncThunk<void, Id, User>('user/single', {
+    request: (id) => axios.get(`users/${id}/`),
+    successMessage: 'Zaktualizowano wybranego użytkownika',
+    errorMessage: 'Wystąpił błąd podczas aktualizacji użytkownika',
+});
+
 export const updateUser = createCustomAsyncThunk<UserErrorResponse, BaseUser>('user/patch', {
     request: ({ id, ...payload }) => axios.patch(`users/${id}/`, payload),
     successMessage: 'Zaktualizowano wybranego użytkownika',

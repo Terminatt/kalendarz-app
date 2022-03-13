@@ -5,7 +5,7 @@ import {
 import { createCustomSlice, DefaultMatchers } from '@utils/store';
 import { notification } from 'antd';
 import {
-    authenticate, deleteUser, getUsers, login, logout, registerAccount, updateUser,
+    authenticate, deleteUser, getUser, getUsers, login, logout, registerAccount, updateUser,
 } from './asyncActions';
 import { User, UserState } from './types';
 
@@ -20,9 +20,9 @@ const initialState: UserState<User> = {
 };
 
 const matchers: DefaultMatchers = {
-    pending: isPending(registerAccount, login, logout, getUsers, updateUser, deleteUser),
-    fulfilled: isFulfilled(registerAccount, login, logout, getUsers, updateUser, deleteUser),
-    rejected: isRejected(registerAccount, logout, getUsers, updateUser, deleteUser),
+    pending: isPending(registerAccount, login, logout, getUsers, updateUser, deleteUser, getUser),
+    fulfilled: isFulfilled(registerAccount, login, logout, getUsers, updateUser, deleteUser, getUser),
+    rejected: isRejected(registerAccount, logout, getUsers, updateUser, deleteUser, getUser),
 };
 
 export const userSlice = createCustomSlice(
@@ -65,6 +65,9 @@ export const userSlice = createCustomSlice(
             })
             .addCase(getUsers.fulfilled, (state, res) => {
                 state.data = res.payload.data;
+            })
+            .addCase(getUser.fulfilled, (state, res) => {
+                state.currentUser = res.payload.data;
             });
     },
 );
