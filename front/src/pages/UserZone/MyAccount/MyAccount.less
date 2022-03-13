@@ -7,5 +7,14 @@
 
     &-content {
         .editing-panel-content();
+
+        &-section {
+            &:not(:first-child) {
+                margin-top: @margin-huge;
+            }
+            &-header {
+                border-bottom: 1px solid @border-color-base;
+            }
+        }
     }
 }

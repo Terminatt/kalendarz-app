@@ -65,50 +65,61 @@ const MyAccount: React.FC = () => {
     return (
         <div className="my-account">
             <SingleColumnLayout headerText="Moje konto" className="my-account-content">
-                <CustomForm errorResponse={errorResponse} formProps={{ form, onFinish }} primaryBtnText="Zaktualizuj swoje konto">
-                    <Form.Item
-                        name="firstName"
-                        label="Imię"
-                        rules={[getMaxCharRule(24, 'Imię może mieć maksymalnie 24 znaki')]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="lastName"
-                        label="Nazwisko"
-                        rules={[getMaxCharRule(24, 'Nazwisko może mieć maksymalnie 24 znaki')]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="username"
-                        label="Nazwa użytkownika"
-                        rules={[getMaxCharRule(24, 'Nazwa użytkownika może mieć maksymalnie 24 znaki')]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="email"
-                        label="Adres email"
-                        rules={[
-                            getMaxCharRule(50, 'Adres email może mieć maksymalnie 50 znaków'),
-                            getEmailRule(),
-                        ]}
-                    >
-                        <Input type="email" />
-                    </Form.Item>
-                    <Form.Item
-                        rules={[
-                            getMaxCharRule(24, 'Hasło może mieć maksymalnie 24 znaki'),
-                            getMinCharRule(9, 'Hasło musi mieć conajmniej 9 znaków'),
-                            getNumericPasswordRule(),
-                            getSpecialCharacterPasswordRule(),
-                        ]}
-                        name="password"
-                        label="Nowe hasło"
-                    >
-                        <Input type="password" />
-                    </Form.Item>
+                <CustomForm
+                    hideClear
+                    errorResponse={errorResponse}
+                    formProps={{ form, onFinish }}
+                    primaryBtnText="Zaktualizuj swoje konto"
+                >
+                    <div className="my-account-content-section my-account-content-personal">
+                        <h3 className="my-account-content-section-header">Dane personalne</h3>
+                        <Form.Item
+                            name="firstName"
+                            label="Imię"
+                            rules={[getMaxCharRule(24, 'Imię może mieć maksymalnie 24 znaki')]}
+                        >
+                            <Input placeholder="Imię" />
+                        </Form.Item>
+                        <Form.Item
+                            name="lastName"
+                            label="Nazwisko"
+                            rules={[getMaxCharRule(24, 'Nazwisko może mieć maksymalnie 24 znaki')]}
+                        >
+                            <Input placeholder="Nazwisko" />
+                        </Form.Item>
+                    </div>
+                    <div className="my-account-content-section my-account-content-account">
+                        <h3 className="my-account-content-section-header">Szczegóły konta</h3>
+                        <Form.Item
+                            name="username"
+                            label="Nazwa użytkownika"
+                            rules={[getMaxCharRule(24, 'Nazwa użytkownika może mieć maksymalnie 24 znaki')]}
+                        >
+                            <Input placeholder="Nazwa użytkownika" />
+                        </Form.Item>
+                        <Form.Item
+                            name="email"
+                            label="Adres email"
+                            rules={[
+                                getMaxCharRule(50, 'Adres email może mieć maksymalnie 50 znaków'),
+                                getEmailRule(),
+                            ]}
+                        >
+                            <Input placeholder="email" type="email" />
+                        </Form.Item>
+                        <Form.Item
+                            rules={[
+                                getMaxCharRule(24, 'Hasło może mieć maksymalnie 24 znaki'),
+                                getMinCharRule(9, 'Hasło musi mieć conajmniej 9 znaków'),
+                                getNumericPasswordRule(),
+                                getSpecialCharacterPasswordRule(),
+                            ]}
+                            name="password"
+                            label="Nowe hasło"
+                        >
+                            <Input placeholder="Nowe hasło" type="password" />
+                        </Form.Item>
+                    </div>
                 </CustomForm>
             </SingleColumnLayout>
         </div>
