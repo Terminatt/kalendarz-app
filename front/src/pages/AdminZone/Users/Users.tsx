@@ -165,7 +165,7 @@ const Users: React.FC = () => {
             key="ban"
             variant="clear"
         >
-            Panel kar
+            Zbanuj
         </CustomButton>
     ), [onPunishementPanelClick]);
 
