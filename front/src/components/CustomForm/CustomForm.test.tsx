@@ -38,6 +38,18 @@ describe('Custom Form Component', () => {
         expect(element.getByText(text)).not.toBeNull();
     });
 
+    it('renders does not render the clear button', async () => {
+        const text = 'Test'
+        const element = render(
+            <CustomForm formProps={{}} primaryBtnText={text} hideClear>
+                <Form.Item>
+                    <Input />
+                </Form.Item>
+            </CustomForm>
+        );
+        expect(await element.queryByText('Wyczyść')).toBeNull();
+    });
+
     it('triggers triggers update on providing error response', () => {
         const mockUseEffect = jest.fn();
         React.useEffect = mockUseEffect

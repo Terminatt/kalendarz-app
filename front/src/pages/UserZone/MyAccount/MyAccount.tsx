@@ -50,6 +50,9 @@ const MyAccount: React.FC = () => {
 
         dispatch(updateUser({
             requestPayload: { id: currentUser?.id, ...values },
+            onSuccess: () => {
+                dispatch(getUser({ requestPayload: currentUser.id }));
+            },
             onError: (errorData: AxiosError<UserErrorResponse, any>) => {
                 if (!errorData.response) {
                     return;

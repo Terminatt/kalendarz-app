@@ -67,7 +67,7 @@ describe('Register Form Component', () => {
     });
 
     it('appear an error with special character password', async () => {
-        const { element } = render(<RegisterForm 
+        const { element } = render(<RegisterForm initialValues={{...userMock, password: 'test1', repeatPassword: 'test1'}}
         />);
         
         const btn = element.getByText('Zarejestruj się');
@@ -78,7 +78,7 @@ describe('Register Form Component', () => {
     });
 
     it('appear an error with numeric password', async () => {
-        const { element } = render(<RegisterForm 
+        const { element } = render(<RegisterForm initialValues={{...userMock, password: '1233479284', repeatPassword: '1233479284'}}
         />);
         
         const btn = element.getByText('Zarejestruj się');

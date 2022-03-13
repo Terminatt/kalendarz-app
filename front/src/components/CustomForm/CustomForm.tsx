@@ -15,12 +15,13 @@ export interface CustomFormProps {
   className?: string;
   primaryBtnText: string;
   isLoading?: boolean;
+  hideClear?: boolean;
   errorResponse?: ResponseError | null;
 }
 
 const CustomForm: React.FC<CustomFormProps> = (props) => {
     const {
-        formProps, className, children, primaryBtnText, isLoading, errorResponse,
+        formProps, className, children, primaryBtnText, isLoading, errorResponse, hideClear,
     } = props;
     const { form, ...restFormProps } = formProps;
     const [internalForm] = form ? [form] : useForm();
@@ -51,7 +52,7 @@ const CustomForm: React.FC<CustomFormProps> = (props) => {
                     {primaryBtnText}
 
                 </CustomButton>
-                <CustomButton className="custom-form-btn" variant="clear" onClick={clearForm}>Wyczyść</CustomButton>
+                {!hideClear && <CustomButton className="custom-form-btn" variant="clear" onClick={clearForm}>Wyczyść</CustomButton>}
             </div>
         </Form>
     );
