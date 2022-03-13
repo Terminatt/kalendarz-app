@@ -6,7 +6,7 @@ export function isNumber(value: unknown): value is number {
 }
 
 export function isDefined<T>(value?: T | null): value is T | null {
-    return value !== undefined;
+    return typeof value !== 'undefined';
 }
 
 export function isBeforeToday(current: Dayjs): boolean {
