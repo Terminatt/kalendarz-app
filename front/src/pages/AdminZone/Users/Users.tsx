@@ -161,6 +161,7 @@ const Users: React.FC = () => {
             icon={<RobotOutlined />}
             size="small"
             key="ban"
+            variant="clear"
         >
             Panel kar
         </CustomButton>
