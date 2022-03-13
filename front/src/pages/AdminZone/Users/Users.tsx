@@ -22,6 +22,7 @@ import { RobotOutlined } from '@ant-design/icons';
 import dayjs, { Dayjs } from 'dayjs';
 import CustomDatePicker from '@components/CustomDatePicker/CustomDatePicker';
 import CustomForm from '@components/CustomForm/CustomForm';
+import { FieldData } from 'rc-field-form/lib/interface';
 import UserItem from './UserItem/UserItem';
 
 import './Users.less';
@@ -48,6 +49,7 @@ const Users: React.FC = () => {
     const [additionalPanelVisible, setAdditionalPanelVisible] = useState<boolean>(false);
     const { isLoading, data } = useSelector((state: RootState) => state.user);
     const isBanned = !!selected?.permaBanned || dayjs(selected?.bannedTill).isAfter(dayjs());
+    const [isPermaBanFieldTicked, setIsPermaBanFieldTicked] = useState<boolean>(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -167,6 +169,31 @@ const Users: React.FC = () => {
         </CustomButton>
     ), [onPunishementPanelClick]);
 
+    const onBanFormFieldsChange = useCallback((changedFields: FieldData[]) => {
+        const permaBanField = changedFields.find((el) => {
+            if (Array.isArray(el.name)) {
+                return el.name[0] as string === 'permaBanned';
+            }
+            return el.name === 'permaBanned';
+        });
+
+        if (permaBanField?.value) {
+            banForm.setFieldsValue({
+                bannedTill: undefined,
+            });
+        } else {
+            banForm.setFieldsValue({
+                bannedTill: selected?.bannedTill ? dayjs(selected.bannedTill) : undefined,
+            });
+        }
+
+        if (typeof permaBanField?.value !== 'boolean') {
+            return;
+        }
+
+        setIsPermaBanFieldTicked(permaBanField.value);
+    }, [selected, banForm]);
+
     const disabledDates = useCallback((current: Dayjs): boolean => isBeforeToday(current), []);
 
     return (
@@ -190,6 +217,7 @@ const Users: React.FC = () => {
                                 formProps={{
                                     form: banForm,
                                     onFinish: onPunishementFormSubmit,
+                                    onFieldsChange: onBanFormFieldsChange,
                                 }}
                             >
                                 <Form.Item
@@ -202,7 +230,7 @@ const Users: React.FC = () => {
                                     <Checkbox />
                                 </Form.Item>
                                 <Form.Item label="Podaj datę końca kary" name="bannedTill">
-                                    <CustomDatePicker disabledDate={disabledDates} placeholder="Data końca kary" />
+                                    <CustomDatePicker disabled={isPermaBanFieldTicked} disabledDate={disabledDates} placeholder="Data końca kary" />
                                 </Form.Item>
                             </CustomForm>
                         </div>

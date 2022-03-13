@@ -21,7 +21,6 @@ import 'styles/global.less';
 import 'styles/overrides.less';
 import 'styles/animations.less';
 import './App.less';
-import useLogged from '@hooks/useLogged';
 
 const AppHeader = () => (
     <span className="header-text">
