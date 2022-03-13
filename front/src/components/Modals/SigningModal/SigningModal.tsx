@@ -6,12 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ModalType } from '@store/modals/types';
 import { changeModalType, closeModal } from '@store/modals/slice';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import { isTestingEnv } from '@utils/testing';
 import RegisterForm from './RegisterForm/RegisterForm';
 import LoginForm from './LoginForm/LoginForm';
 
 import './SigningModal.less';
 
-// TODO needs E2E testing with cypress due to transitions
 const SigningModal: React.FC = () => {
     const modal = useSelector((state: RootState) => state.modal);
     const visible = useModalVisibility([ModalType.LOGIN_MODAL, ModalType.REGISTER_MODAL]);
@@ -28,13 +28,18 @@ const SigningModal: React.FC = () => {
         dispatch(changeModalType(modalType));
     }, []);
 
-    const animateModalSwitch = useCallback((node: React.ReactNode) => (
-        <SwitchTransition>
-            <CSSTransition key={isLogin ? 'login' : 'register'} classNames="opacity" timeout={{ enter: 500, exit: 300 }}>
-                {node}
-            </CSSTransition>
-        </SwitchTransition>
-    ), [isLogin]);
+    const animateModalSwitch = useCallback((node: React.ReactNode) => {
+        if (isTestingEnv()) {
+            return node;
+        }
+        return (
+            <SwitchTransition>
+                <CSSTransition key={isLogin ? 'login' : 'register'} classNames="opacity" timeout={{ enter: 500, exit: 300 }}>
+                    {node}
+                </CSSTransition>
+            </SwitchTransition>
+        );
+    }, [isLogin]);
 
     return (
         <Modal
