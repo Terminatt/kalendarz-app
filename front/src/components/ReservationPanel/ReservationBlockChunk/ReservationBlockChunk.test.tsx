@@ -355,13 +355,23 @@ describe('Reservation Block Chunk helpers', () => {
             expect(selected).toBe(true);
         });
 
-        it('should return false when current is between hovered and start', () => {
+        it('should return true when current is between hovered and start', () => {
             const selected = isBlockSelected(dayjs().hour(10), {
                 start: dayjs().hour(11), 
                 end: dayjs().hour(12),
                 startLimit: dayjs().hour(7),
                 endLimit: dayjs().hour(15),
             }, dayjs().hour(9))
+
+            expect(selected).toBe(true);
+        });
+
+        it('should return true when current is between hovered and start and there is no end', () => {
+            const selected = isBlockSelected(dayjs().hour(10), {
+                start: dayjs().hour(9), 
+                startLimit: dayjs().hour(7),
+                endLimit: dayjs().hour(15),
+            }, dayjs().hour(12))
 
             expect(selected).toBe(true);
         });
