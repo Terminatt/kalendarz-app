@@ -1,5 +1,5 @@
 import {
-    BaseDataState, BaseItem, ValidationErrorItem,
+    BaseDataState, BaseItem, Id, ValidationErrorItem,
 } from '@generics/generics';
 
 export interface UserState<T extends BaseItem> extends BaseDataState<T> {
@@ -15,6 +15,10 @@ export interface BaseUser extends BaseItem {
   groups: Group;
   permaBanned?: boolean;
   bannedTill?: string | null;
+}
+
+export interface BaseUserUpdatePayload extends Partial<BaseItem> {
+  id: Id;
 }
 export interface User extends BaseUser {
   created: string;

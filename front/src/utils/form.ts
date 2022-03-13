@@ -31,7 +31,7 @@ export function getNumericPasswordRule(): Rule {
     return () => ({
         validator: (_, value: string) => {
             const reg = /^\d+$/;
-            if (value === '' || (value && !reg.test(value))) {
+            if (!value || (value && !reg.test(value))) {
                 return Promise.resolve();
             }
             return Promise.reject(new Error('Hasło nie może składać się z samych cyfr'));
@@ -43,7 +43,7 @@ export function getSpecialCharacterPasswordRule(): Rule {
     return () => ({
         validator: (_, value: string) => {
             const reg = /(?=.*[!@#$%^&*])/;
-            if (value && reg.test(value)) {
+            if (!value || (value && reg.test(value))) {
                 return Promise.resolve();
             }
             return Promise.reject(new Error('Hasło musi zawierać chociaż jeden ze specjalnych symboli !, @, #, $, %, ^, &, *'));

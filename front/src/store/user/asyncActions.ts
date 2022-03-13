@@ -6,7 +6,9 @@ import {
 } from '@generics/generics';
 import { getList } from '@utils/requests';
 import { createCustomAsyncThunk } from '@utils/store';
-import { BaseUser, User, UserErrorResponse } from './types';
+import {
+    BaseUserUpdatePayload, User, UserErrorResponse,
+} from './types';
 
 type RegisterAccountPayload = Omit<RegisterFormValues, 'repeatPassword'>;
 export const registerAccount = createCustomAsyncThunk<UserErrorResponse, RegisterAccountPayload>('user/registerAccount', {
@@ -37,11 +39,10 @@ export const getUsers = createCustomAsyncThunk<void, ListRequestPayload<User> | 
 
 export const getUser = createCustomAsyncThunk<void, Id, User>('user/single', {
     request: (id) => axios.get(`users/${id}/`),
-    successMessage: 'Zaktualizowano wybranego użytkownika',
-    errorMessage: 'Wystąpił błąd podczas aktualizacji użytkownika',
+    errorMessage: 'Wystąpił błąd podczas pobierania danych użytkownika',
 });
 
-export const updateUser = createCustomAsyncThunk<UserErrorResponse, BaseUser>('user/patch', {
+export const updateUser = createCustomAsyncThunk<UserErrorResponse, BaseUserUpdatePayload>('user/patch', {
     request: ({ id, ...payload }) => axios.patch(`users/${id}/`, payload),
     successMessage: 'Zaktualizowano wybranego użytkownika',
     errorMessage: 'Wystąpił błąd podczas aktualizacji użytkownika',

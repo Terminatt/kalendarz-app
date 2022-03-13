@@ -49,3 +49,15 @@ export interface PaginatedResults<T> {
   count: number;
   results: T[];
 }
+
+export type OmitNever<T> = Omit<T,
+  { [K in keyof T]-?:
+    Pick<T, K> extends Partial<Record<K, undefined>> ? K : never
+  }[keyof T]
+>;
+
+export type RecursivePick<T extends object, K extends PropertyKey> = OmitNever<{
+  [P in keyof T]: P extends K ? T[P] : (
+    T[P] extends infer O ? O extends object ? RecursivePick<O, K> : never : never
+  )
+}> extends infer O ? { [P in keyof O]: O[P] } : never
