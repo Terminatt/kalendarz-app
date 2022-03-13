@@ -16,6 +16,7 @@ import CustomButton from '@components/CustomButton/CustomButton';
 import { ResizeListenerContext } from '@contexts/ResizeListenerContext/ResizeListenerContext';
 import RoomReservation from '@pages/RoomReservation/RoomReservation';
 import Users from '@pages/AdminZone/Users/Users';
+import MyAccount from '@pages/UserZone/MyAccount/MyAccount';
 
 import 'styles/global.less';
 import 'styles/overrides.less';
@@ -74,7 +75,9 @@ const App: React.FC = () => {
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="room-reservation" element={<RoomReservation />} />
-                            <Route path="user-zone" element={<div>user zone</div>} />
+                            <Route path="user-zone">
+                                <Route path="my-account" element={<MyAccount />} />
+                            </Route>
                             <Route path="admin-zone">
                                 <Route path="users" element={<Users />} />
                                 <Route path="rooms" element={<Rooms />} />

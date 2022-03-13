@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Single Column Layout Component matches the snapshot 1`] = `
+<div
+  className="single-column"
+>
+  <h2 />
+  Test
+</div>
+`;

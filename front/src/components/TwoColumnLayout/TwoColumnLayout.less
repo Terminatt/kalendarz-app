@@ -1,11 +1,9 @@
 @import '~styles/variables.less';
+@import '~styles/mixins.less';
 
 .two-column {
   display: flex;
-  background-color: @primary-bg;
-  padding: @padding-small;
-  border-radius: @border-radius-regular;
-  box-shadow: @box-shadow-mild;
+  .panel-layout();
   &-left {
     width: 50%;
     border-right: 2px solid @border-color-base;
