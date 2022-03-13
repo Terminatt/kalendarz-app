@@ -41,7 +41,7 @@ const UserItem: React.FC<UserItemProps> = (props) => {
                     Użytkownik został permamentnie zbanowany
                 </div>
             ) : null}
-            {item.bannedTill && wasBannedInPast ? (
+            {item.bannedTill && !wasBannedInPast && !item.permaBanned ? (
                 <div className="user-item-permabanned">
                     Użytkownik zbanowany do
                     {' '}
