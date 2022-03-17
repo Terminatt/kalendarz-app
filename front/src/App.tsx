@@ -22,6 +22,7 @@ import 'styles/global.less';
 import 'styles/overrides.less';
 import 'styles/animations.less';
 import './App.less';
+import MyReservations from '@pages/UserZone/MyReservations/MyReservations';
 
 const AppHeader = () => (
     <span className="header-text">
@@ -77,6 +78,7 @@ const App: React.FC = () => {
                             <Route path="room-reservation" element={<RoomReservation />} />
                             <Route path="user-zone">
                                 <Route path="my-account" element={<MyAccount />} />
+                                <Route path="my-reservations" element={<MyReservations />} />
                             </Route>
                             <Route path="admin-zone">
                                 <Route path="users" element={<Users />} />

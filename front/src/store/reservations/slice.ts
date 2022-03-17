@@ -1,4 +1,5 @@
 import { isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
+import { isPaginatedResults } from '@utils/requests';
 import { createCustomSlice, DefaultMatchers } from '@utils/store';
 import {
     createReservation, deleteReservation, getReservations, updateReservation,
@@ -27,6 +28,11 @@ export const reservationsSlice = createCustomSlice({
     reducers: {},
 }, matchers, (builder) => {
     builder.addCase(getReservations.fulfilled, (state, res) => {
+        if (isPaginatedResults<Reservation>(res.payload.data)) {
+            state.data = res.payload.data;
+            return;
+        }
+
         state.data.results = res.payload.data;
         state.hashMapData = parseReservationData(res.payload.data);
     });

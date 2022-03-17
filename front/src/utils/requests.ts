@@ -1,5 +1,5 @@
 import axios from '@axios/axios';
-import { ErrorType } from '@generics/generics';
+import { ErrorType, PaginatedResults } from '@generics/generics';
 import { AxiosError, AxiosResponse } from 'axios';
 
 export interface AxiosErrorRequiredResponse<T = any, D = any> extends AxiosError<T, D> {
@@ -13,6 +13,10 @@ export function isAxiosError<ErrorData>(err: AxiosError<ErrorData> | Error | unk
 export function isRequestErrorType(err: AxiosError<any> | Error | unknown): err is AxiosErrorRequiredResponse<ErrorType> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     return !!(err as AxiosError).response?.data?.type;
+}
+
+export function isPaginatedResults<T>(results: PaginatedResults<T> | unknown): results is PaginatedResults<T> {
+    return (results as PaginatedResults<T>).count !== undefined;
 }
 
 export function getList<R, T>(url: string, page?: number | null, filters?: T | null): Promise<AxiosResponse<R, any>> {

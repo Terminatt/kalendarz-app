@@ -23,6 +23,7 @@ export interface ListWithSearchProps<T> {
     placeholder?: string;
     searchLabel?: string;
     isLoading?: boolean;
+    notSelectable?: boolean;
     selected?: T | null;
     total?: number;
     pageNumber?: number;
@@ -44,13 +45,17 @@ const CustomList = <T extends BaseItem, >(props: ListWithSearchProps<T>): React.
     const {
         dataSource, renderContent, onEdit, onDelete,
         title, placeholder, onSearch, onSearchChange, searchLabel, onSelect,
-        isLoading, selected, total, onPageChange, pageNumber, addEditBtn, showSearch, subtitle,
+        isLoading, selected, total, onPageChange, pageNumber, addEditBtn, showSearch, subtitle, notSelectable,
         getActionBtns,
     } = props;
     const selectedListItem = isDefined(selected) ? selected : selectedInternal;
     const currentPage = isDefined(pageNumber) ? pageNumber : currentPageInternal;
 
     const onListItemClick = useCallback((item: T) => {
+        if (notSelectable) {
+            return;
+        }
+
         const newSelected = item.id !== selectedListItem?.id ? item : null;
 
         if (!isDefined(selected)) {
@@ -95,7 +100,7 @@ const CustomList = <T extends BaseItem, >(props: ListWithSearchProps<T>): React.
                             onClick={() => onListItemClick(item)}
                             actions={[
                                 addEditBtn && <CustomButton onClick={() => onEdit && onEdit(item)} icon={<EditOutlined />} size="small" key="edit">Edytuj</CustomButton>,
-                                getActionBtns ? getActionBtns(item) : null,
+                                ...getActionBtns ? getActionBtns(item) : [],
                                 onDelete && (
                                     <DeletePopconfirm
                                         title="Czy na pewno chcesz usunąć ten element?"

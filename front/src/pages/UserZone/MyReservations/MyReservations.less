@@ -1,0 +1,24 @@
+@import '~styles/variables.less';
+@import '~styles/mixins.less';
+
+.my-reservations {
+    .full-size();
+    .center-horizontally();
+
+    &-content {
+        .editing-panel-content();
+
+        h2 {
+            margin-bottom: 0;
+        }
+
+        &-section {
+            &:not(:first-child) {
+                margin-top: @margin-huge;
+            }
+            &-header {
+                border-bottom: 1px solid @border-color-base;
+            }
+        }
+    }
+}
