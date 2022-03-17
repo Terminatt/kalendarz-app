@@ -28,6 +28,7 @@ const RoomReservation: React.FC = () => {
                 filters: {
                     start_min: newDay.hour(1).toISOString(),
                     start_max: newDay.hour(23).toISOString(),
+                    no_page: true,
                 },
             },
         }));

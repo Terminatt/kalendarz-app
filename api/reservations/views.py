@@ -21,5 +21,4 @@ class ReservationViewSet(CustomModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_class = ReservationFilter
     create_many = True
-    pagination_class = None
 

@@ -115,3 +115,20 @@ class CustomModelViewSet(ModelViewSet):
 
         except Exception as e:
             return Response(status.HTTP_500_INTERNAL_SERVER_ERROR, data=e)
+
+    def list(self, request, *args, **kwargs):
+        """
+        Override!
+        
+        Allow for disabling pagination
+        """
+        queryset = self.filter_queryset(self.get_queryset())
+
+        if "no_page" not in request.query_params:
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
