@@ -33,6 +33,7 @@ export interface ReservationPanelProps {
     rooms: Room[];
     description?: GenericReactContent;
     reservations: ReservationHashMap;
+    disabled?: boolean;
     onReserve?: (intervals: ReservationInterval[], cb?: () => void) => void;
     onLeftSwitcherClick?: () => void;
     onRightSwitcherClick?: () => void;
@@ -70,7 +71,8 @@ export enum ReservationValidationError {
 
 const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
     const {
-        day, className, timeBlockContainerClassName, reservations, description, rooms, onReserve, onLeftSwitcherClick, onRightSwitcherClick,
+        day, className, timeBlockContainerClassName, reservations, description,
+        disabled, rooms, onReserve, onLeftSwitcherClick, onRightSwitcherClick,
     } = props;
     const [reservationsPerRoom, setReservationsPerRoom] = useState<ReservationsPerRoom>({});
     const [selectedBlocks, setSelectedBlocks] = useState<BlocksHashMap<TimeIntervalWithRoom>>({});
@@ -240,7 +242,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         const hovered = hoveredBlocks[room.id];
         return (
             <ReservationBlockChunk
-                isPast={isPast}
+                disabled={isPast || disabled}
                 key={parseHourDate(start)}
                 selectedInterval={reservation}
                 hoveredEnd={hovered?.end}

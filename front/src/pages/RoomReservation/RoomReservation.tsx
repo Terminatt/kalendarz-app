@@ -1,5 +1,6 @@
 import ReservationPanel, { ReservationInterval } from '@components/ReservationPanel/ReservationPanel';
 import useAdmin from '@hooks/useAdmin';
+import useLogged from '@hooks/useLogged';
 import useQuery from '@hooks/useQuery';
 import { RootState } from '@store/index';
 import { createReservation, getReservations } from '@store/reservations/asyncActions';
@@ -19,6 +20,7 @@ const RoomReservation: React.FC = () => {
     const { rooms, reservation } = useSelector((state: RootState) => state);
     const dispatch = useDispatch();
     const isAdmin = useAdmin();
+    const isLogged = useLogged();
 
     const getReservationsList = useCallback((newDay: Dayjs) => {
         dispatch(getReservations({
@@ -72,6 +74,7 @@ const RoomReservation: React.FC = () => {
         <div className="room-reservation">
             <div className="room-reservation-content">
                 <ReservationPanel
+                    disabled={!isLogged}
                     description={getDescription()}
                     timeBlockContainerClassName="room-reservation-content-timeblocks"
                     rooms={rooms.data.results}
