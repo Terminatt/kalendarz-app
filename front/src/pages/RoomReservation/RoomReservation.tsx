@@ -3,7 +3,7 @@ import useAdmin from '@hooks/useAdmin';
 import useLogged from '@hooks/useLogged';
 import useQuery from '@hooks/useQuery';
 import { RootState } from '@store/index';
-import { createReservation, getReservations } from '@store/reservations/asyncActions';
+import { createReservation, getReservations, getRoomReservations } from '@store/reservations/asyncActions';
 import { getRooms } from '@store/rooms/asyncActions';
 import { parseIsoDate } from '@utils/general';
 import dayjs, { Dayjs } from 'dayjs';
@@ -23,12 +23,11 @@ const RoomReservation: React.FC = () => {
     const isLogged = useLogged();
 
     const getReservationsList = useCallback((newDay: Dayjs) => {
-        dispatch(getReservations({
+        dispatch(getRoomReservations({
             requestPayload: {
                 filters: {
                     start_min: newDay.hour(1).toISOString(),
                     start_max: newDay.hour(23).toISOString(),
-                    no_page: true,
                 },
             },
         }));

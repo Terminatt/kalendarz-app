@@ -2,7 +2,7 @@ import axios from '@axios/axios';
 import { Id, ListRequestPayload, PaginatedResults } from '@generics/generics';
 import { getList } from '@utils/requests';
 import { createCustomAsyncThunk } from '@utils/store';
-import { BaseReservation, Reservation } from './types';
+import { BaseReservation, FullDataReservation, Reservation } from './types';
 
 export const createReservation = createCustomAsyncThunk<void, BaseReservation[] | BaseReservation>('reservations/create', {
     request: (payload) => axios.post('reservations/', payload),
@@ -10,8 +10,13 @@ export const createReservation = createCustomAsyncThunk<void, BaseReservation[] 
     errorMessage: 'Wystąpił błąd podczas rezerwacji',
 });
 
-export const getReservations = createCustomAsyncThunk<void, ListRequestPayload<Reservation>, PaginatedResults<Reservation> | Reservation[]>('reservations/get', {
+export const getReservations = createCustomAsyncThunk<void, ListRequestPayload<Reservation>, PaginatedResults<FullDataReservation>>('reservations/get', {
     request: (payload) => getList('reservations/', payload?.page, payload?.filters),
+    errorMessage: 'Wystąpił błąd podczas pobierania rezerwacji',
+});
+
+export const getRoomReservations = createCustomAsyncThunk<void, ListRequestPayload<Reservation>, Reservation[]>('reservations/getRoomReservations', {
+    request: (payload) => getList('reservations/', payload?.page, { ...payload?.filters, no_page: true }),
     errorMessage: 'Wystąpił błąd podczas pobierania rezerwacji',
 });
 

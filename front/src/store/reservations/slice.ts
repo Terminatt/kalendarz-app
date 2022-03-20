@@ -1,25 +1,25 @@
 import { isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
-import { isPaginatedResults } from '@utils/requests';
 import { createCustomSlice, DefaultMatchers } from '@utils/store';
 import {
-    createReservation, deleteReservation, getReservations, updateReservation,
+    createReservation, deleteReservation, getReservations, getRoomReservations, updateReservation,
 } from './asyncActions';
 import { parseReservationData } from './helpers';
-import { Reservation, ReservationState } from './types';
+import { FullDataReservation, ReservationState } from './types';
 
-const initialState: ReservationState<Reservation> = {
+const initialState: ReservationState<FullDataReservation> = {
     isLoading: false,
     data: {
         count: 0,
         results: [],
     },
+    roomReservation: [],
     hashMapData: {},
 };
 
 const matchers: DefaultMatchers = {
-    pending: isPending(createReservation, updateReservation, deleteReservation, getReservations),
-    fulfilled: isFulfilled(createReservation, updateReservation, deleteReservation, getReservations),
-    rejected: isRejected(createReservation, updateReservation, deleteReservation, getReservations),
+    pending: isPending(createReservation, updateReservation, deleteReservation, getReservations, getRoomReservations),
+    fulfilled: isFulfilled(createReservation, updateReservation, deleteReservation, getReservations, getRoomReservations),
+    rejected: isRejected(createReservation, updateReservation, deleteReservation, getReservations, getRoomReservations),
 };
 
 export const reservationsSlice = createCustomSlice({
@@ -28,12 +28,9 @@ export const reservationsSlice = createCustomSlice({
     reducers: {},
 }, matchers, (builder) => {
     builder.addCase(getReservations.fulfilled, (state, res) => {
-        if (isPaginatedResults<Reservation>(res.payload.data)) {
-            state.data = res.payload.data;
-            return;
-        }
-
-        state.data.results = res.payload.data;
+        state.data = res.payload.data;
+    }).addCase(getRoomReservations.fulfilled, (state, res) => {
+        state.roomReservation = res.payload.data;
         state.hashMapData = parseReservationData(res.payload.data);
     });
 });

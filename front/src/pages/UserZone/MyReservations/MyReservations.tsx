@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getReservations } from '@store/reservations/asyncActions';
 import CustomList from '@components/CustomList/CustomList';
 import { RootState } from '@store/index';
-import { parseDateToDay, parseHourDate } from '@utils/general';
 import CustomButton from '@components/CustomButton/CustomButton';
-import { Reservation } from '@store/reservations/types';
+import { FullDataReservation } from '@store/reservations/types';
 
 import './MyReservations.less';
+import { MyReservationsItem } from './MyReservationsItem/MyReservationsItem';
 
 const MyReservations: React.FC = () => {
     const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const MyReservations: React.FC = () => {
         dispatch(getReservations());
     }, []);
 
-    const renderActionButtons = useCallback((item: Reservation) => [
+    const renderActionButtons = useCallback((item: FullDataReservation) => [
         <CustomButton size="small" key="goto">Przejdź do dnia</CustomButton>,
         <CustomButton size="small" variant="delete" key="unschedule">Odwołaj</CustomButton>,
     ], []);
@@ -32,18 +32,7 @@ const MyReservations: React.FC = () => {
                     dataSource={data.results}
                     getActionBtns={renderActionButtons}
                     total={data.count}
-                    renderContent={(el) => (
-                        <div className="my-reservations-content-item">
-                            <h3>{parseDateToDay(el.start)}</h3>
-                            <div>
-                                {parseHourDate(el.start)}
-                                {' '}
-                                -
-                                {' '}
-                                {parseHourDate(el.end)}
-                            </div>
-                        </div>
-                    )}
+                    renderContent={(el) => <MyReservationsItem item={el} />}
                 />
             </SingleColumnLayout>
         </div>
