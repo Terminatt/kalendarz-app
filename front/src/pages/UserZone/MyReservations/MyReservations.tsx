@@ -5,10 +5,10 @@ import { getReservations } from '@store/reservations/asyncActions';
 import CustomList from '@components/CustomList/CustomList';
 import { RootState } from '@store/index';
 import { parseDateToDay, parseHourDate } from '@utils/general';
-
-import './MyReservations.less';
 import CustomButton from '@components/CustomButton/CustomButton';
 import { Reservation } from '@store/reservations/types';
+
+import './MyReservations.less';
 
 const MyReservations: React.FC = () => {
     const dispatch = useDispatch();
@@ -23,8 +23,10 @@ const MyReservations: React.FC = () => {
     ], []);
     return (
         <div className="my-reservations">
-            <SingleColumnLayout headerText="Moje Rezerwacje" className="my-reservations-content">
+            <SingleColumnLayout className="my-reservations-content">
                 <CustomList
+                    className="my-reservations-content-list"
+                    title="Moje Rezerwacje"
                     notSelectable
                     isLoading={isLoading}
                     dataSource={data.results}

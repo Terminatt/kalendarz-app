@@ -22,6 +22,7 @@ export interface ListWithSearchProps<T> {
     subtitle?: string;
     placeholder?: string;
     searchLabel?: string;
+    className?: string;
     isLoading?: boolean;
     notSelectable?: boolean;
     selected?: T | null;
@@ -43,7 +44,7 @@ const CustomList = <T extends BaseItem, >(props: ListWithSearchProps<T>): React.
     const [selectedInternal, setSelected] = useState<T | null>(null);
     const [currentPageInternal, setCurrentPage] = useState<number>(1);
     const {
-        dataSource, renderContent, onEdit, onDelete,
+        dataSource, className, renderContent, onEdit, onDelete,
         title, placeholder, onSearch, onSearchChange, searchLabel, onSelect,
         isLoading, selected, total, onPageChange, pageNumber, addEditBtn, showSearch, subtitle, notSelectable,
         getActionBtns,
@@ -78,7 +79,7 @@ const CustomList = <T extends BaseItem, >(props: ListWithSearchProps<T>): React.
         onPageChange(page);
     }, [onPageChange]);
     return (
-        <div className="custom-list">
+        <div className={joinClassNames(['custom-list', className])}>
             {title && <h2 className="custom-list-header">{title}</h2>}
             {subtitle && <span className="custom-list-subheader">{subtitle}</span>}
             {showSearch && (

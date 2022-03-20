@@ -14,9 +14,11 @@ const SingleColumnLayout: React.FC<SingleColumnLayoutProps> = (props) => {
 
     return (
         <div className={joinClassNames(['single-column', className])}>
-            <h2>
-                {headerText}
-            </h2>
+            { headerText && (
+                <h2>
+                    {headerText}
+                </h2>
+            )}
             {children}
         </div>
     );
