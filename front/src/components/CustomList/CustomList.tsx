@@ -9,7 +9,7 @@ import {
     isDefined, isMoreThanOnePage, joinClassNames, stopBubbling,
 } from '@utils/general';
 import CustomEmpty from '@components/CustomEmpty/CustomEmpty';
-import { BaseItem } from '@generics/generics';
+import { BaseItem, GenericReactContent } from '@generics/generics';
 import DeletePopconfirm from '@components/DeletePopconfirm/DeletePopconfirm';
 
 import './CustomList.less';
@@ -30,6 +30,7 @@ export interface ListWithSearchProps<T> {
     pageNumber?: number;
     addEditBtn?: boolean;
     showSearch?: boolean;
+    emptyText?: GenericReactContent;
     getActionBtns?: (item: T) => React.ReactNode[];
     renderContent: (item: T, index: number) => React.ReactNode;
     onEdit?: (item: T) => void;
@@ -46,7 +47,7 @@ const CustomList = <T extends BaseItem, >(props: ListWithSearchProps<T>): React.
     const {
         dataSource, className, renderContent, onEdit, onDelete,
         title, placeholder, onSearch, onSearchChange, searchLabel, onSelect,
-        isLoading, selected, total, onPageChange, pageNumber, addEditBtn, showSearch, subtitle, notSelectable,
+        isLoading, selected, total, onPageChange, pageNumber, addEditBtn, showSearch, subtitle, notSelectable, emptyText,
         getActionBtns,
     } = props;
     const selectedListItem = isDefined(selected) ? selected : selectedInternal;
@@ -90,7 +91,7 @@ const CustomList = <T extends BaseItem, >(props: ListWithSearchProps<T>): React.
             <div className={joinClassNames(['custom-list-container', !showSearch ? 'custom-list-alone' : null])}>
                 <List
                     locale={{
-                        emptyText: <CustomEmpty />,
+                        emptyText: <CustomEmpty description={emptyText} />,
                     }}
                     itemLayout="vertical"
                     dataSource={dataSource}

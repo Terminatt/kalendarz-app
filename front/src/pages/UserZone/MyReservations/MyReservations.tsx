@@ -8,6 +8,7 @@ import CustomButton from '@components/CustomButton/CustomButton';
 import { FullDataReservation } from '@store/reservations/types';
 import { useNavigate } from 'react-router';
 import { parseIsoDate } from '@utils/general';
+import dayjs from 'dayjs';
 import DeletePopconfirm from '@components/DeletePopconfirm/DeletePopconfirm';
 import { MyReservationsItem } from './MyReservationsItem/MyReservationsItem';
 
@@ -20,7 +21,14 @@ const MyReservations: React.FC = () => {
     const navigate = useNavigate();
 
     const getMyReservations = useCallback(() => {
-        dispatch(getReservations({ requestPayload: { filters: { user: currentUser?.id } } }));
+        dispatch(getReservations({
+            requestPayload: {
+                filters: {
+                    user: currentUser?.id,
+                    start_min: dayjs().hour(0).toISOString(),
+                },
+            },
+        }));
     }, [currentUser?.id]);
 
     useEffect(() => {
@@ -57,6 +65,7 @@ const MyReservations: React.FC = () => {
                 <CustomList
                     className="my-reservations-content-list"
                     title="Moje Rezerwacje"
+                    emptyText="Brak nadciągających rezerwacji"
                     notSelectable
                     isLoading={isLoading}
                     dataSource={data.results}
