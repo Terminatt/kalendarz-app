@@ -6,16 +6,22 @@ import CustomList from '@components/CustomList/CustomList';
 import { RootState } from '@store/index';
 import CustomButton from '@components/CustomButton/CustomButton';
 import { FullDataReservation } from '@store/reservations/types';
+import { MyReservationsItem } from './MyReservationsItem/MyReservationsItem';
 
 import './MyReservations.less';
-import { MyReservationsItem } from './MyReservationsItem/MyReservationsItem';
 
 const MyReservations: React.FC = () => {
     const dispatch = useDispatch();
     const { data, isLoading } = useSelector((state: RootState) => state.reservation);
+    const { currentUser } = useSelector((state: RootState) => state.user);
+
     useEffect(() => {
-        dispatch(getReservations());
-    }, []);
+        if (!currentUser) {
+            return;
+        }
+
+        dispatch(getReservations({ requestPayload: { filters: { user: currentUser?.id } } }));
+    }, [currentUser?.id]);
 
     const renderActionButtons = useCallback((item: FullDataReservation) => [
         <CustomButton size="small" key="goto">Przejdź do dnia</CustomButton>,

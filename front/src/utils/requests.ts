@@ -41,6 +41,5 @@ export function getList<R, T>(url: string, page?: number | null, filters?: T | n
             link = `${link}&${key}=${value}`;
         });
     }
-
     return axios.get(link);
 }

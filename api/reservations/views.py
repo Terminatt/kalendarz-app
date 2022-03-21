@@ -8,6 +8,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 class ReservationFilter(django_filters.FilterSet):
     start_min = django_filters.IsoDateTimeFilter(field_name='start', lookup_expr='gte')
     start_max = django_filters.IsoDateTimeFilter(field_name='start', lookup_expr='lte')
+    user = django_filters.Filter(field_name="user")
     class Meta:
         model = Reservation
         fields = ['start']

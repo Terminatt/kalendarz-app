@@ -25,6 +25,10 @@ export interface Reservation extends BaseItem, BaseReservation {
     created: string;
 }
 
+export interface ReservationWithUserId extends Omit<Reservation, 'user'> {
+    user: Id
+}
+
 export interface FullDataReservation extends Omit<Reservation, 'room'>, BaseItem, Omit<BaseReservation, 'room'> {
     room: Room;
     created: string;

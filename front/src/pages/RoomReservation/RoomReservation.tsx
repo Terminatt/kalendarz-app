@@ -3,7 +3,7 @@ import useAdmin from '@hooks/useAdmin';
 import useLogged from '@hooks/useLogged';
 import useQuery from '@hooks/useQuery';
 import { RootState } from '@store/index';
-import { createReservation, getReservations, getRoomReservations } from '@store/reservations/asyncActions';
+import { createReservation, getRoomReservations } from '@store/reservations/asyncActions';
 import { getRooms } from '@store/rooms/asyncActions';
 import { parseIsoDate } from '@utils/general';
 import dayjs, { Dayjs } from 'dayjs';
