@@ -1,0 +1,20 @@
+@import '~styles/mixins.less';
+@import '~styles/variables.less';
+
+.not-found {
+    position: relative;
+    .full-size();
+
+    &-content {
+        width: 100%;
+        position: absolute;
+        margin-bottom: 100px;
+        text-align: center;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        &-icon {
+            font-size: 100px;
+        }
+    }
+}

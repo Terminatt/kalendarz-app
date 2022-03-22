@@ -23,10 +23,11 @@ The project follows commit lint convention for commit names. To view full list o
 - Reservation panel
 - User management panel for Admin
 - User management panel for logged in user
+- Guards for admin routes and logged in routes
 
 ## Currently under development
 - My Reservations panel for logged in user
-- Guards for admin routes
+
 
 # Project setup
 Software Requirements:

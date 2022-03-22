@@ -17,12 +17,15 @@ import { ResizeListenerContext } from '@contexts/ResizeListenerContext/ResizeLis
 import RoomReservation from '@pages/RoomReservation/RoomReservation';
 import Users from '@pages/AdminZone/Users/Users';
 import MyAccount from '@pages/UserZone/MyAccount/MyAccount';
+import MyReservations from '@pages/UserZone/MyReservations/MyReservations';
+import useLogged from '@hooks/useLogged';
+import useAdmin from '@hooks/useAdmin';
+import NotFound from '@components/NotFound/NotFound';
 
 import 'styles/global.less';
 import 'styles/overrides.less';
 import 'styles/animations.less';
 import './App.less';
-import MyReservations from '@pages/UserZone/MyReservations/MyReservations';
 
 const AppHeader = () => (
     <span className="header-text">
@@ -31,9 +34,14 @@ const AppHeader = () => (
     </span>
 );
 
+const isNotLoggedMessage = 'Ten panel jest dostępny tylko po zalogowaniu';
+const isNotAdminMessage = 'Ten panel jest dostępny tylko dla administratorów';
+
 const App: React.FC = () => {
     const [sidebarVisible, setSidebarVisible] = useState<boolean>(true);
     const bpContext = useContext(ResizeListenerContext);
+    const isLogged = useLogged();
+    const isAdmin = useAdmin();
     const dispatch = useDispatch();
 
     const onSidebarClose = useCallback(() => {
@@ -43,6 +51,14 @@ const App: React.FC = () => {
     const changeVisibility = useCallback(() => {
         setSidebarVisible(!sidebarVisible);
     }, [sidebarVisible]);
+
+    const renderRouteGuard = useCallback((notFound: boolean, description: string, component: JSX.Element) => {
+        if (notFound) {
+            return <NotFound description={description} />;
+        }
+
+        return component;
+    }, []);
 
     useEffect(() => {
         dispatch(authenticate());
@@ -75,15 +91,15 @@ const App: React.FC = () => {
                     <div className="app-content-routes">
                         <Routes>
                             <Route path="/" element={<Home />} />
-                            <Route path="room-reservation" element={<RoomReservation />} />
+                            <Route path="room-reservation" element={renderRouteGuard(!isLogged, isNotLoggedMessage, <RoomReservation />)} />
                             <Route path="user-zone">
-                                <Route path="my-account" element={<MyAccount />} />
-                                <Route path="my-reservations" element={<MyReservations />} />
+                                <Route path="my-account" element={renderRouteGuard(!isLogged, isNotLoggedMessage, <MyAccount />)} />
+                                <Route path="my-reservations" element={renderRouteGuard(!isLogged, isNotLoggedMessage, <MyReservations />)} />
                             </Route>
                             <Route path="admin-zone">
-                                <Route path="users" element={<Users />} />
-                                <Route path="rooms" element={<Rooms />} />
-                                <Route path="room-types" element={<RoomTypes />} />
+                                <Route path="users" element={renderRouteGuard(!isAdmin, isNotAdminMessage, <Users />)} />
+                                <Route path="rooms" element={renderRouteGuard(!isAdmin, isNotAdminMessage, <Rooms />)} />
+                                <Route path="room-types" element={renderRouteGuard(!isAdmin, isNotAdminMessage, <RoomTypes />)} />
                             </Route>
                         </Routes>
                     </div>
