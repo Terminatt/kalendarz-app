@@ -91,7 +91,7 @@ const App: React.FC = () => {
                     <div className="app-content-routes">
                         <Routes>
                             <Route path="/" element={<Home />} />
-                            <Route path="room-reservation" element={renderRouteGuard(!isLogged, isNotLoggedMessage, <RoomReservation />)} />
+                            <Route path="room-reservation" element={<RoomReservation />} />
                             <Route path="user-zone">
                                 <Route path="my-account" element={renderRouteGuard(!isLogged, isNotLoggedMessage, <MyAccount />)} />
                                 <Route path="my-reservations" element={renderRouteGuard(!isLogged, isNotLoggedMessage, <MyReservations />)} />

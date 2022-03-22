@@ -2,6 +2,7 @@ import React from 'react';
 import {
     ExclamationCircleOutlined,
 } from '@ant-design/icons';
+
 import './NotFound.less';
 
 export interface NotFoundProps {
