@@ -138,6 +138,9 @@ const Users: React.FC = () => {
         if (!item) {
             setAdditionalPanelVisible(false);
         }
+
+        setIsPermaBanFieldTicked(false);
+        banForm.resetFields();
     }, []);
 
     const onPunishementFormSubmit = useCallback((values: UserBanFormValues) => {
