@@ -1,7 +1,6 @@
-from multiprocessing import AuthenticationError
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import ValidationError, AuthenticationFailed
 from rest_framework.response import Response
 from constants import COOKIE_SAME_SITE, TOKEN_EXPIRATION
 from utils.response_error import ErrorType, get_error_dict
@@ -27,11 +26,11 @@ class CustomExpiringObtainAuthToken(ObtainAuthToken):
         user = serializer.validated_data['user']
 
         if (user.perma_banned):
-          raise AuthenticationError(get_error_dict(ErrorType.PERMA_BANNED, 'User was permamently banned'))
+          raise AuthenticationFailed(get_error_dict(ErrorType.PERMA_BANNED, 'User was permamently banned'))
 
         banned_till = user.banned_till
         if (datetime.utcnow() < datetime.strptime()):
-          raise AuthenticationError(get_error_dict(ErrorType.TEMPORARY_BANNED, 'User was temporary banned', {'banned_till': banned_till}))
+          raise AuthenticationFailed(get_error_dict(ErrorType.TEMPORARY_BANNED, 'User was temporary banned', {'banned_till': banned_till}))
 
 
         if hasattr(user, 'auth_token'):
