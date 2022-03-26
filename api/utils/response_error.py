@@ -12,6 +12,13 @@ class ErrorType():
   NOT_UNIQUE_NAME = 'NOT_UNIQUE_NAME'
   RELATED_OBJECT = 'RELATED_OBJECT'
   NEGATIVE_NUMBER = 'NEGATIVE_NUMBER'
+  PERMA_BANNED = 'PERMA_BANNED'
+  TEMPORARY_BANNED = 'TEMPORARY_BANNED'
   
-def get_error_dict(errorType, msg):
-  return {'type': errorType, 'message': msg}
+def get_error_dict(errorType, msg, data = None):
+  if not data:
+    return {'type': errorType, 'message': msg}
+  
+  return {'type': errorType, 'message': msg, 'data': data}
+
+    

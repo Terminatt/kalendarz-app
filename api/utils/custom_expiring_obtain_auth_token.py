@@ -1,3 +1,4 @@
+from multiprocessing import AuthenticationError
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.exceptions import ValidationError
@@ -24,6 +25,14 @@ class CustomExpiringObtainAuthToken(ObtainAuthToken):
           raise ValidationError(get_error_dict(ErrorType.INVALID_CREDENTIALS, 'Unable to log in with provided credentials.'))
         
         user = serializer.validated_data['user']
+
+        if (user.perma_banned):
+          raise AuthenticationError(get_error_dict(ErrorType.PERMA_BANNED, 'User was permamently banned'))
+
+        banned_till = user.banned_till
+        if (datetime.utcnow() < datetime.strptime()):
+          raise AuthenticationError(get_error_dict(ErrorType.TEMPORARY_BANNED, 'User was temporary banned', {'banned_till': banned_till}))
+
 
         if hasattr(user, 'auth_token'):
           user.auth_token.delete()
