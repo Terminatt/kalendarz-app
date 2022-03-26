@@ -7,6 +7,7 @@ from utils.response_error import ErrorType, get_error_dict
 from users.serializers import UserSerializer
 from datetime import datetime, timedelta
 import pytz
+from django.utils import timezone
 
 class CustomExpiringObtainAuthToken(ObtainAuthToken):
       authentication_classes = []
@@ -29,7 +30,7 @@ class CustomExpiringObtainAuthToken(ObtainAuthToken):
           raise AuthenticationFailed(get_error_dict(ErrorType.PERMA_BANNED, 'User was permamently banned'))
 
         banned_till = user.banned_till
-        if (datetime.utcnow() < datetime.strptime()):
+        if (user.banned_till and datetime.utcnow() < banned_till.utcnow()):
           raise AuthenticationFailed(get_error_dict(ErrorType.TEMPORARY_BANNED, 'User was temporary banned', {'banned_till': banned_till}))
 
 

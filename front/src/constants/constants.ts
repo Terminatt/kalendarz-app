@@ -10,6 +10,8 @@ export const VALIDATION_ERROR_MESSAGES: {[key in RequestErrorType]: string} = {
     INVALID_CREDENTIALS: 'Błędne hasło lub nazwa użytkownika',
     NOT_UNIQUE_NAME: 'Nazwa już została zajęta',
     RELATED_OBJECT: 'Ten obiekt jest powiązany z innym obiektem',
+    PERMA_BANNED: 'Ten użytkownik został permamentnie zbanowany',
+    TEMPORARY_BANNED: 'Użytkownik został zbanowany do',
 };
 
 export enum RequestErrorType {
@@ -19,6 +21,8 @@ export enum RequestErrorType {
     PASSWORD_TOO_SIMPLE = 'PASSWORD_TOO_SIMPLE',
     NOT_UNIQUE_NAME = 'NOT_UNIQUE_NAME',
     INVALID_CREDENTIALS = 'INVALID_CREDENTIALS',
+    PERMA_BANNED = 'PERMA_BANNED',
+    TEMPORARY_BANNED = 'TEMPORARY_BANNED'
 }
 
 export const DAY_NAMES = ['Nd', 'Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb'];

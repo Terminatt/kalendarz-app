@@ -34,9 +34,10 @@ export interface RejectResponse<ErrorData = void> {
   errorMessage?: string | null;
 }
 
-export interface ErrorType {
+export interface ErrorType<T = undefined> {
   type: RequestErrorType,
   message: string;
+  data?: T;
 }
 
 export type ValidationErrorItem = string[] | ErrorType | undefined;

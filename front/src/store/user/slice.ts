@@ -2,6 +2,7 @@ import { VALIDATION_ERROR_MESSAGES } from '@constants/constants';
 import {
     isFulfilled, isPending, isRejected,
 } from '@reduxjs/toolkit';
+import { parseDate } from '@utils/general';
 import { createCustomSlice, DefaultMatchers } from '@utils/store';
 import { notification } from 'antd';
 import {
@@ -46,9 +47,14 @@ export const userSlice = createCustomSlice(
                     return;
                 }
 
-                const message = VALIDATION_ERROR_MESSAGES[error.payload.error.type];
+                let message = VALIDATION_ERROR_MESSAGES[error.payload.error.type];
                 if (!message) {
                     return;
+                }
+                const bannedTill = error.payload.error.data?.bannedTill;
+
+                if (bannedTill) {
+                    message += ` ${parseDate(bannedTill)}`;
                 }
 
                 notification.error({ message });

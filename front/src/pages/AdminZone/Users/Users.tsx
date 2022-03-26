@@ -130,6 +130,10 @@ const Users: React.FC = () => {
             permaBanned: !!selected?.permaBanned,
             bannedTill: selected.bannedTill && dayjs().isBefore(banDate) ? banDate : undefined,
         });
+
+        if (selected.permaBanned) {
+            setIsPermaBanFieldTicked(true);
+        }
     }, [selected, additionalPanelVisible]);
 
     const onItemSelect = useCallback((item: User | null) => {
@@ -184,10 +188,6 @@ const Users: React.FC = () => {
         if (permaBanField?.value) {
             banForm.setFieldsValue({
                 bannedTill: undefined,
-            });
-        } else {
-            banForm.setFieldsValue({
-                bannedTill: selected?.bannedTill ? dayjs(selected.bannedTill) : undefined,
             });
         }
 

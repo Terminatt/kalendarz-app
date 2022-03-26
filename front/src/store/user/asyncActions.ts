@@ -7,7 +7,7 @@ import {
 import { getList } from '@utils/requests';
 import { createCustomAsyncThunk } from '@utils/store';
 import {
-    BaseUserUpdatePayload, User, UserErrorResponse,
+    BaseUserUpdatePayload, LoginErrorResponse, User, UserErrorResponse,
 } from './types';
 
 type RegisterAccountPayload = Omit<RegisterFormValues, 'repeatPassword'>;
@@ -17,7 +17,7 @@ export const registerAccount = createCustomAsyncThunk<UserErrorResponse, Registe
     errorMessage: 'Wystąpił błąd podczas tworzenia konta',
 });
 
-export const login = createCustomAsyncThunk<ErrorType, LoginFormValues, User>('user/login', {
+export const login = createCustomAsyncThunk<ErrorType<LoginErrorResponse>, LoginFormValues, User>('user/login', {
     request: (payload) => axios.post('login/', payload),
     successMessage: 'Pomyślnie zalogowano użytkownika',
 });

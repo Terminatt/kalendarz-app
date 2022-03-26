@@ -31,6 +31,10 @@ export interface UserErrorResponse {
   password: ValidationErrorItem;
 }
 
+export interface LoginErrorResponse {
+  bannedTill: string;
+}
+
 export enum Group {
   NONE,
   ADMIN,
