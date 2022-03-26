@@ -125,9 +125,10 @@ const Users: React.FC = () => {
             return;
         }
 
+        const banDate = dayjs(selected.bannedTill);
         banForm.setFieldsValue({
             permaBanned: !!selected?.permaBanned,
-            bannedTill: selected.bannedTill ? dayjs(selected.bannedTill) : undefined,
+            bannedTill: selected.bannedTill && dayjs().isBefore(banDate) ? banDate : undefined,
         });
     }, [selected, additionalPanelVisible]);
 
