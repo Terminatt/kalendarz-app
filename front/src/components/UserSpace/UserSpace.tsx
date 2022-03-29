@@ -60,9 +60,6 @@ const UserSpace: React.FC = () => {
                 >
                     Rejestracja
                 </CustomButton>
-                <div className="signing-forget-password">
-                    Nie pamiętasz hasła?
-                </div>
             </div>
             {!isTestingEnv() ? <SigningModal /> : null}
         </div>
