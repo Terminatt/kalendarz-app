@@ -75,6 +75,7 @@ describe('Reservation Panel Component', () => {
             1: [
                     {
                         id: 1,
+                        confirmed: true,
                         start: dayjs().hour(9).minute(15).second(0).millisecond(0),
                         end: dayjs().hour(11).second(0).millisecond(0),
                         color: '#000000',
@@ -82,6 +83,7 @@ describe('Reservation Panel Component', () => {
                     },
                     {
                         id: 2,
+                        confirmed: true,
                         start: dayjs().hour(15).second(0).millisecond(0),
                         end: dayjs().hour(18).second(0).millisecond(0),
                         color: '#000000',
@@ -92,6 +94,7 @@ describe('Reservation Panel Component', () => {
             2:  [
                     {
                         id: 3,
+                        confirmed: true,
                         start: dayjs().hour(14).second(0).millisecond(0),
                         end: dayjs().hour(14).minute(45).second(0).millisecond(0),
                         color: '#000000',
@@ -99,6 +102,7 @@ describe('Reservation Panel Component', () => {
                     },
                     {
                         id: 4,
+                        confirmed: true,
                         start: dayjs().hour(10).second(0).millisecond(0),
                         end: dayjs().hour(12).second(0).millisecond(0),
                         color: '#000000',
@@ -107,6 +111,7 @@ describe('Reservation Panel Component', () => {
                 ],
             4: [
                 {
+                    confirmed: true,
                     id: 5,
                     start: dayjs().hour(8).second(0).millisecond(0),
                     end: dayjs().hour(12).minute(0).second(0).millisecond(0),
