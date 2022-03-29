@@ -24,13 +24,6 @@ const ReservationSearch: React.FC = () => {
                 <Form.Item name="date" label="Data">
                     <CustomDatePicker disabledDate={disabledDates} placeholder="Podaj datę" />
                 </Form.Item>
-                <Form.Item name="room" label="Sala">
-                    <Select placeholder="Podaj salę">
-                        <Option value="jack">Jack</Option>
-                        <Option value="lucy">Lucy</Option>
-                        <Option value="yiminghe">yiminghe</Option>
-                    </Select>
-                </Form.Item>
                 <Form.Item>
                     <div className="reservation-search-btn">
                         <CustomButton htmlType="submit">Wyszukaj rezerwacje</CustomButton>
