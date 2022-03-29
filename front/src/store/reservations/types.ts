@@ -17,24 +17,30 @@ export interface ReservationHashMap {
 export interface BaseReservation {
     start: string;
     end: string;
+    confirmed?: boolean;
     room: Id;
 }
 
+export interface UpdateReservationPayload extends Partial<BaseReservation> {
+    id: Id,
+    user?: Id;
+}
 export interface Reservation extends BaseItem, BaseReservation {
-    user: User;
     created: string;
+    user: User;
 }
 
 export interface ReservationWithUserId extends Omit<Reservation, 'user'> {
-    user: Id
+    user: Id;
 }
 
 export interface FullDataReservation extends Omit<Reservation, 'room'>, BaseItem, Omit<BaseReservation, 'room'> {
     room: Room;
     created: string;
+    user: User;
 }
 
-export interface ReservationWithParsedDate extends BaseItem {
+export interface ReservationWithParsedDate extends Omit<BaseReservation, 'start' | 'end' | 'room'>, BaseItem {
     start: Dayjs;
     end: Dayjs;
     color: string;

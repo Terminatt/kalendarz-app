@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import SingleColumnLayout from '@components/SingleColumnLayout/SingleColumnLayout';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteReservation, getReservations } from '@store/reservations/asyncActions';
+import { deleteReservation, getReservations, updateReservation } from '@store/reservations/asyncActions';
 import CustomList from '@components/CustomList/CustomList';
 import { RootState } from '@store/index';
 import CustomButton from '@components/CustomButton/CustomButton';
@@ -43,6 +43,20 @@ const MyReservations: React.FC = () => {
         navigate(`/room-reservation?day=${parseIsoDate(item.start)}`);
     }, []);
 
+    const confirmReservation = useCallback((item: FullDataReservation) => {
+        dispatch(updateReservation({
+            requestPayload: {
+                ...item,
+                confirmed: true,
+                room: item.room.id,
+                user: item.user.id,
+            },
+            onSuccess: () => {
+                getMyReservations();
+            },
+        }));
+    }, []);
+
     const deleteMyReservation = useCallback((item: FullDataReservation) => {
         dispatch(deleteReservation({
             requestPayload: item.id,
@@ -53,6 +67,7 @@ const MyReservations: React.FC = () => {
     }, []);
 
     const renderActionButtons = useCallback((item: FullDataReservation) => [
+        <CustomButton disabled={item.confirmed} size="small" key="confirm" onClick={() => confirmReservation(item)}>Potwierdź</CustomButton>,
         <CustomButton size="small" key="goto" onClick={() => goToDay(item)}>Przejdź do dnia</CustomButton>,
         <DeletePopconfirm onConfirm={() => deleteMyReservation(item)} key="unschedule" title="Czy na pewno chcesz odwołać tą rezerwacje?">
             <CustomButton size="small" variant="delete">Odwołaj</CustomButton>

@@ -3,7 +3,7 @@ import { Id, ListRequestPayload, PaginatedResults } from '@generics/generics';
 import { getList } from '@utils/requests';
 import { createCustomAsyncThunk } from '@utils/store';
 import {
-    BaseReservation, FullDataReservation, Reservation, ReservationWithUserId,
+    BaseReservation, FullDataReservation, Reservation, ReservationWithUserId, UpdateReservationPayload,
 } from './types';
 
 export const createReservation = createCustomAsyncThunk<void, BaseReservation[] | BaseReservation>('reservations/create', {
@@ -22,7 +22,7 @@ export const getRoomReservations = createCustomAsyncThunk<void, ListRequestPaylo
     errorMessage: 'Wystąpił błąd podczas pobierania rezerwacji',
 });
 
-export const updateReservation = createCustomAsyncThunk<void, Reservation>('reservations/patch', {
+export const updateReservation = createCustomAsyncThunk<void, UpdateReservationPayload>('reservations/patch', {
     request: ({ id, ...payload }) => axios.patch(`reservations/${id}/`, payload),
     successMessage: 'Zaktualizowano wybraną rezerwacje',
     errorMessage: 'Wystąpił błąd podczas aktualizowania rezerwacji',

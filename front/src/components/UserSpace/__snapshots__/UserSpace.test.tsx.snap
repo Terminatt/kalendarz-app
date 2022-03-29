@@ -25,11 +25,6 @@ exports[`Custom Empty Component matches the snapshot 1`] = `
         Rejestracja
       </span>
     </button>
-    <div
-      className="signing-forget-password"
-    >
-      Nie pamiętasz hasła?
-    </div>
   </div>
 </div>
 `;

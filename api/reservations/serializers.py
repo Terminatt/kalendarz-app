@@ -18,4 +18,4 @@ class ReservationSerializer(serializers.ModelSerializer):
         return super(ReservationSerializer, self).to_representation(obj)
     class Meta:
         model = Reservation
-        fields = ['id', 'created', 'start', 'end', 'room', 'user']
+        fields = ['id', 'created', 'start', 'end', 'room', 'user', 'confirmed']

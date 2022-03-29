@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Form, Select } from 'antd';
+import { Form } from 'antd';
 import { FORM_LAYOUT } from '@constants/constants';
 import CustomDatePicker from '@components/CustomDatePicker/CustomDatePicker';
 import CustomButton from '@components/CustomButton/CustomButton';
@@ -8,7 +8,6 @@ import { Dayjs } from 'dayjs';
 import './ReservationSearch.less';
 import { isBeforeToday } from '@utils/general';
 
-const { Option } = Select;
 const { useForm } = Form;
 
 // TODO  This component is still in development, for now it is just a layout

@@ -93,6 +93,12 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         }
 
         roomReservation.forEach((el) => {
+            if (!el.confirmed) {
+                if (dayjs().isAfter(el.start, 'day') || el.start.diff(dayjs(), 'hour') <= 24) {
+                    return;
+                }
+            }
+
             if (el.start.isSame(startToday)) {
                 ranges.push({ reservation: el, start: el.start, end: el.end });
                 startToday = el.end.add(TIME_BLOCK_MINUTES, 'minutes');
