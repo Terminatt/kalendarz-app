@@ -9,7 +9,6 @@ from constants import GROUPS
 from rest_framework.validators import UniqueValidator
 
 class UserSerializer(serializers.ModelSerializer):
-    email = serializers.CharField()
 
     def create(self, validated_data):
         validated_data['password'] = make_password(validated_data['password'])
