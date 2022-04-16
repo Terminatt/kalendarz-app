@@ -1,4 +1,5 @@
 @import '~styles/variables.less';
+@import '~styles/breakpoints.less';
 
 .custom-list {
   height: 100%;
@@ -51,4 +52,30 @@
     border-top: 1px solid @border-color-base;
     text-align: right;
   }
+
+  .ant-list-item-action {
+    display: flex;
+    flex-wrap: wrap;
+
+    li {
+      padding-right: @padding-medium;
+      padding-left: 0 !important;
+      margin-top: @margin-small;
+
+      em {
+        display: none;
+      }
+    }
+  }
 }
+
+@media screen and (min-width: @w-sm) {
+  .custom-list {
+    .ant-list-item-action {
+      li {
+        margin-top: 0;
+      }
+    }
+  }
+}
+

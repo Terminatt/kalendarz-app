@@ -1,16 +1,37 @@
 @import '~styles/variables.less';
 @import '~styles/mixins.less';
+@import '~styles/breakpoints.less';
 
 .two-column {
   display: flex;
+  flex-wrap: wrap;
   .panel-layout();
+  width: 100%;
+  
   &-left {
-    width: 50%;
-    border-right: 2px solid @border-color-base;
+    width: 100%;
     padding: @padding-small;
+    order: 1;
   }
   &-right {
-    width: 50%;
+    width: 100%;
     padding: @padding-small;
+    order: 0;
+  }
+}
+
+@media screen and (min-width: @w-xl) {
+  .two-column {
+    flex-wrap: nowrap;
+    &-left {
+      order: 0;
+      width: 50%;
+      border-right: 2px solid @border-color-base;
+    }
+
+    &-right {
+      order: 1;
+      width: 50%;
+    }
   }
 }

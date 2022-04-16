@@ -3,18 +3,30 @@
 @import '~styles/breakpoints.less';
 
 .users {
-    .full-size();
     .center-horizontally();
-  
+    margin-top: @margin-big;
+    padding-bottom: @padding-scrollbar;
+    padding-right: @padding-small;
+
     &-content {
-        .editing-panel-content();
-        
+        width: 100%;
         &-additional {
             &-form {
                 .ant-picker {
                 width: 100% !important;
               }
           }
+      }
+    }
+  }
+  @media screen and (min-width: @w-xl) {
+    .users {
+      .full-size();
+      align-items: center;
+  
+      &-content {
+        .editing-panel-content();
+        margin-top: 0;
       }
     }
   }
