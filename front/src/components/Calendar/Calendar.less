@@ -1,5 +1,6 @@
 @import '~styles/variables.less';
 @import '~styles/mixins.less';
+@import '~styles/breakpoints.less';
 
 .calendar {
   &-divider.ant-divider-horizontal.ant-divider-with-text.huge-divider {
@@ -20,9 +21,39 @@
 
     &-dates {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       grid-auto-rows: 80px;
-      gap: 26px;
+      gap: 26px;  
+    }
+  }
+}
+
+@media screen and (min-width: @w-xs) {
+  .calendar {
+    &-content {
+      &-dates {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  }
+}
+
+@media screen and (min-width: @w-md) {
+  .calendar {
+    &-content {
+      &-dates {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+  }
+}
+
+@media screen and (min-width: @w-lg) {
+  .calendar {
+    &-content {
+      &-dates {
+        grid-template-columns: repeat(7, 1fr);
+      }
     }
   }
 }

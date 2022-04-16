@@ -7,8 +7,18 @@
   width: 100%;
   height: max-content;
   padding-bottom: @padding-scrollbar;
+  
   &-content {
-    width: @default-panel-width;
+    width: 100%;
+    padding-right: @padding-small;
+  }
+}
+
+@media screen and (min-height: @w-xl) {
+  .home {
+    &-content {
+      width: @default-panel-width;
+    }
   }
 }
 
