@@ -56,7 +56,7 @@ const RoomReservation: React.FC = () => {
                 }
             },
         })));
-    }, []);
+    }, [day]);
 
     const getDescription = useCallback(() => (isAdmin ? (
         <span>
