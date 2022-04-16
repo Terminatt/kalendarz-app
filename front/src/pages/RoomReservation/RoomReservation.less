@@ -1,5 +1,7 @@
 @import '~styles/variables.less';
 @import '~styles/mixins.less';
+@import '~styles/breakpoints.less';
+
 
 .room-reservation {
     .center();
@@ -7,6 +9,15 @@
     padding-bottom: @padding-scrollbar;
 
     &-content {
-        width: @default-panel-width;
+        width: 100%;
+        padding-right: @padding-small;
     }
 }
+
+@media screen and (min-height: @w-xl) {
+    .home {
+      &-content {
+        width: @default-panel-width;
+      }
+    }
+  }
