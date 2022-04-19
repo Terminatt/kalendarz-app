@@ -1,13 +1,17 @@
 @import '~styles/variables.less';
 @import '~styles/mixins.less';
+@import '~styles/breakpoints.less';
 
 .my-reservations {
-    .full-size();
+    margin-top: @margin-big;
+    padding-bottom: @padding-scrollbar;
+    padding-right: @padding-small;
+
     .center-horizontally();
 
     &-content {
-        .editing-panel-content();
-
+        min-height: @default-panel-height;
+        
         &-list {
             h2 {
                 margin-block-end: 0;
@@ -22,5 +26,20 @@
                 border-bottom: 1px solid @border-color-base;
             }
         }
+    }
+}
+
+@media screen and (min-width: @w-xl) {
+    .my-reservations {
+      .full-size();
+      margin-top: 0;
+      padding-bottom: 0;
+      padding-right: 0;
+      align-items: center;
+  
+      &-content {
+        .editing-panel-content();
+        margin-top: 0;
+      }
     }
 }

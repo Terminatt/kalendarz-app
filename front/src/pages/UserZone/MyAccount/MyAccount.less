@@ -1,13 +1,14 @@
 @import '~styles/variables.less';
 @import '~styles/mixins.less';
+@import '~styles/breakpoints.less';
 
 .my-account {
-    .full-size();
     .center-horizontally();
+    margin-top: @margin-big;
+    padding-bottom: @padding-scrollbar;
+    padding-right: @padding-small;
 
     &-content {
-        .editing-panel-content();
-
         &-section {
             &:not(:first-child) {
                 margin-top: @margin-huge;
@@ -16,5 +17,20 @@
                 border-bottom: 1px solid @border-color-base;
             }
         }
+    }
+}
+
+@media screen and (min-width: @w-xl) {
+    .my-account {
+      .full-size();
+      margin-top: 0;
+      padding-bottom: 0;
+      padding-right: 0;
+      align-items: center;
+  
+      &-content {
+        .editing-panel-content();
+        margin-top: 0;
+      }
     }
 }

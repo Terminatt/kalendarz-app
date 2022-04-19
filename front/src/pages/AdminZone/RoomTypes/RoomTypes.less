@@ -3,11 +3,24 @@
 @import '~styles/breakpoints.less';
 
 .room-types {
-  .full-size();
   .center-horizontally();
+  margin-top: @margin-big;
+  padding-bottom: @padding-scrollbar;
+  padding-right: @padding-small;
+}
 
-  &-content {
-    .editing-panel-content();
+@media screen and (min-width: @w-xl) {
+  .room-types {
+    .full-size();
+    align-items: center;
+    margin-top: 0;
+    padding-bottom: 0;
+    padding-right: 0;
+
+    &-content {
+      .editing-panel-content();
+      margin-top: 0;
+    }
   }
 }
 
