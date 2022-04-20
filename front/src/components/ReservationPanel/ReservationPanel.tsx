@@ -12,7 +12,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import SwitcherLayout from '@components/Switcher/SwitcherLayout/SwitcherLayout';
 import { ReservationHashMap, ReservationWithParsedDate } from '@store/reservations/types';
 import { cloneDeep } from 'lodash';
-import { Alert } from 'antd';
+import { Alert, notification } from 'antd';
 import CustomEmpty from '@components/CustomEmpty/CustomEmpty';
 import { isTestingEnv } from '@utils/testing';
 import ReservationBlockChunk from './ReservationBlockChunk/ReservationBlockChunk';
@@ -173,6 +173,11 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         const copy = cloneDeep(selectedBlocks);
         const selectedBlock = copy[room.id];
 
+        if (!copy[room.id] && selectedEntries.length > 2) {
+            notification.error({ message: 'Zbyt wiele rezerwacji', description: 'Możesz zarezerwować tylko 3 sale naraz.' });
+            return;
+        }
+
         if (isPast) {
             return;
         }
@@ -208,7 +213,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         if (isTestingEnv()) {
             console.log(copy);
         }
-    }, [selectedBlocks, validationErrors, removeValidationErrors]);
+    }, [selectedBlocks, selectedEntries, validationErrors, removeValidationErrors]);
 
     const onHoverBlock = useCallback((startLimit: Dayjs, endLimit: Dayjs, hovered: Dayjs, room: Room) => {
         const copy: BlocksHashMap<TimeInterval> = {};
