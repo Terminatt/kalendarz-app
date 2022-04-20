@@ -3,11 +3,11 @@ import React, {
 } from 'react';
 import { authenticate } from '@store/user/asyncActions';
 import Navigation from '@components/Navigation/Navigation';
-import ReservationSearch from '@components/ReservationSearch/ReservationSearch';
+import ReservationSearch, { ReservationSearchFormValues } from '@components/ReservationSearch/ReservationSearch';
 import Sidebar from '@components/Sidebar/Sidebar';
 import UserSpace from '@components/UserSpace/UserSpace';
 import { useDispatch } from 'react-redux';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Home from '@pages/Home/Home';
 import RoomTypes from '@pages/AdminZone/RoomTypes/RoomTypes';
 import Rooms from '@pages/AdminZone/Rooms/Rooms';
@@ -21,6 +21,7 @@ import MyReservations from '@pages/UserZone/MyReservations/MyReservations';
 import useLogged from '@hooks/useLogged';
 import useAdmin from '@hooks/useAdmin';
 import NotFound from '@components/NotFound/NotFound';
+import { parseIsoDate } from '@utils/general';
 
 import 'styles/global.less';
 import 'styles/overrides.less';
@@ -43,6 +44,7 @@ const App: React.FC = () => {
     const isLogged = useLogged();
     const isAdmin = useAdmin();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const onSidebarClose = useCallback(() => {
         setSidebarVisible(false);
@@ -58,6 +60,12 @@ const App: React.FC = () => {
         }
 
         return component;
+    }, []);
+
+    const onReservationSearch = useCallback((values: ReservationSearchFormValues) => {
+        const { date } = values;
+        const isoDate = parseIsoDate(date);
+        navigate(`/room-reservation?day=${isoDate}`);
     }, []);
 
     useEffect(() => {
@@ -76,7 +84,7 @@ const App: React.FC = () => {
                     visible={sidebarVisible}
                     onClose={onSidebarClose}
                     top={<Navigation />}
-                    bottom={<ReservationSearch />}
+                    bottom={<ReservationSearch onSubmit={onReservationSearch} />}
                     headerText={<AppHeader />}
                 />
             </div>

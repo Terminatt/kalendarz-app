@@ -3,29 +3,40 @@ import { Form } from 'antd';
 import { FORM_LAYOUT } from '@constants/constants';
 import CustomDatePicker from '@components/CustomDatePicker/CustomDatePicker';
 import CustomButton from '@components/CustomButton/CustomButton';
-import { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
+import { getRequiredRule } from '@utils/form';
 
 import './ReservationSearch.less';
-import { isBeforeToday } from '@utils/general';
 
 const { useForm } = Form;
+export interface ReservationSearchFormValues {
+    date: dayjs.Dayjs;
+}
+export interface ReservationSearchProps {
+    onSubmit?: (values: ReservationSearchFormValues) => void;
+}
 
-// TODO  This component is still in development, for now it is just a layout
-const ReservationSearch: React.FC = () => {
-    const [form] = useForm();
+const ReservationSearch: React.FC<ReservationSearchProps> = (props) => {
+    const { onSubmit } = props;
+    const [form] = useForm<ReservationSearchFormValues>();
 
-    const disabledDates = useCallback((current: Dayjs): boolean => isBeforeToday(current), []);
+    const onFormSubmit = useCallback((values: ReservationSearchFormValues) => {
+        if (!onSubmit) {
+            return;
+        }
 
+        onSubmit(values);
+    }, [form]);
     return (
         <div className="reservation-search">
-            <Form form={form} {...FORM_LAYOUT} role="search">
+            <Form onFinish={onFormSubmit} form={form} {...FORM_LAYOUT} role="search">
                 <h2>Rezerwacja sal</h2>
-                <Form.Item name="date" label="Data">
-                    <CustomDatePicker disabledDate={disabledDates} placeholder="Podaj datę" />
+                <Form.Item name="date" label="Data" rules={[getRequiredRule()]}>
+                    <CustomDatePicker placeholder="Podaj datę" />
                 </Form.Item>
                 <Form.Item>
                     <div className="reservation-search-btn">
-                        <CustomButton htmlType="submit">Wyszukaj rezerwacje</CustomButton>
+                        <CustomButton htmlType="submit">Wyszukaj dany dzień</CustomButton>
                     </div>
                 </Form.Item>
             </Form>
