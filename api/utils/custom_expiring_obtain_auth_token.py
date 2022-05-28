@@ -11,7 +11,6 @@ from django.utils import timezone
 
 class CustomExpiringObtainAuthToken(ObtainAuthToken):
       authentication_classes = []
-      
       def post(self, request):
         """
         Override!
@@ -22,7 +21,8 @@ class CustomExpiringObtainAuthToken(ObtainAuthToken):
         is_valid = serializer.is_valid()
 
         if not is_valid:
-          raise ValidationError(get_error_dict(ErrorType.INVALID_CREDENTIALS, 'Unable to log in with provided credentials.'))
+          raise ValidationError(
+            get_error_dict(ErrorType.INVALID_CREDENTIALS, 'Unable to log in with provided credentials.'))
         
         user = serializer.validated_data['user']
 

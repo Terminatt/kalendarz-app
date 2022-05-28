@@ -30,7 +30,9 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
         listWithSearchProps, twoModesFormProps, formItems,
         className, dataSource, additionalPanelActive, additionalPanel,
         additionalPanelBtnText,
-        onAdditionalPanelBack, onDelete, onFormSubmit, onPageChange, onAdditionalBtnClick, onItemSelect,
+        onAdditionalPanelBack, onDelete,
+        onFormSubmit, onPageChange,
+        onAdditionalBtnClick, onItemSelect,
     } = props;
     const [selected, setSelected] = useState<T | null>();
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -106,17 +108,36 @@ const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.React
             right={(
                 <>
                     {additionalPanelActive ? (
-                        <div data-testid="additional-panel" className="editing-panel-additional">
+                        <div
+                            data-testid="additional-panel"
+                            className="editing-panel-additional"
+                        >
                             <div className="editing-panel-additional-header">
-                                <CustomButton icon={<ArrowLeftOutlined />} size="small" onClick={onAdditionalPanelBack}>Wróć do panelu edycji</CustomButton>
+                                <CustomButton
+                                    icon={<ArrowLeftOutlined />}
+                                    size="small"
+                                    onClick={onAdditionalPanelBack}
+                                >
+                                    Wróć do panelu edycji
+                                </CustomButton>
                             </div>
                             {additionalPanel}
                             <div className="editing-panel-additional-btn">
-                                <CustomButton onClick={onPanelBtnClick}>{additionalPanelBtnText}</CustomButton>
+                                <CustomButton
+                                    onClick={onPanelBtnClick}
+                                >
+                                    {additionalPanelBtnText}
+
+                                </CustomButton>
                             </div>
                         </div>
                     ) : (
-                        <TwoModesForm {...twoModesFormProps} selected={selected} onFormSubmit={onSubmit} onModeChange={onModeChange}>
+                        <TwoModesForm
+                            {...twoModesFormProps}
+                            selected={selected}
+                            onFormSubmit={onSubmit}
+                            onModeChange={onModeChange}
+                        >
                             {formItems}
                         </TwoModesForm>
                     )}
