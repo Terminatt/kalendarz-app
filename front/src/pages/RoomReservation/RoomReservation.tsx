@@ -60,7 +60,7 @@ const RoomReservation: React.FC = () => {
 
     const getDescription = useCallback(() => (isAdmin ? (
         <span>
-            Brak stworzonych pokoji, aby stworzyć pokój przejdź
+            Brak stworzonych pokoi, aby stworzyć pokój przejdź
             <a href="/admin-zone/rooms"> tutaj</a>
             .
         </span>
