@@ -7,7 +7,7 @@ The app consist of two units:
 - Back-End side (Python, Django Rest Framework)
 - Front-End side (TypeScript, React, Less)
 
-![Kalendarz-app-2](https://user-images.githubusercontent.com/37155981/170827768-d88fded6-0d79-4722-a0ff-e6532b762300.gif)
+![Kalendarz app 3](https://user-images.githubusercontent.com/37155981/171006480-7115a2c4-fbc1-43b4-a200-7679466d9fc8.gif)
 
 ## Commit Lint
 The project follows commit lint convention for commit names. To view full list of problems (rules) follow this link [Commit Lint Convention](https://github.com/conventional-changelog/commitlint#what-is-commitlint)
