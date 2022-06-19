@@ -1,15 +1,13 @@
 
 # Kalendarz<sup>App</sup>
-
-(&#x1F534;): This application is currently under development. 
-
 The application was created for my Bachelors Thesis defense. It allows for managing reservations of rooms in a company/university. 
 It is fully responsive and accessible for people with disabilities.
-
 
 The app consist of two units:
 - Back-End side (Python, Django Rest Framework)
 - Front-End side (TypeScript, React, Less)
+
+![Kalendarz app 3](https://user-images.githubusercontent.com/37155981/171006480-7115a2c4-fbc1-43b4-a200-7679466d9fc8.gif)
 
 ## Commit Lint
 The project follows commit lint convention for commit names. To view full list of problems (rules) follow this link [Commit Lint Convention](https://github.com/conventional-changelog/commitlint#what-is-commitlint)
@@ -24,10 +22,7 @@ The project follows commit lint convention for commit names. To view full list o
 - User management panel for Admin
 - User management panel for logged in user
 - Guards for admin routes and logged in routes
-
-## Currently under development
 - My Reservations panel for logged in user
-
 
 # Project setup
 Software Requirements:
