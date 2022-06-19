@@ -43,7 +43,7 @@ const ReservationBlockChunk: React.FC<ReservationBlockChunkProps> = (props) => {
                     onMouseEnter={() => !disabled && onMouseEnter && onMouseEnter(start, end, cloned)}
                     onMouseLeave={() => !disabled && onMouseLeave && onMouseLeave()}
                     onClick={() => !disabled && onClick && onClick(start, end, cloned)}
-                    key={displayTime}
+                    key={`${displayTime} + ${new Date().getDate()}`}
                     colSpan={2}
                     className={joinClassNames(['block', selected ? 'block-selected' : null, disabled ? 'block-disabled' : null])}
                 >
