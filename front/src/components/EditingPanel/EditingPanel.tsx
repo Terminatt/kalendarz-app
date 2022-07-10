@@ -24,7 +24,6 @@ export interface EditingPanel<T> {
     onAdditionalBtnClick?: (item: T) => void;
     onItemSelect?: (item: T | null) => void;
 }
-// TODO add possibilty to add filters to for editing panel
 const EditingPanel = <T extends BaseItem, >(props: EditingPanel<T>): React.ReactElement => {
     const {
         listWithSearchProps, twoModesFormProps, formItems,

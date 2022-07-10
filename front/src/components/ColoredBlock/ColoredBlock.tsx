@@ -11,7 +11,6 @@ export interface ColoredBlock {
     style?: React.CSSProperties
 }
 
-// TODO Calculate text color based on room type background color
 const ColoredBlock: React.FC<ColoredBlock> = (props) => {
     const {
         bgColor, children, className, style,
