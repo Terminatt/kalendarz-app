@@ -92,39 +92,41 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
             return null;
         }
 
-        roomReservation.forEach((el) => {
-            if (!el.confirmed) {
-                if (dayjs().isAfter(el.start, 'day') || el.start.diff(dayjs(), 'hour') <= 24) {
+        roomReservation.slice()
+            .sort((a, b) => a.start.toDate().getTime() - b.start.toDate().getTime())
+            .forEach((el) => {
+                if (!el.confirmed) {
+                    if (dayjs().isAfter(el.start, 'day') || el.start.diff(dayjs(), 'hour') <= 24) {
+                        return;
+                    }
+                }
+
+                if (el.start.isSame(startToday)) {
+                    ranges.push({ reservation: el, start: el.start, end: el.end });
+                    startToday = el.end.add(TIME_BLOCK_MINUTES, 'minutes');
                     return;
                 }
-            }
+                const diff = el.start.diff(startToday, 'minutes');
 
-            if (el.start.isSame(startToday)) {
-                ranges.push({ reservation: el, start: el.start, end: el.end });
+                if (ranges.length === 0) {
+                    ranges.push({
+                        start: startToday,
+                        end: startToday.minute(diff - TIME_BLOCK_MINUTES),
+                    });
+                } else {
+                    ranges.push({
+                        start: startToday,
+                        end: startToday.add(diff - TIME_BLOCK_MINUTES, 'minute'),
+                    });
+                }
+
+                ranges.push({
+                    reservation: el,
+                    start: el.start,
+                    end: el.end,
+                });
                 startToday = el.end.add(TIME_BLOCK_MINUTES, 'minutes');
-                return;
-            }
-            const diff = el.start.diff(startToday, 'minutes');
-
-            if (ranges.length === 0) {
-                ranges.push({
-                    start: startToday,
-                    end: startToday.minute(diff - TIME_BLOCK_MINUTES),
-                });
-            } else {
-                ranges.push({
-                    start: startToday,
-                    end: startToday.add(diff - TIME_BLOCK_MINUTES, 'minute'),
-                });
-            }
-
-            ranges.push({
-                reservation: el,
-                start: el.start,
-                end: el.end,
             });
-            startToday = el.end.add(TIME_BLOCK_MINUTES, 'minutes');
-        });
 
         ranges.push({
             start: startToday,
@@ -293,6 +295,7 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
                 );
                 return;
             }
+
             elements = [...elements, createChunk(blocks, el.start, room)];
         });
 
