@@ -18,5 +18,9 @@ export function parseReservationData(reservations: Reservation[]): ReservationHa
         });
     });
 
+    Object.keys(hashMapData).forEach((key: string) => {
+        hashMapData[key].sort((a, b) => a.start.toDate().getTime() - b.start.toDate().getTime());
+    });
+
     return hashMapData;
 }

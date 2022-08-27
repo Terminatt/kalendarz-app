@@ -47,7 +47,7 @@ export interface TimeInterval {
     endLimit: Dayjs;
 }
 
-export interface TimeIntervalWithRoom extends TimeInterval{
+export interface TimeIntervalWithRoom extends TimeInterval {
     start: Dayjs;
     room: Room;
 }
@@ -93,7 +93,6 @@ const ReservationPanel: React.FC<ReservationPanelProps> = (props) => {
         }
 
         roomReservation.slice()
-            .sort((a, b) => a.start.toDate().getTime() - b.start.toDate().getTime())
             .forEach((el) => {
                 if (!el.confirmed) {
                     if (dayjs().isAfter(el.start, 'day') || el.start.diff(dayjs(), 'hour') <= 24) {
