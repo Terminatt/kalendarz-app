@@ -35,8 +35,8 @@
             "list": [],
             "retrieve": [],
             "update": ["LoggedInUserOrAdmin"],
-            "partial_update": [],
-            "destroy": []
+            "partial_update": ["LoggedInUserOrAdmin"],
+            "destroy": ["LoggedInUserOrAdmin"]
         }
     }
 }

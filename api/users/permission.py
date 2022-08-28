@@ -23,9 +23,7 @@ class IsLoggedInUserOrAdmin(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         has_group_permission = _has_group_permission(request.user, self.required_groups)
-        if self.required_groups is None:
-            return False
-        return obj == request.user or has_group_permission
+        return (hasattr(obj, 'user') and obj.user == request.user) or has_group_permission
 
 class IsAdminUser(permissions.BasePermission):
     """
