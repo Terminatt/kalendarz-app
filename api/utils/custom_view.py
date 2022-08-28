@@ -71,7 +71,6 @@ class CustomModelViewSet(ModelViewSet):
         
         Disable authentication for provided methods
         """
-        print(self.action)
         if self.action in self.avoid_authentication:
             return []
         return super().get_authenticators()

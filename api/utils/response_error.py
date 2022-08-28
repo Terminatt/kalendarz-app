@@ -14,6 +14,7 @@ class ErrorType():
   NEGATIVE_NUMBER = 'NEGATIVE_NUMBER'
   PERMA_BANNED = 'PERMA_BANNED'
   TEMPORARY_BANNED = 'TEMPORARY_BANNED'
+  GROUP_NOT_FOUND = 'GROUP_NOT_FOUND'
   
 def get_error_dict(errorType, msg, data = None):
   if not data:
