@@ -1,6 +1,9 @@
 from django.contrib.auth.models import Group
 from rest_framework import permissions
 
+def _is_user_object(obj):
+    return hasattr(obj, 'email')
+
 
 def _is_in_group(user, group_name):
     """
@@ -23,7 +26,7 @@ class IsLoggedInUserOrAdmin(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         has_group_permission = _has_group_permission(request.user, self.required_groups)
-        return (hasattr(obj, 'user') and obj.user == request.user) or has_group_permission
+        return ((hasattr(obj, 'user') and obj.user == request.user) or _is_user_object(obj) and obj.id == request.user.id) or has_group_permission
 
 class IsAdminUser(permissions.BasePermission):
     """
