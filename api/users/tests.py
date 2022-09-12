@@ -7,6 +7,9 @@ from users.models import User
 from constants import GROUPS
 from rest_framework.authtoken.models import Token
 from typing import Dict, OrderedDict
+from django.contrib.auth.hashers import make_password
+from datetime import datetime
+from freezegun import freeze_time
 
 class UserTests(APITestCase):
     token = None
@@ -23,7 +26,7 @@ class UserTests(APITestCase):
           email='testUser@test.com', 
           first_name='Matheus',
           last_name='Smith',
-          password='test978453442',
+          password=make_password('test978453442'),
           username='TestUser12',
           groups=Group.objects.get(name=GROUPS[0])
         )
@@ -34,7 +37,7 @@ class UserTests(APITestCase):
           email='regularUser@gmail.com', 
           first_name='Caroline',
           last_name='Smith',
-          password='test978453442',
+          password=make_password('test978453442'),
           username='regular_user12',
           groups=Group.objects.get(name=GROUPS[1])
         )
@@ -168,10 +171,10 @@ class UserTests(APITestCase):
         """
         url = reverse('users-detail', kwargs={'pk': 1})
         self.client.cookies['auth_token'] = self.token.key
-        response = self.client.patch(url, {"first_name": "newName"}, format="json")
+        response = self.client.patch(url, {'first_name': 'newName'}, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['first_name'], "newName")
+        self.assertEqual(response.data['first_name'], 'newName')
 
         self.client.cookies['auth_token'] = None
 
@@ -181,10 +184,10 @@ class UserTests(APITestCase):
         """
         url = reverse('users-detail', kwargs={'pk': 2})
         self.client.cookies['auth_token'] = self.token.key
-        response = self.client.patch(url, {"first_name": "newName"}, format="json")
+        response = self.client.patch(url, {'first_name': 'newName'}, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['first_name'], "newName")
+        self.assertEqual(response.data['first_name'], 'newName')
 
         self.client.cookies['auth_token'] = None
 
@@ -203,10 +206,10 @@ class UserTests(APITestCase):
 
         url = reverse('users-detail', kwargs={'pk': 2})
         self.client.cookies['auth_token'] = self.token.key
-        response = self.client.patch(url, {"first_name": "newName"}, format="json")
+        response = self.client.patch(url, {'first_name': 'newName'}, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['first_name'], "newName")
+        self.assertEqual(response.data['first_name'], 'newName')
         
         self.client.cookies['auth_token'] = None
     
@@ -216,10 +219,10 @@ class UserTests(APITestCase):
         """
         url = reverse('users-detail', kwargs={'pk': 2})
         self.client.cookies['auth_token'] = self.regular_user_token.key
-        response = self.client.patch(url, {"first_name": "newName"}, format="json")
+        response = self.client.patch(url, {'first_name': 'newName'}, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['first_name'], "newName")
+        self.assertEqual(response.data['first_name'], 'newName')
 
         self.client.cookies['auth_token'] = None
 
@@ -238,7 +241,7 @@ class UserTests(APITestCase):
 
         url = reverse('users-detail', kwargs={'pk': 3})
         self.client.cookies['auth_token'] = self.regular_user_token.key
-        response = self.client.patch(url, {"first_name": "newName"}, format="json")
+        response = self.client.patch(url, {'first_name': 'newName'}, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -252,14 +255,14 @@ class UserTests(APITestCase):
           email='anotherUser@gmail.com', 
           first_name='John',
           last_name='Calin',
-          password='test978453442',
+          password=make_password('test978453442'),
           username='another_user',
           groups=Group.objects.get(name=GROUPS[0])
         )
 
         url = reverse('users-detail', kwargs={'pk': 3})
         self.client.cookies['auth_token'] = self.regular_user_token.key
-        response = self.client.patch(url, {"first_name": "newName"}, format="json")
+        response = self.client.patch(url, {'first_name': 'newName'}, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -270,7 +273,7 @@ class UserTests(APITestCase):
         Ensure that cannot update user when unauthorized
         """
         url = reverse('users-detail', kwargs={'pk': 2})
-        response = self.client.patch(url, {"first_name": "newName"}, format="json")
+        response = self.client.patch(url, {'first_name': 'newName'}, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
       
@@ -281,7 +284,7 @@ class UserTests(APITestCase):
 
         url = reverse('users-detail', kwargs={'pk': 1})
         self.client.cookies['auth_token'] = self.token.key
-        response = self.client.delete(url, format="json")
+        response = self.client.delete(url, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.client.cookies['auth_token'] = None
@@ -293,7 +296,7 @@ class UserTests(APITestCase):
         """
         url = reverse('users-detail', kwargs={'pk': 2})
         self.client.cookies['auth_token'] = self.token.key
-        response = self.client.delete(url, format="json")
+        response = self.client.delete(url, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         
@@ -305,7 +308,7 @@ class UserTests(APITestCase):
         """
         url = reverse('users-detail', kwargs={'pk': 2})
         self.client.cookies['auth_token'] = self.token.key
-        response = self.client.delete(url, format="json")
+        response = self.client.delete(url, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
@@ -319,7 +322,7 @@ class UserTests(APITestCase):
 
         url = reverse('users-detail', kwargs={'pk': 2})
         self.client.cookies['auth_token'] = self.regular_user_token.key
-        response = self.client.delete(url, format="json")
+        response = self.client.delete(url, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         
@@ -341,7 +344,7 @@ class UserTests(APITestCase):
 
         url = reverse('users-detail', kwargs={'pk': 3})
         self.client.cookies['auth_token'] = self.regular_user_token.key
-        response = self.client.delete(url, format="json")
+        response = self.client.delete(url, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -374,6 +377,121 @@ class UserTests(APITestCase):
         Ensure that cannot delete user when unauthorized
         """
         url = reverse('users-detail', kwargs={'pk': 2})
-        response = self.client.patch(url, {"first_name": "newName"}, format="json")
+        response = self.client.patch(url, {'first_name': 'newName'}, format='json')
 
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_login(self):
+        """
+        Ensure that the user can login
+        """
+        url = reverse('login-list')
+        response = self.client.post(url, {'username': 'TestUser12', 'password': 'test978453442'}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_login_wrong_password(self):
+        """
+        Ensure that the user cannot login when providing wrong password
+        """
+        url = reverse('login-list')
+        response = self.client.post(url, {'username': 'TestUser12', 'password': 'asd'}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_login_wrong_username(self):
+        """
+        Ensure that the user cannot login when providing wrong username
+        """
+        url = reverse('login-list')
+        response = self.client.post(url, {'username': 'wrong-user', 'password': 'test978453442'}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_login_permabanned_user(self):
+        """
+        Ensure that the user cannot login when perma banned
+        """
+        User.objects.create(
+          email='banned@gmail.com', 
+          first_name='Caroline',
+          last_name='Smith',
+          password=make_password('test978453442'),
+          username='banned',
+          groups=Group.objects.get(name=GROUPS[1]),
+          perma_banned=True
+        )
+
+        url = reverse('login-list')
+        response = self.client.post(url, {'username': 'banned', 'password': 'test978453442'}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_login_permabanned_user(self):
+        """
+        Ensure that the user cannot login when perma banned
+        """
+        User.objects.create(
+          email='banned@gmail.com', 
+          first_name='Caroline',
+          last_name='Smith',
+          password=make_password('test978453442'),
+          username='banned',
+          groups=Group.objects.get(name=GROUPS[1]),
+          perma_banned=True
+        )
+
+        url = reverse('login-list')
+        response = self.client.post(url, {'username': 'banned', 'password': 'test978453442'}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    @freeze_time("2022-01-01")
+    def test_login_temporary_banned_user(self):
+        """
+        Ensure that the user cannot login when temporary banned
+        """
+        User.objects.create(
+          email='banned@gmail.com', 
+          first_name='Caroline',
+          last_name='Smith',
+          password=make_password('test978453442'),
+          username='banned',
+          groups=Group.objects.get(name=GROUPS[1]),
+          banned_till= datetime(2022, 6, 6)
+        )
+
+        url = reverse('login-list')
+        response = self.client.post(url, {'username': 'banned', 'password': 'test978453442'}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_logout(self):
+        """
+        Ensure that the user can logout
+        """
+        url = reverse('logout-list')
+        self.client.cookies['auth_token'] = self.regular_user_token.key
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_logout_no_token(self):
+        """
+        Ensure that logout does fail if there is no token
+        """
+        url = reverse('logout-list')
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_authenticate(self):
+        """
+        Ensure that the user can authenticate with token
+        """
+        url = reverse('authenticate-list')
+        self.client.cookies['auth_token'] = self.regular_user_token.key
+        response = self.client.post(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['username'], 'regular_user12')
+
+    def test_authenticate_wrong_token(self):
+        """
+        Ensure that the user cannot authenticate with wrong token
+        """
+        url = reverse('authenticate-list')
+        self.client.cookies['auth_token'] = 'garbage token'
+        response = self.client.post(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

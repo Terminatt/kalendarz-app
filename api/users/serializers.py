@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from django.core.exceptions import ValidationError
 from utils.custom_validators import ProperEmail
 from utils.response_error import ErrorType, get_error_dict
 from utils.custom_validators import CustomUserValidation

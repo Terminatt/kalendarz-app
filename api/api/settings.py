@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'rooms.apps.RoomsConfig',
     'reservations.apps.ReservationsConfig',
+    'django_extensions',
     'django_filters' 
 ]
 
