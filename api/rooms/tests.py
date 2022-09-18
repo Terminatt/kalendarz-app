@@ -1,5 +1,6 @@
 from rest_framework.test import APITestCase
 from django.contrib.auth.models import Group
+from utils.response_error import ErrorType
 from rooms.models import Room
 from rooms.models import RoomType
 from constants import GROUPS
@@ -15,6 +16,7 @@ class RoomTypesTests(APITestCase):
 
     regular_user = None
     regular_user_token = None
+    big_room = None
 
     def setUp(self):
       for group in GROUPS:
@@ -42,7 +44,7 @@ class RoomTypesTests(APITestCase):
 
       self.regular_user_token = Token.objects.create(user=self.regular_user)
 
-      RoomType.objects.create(name="Big room", color="#000000")
+      self.big_room = RoomType.objects.create(name="Big room", color="#000000")
       RoomType.objects.create(name="Small room", color="#000000")
 
     def test_create_room_type(self):
@@ -226,6 +228,19 @@ class RoomTypesTests(APITestCase):
         response = self.client.delete(url, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        self.client.cookies['auth_token'] = None
+
+    def test_delete_room_type_in_relation_to_room(self):
+        Room.objects.create(name="A204", capacity=50, floor="first", type=self.big_room)
+
+        url = reverse('roomtype-detail', kwargs={'pk': 1})
+        self.client.cookies['auth_token'] = self.token.key
+
+        response = self.client.delete(url, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_500_INTERNAL_SERVER_ERROR)
+        self.assertEqual(response.data['type'], ErrorType.RELATED_OBJECT)
 
         self.client.cookies['auth_token'] = None
 
