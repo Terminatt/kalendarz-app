@@ -16,8 +16,7 @@ def _is_in_group(user, group_name):
 
 def _has_group_permission(user, required_groups):
     return any([_is_in_group(user, group_name) for group_name in required_groups])
-
-
+    
 class IsLoggedInUserOrAdmin(permissions.BasePermission):
     """
         Action on the object that belongs to a user or any object for administrator

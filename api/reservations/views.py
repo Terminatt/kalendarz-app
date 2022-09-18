@@ -18,7 +18,7 @@ class ReservationViewSet(PermissionModelViewSet):
     serializer_class = ReservationSerializer
     acl_name = "reservation"
     authentication_classes = [CustomExpiringToken]
-    avoid_authentication = ['list']
+    avoid_authentication = ['list', 'retrieve']
     filter_backends = [DjangoFilterBackend]
     filterset_class = ReservationFilter
     create_many = True
