@@ -35,9 +35,11 @@ const RoomReservation: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        dispatch(clearReservations());
         dispatch(getRooms());
         getReservationsList(day);
+        return () => {
+            dispatch(clearReservations());
+        };
     }, [query]);
 
     const onArrowClick = useCallback((direction: 'left' | 'right') => {
@@ -68,7 +70,7 @@ const RoomReservation: React.FC = () => {
         </span>
     ) : (
         <span>
-            Chwilowo administracja pracuje nad wypełnieniem danych dotyczączych pokoji. Wróć później.
+            Chwilowo administracja pracuje nad wypełnieniem danych dotyczączych pokoi. Wróć później.
         </span>
     )), [isAdmin]);
 

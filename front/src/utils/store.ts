@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { RequestErrorType } from '@constants/constants';
 import { BaseState, RejectResponse } from '@generics/generics';
 import {
