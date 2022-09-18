@@ -9,7 +9,7 @@ from django.core.exceptions import PermissionDenied
 
 acl_matrix = json.load(open("acl/acl.json"))
 
-class CustomModelViewSet(ModelViewSet):
+class PermissionModelViewSet(ModelViewSet):
     """
     Extended Model view to load permissions from json file
 

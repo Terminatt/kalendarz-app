@@ -1,7 +1,7 @@
-from rest_framework import exceptions, status
+from rest_framework import status
 from rest_framework.response import Response
 from utils.custom_expiring_obtain_auth_token import CustomExpiringObtainAuthToken
-from utils.custom_view import CustomModelViewSet
+from utils.permission_model_view_set import PermissionModelViewSet
 from users.serializers import UserSerializer
 from users.models import User
 from rest_framework.response import Response
@@ -10,7 +10,7 @@ from rest_framework.viewsets import ViewSet
 from utils.custom_expiring_token import CustomExpiringToken
 from rest_framework import filters
 
-class UserViewSet(CustomModelViewSet):
+class UserViewSet(PermissionModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     acl_name = "users"
