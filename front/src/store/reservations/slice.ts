@@ -25,7 +25,13 @@ const matchers: DefaultMatchers = {
 export const reservationsSlice = createCustomSlice({
     name: 'reservation',
     initialState,
-    reducers: {},
+    reducers: {
+        clearReservations(state) {
+            state.data = { count: 0, results: [] };
+            state.roomReservation = [];
+            state.hashMapData = {};
+        },
+    },
 }, matchers, (builder) => {
     builder.addCase(getReservations.fulfilled, (state, res) => {
         state.data = res.payload.data;
@@ -34,3 +40,5 @@ export const reservationsSlice = createCustomSlice({
         state.hashMapData = parseReservationData(res.payload.data);
     });
 });
+
+export const { clearReservations } = reservationsSlice.actions;
