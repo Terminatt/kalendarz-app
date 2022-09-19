@@ -83,8 +83,7 @@ export type Entries<T> = {
     [K in keyof T]: [K, T[K]]
 } [keyof T][]
 
-export function getEntries<T>(obj: T): Entries<T> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+export function getEntries<T extends Record<string, unknown>>(obj: T): Entries<T> {
     return Object.entries(obj) as Entries<T>;
 }
 

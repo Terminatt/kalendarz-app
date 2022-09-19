@@ -36,7 +36,7 @@ const ReservationBlockChunk: React.FC<ReservationBlockChunkProps> = (props) => {
         }
 
         onMouseEnter(start, end, hovered);
-    }, [disabled, onMouseEnter]);
+    }, [disabled, start, end, onMouseEnter]);
 
     const onElementMouseLeave = useCallback(() => {
         if (disabled || !onMouseLeave) {
@@ -44,7 +44,15 @@ const ReservationBlockChunk: React.FC<ReservationBlockChunkProps> = (props) => {
         }
 
         onMouseLeave();
-    }, [disabled, onMouseLeave]);
+    }, [disabled, start, end, onMouseLeave]);
+
+    const onElementClick = useCallback((clicked: Dayjs) => {
+        if (disabled || !onClick) {
+            return;
+        }
+
+        onClick(start, end, clicked);
+    }, [disabled, start, end, onClick]);
 
     const createBlocks = () => {
         const elements: React.ReactElement[] = [];
@@ -58,7 +66,7 @@ const ReservationBlockChunk: React.FC<ReservationBlockChunkProps> = (props) => {
                     data-testid={`block-${i}`}
                     onMouseEnter={() => onElementMouseEnter(cloned)}
                     onMouseLeave={onElementMouseLeave}
-                    onClick={() => !disabled && onClick && onClick(start, end, cloned)}
+                    onClick={() => onElementClick(cloned)}
                     key={`${displayTime} + ${i}`}
                     colSpan={2}
                     className={joinClassNames(['block', selected ? 'block-selected' : null, disabled ? 'block-disabled' : null])}
