@@ -3,7 +3,7 @@
 import { TIME_BLOCK_MINUTES } from '@constants/constants';
 import { joinClassNames, parseHourDate } from '@utils/general';
 import dayjs, { Dayjs } from 'dayjs';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { TimeIntervalWithRoom } from '../ReservationPanel';
 import { isBlockSelected } from './helpers';
 
@@ -30,6 +30,22 @@ const ReservationBlockChunk: React.FC<ReservationBlockChunkProps> = (props) => {
         setEnd(start.minute(TIME_BLOCK_MINUTES * blocks));
     }, [start, blocks]);
 
+    const onElementMouseEnter = useCallback((hovered: Dayjs) => {
+        if (disabled || !onMouseEnter) {
+            return;
+        }
+
+        onMouseEnter(start, end, hovered);
+    }, [disabled, onMouseEnter]);
+
+    const onElementMouseLeave = useCallback(() => {
+        if (disabled || !onMouseLeave) {
+            return;
+        }
+
+        onMouseLeave();
+    }, [disabled, onMouseLeave]);
+
     const createBlocks = () => {
         const elements: React.ReactElement[] = [];
         let time = start;
@@ -40,8 +56,8 @@ const ReservationBlockChunk: React.FC<ReservationBlockChunkProps> = (props) => {
             elements.push(
                 <td
                     data-testid={`block-${i}`}
-                    onMouseEnter={() => !disabled && onMouseEnter && onMouseEnter(start, end, cloned)}
-                    onMouseLeave={() => !disabled && onMouseLeave && onMouseLeave()}
+                    onMouseEnter={() => onElementMouseEnter(cloned)}
+                    onMouseLeave={onElementMouseLeave}
                     onClick={() => !disabled && onClick && onClick(start, end, cloned)}
                     key={`${displayTime} + ${i}`}
                     colSpan={2}
@@ -50,8 +66,8 @@ const ReservationBlockChunk: React.FC<ReservationBlockChunkProps> = (props) => {
                     <button
                         data-testid={`btn-${i}`}
                         disabled={disabled}
-                        onFocus={() => onMouseEnter && onMouseEnter(start, end, cloned)}
-                        onBlur={() => onMouseLeave && onMouseLeave()}
+                        onFocus={() => onElementMouseEnter(cloned)}
+                        onBlur={onElementMouseLeave}
                         type="button"
                         className="block-btn"
                     >

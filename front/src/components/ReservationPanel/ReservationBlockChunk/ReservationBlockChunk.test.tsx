@@ -58,7 +58,7 @@ describe('Reservation Block Chunk Component', () => {
             <table>
                 <tbody>
                     <tr>
-                        <ReservationBlockChunk start={dayjs().hour(8)} blocks={4} isPast onClick={onClick} />
+                        <ReservationBlockChunk start={dayjs().hour(8)} blocks={4} disabled onClick={onClick} />
                     </tr>
                 </tbody>
             </table>
@@ -94,7 +94,7 @@ describe('Reservation Block Chunk Component', () => {
             <table>
                 <tbody>
                     <tr>
-                        <ReservationBlockChunk start={dayjs().hour(8)} blocks={4} isPast onClick={onClick} />
+                        <ReservationBlockChunk start={dayjs().hour(8)} blocks={4} disabled onClick={onClick} />
                     </tr>
                 </tbody>
             </table>
@@ -148,7 +148,7 @@ describe('Reservation Block Chunk Component', () => {
             <table>
                 <tbody>
                     <tr>
-                        <ReservationBlockChunk start={dayjs().hour(8)} blocks={4} isPast onMouseEnter={onMouseEnter} />
+                        <ReservationBlockChunk start={dayjs().hour(8)} blocks={4} disabled onMouseEnter={onMouseEnter} />
                     </tr>
                 </tbody>
             </table>
@@ -166,7 +166,7 @@ describe('Reservation Block Chunk Component', () => {
             <table>
                 <tbody>
                     <tr>
-                        <ReservationBlockChunk start={dayjs().hour(8)} blocks={4} isPast onMouseEnter={onMouseEnter} />
+                        <ReservationBlockChunk start={dayjs().hour(8)} blocks={4} disabled onMouseEnter={onMouseEnter} />
                     </tr>
                 </tbody>
             </table>
@@ -221,7 +221,7 @@ describe('Reservation Block Chunk Component', () => {
             <table>
                 <tbody>
                     <tr>
-                        <ReservationBlockChunk start={dayjs().hour(8)} blocks={4} isPast onMouseEnter={onMouseLeave} />
+                        <ReservationBlockChunk start={dayjs().hour(8)} blocks={4} disabled onMouseEnter={onMouseLeave} />
                     </tr>
                 </tbody>
             </table>
@@ -239,7 +239,7 @@ describe('Reservation Block Chunk Component', () => {
             <table>
                 <tbody>
                     <tr>
-                        <ReservationBlockChunk start={dayjs().hour(8)} blocks={4} isPast onMouseEnter={onMouseLeave} />
+                        <ReservationBlockChunk start={dayjs().hour(8)} blocks={4} disabled onMouseEnter={onMouseLeave} />
                     </tr>
                 </tbody>
             </table>
