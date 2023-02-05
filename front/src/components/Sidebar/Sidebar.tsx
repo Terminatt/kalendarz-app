@@ -26,7 +26,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
     } = props;
 
     const renderContent = () => (
-        <div className="sidebar" data-testid="sidebar" style={{ display: isSmallScreen && !isAfterFirstTrigger ? 'none' : '' }}>
+        <aside className="sidebar" data-testid="sidebar" style={{ display: isSmallScreen && !isAfterFirstTrigger ? 'none' : '' }}>
             <div className="sidebar-wrapper">
                 {onClose && (
                     <div className="sidebar-wrapper-close">
@@ -51,7 +51,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                 </div>
             </div>
             <SiteMask className="sidebar-mask" visible={visible} onClick={onClose} />
-        </div>
+        </aside>
     );
 
     const onExited = useCallback(() => {
